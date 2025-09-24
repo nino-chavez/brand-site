@@ -10,58 +10,58 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
 ### Phase 1: Setup & Foundation
 
 #### Task 1.1: Setup Testing Infrastructure
-- Install and configure Vitest with React Testing Library
-- Create test utilities for component testing and performance measurement
-- Setup test coverage reporting for viewfinder components
+- [x] Install and configure Vitest with React Testing Library
+- [x] Create test utilities for component testing and performance measurement
+- [x] Setup test coverage reporting for viewfinder components
 
 #### Task 1.2: Extend SpotlightCursor Architecture
-- Extract core mouse tracking logic from SpotlightCursor into reusable hook
-- Create ViewfinderProvider context for managing viewfinder state
-- Add TypeScript interfaces for viewfinder configuration and state
+- [x] Extract core mouse tracking logic from SpotlightCursor into reusable hook
+- [x] Create ViewfinderProvider context for managing viewfinder state
+- [x] Add TypeScript interfaces for viewfinder configuration and state
 
 ### Phase 2: Core Implementation
 
 #### Task 2.1: Implement Cursor-Following Viewfinder
-- Create ViewfinderOverlay component with 100ms delay mouse tracking
-- Implement 60fps performance using RAF optimization
-- Add smooth position interpolation and boundary detection
+- [x] Create ViewfinderOverlay component with 100ms delay mouse tracking
+- [x] Implement 60fps performance using RAF optimization
+- [x] Add smooth position interpolation and boundary detection
 
 #### Task 2.2: Build Dynamic Focus System
-- Implement 200px radius focus area calculation
-- Create blur shader effect with 0-8px range using CSS backdrop-filter
-- Add smooth focus transitions with easing curves
+- [x] Implement 200px radius focus area calculation
+- [x] Create blur shader effect with 0-8px range using CSS backdrop-filter
+- [x] Add smooth focus transitions with easing curves
 
 #### Task 2.3: Create Shutter Click Mechanism
-- Implement click capture with visual feedback animations
-- Add shutter sound effect trigger and click state management
-- Create capture animation with flash effect and viewfinder shake
+- [x] Implement click capture with visual feedback animations
+- [x] Add shutter sound effect trigger and click state management
+- [x] Create capture animation with flash effect and viewfinder shake
 
 #### Task 2.4: Add EXIF Metadata Display
-- Create metadata overlay component with camera settings display
-- Implement dynamic positioning relative to viewfinder
-- Add fade-in/out transitions for metadata visibility
+- [x] Create metadata overlay component with camera settings display
+- [x] Implement dynamic positioning relative to viewfinder
+- [x] Add fade-in/out transitions for metadata visibility
 
 ### Phase 3: Integration & Testing
 
 #### Task 3.1: Implement Keyboard Controls
-- Add V key toggle functionality with event listeners
-- Implement accessibility features (ARIA labels, focus management)
-- Create keyboard navigation for viewfinder controls
+- [x] Add V key toggle functionality with event listeners
+- [x] Implement accessibility features (ARIA labels, focus management)
+- [x] Create keyboard navigation for viewfinder controls
 
 #### Task 3.2: Integrate Crosshair System
-- Create crosshair overlay with center alignment
-- Implement focus ring with dynamic sizing based on focus area
-- Add crosshair style variants and color theming
+- [x] Create crosshair overlay with center alignment
+- [x] Implement focus ring with dynamic sizing based on focus area
+- [x] Add crosshair style variants and color theming
 
 #### Task 3.3: Performance Testing & Optimization
-- Write performance tests for 60fps requirement validation
-- Test 100ms delay accuracy and smooth tracking
-- Optimize rendering pipeline and memory usage
+- [x] Write performance tests for 60fps requirement validation
+- [x] Test 100ms delay accuracy and smooth tracking
+- [x] Optimize rendering pipeline and memory usage
 
 #### Task 3.4: Component Integration Testing
-- Test ViewfinderOverlay integration with existing SpotlightCursor
-- Verify focus system interaction with page content
-- Test keyboard controls and accessibility compliance
+- [x] Test ViewfinderOverlay integration with existing SpotlightCursor
+- [x] Verify focus system interaction with page content
+- [x] Test keyboard controls and accessibility compliance
 
 ### Phase 4: Validation & Deployment
 
@@ -81,6 +81,6 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
 - Add error boundaries and graceful degradation
 
 #### Task 4.4: Documentation & Deployment
-- Update component documentation with usage examples
-- Create integration guide for viewfinder implementation
-- Deploy to staging environment for final validation
+- [x] Update component documentation with usage examples
+- [x] Create integration guide for viewfinder implementation
+- [x] Deploy to staging environment for final validation
