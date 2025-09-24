@@ -1,0 +1,5 @@
+# Product Mission (Lite)
+
+Nino Chavez Portfolio is a personal portfolio website that helps potential clients, collaborators, and professional connections discover and engage with Nino's expertise by providing a compelling launch pad that showcases select content and connects to comprehensive systems of record.
+
+Nino Chavez Portfolio serves technology decision makers and professional collaborators who need to evaluate software engineering and enterprise architecture expertise, as well as action sports organizations seeking professional photography services. Unlike generic template-based portfolios, this custom-built site provides a focused launch pad approach that demonstrates technical capability through its own modern implementation while seamlessly integrating both technical and creative work domains for expanded professional opportunities.
