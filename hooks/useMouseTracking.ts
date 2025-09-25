@@ -21,7 +21,7 @@ export interface MouseTrackingState {
 
 const DEFAULT_CONFIG: Required<Omit<MouseTrackingConfig, 'boundaryElement'>> = {
   delay: 0,
-  throttleMs: 16, // 60fps
+  throttleMs: 8, // 120fps default for hero viewfinder mode
   enableEasing: false,
   easingCurve: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
 };

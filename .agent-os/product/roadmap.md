@@ -1,91 +1,101 @@
-# Product Roadmap
+# Product Roadmap - "The Moment of Impact" Redesign
 
-## Phase 1: Foundation Portfolio Structure
+## Phase 0: Already Completed (Foundation)
 
-**Goal:** Establish core portfolio layout and navigation with modern design system
-**Success Criteria:** Multi-section portfolio with smooth navigation and responsive design is functional
+**Current State:** Fully functional portfolio with advanced interactive features
+**Architecture:** React 19.1.1, TypeScript, Tailwind CSS 4.1.13, Vite 6.2.0
+
+### Completed Features
+- [ ] **Multi-Section Portfolio Layout** - Hero, About, Work, Insights, Gallery, Reel, Contact, Volleyball Demo sections
+- [ ] **Advanced Interactions** - ViewfinderOverlay, SpotlightCursor, BlurContainer with focus system
+- [ ] **27 High-Quality Gallery Images** - Complete portfolio-00.jpg through portfolio-26.jpg collection
+- [ ] **TypeScript Architecture** - Fully typed codebase with proper interface definitions
+- [ ] **Accessibility Features** - Keyboard navigation, ARIA labels, focus management, skip links
+- [ ] **Custom Hook Implementation** - useScrollSpy, useMouseTracking for advanced interactions
+- [ ] **Performance Foundation** - Optimized Vite build configuration
+
+## Phase 1: "Frame Capture" Hero Redesign (CURRENT PRIORITY)
+
+**Goal:** Transform hero section into interactive camera viewfinder experience that embodies "The Moment of Impact"
+**Success Criteria:** Hero loads with blur-to-focus animation, displays metadata HUD, and delivers shutter interaction
+
+### Features (NEW REDESIGN)
+
+- [ ] **Frame Capture Hero Component** - Interactive camera viewfinder with background image `XL`
+  - Blur-to-focus animation using Framer Motion
+  - Metadata HUD displaying technical skills as camera data
+  - "Capture the Moment" shutter button with flash animation
+  - Background image from existing gallery collection
+  - Performance optimized for LCP ≤ 2.5s target
+
+- [ ] **Design Token System** - Athletic-inspired color palette and motion timing `M`
+  - --court-navy: #0B2239 (primary)
+  - --court-orange: #F26B1D (impact)
+  - --brand-violet: #7C3AED (accent)
+  - Motion durations: 120ms/220ms/90ms/160ms (setup/approach/impact/follow-through)
+
+- [ ] **Enhanced Accessibility** - Reduced motion support and keyboard interactions `S`
+
+### Dependencies
+- Framer Motion integration for advanced animations
+- Existing gallery image optimization
+- Tailwind config updates for design tokens
+
+## Phase 2: "Game Flow" Navigation System
+
+**Goal:** Replace standard navigation with volleyball rotation-inspired interface
+**Success Criteria:** Six-position navigation system with circular/3×2 layout and scroll-snap behavior
 
 ### Features
 
-- [x] Multi-Section Layout - Hero, About, Work, Insights, Gallery, Reel, Contact sections `M`
-- [x] Smooth Navigation - Section-based navigation with smooth scrolling `S`
-- [x] Responsive Design - Mobile-first approach with custom brand colors `M`
-- [x] TypeScript Setup - Full TypeScript implementation with type definitions `S`
-- [x] Custom Interactions - Spotlight cursor and floating navigation `L`
+- [ ] **Volleyball Rotation Navigation** - Abstract representation of six positions `L`
+- [ ] **Scroll-Snap Sections** - Smooth section transitions with scroll-padding-top `M`
+- [ ] **Position Highlighting** - Clear active state indication with keyboard support `S`
 
-### Dependencies
+## Phase 3: "Photo Sequence" Project Display
 
-- React 19.1.1 and Vite 6.2.0 project setup
-- Tailwind CSS integration for styling
-- TypeScript configuration for type safety
-
-## Phase 2: Interactive Features and Accessibility
-
-**Goal:** Implement advanced interactive features and ensure comprehensive accessibility
-**Success Criteria:** Site provides engaging user experience with full keyboard navigation and accessibility compliance
+**Goal:** Transform project showcase into burst-mode photography sequence
+**Success Criteria:** Projects displayed as dynamic photo sequence with EXIF-style metadata overlays
 
 ### Features
 
-- [x] Keyboard Navigation - Full keyboard support with shortcuts and focus management `M`
-- [x] Floating Navigation - Dynamic navigation component with accessibility features `L`
-- [x] Custom Spotlight Cursor - Unique cursor interaction that enhances engagement `M`
-- [x] Accessibility Features - ARIA attributes and screen reader optimization `S`
-- [x] Professional Typography - Inter fonts with optimized loading `S`
+- [ ] **Burst Mode Layout** - Non-grid project display system `L`
+- [ ] **EXIF Metadata Overlays** - PROJECT/STACK/ROLE/DATE/SPEED/FOCUS labels on hover `M`
+- [ ] **Behind the Shot Panels** - Expandable architectural rationale views `L`
 
-### Dependencies
+## Phase 4: "Split-Screen & Depth-of-Field" Storytelling
 
-- Foundation layout from Phase 1
-- Accessibility testing and validation tools
-
-## Phase 3: Content Integration and Visual Storytelling
-
-**Goal:** Add content embedding capabilities and enhance photo gallery experience
-**Success Criteria:** Blog/article content displays seamlessly, photo gallery provides compelling visual storytelling
+**Goal:** Create immersive case study experiences with synchronized technical and athletic visuals
+**Success Criteria:** Split-screen layouts with synchronized element entrance and depth-of-field effects
 
 ### Features
 
-- [ ] Content Embedding - Blog/article integration with links to systems of record `L`
-- [ ] Enhanced Photo Gallery - Improved visual storytelling for action sports photography `M`
-- [ ] Dynamic Content Loading - Efficient loading strategies for images and content `S`
-- [ ] SEO Optimization - Meta tags and structured data for search visibility `S`
-- [ ] Performance Optimization - Image optimization and loading strategies `M`
+- [ ] **Split-Screen Case Studies** - Technical diagrams + action sports sequences `XL`
+- [ ] **Synchronized Animations** - Choreographed element entrance timing `L`
+- [ ] **Depth-of-Field Effects** - CSS blur() with prefers-reduced-motion support `M`
 
-### Dependencies
+## Phase 5: Performance & Polish
 
-- Core portfolio structure from Phase 2
-- Content management strategy decisions
-- Photo asset preparation and optimization
-
-## Phase 4: Professional Enhancement and Polish
-
-**Goal:** Refine user experience and add professional features for client engagement
-**Success Criteria:** Site effectively converts visitors to professional connections and demonstrates technical expertise
+**Goal:** Achieve aggressive performance targets while maintaining rich interactions
+**Success Criteria:** LCP ≤ 2.5s, CLS < 0.1, 60fps animations, modern image formats
 
 ### Features
 
-- [ ] Contact Form Integration - Professional inquiry handling with validation `M`
-- [ ] Analytics Integration - User behavior tracking and engagement metrics `S`
-- [ ] Social Media Integration - Professional social links and sharing capabilities `S`
-- [ ] Performance Monitoring - Core Web Vitals optimization and monitoring `M`
-- [ ] Cross-Browser Testing - Comprehensive browser compatibility validation `S`
-
-### Dependencies
-
-- Content integration from Phase 3
-- Hosting platform selection and configuration
-- Analytics and monitoring service setup
+- [ ] **Performance Optimization** - Transform/opacity only animations, AVIF/WebP support `M`
+- [ ] **Accessibility Compliance** - 4.5:1 contrast ratios, comprehensive screen reader support `S`
+- [ ] **Cross-Browser Polish** - Consistent experience across modern browsers `S`
 
 ## Phase 0: Already Completed
 
 The following features have been implemented and are fully functional:
 
-- [x] **Multi-Section Portfolio Layout** - Hero, About, Work, Insights, Gallery, Reel, Contact sections with smooth navigation
-- [x] **Custom Interactions** - Spotlight cursor effect and floating navigation system
-- [x] **TypeScript Implementation** - Fully typed codebase with proper interface definitions
-- [x] **Accessibility Features** - Keyboard navigation, ARIA labels, focus management, skip links
-- [x] **Responsive Design** - Mobile-first approach with custom brand colors and Inter typography
-- [x] **Smooth Scrolling Navigation** - Section-based navigation with keyboard shortcuts (Cmd/Ctrl+1-7)
-- [x] **Custom Hook Implementation** - useScrollSpy for section detection and active state management
+- [ ] **Multi-Section Portfolio Layout** - Hero, About, Work, Insights, Gallery, Reel, Contact sections with smooth navigation
+- [ ] **Custom Interactions** - Spotlight cursor effect and floating navigation system
+- [ ] **TypeScript Implementation** - Fully typed codebase with proper interface definitions
+- [ ] **Accessibility Features** - Keyboard navigation, ARIA labels, focus management, skip links
+- [ ] **Responsive Design** - Mobile-first approach with custom brand colors and Inter typography
+- [ ] **Smooth Scrolling Navigation** - Section-based navigation with keyboard shortcuts (Cmd/Ctrl+1-7)
+- [ ] **Custom Hook Implementation** - useScrollSpy for section detection and active state management
 
 ## Phase 5: Advanced Features and AI Integration
 

@@ -10,6 +10,45 @@ export default defineConfig(({ mode }) => {
         host: '0.0.0.0',
       },
       plugins: [react()],
+      build: {
+        // Optimize bundle splitting
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              // Separate vendor libraries
+              vendor: ['react', 'react-dom'],
+              // Volleyball timing system components
+              volleyball: [
+                './components/SplitScreenManager',
+                './components/TimingController',
+                './components/PerformanceMonitor',
+                './components/InteractivePauseSystem',
+                './components/VisualContinuitySystem',
+                './components/SportsSequenceController'
+              ],
+              // UI components
+              ui: [
+                './components/NavigationControls',
+                './components/LeftViewport',
+                './components/RightViewport',
+                './components/PhaseSpecificSportsContent'
+              ]
+            }
+          }
+        },
+        // Enable minification and compression
+        minify: 'terser',
+        terserOptions: {
+          compress: {
+            drop_console: mode === 'production',
+            drop_debugger: mode === 'production'
+          }
+        },
+        // Chunk size warnings
+        chunkSizeWarningLimit: 600,
+        // Asset optimization
+        assetsInlineLimit: 4096
+      },
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
