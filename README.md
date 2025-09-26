@@ -178,7 +178,7 @@ While this is a personal portfolio, the AI development methodology and enhanced 
 Enterprise Architect & Managing Consultant  
 📧 [hello@nino.photos](mailto:hello@nino.photos)  
 💼 [LinkedIn](https://www.linkedin.com/in/nino-chavez/)  
-📸 [Photography Portfolio](https://nino-chavez-site.com/gallery)
+📸 [Photography Portfolio](https://gallery.nino.photos)
 
 ---
 
