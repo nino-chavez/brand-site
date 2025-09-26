@@ -239,11 +239,11 @@ export const OptimizedViewfinderOverlay: React.FC<{
 
 // Bundle size analyzer (development only)
 export const ViewfinderBundleAnalyzer: React.FC = () => {
-  if (process.env.NODE_ENV !== 'development') {
-    return null;
-  }
-
   const [stats, setStats] = React.useState<any>(null);
+
+  if (process.env.NODE_ENV !== 'development') {
+    return <div className="fixed opacity-0 invisible pointer-events-none" />;
+  }
 
   React.useEffect(() => {
     const analyzeBundle = () => {
@@ -275,7 +275,10 @@ export const ViewfinderBundleAnalyzer: React.FC = () => {
     analyzeBundle();
   }, []);
 
-  if (!stats) return null;
+  // Don't use early return after hooks - handle visibility through conditional rendering
+  if (!stats) {
+    return <div className="fixed bottom-4 right-4 opacity-0 invisible" />;
+  }
 
   return (
     <div className="fixed bottom-4 right-4 bg-black/90 text-white p-4 rounded-lg text-xs font-mono max-w-xs">

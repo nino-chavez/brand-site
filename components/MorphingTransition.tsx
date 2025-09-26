@@ -145,7 +145,7 @@ export const MorphingTransition: React.FC<MorphingTransitionProps> = ({
       const toPoint = toPoints[index];
       const x = fromPoint[0] + (toPoint[0] - fromPoint[0]) * progress;
       const y = fromPoint[1] + (toPoint[1] - fromPoint[1]) * progress;
-      return `${x.toFixed(2)}% ${y.toFixed(2)}%`;
+      return `${(x || 0).toFixed(2)}% ${(y || 0).toFixed(2)}%`;
     });
 
     return `polygon(${interpolatedPoints.join(', ')})`;
@@ -162,7 +162,7 @@ export const MorphingTransition: React.FC<MorphingTransitionProps> = ({
     const toRotation = parseFloat(toShape.transform.match(/rotate\(([-\d.]+)deg\)/)?.[1] || '0');
     const rotation = fromRotation + (toRotation - fromRotation) * progress;
 
-    return `translateX(0) scale(${scale.toFixed(4)}) rotate(${rotation.toFixed(2)}deg)`;
+    return `translateX(0) scale(${(scale || 1).toFixed(4)}) rotate(${(rotation || 0).toFixed(2)}deg)`;
   }, []);
 
   // Interpolate visual effects
@@ -301,7 +301,7 @@ export const MorphingTransition: React.FC<MorphingTransitionProps> = ({
       />
 
       {/* Debug information (development only) */}
-      {process.env.NODE_ENV === 'development' && (
+      {false && process.env.NODE_ENV === 'development' && (
         <div
           className="morphing-debug-overlay"
           style={{

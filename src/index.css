@@ -1,4 +1,5 @@
 @import "tailwindcss";
+/* Athletic tokens are now defined inline in Tailwind config */
 
 /* Brand Variables */
 @theme {

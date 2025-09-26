@@ -15,25 +15,32 @@ export default defineConfig(({ mode }) => {
         // Optimize bundle splitting
         rollupOptions: {
           output: {
-            manualChunks: {
-              // Separate vendor libraries
-              vendor: ['react', 'react-dom'],
-              // Volleyball timing system components
-              volleyball: [
-                './components/SplitScreenManager',
-                './components/TimingController',
-                './components/PerformanceMonitor',
-                './components/InteractivePauseSystem',
-                './components/VisualContinuitySystem',
-                './components/SportsSequenceController'
-              ],
-              // UI components
-              ui: [
-                './components/NavigationControls',
-                './components/LeftViewport',
-                './components/RightViewport',
-                './components/PhaseSpecificSportsContent'
-              ]
+            // Dynamic chunking based on patterns - more maintainable than hardcoded paths
+            manualChunks(id: string) {
+              // Vendor libraries
+              if (id.includes('node_modules')) {
+                if (id.includes('react') || id.includes('react-dom')) {
+                  return 'vendor';
+                }
+                return 'vendor';
+              }
+
+              // Volleyball/sports components based on naming patterns
+              if (id.includes('components/') &&
+                  (id.includes('Volleyball') || id.includes('Sports') ||
+                   id.includes('Timing') || id.includes('Court'))) {
+                return 'volleyball';
+              }
+
+              // UI framework components
+              if (id.includes('components/') &&
+                  (id.includes('Navigation') || id.includes('Viewport') ||
+                   id.includes('Controls') || id.includes('HUD'))) {
+                return 'ui';
+              }
+
+              // Return undefined for default chunk
+              return undefined;
             }
           }
         },

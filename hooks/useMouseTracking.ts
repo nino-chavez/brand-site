@@ -1,11 +1,30 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
-export interface MousePosition {
+interface MousePosition {
   x: number;
   y: number;
 }
 
-export interface MouseTrackingConfig {
+interface MouseTrackingState {
+  mousePosition: MousePosition;
+  isHovered: boolean;
+  currentPosition: MousePosition;
+  targetPosition: MousePosition;
+  isTracking: boolean;
+}
+
+interface MouseTrackingHandlers {
+  handleMouseMove: (e: React.MouseEvent) => void;
+  handleMouseEnter: () => void;
+  handleMouseLeave: () => void;
+}
+
+interface UseMouseTrackingProps {
+  initialPosition?: MousePosition;
+  trackPosition?: boolean;
+  trackHover?: boolean;
+  onHoverChange?: (isHovered: boolean) => void;
+  onPositionChange?: (position: MousePosition) => void;
   delay?: number;
   throttleMs?: number;
   enableEasing?: boolean;
@@ -13,136 +32,119 @@ export interface MouseTrackingConfig {
   boundaryElement?: HTMLElement | null;
 }
 
-export interface MouseTrackingState {
-  currentPosition: MousePosition;
-  targetPosition: MousePosition;
-  isTracking: boolean;
-}
+/**
+ * Custom hook for managing mouse tracking and hover states with advanced features
+ */
+export const useMouseTracking = ({
+  initialPosition = { x: 0, y: 0 },
+  trackPosition = true,
+  trackHover = true,
+  onHoverChange,
+  onPositionChange,
+  delay = 0,
+  throttleMs = 16,
+  enableEasing = false,
+  easingCurve = 'ease-out',
+  boundaryElement
+}: UseMouseTrackingProps = {}): MouseTrackingState & MouseTrackingHandlers => {
+  const [mousePosition, setMousePosition] = useState<MousePosition>(initialPosition);
+  const [isHovered, setIsHovered] = useState(false);
+  const [currentPosition, setCurrentPosition] = useState<MousePosition>(initialPosition);
+  const [targetPosition, setTargetPosition] = useState<MousePosition>(initialPosition);
+  const [isTracking, setIsTracking] = useState(false);
 
-const DEFAULT_CONFIG: Required<Omit<MouseTrackingConfig, 'boundaryElement'>> = {
-  delay: 0,
-  throttleMs: 8, // 120fps default for hero viewfinder mode
-  enableEasing: false,
-  easingCurve: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-};
+  const throttleRef = useRef<number>();
+  const delayRef = useRef<number>();
+  const animationRef = useRef<number>();
 
-export const useMouseTracking = (config: MouseTrackingConfig = {}): MouseTrackingState => {
-  const {
-    delay = DEFAULT_CONFIG.delay,
-    throttleMs = DEFAULT_CONFIG.throttleMs,
-    enableEasing = DEFAULT_CONFIG.enableEasing,
-    easingCurve = DEFAULT_CONFIG.easingCurve,
-    boundaryElement,
-  } = config;
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!trackPosition) return;
 
-  const [currentPosition, setCurrentPosition] = useState<MousePosition>({ x: -100, y: -100 });
-  const [targetPosition, setTargetPosition] = useState<MousePosition>({ x: -100, y: -100 });
-  const [isTracking, setIsTracking] = useState<boolean>(false);
+    const rect = boundaryElement?.getBoundingClientRect() || e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-  const rafRef = useRef<number>();
-  const lastUpdateRef = useRef<number>(0);
-  const delayTimeoutRef = useRef<NodeJS.Timeout>();
+    const newPosition = { x, y };
 
-  const updatePosition = useCallback((newPosition: MousePosition) => {
-    if (enableEasing && delay > 0) {
-      // For eased movement with delay, update target position immediately
+    // Clear previous throttle
+    if (throttleRef.current) {
+      clearTimeout(throttleRef.current);
+    }
+
+    // Apply throttling
+    const updatePosition = () => {
+      setMousePosition(newPosition);
       setTargetPosition(newPosition);
+      setIsTracking(true);
 
-      // Clear existing delay timeout
-      if (delayTimeoutRef.current) {
-        clearTimeout(delayTimeoutRef.current);
-      }
-
-      // Set delay timeout for eased position update
-      delayTimeoutRef.current = setTimeout(() => {
-        setCurrentPosition(newPosition);
-      }, delay);
-    } else if (delay > 0) {
-      // For non-eased movement with delay
-      if (delayTimeoutRef.current) {
-        clearTimeout(delayTimeoutRef.current);
-      }
-
-      setTargetPosition(newPosition);
-      delayTimeoutRef.current = setTimeout(() => {
-        setCurrentPosition(newPosition);
-      }, delay);
-    } else {
-      // Immediate update
-      setCurrentPosition(newPosition);
-      setTargetPosition(newPosition);
-    }
-  }, [enableEasing, delay]);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const now = performance.now();
-
-    // Throttle updates based on throttleMs
-    if (now - lastUpdateRef.current < throttleMs) {
-      return;
-    }
-
-    lastUpdateRef.current = now;
-
-    let newPosition: MousePosition = { x: e.clientX, y: e.clientY };
-
-    // Apply boundary constraints if specified
-    if (boundaryElement) {
-      const rect = boundaryElement.getBoundingClientRect();
-      newPosition = {
-        x: Math.max(rect.left, Math.min(rect.right, e.clientX)),
-        y: Math.max(rect.top, Math.min(rect.bottom, e.clientY)),
-      };
-    }
-
-    updatePosition(newPosition);
-  }, [throttleMs, boundaryElement, updatePosition]);
-
-  const handleMouseEnter = useCallback(() => {
-    setIsTracking(true);
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setIsTracking(false);
-  }, []);
-
-  useEffect(() => {
-    const targetElement = boundaryElement || window;
-
-    if (targetElement === window) {
-      window.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseenter', handleMouseEnter);
-      document.addEventListener('mouseleave', handleMouseLeave);
-    } else {
-      targetElement.addEventListener('mousemove', handleMouseMove as EventListener);
-      targetElement.addEventListener('mouseenter', handleMouseEnter);
-      targetElement.addEventListener('mouseleave', handleMouseLeave);
-    }
-
-    return () => {
-      if (targetElement === window) {
-        window.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseenter', handleMouseEnter);
-        document.removeEventListener('mouseleave', handleMouseLeave);
+      if (enableEasing) {
+        // Simple easing animation
+        const animate = () => {
+          setCurrentPosition(prev => ({
+            x: prev.x + (newPosition.x - prev.x) * 0.1,
+            y: prev.y + (newPosition.y - prev.y) * 0.1
+          }));
+        };
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+        animationRef.current = requestAnimationFrame(animate);
       } else {
-        targetElement.removeEventListener('mousemove', handleMouseMove as EventListener);
-        targetElement.removeEventListener('mouseenter', handleMouseEnter);
-        targetElement.removeEventListener('mouseleave', handleMouseLeave);
+        setCurrentPosition(newPosition);
       }
 
-      // Cleanup timeouts and animation frames
-      if (delayTimeoutRef.current) {
-        clearTimeout(delayTimeoutRef.current);
-      }
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
+      if (onPositionChange) {
+        onPositionChange(newPosition);
       }
     };
-  }, [handleMouseMove, handleMouseEnter, handleMouseLeave, boundaryElement]);
+
+    if (delay > 0) {
+      if (delayRef.current) {
+        clearTimeout(delayRef.current);
+      }
+      delayRef.current = setTimeout(updatePosition, delay);
+    } else if (throttleMs > 0) {
+      throttleRef.current = setTimeout(updatePosition, throttleMs);
+    } else {
+      updatePosition();
+    }
+  }, [trackPosition, onPositionChange, boundaryElement, delay, throttleMs, enableEasing]);
+
+  const handleMouseEnter = useCallback(() => {
+    if (!trackHover) return;
+    setIsHovered(true);
+    setIsTracking(true);
+    if (onHoverChange) {
+      onHoverChange(true);
+    }
+  }, [trackHover, onHoverChange]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!trackHover) return;
+    setIsHovered(false);
+    setIsTracking(false);
+    if (onHoverChange) {
+      onHoverChange(false);
+    }
+  }, [trackHover, onHoverChange]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (throttleRef.current) clearTimeout(throttleRef.current);
+      if (delayRef.current) clearTimeout(delayRef.current);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
 
   return {
+    mousePosition,
+    isHovered,
     currentPosition,
     targetPosition,
     isTracking,
+    handleMouseMove,
+    handleMouseEnter,
+    handleMouseLeave
   };
 };

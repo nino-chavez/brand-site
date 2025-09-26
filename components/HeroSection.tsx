@@ -2,20 +2,21 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { SectionId } from '../types';
 import ViewfinderOverlay from './ViewfinderOverlay';
 import BlurContainer from './BlurContainer';
+import { useAthleticTokens } from '@tokens/providers/AthleticTokenProvider';
 
 interface HeroSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
     onNavigate: (id: SectionId) => void;
 }
 
-// Volleyball timing phases (8-second cycle)
+// Volleyball timing phases (8-second cycle) - using athletic tokens
 const VOLLEYBALL_PHASES = [
-    { id: 'setup', name: 'Setup', duration: 1500, color: '#64748B' },
-    { id: 'anticipation', name: 'Anticipation', duration: 1200, color: '#FF6B4A' },
-    { id: 'approach', name: 'Approach', duration: 1000, color: '#3B82F6' },
-    { id: 'spike', name: 'Spike', duration: 800, color: '#F59E0B' },
-    { id: 'impact', name: 'Impact', duration: 600, color: '#FFD700' },
-    { id: 'followthrough', name: 'Follow-Through', duration: 900, color: '#10B981' }
+    { id: 'setup', name: 'Setup', duration: 1500, color: 'var(--athletic-color-neutral-600)' },
+    { id: 'anticipation', name: 'Anticipation', duration: 1200, color: 'var(--athletic-color-court-orange)' },
+    { id: 'approach', name: 'Approach', duration: 1000, color: 'var(--athletic-color-court-navy)' },
+    { id: 'spike', name: 'Spike', duration: 800, color: 'var(--athletic-color-warning)' },
+    { id: 'impact', name: 'Impact', duration: 600, color: 'var(--athletic-color-warning)' },
+    { id: 'followthrough', name: 'Follow-Through', duration: 900, color: 'var(--athletic-color-success)' }
 ] as const;
 
 type VolleyballPhase = typeof VOLLEYBALL_PHASES[number]['id'];
@@ -163,6 +164,9 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
     const [isPaused, setIsPaused] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+    // Access athletic design tokens
+    const athleticTokens = useAthleticTokens();
 
     // Technical profile state
     const [profileVisible, setProfileVisible] = useState(true);
@@ -324,10 +328,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
 
                 @keyframes subtlePulse {
                     0%, 100% {
-                        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(139, 92, 246, 0.1);
+                        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px var(--athletic-color-brand-violet) / 0.1;
                     }
                     50% {
-                        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(139, 92, 246, 0.2), 0 0 20px rgba(139, 92, 246, 0.1);
+                        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), 0 0 0 1px var(--athletic-color-brand-violet) / 0.2, 0 0 20px var(--athletic-color-brand-violet) / 0.1;
                     }
                 }
 
@@ -361,6 +365,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                         opacity: 0.6;
                         transform: scale(1.05);
                     }
+                }
+
+                /* Athletic timing integration */
+                .hero-fade-in {
+                    animation: fadeInUp var(--athletic-timing-sequence) var(--athletic-easing-precision) forwards;
+                }
+
+                .hero-gentle-float {
+                    animation: gentleFloat var(--athletic-timing-flow) var(--athletic-easing-glide) infinite;
+                }
+
+                .hero-breathe {
+                    animation: breathe var(--athletic-timing-power) var(--athletic-easing-flow) infinite;
                 }
             `}</style>
 
@@ -483,7 +500,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                     }}>
                         <button
                             onClick={() => onNavigate('work')}
-                            className="group bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:via-purple-500 hover:to-indigo-500 text-white font-bold px-10 py-4 rounded-xl transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30 border border-white/20 backdrop-blur-sm hover:backdrop-blur-md active:scale-95"
+                            className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-10 py-4 rounded-xl athletic-animate-transition hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30 border border-white/20 backdrop-blur-sm hover:backdrop-blur-md active:scale-95"
                             onMouseEnter={(e) => {
                                 e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
                             }}
@@ -500,7 +517,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                         </button>
                         <button
                             onClick={() => onNavigate('contact')}
-                            className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-10 py-4 rounded-xl transition-all duration-500 hover:scale-105 hover:bg-white/20 hover:border-white/60 hover:shadow-xl hover:shadow-white/10 active:scale-95"
+                            className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-10 py-4 rounded-xl athletic-animate-transition hover:scale-105 hover:bg-white/20 hover:border-white/60 hover:shadow-xl hover:shadow-white/10 active:scale-95"
                             onMouseEnter={(e) => {
                                 e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
                                 e.currentTarget.style.boxShadow = '0 10px 40px rgba(255, 255, 255, 0.15)';
@@ -539,7 +556,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                 /* Modern floating toggle button with enhanced effects */
                 <button
                     onClick={() => setProfileVisible(true)}
-                    className="fixed top-36 left-8 z-30 group bg-gradient-to-r from-brand-violet/20 to-purple-500/20 hover:from-brand-violet/40 hover:to-purple-500/40 backdrop-blur-md border border-brand-violet/40 text-white rounded-full p-4 transition-all duration-500 hover:scale-125 hover:shadow-xl hover:shadow-brand-violet/30 hover:border-brand-violet/60"
+                    className="fixed top-36 left-8 z-30 group bg-athletic-brand-violet/20 hover:bg-athletic-brand-violet/40 backdrop-blur-md border border-athletic-brand-violet/40 text-white rounded-full p-4 athletic-animate-sequence hover:scale-125 hover:shadow-xl hover:shadow-purple-500/30 hover:border-athletic-brand-violet/60"
                     style={{
                         animation: 'fadeInUp 1.2s ease-out 1.5s both, gentleFloat 4s ease-in-out infinite 2s, breathe 3s ease-in-out infinite 3s',
                         boxShadow: '0 4px 20px rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',

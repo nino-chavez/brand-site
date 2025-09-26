@@ -637,7 +637,7 @@ export const PhaseSpecificSportsContent: React.FC<PhaseSpecificSportsContentProp
       )}
 
       {/* Development debugging overlay */}
-      {process.env.NODE_ENV === 'development' && (
+      {false && process.env.NODE_ENV === 'development' && (
         <div
           className="sports-content-debug"
           style={{

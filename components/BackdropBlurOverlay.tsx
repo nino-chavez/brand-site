@@ -71,7 +71,10 @@ const BackdropBlurOverlay: React.FC<BackdropBlurOverlayProps> = ({
     setMaskUrl(dataUrl);
   }, [currentPosition, focusRadius, isActive]);
 
-  if (!isActive) return null;
+  // Don't use early return after hooks - handle visibility through conditional rendering
+  if (!isActive) {
+    return <div className="fixed inset-0 opacity-0 invisible pointer-events-none" />;
+  }
 
   return (
     <>
@@ -137,7 +140,10 @@ export const SimpleBackdropBlur: React.FC<{
 
   const center = focusCenter || currentPosition;
 
-  if (!isActive) return null;
+  // Don't use early return after hooks - handle visibility through conditional rendering
+  if (!isActive) {
+    return <div className="fixed inset-0 opacity-0 invisible pointer-events-none" />;
+  }
 
   return (
     <div
@@ -175,7 +181,10 @@ export const LayeredBlurOverlay: React.FC<{
 
   const center = focusCenter || currentPosition;
 
-  if (!isActive) return null;
+  // Don't use early return after hooks - handle visibility through conditional rendering
+  if (!isActive) {
+    return <div className="fixed inset-0 opacity-0 invisible pointer-events-none" />;
+  }
 
   return (
     <>
@@ -234,7 +243,10 @@ export const OptimizedBackdropBlur: React.FC<{
     };
   }, [currentPosition, isActive]);
 
-  if (!isActive) return null;
+  // Don't use early return after hooks - handle visibility through conditional rendering
+  if (!isActive) {
+    return <div className="fixed inset-0 opacity-0 invisible pointer-events-none" />;
+  }
 
   return (
     <div

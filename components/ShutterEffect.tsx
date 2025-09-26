@@ -114,7 +114,7 @@ const ShutterEffect: React.FC<ShutterEffectProps> = ({
       </div>
 
       {/* CSS Animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes shutterFlash {
           0% { opacity: 0; }
           10% { opacity: 1; }
@@ -223,7 +223,7 @@ export const EnhancedShutterEffect: React.FC<{
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         @keyframes shutterFlash {
           0% { opacity: 0; }
           10% { opacity: 1; }

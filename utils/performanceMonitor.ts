@@ -11,9 +11,17 @@ export interface PerformanceThresholds {
   memoryWarningMB: number;
 }
 
+// Safe performance timing utility
+function getTimestamp(): number {
+  if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+    return performance.now();
+  }
+  return Date.now();
+}
+
 export class PerformanceMonitor {
   private frameCount = 0;
-  private lastFrameTime = performance.now();
+  private lastFrameTime = getTimestamp();
   private fpsHistory: number[] = [];
   private frameTimeHistory: number[] = [];
   private maxHistorySize = 60; // Keep last 60 measurements
@@ -37,7 +45,7 @@ export class PerformanceMonitor {
 
     this.isMonitoring = true;
     this.frameCount = 0;
-    this.lastFrameTime = performance.now();
+    this.lastFrameTime = getTimestamp();
     this.fpsHistory = [];
     this.frameTimeHistory = [];
 
@@ -55,7 +63,7 @@ export class PerformanceMonitor {
   private measureFrame = (): void => {
     if (!this.isMonitoring) return;
 
-    const currentTime = performance.now();
+    const currentTime = getTimestamp();
     const frameTime = currentTime - this.lastFrameTime;
 
     this.frameCount++;

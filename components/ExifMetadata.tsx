@@ -132,7 +132,8 @@ const ExifMetadata: React.FC<ExifMetadataProps> = ({
     };
   }, [isVisible, fadeInDelay]);
 
-  if (!isVisible && opacity === 0) return null;
+  // Handle visibility through conditional rendering instead of early return
+  const shouldRender = isVisible || opacity > 0;
 
   const themeClasses = {
     dark: 'bg-black/90 text-white border-gray-700',
@@ -228,6 +229,10 @@ const ExifMetadata: React.FC<ExifMetadataProps> = ({
     }
   };
 
+  if (!shouldRender) {
+    return <div className="fixed pointer-events-none opacity-0 invisible" />;
+  }
+
   return (
     <div
       ref={metadataRef}
@@ -308,7 +313,11 @@ export const AnimatedExifMetadata: React.FC<ExifMetadataProps & {
     return () => clearInterval(typewriter);
   }, [props.isVisible, props.displayMode, typewriterSpeed]);
 
-  if (!props.isVisible) return null;
+  // Handle visibility through conditional rendering instead of early return
+
+  if (!props.isVisible) {
+    return <div className="fixed pointer-events-none opacity-0 invisible" />;
+  }
 
   return (
     <div

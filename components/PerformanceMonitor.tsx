@@ -482,12 +482,13 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
     return { grade: 'D', color: 'text-red-400' };
   }, [metrics]);
 
-  if (!isActive) return null;
-
+  // Don't use early return after hooks - handle visibility through conditional rendering
   return (
-    <div className={`performance-monitor ${className}`}>
-      {/* Main performance display - hidden by default in development for clean UI */}
-      {false && process.env.NODE_ENV === 'development' && (
+    <div className={`performance-monitor ${className}`} style={{ display: isActive ? 'block' : 'none' }}>
+      {isActive && (
+        <>
+        {/* Main performance display - hidden by default in development for clean UI */}
+        {false && process.env.NODE_ENV === 'development' && (
         <div
           className="fixed top-4 right-4 bg-black bg-opacity-90 text-white p-4 rounded-lg font-mono text-xs z-50 min-w-[280px]"
           style={{ backdropFilter: 'blur(8px)' }}
@@ -583,6 +584,8 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
             System performance is degraded. Optimizations have been applied automatically.
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );

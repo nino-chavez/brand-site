@@ -53,7 +53,7 @@ function phaseReducer(state: PhaseState, action: PhaseAction): PhaseState {
         ...state,
         isPlaying: true,
         isPaused: false,
-        phaseStartTime: performance.now()
+        phaseStartTime: typeof performance !== 'undefined' && performance.now ? performance.now() : Date.now()
       };
 
     case 'PAUSE':
@@ -71,7 +71,7 @@ function phaseReducer(state: PhaseState, action: PhaseAction): PhaseState {
       return {
         ...state,
         currentPhase: nextPhase,
-        phaseStartTime: performance.now(),
+        phaseStartTime: typeof performance !== 'undefined' && performance.now ? performance.now() : Date.now(),
         phaseProgress: 0,
         completedCycles: nextPhase === 'setup' ? state.completedCycles + 1 : state.completedCycles
       };
@@ -85,7 +85,7 @@ function phaseReducer(state: PhaseState, action: PhaseAction): PhaseState {
       return {
         ...state,
         currentPhase: prevPhase,
-        phaseStartTime: performance.now(),
+        phaseStartTime: typeof performance !== 'undefined' && performance.now ? performance.now() : Date.now(),
         phaseProgress: 0
       };
     }
@@ -94,7 +94,7 @@ function phaseReducer(state: PhaseState, action: PhaseAction): PhaseState {
       return {
         ...state,
         currentPhase: action.payload,
-        phaseStartTime: performance.now(),
+        phaseStartTime: typeof performance !== 'undefined' && performance.now ? performance.now() : Date.now(),
         phaseProgress: 0
       };
 
@@ -113,7 +113,7 @@ function phaseReducer(state: PhaseState, action: PhaseAction): PhaseState {
     case 'RESET':
       return {
         currentPhase: 'setup',
-        phaseStartTime: performance.now(),
+        phaseStartTime: typeof performance !== 'undefined' && performance.now ? performance.now() : Date.now(),
         isPlaying: false,
         isPaused: false,
         completedCycles: 0,

@@ -84,8 +84,7 @@ export const Crosshair: React.FC<CrosshairProps> = ({
   const themeColors = themes[theme];
   const finalColor = color || themeColors.primary;
 
-  if (!isActive) return null;
-
+  // Don't use early return after hooks - handle visibility through conditional rendering
   const renderCrosshair = () => {
     switch (style) {
       case 'camera':
@@ -182,6 +181,10 @@ export const Crosshair: React.FC<CrosshairProps> = ({
     }
   };
 
+  if (!isActive) {
+    return <div className="absolute opacity-0 invisible pointer-events-none" />;
+  }
+
   return (
     <div
       className={`absolute pointer-events-none ${className} ${animated ? 'transition-all duration-100 ease-out' : ''}`}
@@ -214,8 +217,7 @@ export const FocusRing: React.FC<FocusRingProps> = ({
   const themeColors = themes[theme];
   const finalStrokeColor = strokeColor || themeColors.accent;
 
-  if (!isVisible) return null;
-
+  // Don't use early return after hooks - handle visibility through conditional rendering
   const getStrokePattern = () => {
     switch (style) {
       case 'solid': return 'none';
@@ -278,6 +280,10 @@ export const FocusRing: React.FC<FocusRingProps> = ({
     );
   };
 
+  if (!isVisible) {
+    return <div className="absolute opacity-0 invisible pointer-events-none" />;
+  }
+
   return renderRing();
 };
 
@@ -295,8 +301,7 @@ export const GridOverlay: React.FC<{
 }) => {
   const themeColors = themes[theme];
 
-  if (!isVisible) return null;
-
+  // Don't use early return after hooks - handle visibility through conditional rendering
   const renderGrid = () => {
     switch (gridType) {
       case 'rule-of-thirds':
@@ -405,6 +410,10 @@ export const GridOverlay: React.FC<{
     }
   };
 
+  if (!isVisible) {
+    return <div className="absolute opacity-0 invisible pointer-events-none" />;
+  }
+
   return renderGrid();
 };
 
@@ -435,7 +444,10 @@ export const CrosshairSystem: React.FC<CrosshairSystemProps> = ({
     }
   }, [position, centerAlignment]);
 
-  if (!isActive) return null;
+  // Don't use early return after hooks - handle visibility through conditional rendering
+  if (!isActive) {
+    return <div className="fixed inset-0 opacity-0 invisible pointer-events-none" />;
+  }
 
   return (
     <div className={`fixed inset-0 pointer-events-none z-40 ${className}`}>

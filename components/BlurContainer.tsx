@@ -243,7 +243,7 @@ const BlurContainer: React.FC<BlurContainerProps> = ({
       {children}
 
       {/* Focus Ring Visualization (optional debug) */}
-      {isActive && process.env.NODE_ENV === 'development' && (
+      {false && isActive && process.env.NODE_ENV === 'development' && (
         <div
           className="fixed pointer-events-none border-2 border-dashed border-yellow-400 rounded-full"
           style={{
