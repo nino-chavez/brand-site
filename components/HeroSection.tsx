@@ -169,7 +169,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
     const athleticTokens = useAthleticTokens();
 
     // Technical profile state
-    const [profileVisible, setProfileVisible] = useState(true);
+    const [profileVisible, setProfileVisible] = useState(false);
     const [profileMinimized, setProfileMinimized] = useState(false);
 
     // Smart responsive behavior for profile visibility
