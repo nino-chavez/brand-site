@@ -1,5 +1,5 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+<img width="1200" height="475" alt="Nino Chavez Portfolio Banner" src="./public/images/banner.jpeg" />
 </div>
 
 # Nino Chavez Portfolio: "The Moment of Impact"
@@ -52,8 +52,8 @@ The entire experience is built around capturing the perfect moment—whether it'
 This project showcases the future of software development through **100% AI-powered collaboration**. Every line of code, design decision, and architectural choice has been the result of human-AI partnership:
 
 ### Core AI Agents
-- **[Gemini CLI](https://github.com/google/gemini-cli)** - Primary coding assistant and architectural planning
-- **[Claude Code](https://claude.ai)** - Complex problem solving and code review
+- **[Claude Code](https://claude.ai)** - Primary coding assistant and architectural planning
+- **[Gemini CLI](https://github.com/google/gemini-cli)** - Secondary assistant for debugging and code review
 - **[Amazon Q Developer](https://aws.amazon.com/q/developer/)** - AWS integration and cloud architecture guidance
 - **[GitHub Copilot](https://github.com/features/copilot)** - Real-time code completion and pair programming
 - **[Cursor AI](https://cursor.sh)** - Intelligent code editing and refactoring
@@ -176,8 +176,8 @@ While this is a personal portfolio, the AI development methodology and enhanced 
 
 **Nino Chavez**  
 Enterprise Architect & Managing Consultant  
-📧 [Contact via Portfolio](https://nino-chavez-site.com)  
-💼 [LinkedIn](https://linkedin.com/in/ninochavez)  
+📧 [hello@nino.photos](mailto:hello@nino.photos)  
+💼 [LinkedIn](https://www.linkedin.com/in/nino-chavez/)  
 📸 [Photography Portfolio](https://nino-chavez-site.com/gallery)
 
 ---
