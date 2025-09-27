@@ -21,6 +21,9 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@tokens/*": [
+        "./tokens/*"
       ]
     },
     "allowImportingTsExtensions": true,

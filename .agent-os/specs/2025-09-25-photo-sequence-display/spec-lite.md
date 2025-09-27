@@ -1,0 +1,3 @@
+# Spec Summary (Lite)
+
+Transform the project showcase from a traditional grid layout into a dynamic burst-mode photography sequence with minimalist EXIF-style performance metrics. This creates a unique, photography-inspired portfolio display that maintains continuous scroll flow through non-modal side-overlay drawers for detailed architectural rationale, while hover reveals only project-specific metrics (Timeline/Shutter Speed, Complexity/Aperture, Date/ISO) to avoid redundancy with the About section technical profile.
