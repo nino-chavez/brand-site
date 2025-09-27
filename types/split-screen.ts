@@ -120,7 +120,10 @@ export interface SynchronizedAnimationConfig {
   easing: 'ease-out' | 'ease-in-out' | 'cubic-bezier(0.4, 0, 0.2, 1)';
 
   /** Animation sequence configuration */
-  sequence: AnimationSequenceStep[];
+  steps: AnimationSequenceStep[];
+
+  /** Step change callback */
+  onStepChange?: (stepIndex: number, step: AnimationSequenceStep) => void;
 
   /** Performance optimization settings */
   performance: {
@@ -256,7 +259,11 @@ export interface DepthOfFieldEffectConfig {
     useCompositorLayer: boolean;
     enableWillChange: boolean;
     maxBlurRadius: number;
+    enablePerformanceMonitoring?: boolean;
   };
+
+  /** Maximum blur intensity limit */
+  maxIntensity?: number;
 }
 
 /**
@@ -474,7 +481,7 @@ export function isSplitScreenLayoutConfig(config: SplitScreenConfig): config is 
 
 /** Type guard for checking animation configuration types */
 export function isSynchronizedAnimationConfig(config: SplitScreenConfig): config is SynchronizedAnimationConfig {
-  return 'duration' in config && 'staggerDelay' in config && 'sequence' in config;
+  return 'duration' in config && 'staggerDelay' in config && 'steps' in config;
 }
 
 /** Type guard for checking depth-of-field configuration types */

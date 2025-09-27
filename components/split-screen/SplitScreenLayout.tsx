@@ -166,7 +166,7 @@ const SplitScreenLayout: React.FC<SplitScreenLayoutProps> = ({
   const containerStyles: React.CSSProperties = {
     display: 'grid',
     gridTemplate: getGridTemplate(),
-    gap: config.responsive.mobile === 'stack' && window.innerWidth < 768
+    gap: config.responsive.mobile === 'stack' && typeof window !== 'undefined' && window.innerWidth < 768
       ? splitScreenSpacing['grid-gap-mobile']
       : splitScreenSpacing['grid-gap'],
     width: '100%',
