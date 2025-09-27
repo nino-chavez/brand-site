@@ -1,14 +1,17 @@
 import React from 'react';
+import type { CanvasPosition, CanvasState } from './canvas';
 
 /**
  * CursorLens Component Types
  *
  * TypeScript interfaces for zero-occlusion cursor-activated radial navigation system.
  * Supports 60fps cursor tracking, viewport constraint handling, and photography workflow integration.
+ * Extended in Phase 3 with canvas coordinate mapping for spatial navigation.
  *
  * @fileoverview Cursor lens component type definitions
- * @version 1.0.0
+ * @version 1.1.0
  * @since Phase 1 - Setup and Foundation
+ * @updated Phase 3 - Canvas Integration
  */
 
 // ===== CORE ENUMS AND UNION TYPES =====
@@ -212,6 +215,19 @@ export interface CursorLensProps {
   fallbackMode?: 'keyboard' | 'traditional';
   /** Custom viewport dimensions (auto-detected if not provided) */
   viewportDimensions?: ViewportDimensions;
+
+  // ===== CANVAS INTEGRATION PROPS (Phase 3) =====
+
+  /** Enable canvas coordinate mapping mode for spatial navigation */
+  canvasMode?: boolean;
+  /** Current canvas state for position tracking and navigation */
+  canvasState?: CanvasState;
+  /** Canvas position change callback for spatial navigation */
+  onCanvasPositionChange?: (position: CanvasPosition) => void;
+  /** Custom section-to-canvas position mapper (defaults to spatial grid mapping) */
+  sectionToCanvasMapper?: (section: PhotoWorkflowSection) => CanvasPosition;
+  /** Show spatial preview during hover (requires canvasMode) */
+  showSpatialPreview?: boolean;
 }
 
 /**

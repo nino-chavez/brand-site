@@ -149,10 +149,16 @@ export interface CanvasState {
     isPanning: boolean;
     /** Whether canvas is being zoomed */
     isZooming: boolean;
-    /** Touch/gesture state for mobile */
+    /** Enhanced touch/gesture state for mobile */
     touchState: {
       initialDistance: number | null;
       initialPosition: CanvasPosition | null;
+      /** Center point between two touches for pinch gestures */
+      centerPoint: { x: number; y: number } | null;
+      /** Initial touch 1 position for gesture tracking */
+      touch1Initial: { x: number; y: number } | null;
+      /** Initial touch 2 position for gesture tracking */
+      touch2Initial: { x: number; y: number } | null;
     };
   };
   /** Performance tracking for canvas operations */

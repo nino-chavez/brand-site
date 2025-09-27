@@ -15,6 +15,8 @@ import type { LightboxCanvasProps } from '../types/canvas';
 import { useUnifiedCanvas } from '../contexts/UnifiedGameFlowContext';
 import { validateCanvasPosition, calculateMovementDuration } from '../utils/canvasCoordinateTransforms';
 import type { CanvasPosition, SpatialLayout } from '../types/canvas';
+import { CanvasPerformanceMonitor, measureCanvasOperation, optimizedRAF } from '../utils/canvasPerformanceMonitor';
+import { CanvasQualityManager, getQualityManager, type QualityLevel } from '../utils/canvasQualityManager';
 
 // Constants for spatial grid system
 const GRID_LAYOUTS = {
@@ -53,6 +55,16 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
   const animationRef = useRef<number | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [renderCount, setRenderCount] = useState(0);
+
+  // Performance monitoring
+  const performanceMonitorRef = useRef<CanvasPerformanceMonitor | null>(null);
+  const qualityManagerRef = useRef<CanvasQualityManager | null>(null);
+  const [currentQuality, setCurrentQuality] = useState<QualityLevel>('highest');
+  const [performanceMetrics, setPerformanceMetrics] = useState({
+    fps: 60,
+    frameTime: 16.67,
+    memoryMB: 0
+  });
 
   // Memoized layout configuration
   const layoutConfig = useMemo(() => {
@@ -120,29 +132,42 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     return baseClasses.concat(className.split(' ')).join(' ');
   }, [performanceMode, isTransitioning, debugMode, className]);
 
-  // Performance monitoring
+  // Enhanced performance monitoring
   const trackCanvasPerformance = useCallback(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || !performanceMonitorRef.current) return;
 
-    const startTime = performance.now();
+    return measureCanvasOperation('canvas-render', () => {
+      const startTime = performance.now();
 
-    // Measure render performance
-    requestAnimationFrame(() => {
-      const renderTime = performance.now() - startTime;
-      const fps = 1000 / renderTime;
+      // Measure render performance
+      requestAnimationFrame(() => {
+        const renderTime = performance.now() - startTime;
+        const fps = 1000 / renderTime;
 
-      // Update performance metrics
-      actions.canvas.updateCanvasMetrics?.({
-        canvasRenderFPS: Math.round(fps),
-        transformOverhead: renderTime,
-        activeOperations: isTransitioning ? 1 : 0
+        // Update performance metrics
+        const metrics = {
+          canvasRenderFPS: Math.round(fps),
+          transformOverhead: renderTime,
+          activeOperations: isTransitioning ? 1 : 0,
+          canvasMemoryMB: performanceMetrics.memoryMB,
+          averageMovementTime: renderTime,
+          gpuUtilization: fps > 55 ? 85 : 60
+        };
+
+        actions.canvas.updateCanvasMetrics?.(metrics);
+        setRenderCount(prev => prev + 1);
+
+        // Update local performance state
+        setPerformanceMetrics({
+          fps: Math.round(fps),
+          frameTime: renderTime,
+          memoryMB: performanceMetrics.memoryMB
+        });
       });
+    }, performanceMonitorRef.current);
+  }, [actions.canvas, isTransitioning, performanceMetrics.memoryMB]);
 
-      setRenderCount(prev => prev + 1);
-    });
-  }, [actions.canvas, isTransitioning]);
-
-  // Camera movement handler
+  // Enhanced camera movement handler with performance optimization
   const executeCanvasMovement = useCallback(async (
     targetPosition: CanvasPosition,
     movement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut' = 'pan-tilt'
@@ -151,52 +176,79 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
 
     const startTime = performance.now();
     const fromPosition = state.currentPosition;
+    const qualityManager = qualityManagerRef.current;
 
     setIsTransitioning(true);
     actions.canvas.setTargetPosition(targetPosition);
 
-    // Calculate movement duration based on distance
-    const duration = calculateMovementDuration(fromPosition, targetPosition);
-
-    // Execute camera movement with RAF-based animation
-    const animateMovement = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      // Easing function (ease-out)
-      const easedProgress = 1 - Math.pow(1 - progress, 2);
-
-      // Interpolate position
-      const currentPosition: CanvasPosition = {
-        x: fromPosition.x + (targetPosition.x - fromPosition.x) * easedProgress,
-        y: fromPosition.y + (targetPosition.y - fromPosition.y) * easedProgress,
-        scale: fromPosition.scale + (targetPosition.scale - fromPosition.scale) * easedProgress
-      };
-
-      // Update canvas position
-      actions.canvas.updateCanvasPosition(currentPosition);
-
-      if (progress < 1) {
-        animationRef.current = requestAnimationFrame(animateMovement);
-      } else {
-        // Movement complete
-        setIsTransitioning(false);
-        actions.canvas.setTargetPosition(null);
-
-        // Track performance
-        const completionTime = performance.now() - startTime;
-        actions.performance?.trackCanvasTransition?.(
-          fromPosition,
-          targetPosition,
-          movement,
-          completionTime,
-          true
-        );
-      }
+    // Get optimized animation config based on current quality
+    const animConfig = qualityManager?.getAnimationConfig(movement) || {
+      duration: 800,
+      easing: 'cubic-bezier(0.4, 0.0, 0.2, 1)',
+      useGPU: true,
+      skipFrames: false
     };
 
-    animationRef.current = requestAnimationFrame(animateMovement);
-  }, [state.currentPosition, isTransitioning, actions]);
+    // Calculate movement duration
+    const duration = animConfig.duration;
+
+    // Execute camera movement with performance-optimized RAF
+    const animateMovement = (currentTime: number) => {
+      return measureCanvasOperation(`movement-${movement}`, () => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Apply quality-based frame skipping
+        if (animConfig.skipFrames && progress < 1 && Math.random() > 0.8) {
+          animationRef.current = optimizedRAF(animateMovement, currentQuality);
+          return;
+        }
+
+        // Easing function (ease-out)
+        const easedProgress = 1 - Math.pow(1 - progress, 2);
+
+        // Interpolate position
+        const currentPosition: CanvasPosition = {
+          x: fromPosition.x + (targetPosition.x - fromPosition.x) * easedProgress,
+          y: fromPosition.y + (targetPosition.y - fromPosition.y) * easedProgress,
+          scale: fromPosition.scale + (targetPosition.scale - fromPosition.scale) * easedProgress
+        };
+
+        // Update canvas position
+        actions.canvas.updateCanvasPosition(currentPosition);
+
+        if (progress < 1) {
+          animationRef.current = optimizedRAF(animateMovement, currentQuality);
+        } else {
+          // Movement complete
+          setIsTransitioning(false);
+          actions.canvas.setTargetPosition(null);
+
+          // Track performance
+          const completionTime = performance.now() - startTime;
+
+          // Track with performance monitor
+          performanceMonitorRef.current?.trackTransition(
+            fromPosition,
+            targetPosition,
+            movement,
+            completionTime
+          );
+
+          // Track with existing system
+          actions.performance?.trackCanvasTransition?.(
+            fromPosition,
+            targetPosition,
+            movement,
+            completionTime,
+            true
+          );
+        }
+      }, performanceMonitorRef.current!);
+    };
+
+    animationRef.current = optimizedRAF(animateMovement, currentQuality);
+  }, [state.currentPosition, isTransitioning, actions, currentQuality]);
 
   // Spatial grid positioning calculator
   const calculateSectionPosition = useCallback((
@@ -218,25 +270,51 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     return { x, y, scale: 1.0 };
   }, [state.layout]);
 
-  // Touch/gesture handlers for mobile support
+  // Enhanced touch gesture handlers for mobile support
+  const [touchStartPosition, setTouchStartPosition] = useState<{ x: number; y: number } | null>(null);
+  const [touchStartTime, setTouchStartTime] = useState<number>(0);
+  const [isActiveTouch, setIsActiveTouch] = useState(false);
+  const [touchFeedback, setTouchFeedback] = useState<{ x: number; y: number; type: 'pan' | 'zoom' } | null>(null);
+
   const handleTouchStart = useCallback((event: React.TouchEvent) => {
+    event.preventDefault();
+    setTouchStartTime(Date.now());
+    setIsActiveTouch(true);
+
     if (event.touches.length === 2) {
-      // Pinch-to-zoom gesture
+      // Enhanced pinch-to-zoom gesture with center point tracking
       const touch1 = event.touches[0];
       const touch2 = event.touches[1];
+
       const initialDistance = Math.sqrt(
         Math.pow(touch2.clientX - touch1.clientX, 2) +
         Math.pow(touch2.clientY - touch1.clientY, 2)
       );
 
+      // Calculate center point between touches
+      const centerX = (touch1.clientX + touch2.clientX) / 2;
+      const centerY = (touch1.clientY + touch2.clientY) / 2;
+
       actions.canvas.updateTouchState({
         initialDistance,
-        initialPosition: state.currentPosition
+        initialPosition: state.currentPosition,
+        // Enhanced touch state for better tracking
+        centerPoint: { x: centerX, y: centerY },
+        touch1Initial: { x: touch1.clientX, y: touch1.clientY },
+        touch2Initial: { x: touch2.clientX, y: touch2.clientY }
       });
       actions.canvas.setZoomingState(true);
+
+      // Show zoom feedback
+      setTouchFeedback({ x: centerX, y: centerY, type: 'zoom' });
     } else if (event.touches.length === 1) {
-      // Pan gesture
+      // Single finger pan gesture
+      const touch = event.touches[0];
+      setTouchStartPosition({ x: touch.clientX, y: touch.clientY });
       actions.canvas.setPanningState(true);
+
+      // Show pan feedback
+      setTouchFeedback({ x: touch.clientX, y: touch.clientY, type: 'pan' });
     }
   }, [state.currentPosition, actions.canvas]);
 
@@ -244,35 +322,107 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     event.preventDefault(); // Prevent default scroll behavior
 
     if (event.touches.length === 2 && state.interaction.touchState.initialDistance) {
-      // Handle pinch-to-zoom
+      // Enhanced pinch-to-zoom with two-finger pan support
       const touch1 = event.touches[0];
       const touch2 = event.touches[1];
+
       const currentDistance = Math.sqrt(
         Math.pow(touch2.clientX - touch1.clientX, 2) +
         Math.pow(touch2.clientY - touch1.clientY, 2)
       );
 
+      // Calculate current center point
+      const currentCenterX = (touch1.clientX + touch2.clientX) / 2;
+      const currentCenterY = (touch1.clientY + touch2.clientY) / 2;
+
       const scaleMultiplier = currentDistance / state.interaction.touchState.initialDistance;
       const initialPosition = state.interaction.touchState.initialPosition;
+      const initialCenter = state.interaction.touchState.centerPoint;
 
-      if (initialPosition) {
-        const newScale = Math.max(0.5, Math.min(3.0, initialPosition.scale * scaleMultiplier));
+      if (initialPosition && initialCenter) {
+        // Enhanced scale limits with smooth scaling
+        const targetScale = initialPosition.scale * scaleMultiplier;
+        const newScale = Math.max(
+          DEFAULT_VIEWPORT_CONSTRAINTS.minScale,
+          Math.min(DEFAULT_VIEWPORT_CONSTRAINTS.maxScale, targetScale)
+        );
+
+        // Two-finger pan calculation - track center point movement
+        const centerDeltaX = currentCenterX - initialCenter.x;
+        const centerDeltaY = currentCenterY - initialCenter.y;
+
+        // Apply pan movement scaled by current zoom level
+        const panSensitivity = 1.0 / state.currentPosition.scale;
+        const newX = initialPosition.x - (centerDeltaX * panSensitivity);
+        const newY = initialPosition.y - (centerDeltaY * panSensitivity);
+
         actions.canvas.updateCanvasPosition({
-          ...state.currentPosition,
+          x: newX,
+          y: newY,
           scale: newScale
         });
-      }
-    }
-  }, [state.interaction.touchState, state.currentPosition, actions.canvas]);
 
-  const handleTouchEnd = useCallback(() => {
+        // Update feedback position
+        setTouchFeedback({ x: currentCenterX, y: currentCenterY, type: 'zoom' });
+      }
+    } else if (event.touches.length === 1 && touchStartPosition && state.interaction.isPanning) {
+      // Single finger pan gesture
+      const touch = event.touches[0];
+      const deltaX = touch.clientX - touchStartPosition.x;
+      const deltaY = touch.clientY - touchStartPosition.y;
+
+      // Apply pan movement with sensitivity based on scale
+      const panSensitivity = 1.0 / state.currentPosition.scale;
+      const newX = state.currentPosition.x - (deltaX * panSensitivity);
+      const newY = state.currentPosition.y - (deltaY * panSensitivity);
+
+      actions.canvas.updateCanvasPosition({
+        ...state.currentPosition,
+        x: newX,
+        y: newY
+      });
+
+      // Update feedback position
+      setTouchFeedback({ x: touch.clientX, y: touch.clientY, type: 'pan' });
+
+      // Update start position for next move
+      setTouchStartPosition({ x: touch.clientX, y: touch.clientY });
+    }
+  }, [state.interaction.touchState, state.currentPosition, actions.canvas, touchStartPosition]);
+
+  const handleTouchEnd = useCallback((event: React.TouchEvent) => {
+    event.preventDefault();
+
+    // Clear touch state
     actions.canvas.setPanningState(false);
     actions.canvas.setZoomingState(false);
     actions.canvas.updateTouchState({
       initialDistance: null,
-      initialPosition: null
+      initialPosition: null,
+      centerPoint: null,
+      touch1Initial: null,
+      touch2Initial: null
     });
-  }, [actions.canvas]);
+
+    // Clear local touch tracking
+    setTouchStartPosition(null);
+    setIsActiveTouch(false);
+
+    // Fade out touch feedback
+    if (touchFeedback) {
+      setTimeout(() => setTouchFeedback(null), 200);
+    }
+
+    // Validate final position within constraints
+    const validatedPosition = validateCanvasPosition(
+      state.currentPosition,
+      DEFAULT_VIEWPORT_CONSTRAINTS
+    );
+
+    if (validatedPosition.success && validatedPosition.position) {
+      actions.canvas.updateCanvasPosition(validatedPosition.position);
+    }
+  }, [actions.canvas, touchFeedback, state.currentPosition]);
 
   // Keyboard navigation for accessibility
   useEffect(() => {
@@ -315,10 +465,92 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [state.accessibility.keyboardSpatialNav, state.currentPosition, executeCanvasMovement]);
 
+  // Initialize performance monitoring
+  useEffect(() => {
+    // Initialize performance monitor
+    performanceMonitorRef.current = new CanvasPerformanceMonitor(
+      (metrics) => {
+        // Update performance metrics
+        setPerformanceMetrics({
+          fps: metrics.canvasRenderFPS,
+          frameTime: 1000 / metrics.canvasRenderFPS,
+          memoryMB: metrics.canvasMemoryMB
+        });
+
+        // Update unified context
+        actions.canvas.updateCanvasMetrics?.(metrics);
+      },
+      (qualityLevel) => {
+        setCurrentQuality(qualityLevel);
+      }
+    );
+
+    // Initialize quality manager
+    qualityManagerRef.current = getQualityManager();
+    qualityManagerRef.current.addListener((event) => {
+      setCurrentQuality(event.newLevel);
+
+      // Apply quality-specific optimizations
+      if (canvasRef.current) {
+        const optimizations = qualityManagerRef.current!.getCSSOptimizations();
+        Object.entries(optimizations).forEach(([property, value]) => {
+          canvasRef.current!.style.setProperty(property, value);
+        });
+      }
+    });
+
+    // Start monitoring
+    performanceMonitorRef.current.start();
+    performanceMonitorRef.current.setDebugMode(debugMode);
+
+    return () => {
+      performanceMonitorRef.current?.stop();
+    };
+  }, [actions.canvas, debugMode]);
+
   // Performance monitoring effect
   useEffect(() => {
     trackCanvasPerformance();
   }, [trackCanvasPerformance, state.currentPosition]);
+
+  // Quality-based performance adjustment
+  useEffect(() => {
+    const qualityManager = qualityManagerRef.current;
+    if (qualityManager) {
+      qualityManager.handlePerformanceChange(
+        performanceMetrics.fps,
+        performanceMetrics.frameTime,
+        performanceMetrics.memoryMB
+      );
+    }
+  }, [performanceMetrics]);
+
+  // Canvas bounds optimization
+  useEffect(() => {
+    if (!performanceMonitorRef.current || !canvasRef.current) return;
+
+    const canvasElement = canvasRef.current;
+    const viewport = {
+      x: 0,
+      y: 0,
+      width: canvasElement.clientWidth,
+      height: canvasElement.clientHeight
+    };
+
+    // Find all spatial sections
+    const sections = Array.from(canvasElement.querySelectorAll('[data-spatial-section]')).map(element => ({
+      id: element.getAttribute('data-spatial-section') || '',
+      element: element as HTMLElement,
+      position: { x: 0, y: 0, scale: 1.0 } // Would be calculated based on section mapping
+    }));
+
+    // Optimize canvas bounds
+    performanceMonitorRef.current.optimizeCanvasBounds(
+      state.currentPosition,
+      viewport,
+      sections
+    );
+  }, [state.currentPosition]);
 
   // Cleanup animation on unmount
   useEffect(() => {
@@ -329,16 +561,49 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     };
   }, []);
 
-  // Debug information
+  // Enhanced debug information
   const debugInfo = debugMode ? (
-    <div className="absolute top-4 left-4 bg-black bg-opacity-75 text-white p-2 rounded text-xs font-mono z-50">
+    <div className="absolute top-4 left-4 bg-black bg-opacity-90 text-white p-3 rounded text-xs font-mono z-50 max-w-xs">
+      {/* Basic Canvas Info */}
+      <div className="text-athletic-court-orange font-semibold mb-2">CANVAS DEBUG</div>
       <div>Position: ({state.currentPosition.x.toFixed(1)}, {state.currentPosition.y.toFixed(1)})</div>
       <div>Scale: {state.currentPosition.scale.toFixed(2)}</div>
       <div>Layout: {state.layout}</div>
       <div>Transitioning: {isTransitioning ? 'Yes' : 'No'}</div>
-      <div>Renders: {renderCount}</div>
-      <div>FPS: {performance?.canvasRenderFPS || 'N/A'}</div>
       <div>Active Section: {state.activeSection}</div>
+
+      {/* Performance Metrics */}
+      <div className="text-athletic-court-orange font-semibold mt-3 mb-1">PERFORMANCE</div>
+      <div>FPS: <span className={performanceMetrics.fps < 45 ? 'text-red-400' : performanceMetrics.fps < 55 ? 'text-yellow-400' : 'text-green-400'}>{performanceMetrics.fps}</span></div>
+      <div>Frame Time: {performanceMetrics.frameTime.toFixed(1)}ms</div>
+      <div>Memory: {performanceMetrics.memoryMB.toFixed(1)}MB</div>
+      <div>Quality: <span className={
+        currentQuality === 'highest' ? 'text-green-400' :
+        currentQuality === 'high' ? 'text-blue-400' :
+        currentQuality === 'medium' ? 'text-yellow-400' :
+        currentQuality === 'low' ? 'text-orange-400' : 'text-red-400'
+      }>{currentQuality.toUpperCase()}</span></div>
+      <div>Renders: {renderCount}</div>
+
+      {/* Advanced Debug Info */}
+      {performanceMonitorRef.current && (
+        <>
+          <div className="text-athletic-court-orange font-semibold mt-3 mb-1">ADVANCED</div>
+          <div>Optimized: {performanceMonitorRef.current.getMetrics().activeOperations > 0 ? 'Yes' : 'No'}</div>
+          <div>GPU Util: {performanceMonitorRef.current.getMetrics().gpuUtilization.toFixed(1)}%</div>
+          <div>Operations: {performanceMonitorRef.current.getMetrics().activeOperations}</div>
+        </>
+      )}
+
+      {/* Quality Manager Info */}
+      {qualityManagerRef.current && (
+        <div className="mt-2 text-athletic-neutral-400 text-[10px]">
+          {qualityManagerRef.current.getCurrentConfig().enableBlur ? '🔀' : ''}
+          {qualityManagerRef.current.getCurrentConfig().useGPUAcceleration ? '⚡' : ''}
+          {qualityManagerRef.current.getCurrentConfig().enableBoundsOptimization ? '📐' : ''}
+          {qualityManagerRef.current.getCurrentConfig().cullOffScreenElements ? '👁️' : ''}
+        </div>
+      )}
     </div>
   ) : null;
 
@@ -377,6 +642,33 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
 
       {/* Debug overlay */}
       {debugInfo}
+
+      {/* Touch feedback indicator */}
+      {touchFeedback && (
+        <div
+          className={`absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-50 transition-opacity duration-200 ${
+            isActiveTouch ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{
+            left: `${touchFeedback.x}px`,
+            top: `${touchFeedback.y}px`
+          }}
+        >
+          {touchFeedback.type === 'zoom' ? (
+            <div className="w-16 h-16 rounded-full border-2 border-blue-400/60 bg-blue-400/10 backdrop-blur-sm flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-blue-400">
+                <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="m21 21-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 8v6m3-3H7"/>
+              </svg>
+            </div>
+          ) : (
+            <div className="w-12 h-12 rounded-full border-2 border-green-400/60 bg-green-400/10 backdrop-blur-sm flex items-center justify-center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-green-400">
+                <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/>
+              </svg>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Performance indicator */}
       {performanceMode === 'high' && (
@@ -427,10 +719,36 @@ export const LightboxCanvasStyles = `
     perspective: 1000px;
   }
 
+  /* Touch gesture optimizations */
+  .lightbox-canvas {
+    /* Prevent default touch behaviors */
+    -webkit-touch-callout: none;
+    -webkit-user-drag: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Touch feedback animations */
+  .touch-feedback {
+    animation: touchPulse 0.3s ease-out;
+  }
+
+  @keyframes touchPulse {
+    0% { transform: scale(0.8); opacity: 0; }
+    50% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1.0); opacity: 0.8; }
+  }
+
   /* Mobile optimizations */
   @media (max-width: 768px) {
     .lightbox-canvas {
       -webkit-overflow-scrolling: touch;
+    }
+
+    /* Ensure minimum touch targets */
+    .lightbox-canvas [role="button"],
+    .lightbox-canvas button {
+      min-width: 44px;
+      min-height: 44px;
     }
   }
 `;
