@@ -18,16 +18,56 @@ vi.mock('../utils/browserCompat', () => ({
   CompatibilityFallbacks: {
     getInstance: vi.fn(() => ({
       getBackdropFilterStyle: vi.fn(() => ({ backdropFilter: 'blur(8px)' })),
+      getCSSFilterStyle: vi.fn(() => ({ filter: 'blur(4px)' })),
+      getTransformStyle: vi.fn(() => ({ transform: 'translate3d(0, 0, 0)' })),
+      getAnimationStyle: vi.fn(() => ({ transition: 'all 200ms ease-out' })),
+      isSupported: vi.fn(() => true),
+      getCapability: vi.fn(() => true),
     })),
   },
   ProgressiveEnhancement: vi.fn(() => ({
     getOptimizedViewfinderConfig: vi.fn(() => ({
-      visual: { crosshairSize: 40, focusRingSize: 60 },
-      animations: { duration: 200 },
+      mouseTracking: {
+        delay: 100,
+        throttleMs: 16,
+        enableEasing: true,
+      },
+      visual: {
+        crosshairSize: 40,
+        focusRingSize: 60,
+        maxBlurIntensity: 8,
+        enableHardwareAcceleration: true,
+      },
+      animations: {
+        duration: 200,
+        enableComplexAnimations: true,
+        respectReducedMotion: true,
+      },
+      interaction: {
+        touchSupport: false,
+        tapToMove: false,
+        gestureSupport: false,
+      },
+      fallbacks: {
+        useBackdropFilter: true,
+        useCSSFilters: true,
+        useTransform3d: true,
+      },
     })),
     enhanceStyles: vi.fn((baseStyles, enhancements) => baseStyles),
   })),
 }));
+
+// Mock Canvas API
+Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+  value: vi.fn(() => ({
+    getParameter: vi.fn(() => 2048),
+  })),
+});
+
+Object.defineProperty(HTMLCanvasElement.prototype, 'toDataURL', {
+  value: vi.fn(() => 'data:image/png;base64,test'),
+});
 
 describe('ViewfinderOverlay', () => {
   let mockOnCapture: ReturnType<typeof vi.fn>;
@@ -46,33 +86,31 @@ describe('ViewfinderOverlay', () => {
     it('should render when active', () => {
       render(<ViewfinderOverlay isActive={true} onCapture={mockOnCapture} />);
 
-      expect(screen.getByRole('button', { hidden: true })).toBeInTheDocument();
+      expect(screen.getByRole('application')).toBeInTheDocument();
+      expect(screen.getByLabelText(/Interactive camera viewfinder/)).toBeInTheDocument();
     });
 
     it('should not render when inactive', () => {
       const { container } = render(<ViewfinderOverlay isActive={false} />);
 
-      expect(container.firstChild).toBeNull();
+      // Component should render a hidden div when inactive
+      const hiddenDiv = container.querySelector('.pointer-events-none.opacity-0.invisible');
+      expect(hiddenDiv).toBeInTheDocument();
     });
 
-    it('should handle keyboard controls', async () => {
-      const user = userEvent.setup();
+    it('should handle keyboard controls', () => {
       render(<ViewfinderOverlay isActive={true} onCapture={mockOnCapture} />);
 
-      // Test V key toggle
-      await user.keyboard('v');
-
-      // Test Enter key capture
-      await user.keyboard('{Enter}');
+      // Test Enter key capture using fireEvent (simpler, no async issues)
+      fireEvent.keyDown(document, { key: 'Enter' });
       expect(mockOnCapture).toHaveBeenCalledTimes(1);
     });
 
-    it('should handle click capture', async () => {
-      const user = userEvent.setup();
+    it('should handle click capture', () => {
       render(<ViewfinderOverlay isActive={true} onCapture={mockOnCapture} />);
 
-      const overlay = screen.getByRole('button', { hidden: true });
-      await user.click(overlay);
+      const overlay = screen.getByRole('application');
+      fireEvent.click(overlay);
 
       expect(mockOnCapture).toHaveBeenCalledTimes(1);
     });

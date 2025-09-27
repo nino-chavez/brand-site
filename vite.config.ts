@@ -17,25 +17,43 @@ export default defineConfig(({ mode }) => {
           output: {
             // Dynamic chunking based on patterns - more maintainable than hardcoded paths
             manualChunks(id: string) {
-              // Vendor libraries
+              // Split vendor dependencies more granularly for better caching
               if (id.includes('node_modules')) {
-                if (id.includes('react') || id.includes('react-dom')) {
-                  return 'vendor';
+                // React core (largest dependency)
+                if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
+                  return 'react-vendor';
                 }
+                // Other smaller vendor dependencies
                 return 'vendor';
+              }
+
+              // Hero viewfinder components (largest feature)
+              if (id.includes('components/') &&
+                  (id.includes('Viewfinder') || id.includes('ViewfinderOverlay') ||
+                   id.includes('HeroSection') || id.includes('BlurContainer') ||
+                   id.includes('viewfinder/') || id.includes('CrosshairSystem'))) {
+                return 'hero-viewfinder';
               }
 
               // Volleyball/sports components based on naming patterns
               if (id.includes('components/') &&
                   (id.includes('Volleyball') || id.includes('Sports') ||
-                   id.includes('Timing') || id.includes('Court'))) {
-                return 'volleyball';
+                   id.includes('Timing') || id.includes('Court') ||
+                   id.includes('Interactive') || id.includes('Sequence'))) {
+                return 'sports';
+              }
+
+              // Large viewport components
+              if (id.includes('components/') &&
+                  (id.includes('LeftViewport') || id.includes('RightViewport') ||
+                   id.includes('InteractivePauseSystem') || id.includes('SportsSequenceController'))) {
+                return 'viewports';
               }
 
               // UI framework components
               if (id.includes('components/') &&
-                  (id.includes('Navigation') || id.includes('Viewport') ||
-                   id.includes('Controls') || id.includes('HUD'))) {
+                  (id.includes('Navigation') || id.includes('Controls') ||
+                   id.includes('HUD') || id.includes('sections/'))) {
                 return 'ui';
               }
 
@@ -49,8 +67,13 @@ export default defineConfig(({ mode }) => {
         terserOptions: {
           compress: {
             drop_console: mode === 'production',
-            drop_debugger: mode === 'production'
-          }
+            drop_debugger: mode === 'production',
+            pure_funcs: mode === 'production' ? ['console.log', 'console.info'] : [],
+            passes: 3,
+          },
+          mangle: {
+            safari10: true,
+          },
         },
         // Chunk size warnings
         chunkSizeWarningLimit: 600,

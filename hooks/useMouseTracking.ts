@@ -36,7 +36,7 @@ interface UseMouseTrackingProps {
  * Custom hook for managing mouse tracking and hover states with advanced features
  */
 export const useMouseTracking = ({
-  initialPosition = { x: 0, y: 0 },
+  initialPosition = { x: -100, y: -100 },
   trackPosition = true,
   trackHover = true,
   onHoverChange,
