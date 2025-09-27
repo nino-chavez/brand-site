@@ -23,6 +23,33 @@ const getInitialState = (): UnifiedGameFlowState => ({
   scrollProgress: 0,
   transitionState: 'idle',
 
+  // Canvas state initialization (2D spatial navigation)
+  canvas: {
+    currentPosition: { x: 0, y: 0, scale: 1.0 },
+    targetPosition: null,
+    activeSection: 'capture',
+    previousSection: null,
+    layout: '3x2',
+    camera: {
+      activeMovement: null,
+      movementStartTime: null,
+      progress: 0
+    },
+    interaction: {
+      isPanning: false,
+      isZooming: false,
+      touchState: {
+        initialDistance: null,
+        initialPosition: null
+      }
+    },
+    accessibility: {
+      keyboardSpatialNav: false,
+      spatialFocus: null,
+      reducedMotion: false
+    }
+  },
+
   viewfinder: {
     isActive: false,
     isCapturing: false,
@@ -68,7 +95,7 @@ const getInitialState = (): UnifiedGameFlowState => ({
     metrics: {
       frameRate: 60,
       loadTime: 0,
-      interactionLatency: 0,
+      memoryUsage: 0,
       coreWebVitals: {
         lcp: 0,
         fid: 0,
@@ -103,16 +130,27 @@ const getInitialState = (): UnifiedGameFlowState => ({
         memoryLeakDetected: false,
         sessionStartTime: 0
       }
+    },
+    // Canvas-specific performance tracking
+    canvas: {
+      canvasRenderFPS: 60,
+      averageMovementTime: 600,
+      transformOverhead: 2,
+      canvasMemoryMB: 5,
+      gpuUtilization: 15,
+      activeOperations: 0,
+      canvasTransitions: [],
+      isOptimized: false
     }
   },
 
   camera: {
-    focusTarget: 'auto',
+    focusTarget: null,
     exposure: {
-      mode: 'auto',
-      iso: 400,
+      aperture: 2.8,
       shutterSpeed: 125,
-      aperture: 2.8
+      iso: 400,
+      exposureCompensation: 0
     },
     lastInteraction: null,
     interactionHistory: []
@@ -154,6 +192,21 @@ type UnifiedGameFlowAction =
   | { type: 'CAMERA_INTERACTION'; payload: { type: CameraInteractionType; data?: any } }
   | { type: 'CAMERA_ADJUST_FOCUS'; payload: FocusTarget }
   | { type: 'CAMERA_ADJUST_EXPOSURE'; payload: Partial<ExposureSettings> }
+  // Canvas actions
+  | { type: 'CANVAS_UPDATE_POSITION'; payload: { x: number; y: number; scale: number } }
+  | { type: 'CANVAS_SET_ACTIVE_SECTION'; payload: GameFlowSection }
+  | { type: 'CANVAS_SET_TARGET_POSITION'; payload: { x: number; y: number; scale: number } | null }
+  | { type: 'CANVAS_EXECUTE_CAMERA_MOVEMENT'; payload: { movement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut'; startTime: number; progress: number } }
+  | { type: 'CANVAS_SET_PANNING'; payload: boolean }
+  | { type: 'CANVAS_SET_ZOOMING'; payload: boolean }
+  | { type: 'CANVAS_UPDATE_TOUCH_STATE'; payload: { initialDistance: number | null; initialPosition: { x: number; y: number; scale: number } | null } }
+  | { type: 'CANVAS_SET_KEYBOARD_SPATIAL_NAV'; payload: boolean }
+  | { type: 'CANVAS_SET_SPATIAL_FOCUS'; payload: GameFlowSection | null }
+  | { type: 'CANVAS_SET_REDUCED_MOTION'; payload: boolean }
+  | { type: 'CANVAS_SET_LAYOUT'; payload: '2x3' | '3x2' | '1x6' | 'circular' }
+  | { type: 'CANVAS_TRACK_TRANSITION'; payload: { from: { x: number; y: number; scale: number }; to: { x: number; y: number; scale: number }; movement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut'; duration: number; success: boolean } }
+  | { type: 'CANVAS_UPDATE_PERFORMANCE'; payload: Partial<{ canvasRenderFPS: number; averageMovementTime: number; transformOverhead: number; canvasMemoryMB: number; gpuUtilization: number; activeOperations: number }> }
+  | { type: 'CANVAS_OPTIMIZE_PERFORMANCE' }
   | { type: 'ADD_ERROR'; payload: any }
   | { type: 'CLEAR_ERRORS' };
 
@@ -443,6 +496,173 @@ const unifiedGameFlowReducer = (state: UnifiedGameFlowState, action: UnifiedGame
         }
       };
 
+    // Canvas action cases
+    case 'CANVAS_UPDATE_POSITION':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          currentPosition: action.payload
+        }
+      };
+
+    case 'CANVAS_SET_ACTIVE_SECTION':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          previousSection: state.canvas.activeSection,
+          activeSection: action.payload
+        }
+      };
+
+    case 'CANVAS_SET_TARGET_POSITION':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          targetPosition: action.payload
+        }
+      };
+
+    case 'CANVAS_EXECUTE_CAMERA_MOVEMENT':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          camera: {
+            activeMovement: action.payload.movement,
+            movementStartTime: action.payload.startTime,
+            progress: action.payload.progress
+          }
+        }
+      };
+
+    case 'CANVAS_SET_PANNING':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          interaction: {
+            ...state.canvas.interaction,
+            isPanning: action.payload
+          }
+        }
+      };
+
+    case 'CANVAS_SET_ZOOMING':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          interaction: {
+            ...state.canvas.interaction,
+            isZooming: action.payload
+          }
+        }
+      };
+
+    case 'CANVAS_UPDATE_TOUCH_STATE':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          interaction: {
+            ...state.canvas.interaction,
+            touchState: action.payload
+          }
+        }
+      };
+
+    case 'CANVAS_SET_KEYBOARD_SPATIAL_NAV':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          accessibility: {
+            ...state.canvas.accessibility,
+            keyboardSpatialNav: action.payload
+          }
+        }
+      };
+
+    case 'CANVAS_SET_SPATIAL_FOCUS':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          accessibility: {
+            ...state.canvas.accessibility,
+            spatialFocus: action.payload
+          }
+        }
+      };
+
+    case 'CANVAS_SET_REDUCED_MOTION':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          accessibility: {
+            ...state.canvas.accessibility,
+            reducedMotion: action.payload
+          }
+        }
+      };
+
+    case 'CANVAS_SET_LAYOUT':
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          layout: action.payload
+        }
+      };
+
+    case 'CANVAS_TRACK_TRANSITION':
+      return {
+        ...state,
+        performance: {
+          ...state.performance,
+          canvas: {
+            ...state.performance.canvas,
+            canvasTransitions: [
+              ...state.performance.canvas.canvasTransitions,
+              {
+                ...action.payload,
+                timestamp: getTimestamp()
+              }
+            ],
+            averageMovementTime: (state.performance.canvas.averageMovementTime + action.payload.duration) / 2
+          }
+        }
+      };
+
+    case 'CANVAS_UPDATE_PERFORMANCE':
+      return {
+        ...state,
+        performance: {
+          ...state.performance,
+          canvas: {
+            ...state.performance.canvas,
+            ...action.payload
+          }
+        }
+      };
+
+    case 'CANVAS_OPTIMIZE_PERFORMANCE':
+      return {
+        ...state,
+        performance: {
+          ...state.performance,
+          canvas: {
+            ...state.performance.canvas,
+            isOptimized: true,
+            activeOperations: Math.max(0, state.performance.canvas.activeOperations - 1)
+          }
+        }
+      };
+
     default:
       return state;
   }
@@ -614,6 +834,19 @@ export const UnifiedGameFlowProvider: React.FC<UnifiedGameFlowProviderProps> = (
 
       resetCursorStats: () => {
         dispatch({ type: 'CURSOR_RESET_STATS' });
+      },
+
+      // Canvas-specific performance actions
+      trackCanvasTransition: (from: { x: number; y: number; scale: number }, to: { x: number; y: number; scale: number }, movement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut', duration: number, success: boolean) => {
+        dispatch({ type: 'CANVAS_TRACK_TRANSITION', payload: { from, to, movement, duration, success } });
+      },
+
+      updateCanvasMetrics: (metrics: Partial<{ canvasRenderFPS: number; averageMovementTime: number; transformOverhead: number; canvasMemoryMB: number; gpuUtilization: number; activeOperations: number }>) => {
+        dispatch({ type: 'CANVAS_UPDATE_PERFORMANCE', payload: metrics });
+      },
+
+      optimizeCanvasPerformance: () => {
+        dispatch({ type: 'CANVAS_OPTIMIZE_PERFORMANCE' });
       }
     },
 
@@ -629,6 +862,53 @@ export const UnifiedGameFlowProvider: React.FC<UnifiedGameFlowProviderProps> = (
 
       adjustExposure: (settings: Partial<ExposureSettings>) => {
         dispatch({ type: 'CAMERA_ADJUST_EXPOSURE', payload: settings });
+      }
+    },
+
+    // Canvas Actions (2D spatial navigation)
+    canvas: {
+      updateCanvasPosition: (position: { x: number; y: number; scale: number }) => {
+        dispatch({ type: 'CANVAS_UPDATE_POSITION', payload: position });
+      },
+
+      setActiveSection: (section: GameFlowSection) => {
+        dispatch({ type: 'CANVAS_SET_ACTIVE_SECTION', payload: section });
+      },
+
+      setTargetPosition: (position: { x: number; y: number; scale: number } | null) => {
+        dispatch({ type: 'CANVAS_SET_TARGET_POSITION', payload: position });
+      },
+
+      executeCameraMovement: (movement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut', startTime: number, progress: number) => {
+        dispatch({ type: 'CANVAS_EXECUTE_CAMERA_MOVEMENT', payload: { movement, startTime, progress } });
+      },
+
+      setPanningState: (isPanning: boolean) => {
+        dispatch({ type: 'CANVAS_SET_PANNING', payload: isPanning });
+      },
+
+      setZoomingState: (isZooming: boolean) => {
+        dispatch({ type: 'CANVAS_SET_ZOOMING', payload: isZooming });
+      },
+
+      updateTouchState: (touchState: { initialDistance: number | null; initialPosition: { x: number; y: number; scale: number } | null }) => {
+        dispatch({ type: 'CANVAS_UPDATE_TOUCH_STATE', payload: touchState });
+      },
+
+      setKeyboardSpatialNav: (active: boolean) => {
+        dispatch({ type: 'CANVAS_SET_KEYBOARD_SPATIAL_NAV', payload: active });
+      },
+
+      setSpatialFocus: (section: GameFlowSection | null) => {
+        dispatch({ type: 'CANVAS_SET_SPATIAL_FOCUS', payload: section });
+      },
+
+      setReducedMotion: (enabled: boolean) => {
+        dispatch({ type: 'CANVAS_SET_REDUCED_MOTION', payload: enabled });
+      },
+
+      setLayout: (layout: '2x3' | '3x2' | '1x6' | 'circular') => {
+        dispatch({ type: 'CANVAS_SET_LAYOUT', payload: layout });
       }
     },
 
@@ -734,5 +1014,14 @@ export const useUnifiedCamera = () => {
   return {
     state: state.camera,
     actions: actions.camera
+  };
+};
+
+export const useUnifiedCanvas = () => {
+  const { state, actions } = useUnifiedGameFlow();
+  return {
+    state: state.canvas,
+    actions: actions.canvas,
+    performance: state.performance.canvas
   };
 };

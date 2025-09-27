@@ -20,6 +20,58 @@ export interface UnifiedGameFlowState {
   scrollProgress: number;
   transitionState: 'idle' | 'transitioning';
 
+  // Canvas State (2D spatial navigation)
+  canvas: {
+    /** Current canvas viewport position and scale */
+    currentPosition: {
+      x: number;
+      y: number;
+      scale: number;
+    };
+    /** Target position for ongoing transitions */
+    targetPosition: {
+      x: number;
+      y: number;
+      scale: number;
+    } | null;
+    /** Currently active/focused section in spatial layout */
+    activeSection: GameFlowSection;
+    /** Previous section for transition tracking */
+    previousSection: GameFlowSection | null;
+    /** Current spatial layout configuration */
+    layout: '2x3' | '3x2' | '1x6' | 'circular';
+    /** Camera movement state */
+    camera: {
+      /** Currently executing movement */
+      activeMovement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut' | null;
+      /** Movement start timestamp */
+      movementStartTime: number | null;
+      /** Movement progress (0-1) */
+      progress: number;
+    };
+    /** Canvas interaction state */
+    interaction: {
+      /** Whether canvas is being panned via touch/drag */
+      isPanning: boolean;
+      /** Whether canvas is being zoomed */
+      isZooming: boolean;
+      /** Touch/gesture state for mobile */
+      touchState: {
+        initialDistance: number | null;
+        initialPosition: { x: number; y: number; scale: number } | null;
+      };
+    };
+    /** Accessibility state for spatial navigation */
+    accessibility: {
+      /** Whether keyboard spatial navigation is active */
+      keyboardSpatialNav: boolean;
+      /** Current spatial focus for screen readers */
+      spatialFocus: GameFlowSection | null;
+      /** Whether reduced motion is preferred */
+      reducedMotion: boolean;
+    };
+  };
+
   // Viewfinder Sub-State (consolidated from separate context)
   viewfinder: {
     isActive: boolean;
@@ -76,6 +128,32 @@ export interface UnifiedGameFlowState {
         memoryLeakDetected: boolean;
         sessionStartTime: number;
       };
+    };
+    // Canvas-specific performance tracking
+    canvas: {
+      /** Canvas rendering frame rate */
+      canvasRenderFPS: number;
+      /** Average camera movement completion time */
+      averageMovementTime: number;
+      /** Transform operation overhead */
+      transformOverhead: number;
+      /** Canvas memory usage in MB */
+      canvasMemoryMB: number;
+      /** GPU utilization percentage */
+      gpuUtilization: number;
+      /** Number of simultaneous canvas operations */
+      activeOperations: number;
+      /** Canvas transition history */
+      canvasTransitions: Array<{
+        from: { x: number; y: number; scale: number };
+        to: { x: number; y: number; scale: number };
+        movement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut';
+        timestamp: number;
+        duration: number;
+        success: boolean;
+      }>;
+      /** Performance optimization state */
+      isOptimized: boolean;
     };
   };
 
@@ -141,6 +219,10 @@ export interface UnifiedGameFlowActions {
     updateMetrics: (metrics: Partial<CursorPerformanceMetrics>) => void;
     trackActivation: (method: ActivationMethod, latency: number, success: boolean) => void;
     resetCursorStats: () => void;
+    // Canvas-specific performance actions
+    trackCanvasTransition: (from: { x: number; y: number; scale: number }, to: { x: number; y: number; scale: number }, movement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut', duration: number, success: boolean) => void;
+    updateCanvasMetrics: (metrics: Partial<{ canvasRenderFPS: number; averageMovementTime: number; transformOverhead: number; canvasMemoryMB: number; gpuUtilization: number; activeOperations: number }>) => void;
+    optimizeCanvasPerformance: () => void;
   };
 
   // Camera Actions (consolidated)
@@ -148,6 +230,28 @@ export interface UnifiedGameFlowActions {
     triggerInteraction: (type: CameraInteractionType, data?: any) => void;
     adjustFocus: (target: FocusTarget) => void;
     adjustExposure: (settings: Partial<ExposureSettings>) => void;
+  };
+
+  // Canvas Actions (2D spatial navigation)
+  canvas: {
+    /** Navigate to specific canvas position */
+    updateCanvasPosition: (position: { x: number; y: number; scale: number }) => void;
+    /** Navigate to section with spatial awareness */
+    setActiveSection: (section: GameFlowSection) => void;
+    /** Set target position for transitions */
+    setTargetPosition: (position: { x: number; y: number; scale: number } | null) => void;
+    /** Execute specific camera movement */
+    executeCameraMovement: (movement: 'pan-tilt' | 'zoom-in' | 'zoom-out' | 'dolly-zoom' | 'rack-focus' | 'match-cut', startTime: number, progress: number) => void;
+    /** Handle touch/gesture interactions */
+    setPanningState: (isPanning: boolean) => void;
+    setZoomingState: (isZooming: boolean) => void;
+    updateTouchState: (touchState: { initialDistance: number | null; initialPosition: { x: number; y: number; scale: number } | null }) => void;
+    /** Spatial accessibility actions */
+    setKeyboardSpatialNav: (active: boolean) => void;
+    setSpatialFocus: (section: GameFlowSection | null) => void;
+    setReducedMotion: (enabled: boolean) => void;
+    /** Layout management */
+    setLayout: (layout: '2x3' | '3x2' | '1x6' | 'circular') => void;
   };
 
   // Accessibility Actions
