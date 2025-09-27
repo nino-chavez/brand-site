@@ -11,7 +11,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import Stats from 'stats.js';
-import { useUnifiedCursorPerformance } from '../contexts/UnifiedGameFlowContext';
+import { useUnifiedPerformance } from '../contexts/UnifiedGameFlowContext';
 import type { CursorTrackingHook, CursorPosition } from '../types/cursor-lens';
 
 // Performance thresholds for 60fps targeting
@@ -45,7 +45,7 @@ export const useCursorTracking = (): CursorTrackingHook => {
   const [isTracking, setIsTracking] = useState(false);
 
   // Performance monitoring integration
-  const { actions: performanceActions } = useUnifiedCursorPerformance();
+  const { actions: performanceActions } = useUnifiedPerformance();
 
   // Refs for RAF and performance tracking
   const rafIdRef = useRef<number | null>(null);

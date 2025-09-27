@@ -10,7 +10,7 @@
  */
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { useUnifiedCursorPerformance } from '../contexts/UnifiedGameFlowContext';
+import { useUnifiedPerformance } from '../contexts/UnifiedGameFlowContext';
 import type { LensActivationHook, ActivationMethod, GestureEventHandlers } from '../types/cursor-lens';
 
 // Activation timing constants (matching acceptance criteria)
@@ -51,7 +51,7 @@ export const useLensActivation = (): LensActivationHook => {
   const [activationProgress, setActivationProgress] = useState(0);
 
   // Performance monitoring integration
-  const { actions: performanceActions } = useUnifiedCursorPerformance();
+  const { actions: performanceActions } = useUnifiedPerformance();
 
   // Refs for timing and gesture tracking
   const clickStartTimeRef = useRef<number>(0);

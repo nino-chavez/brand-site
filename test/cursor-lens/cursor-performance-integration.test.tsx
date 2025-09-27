@@ -11,7 +11,7 @@ import React from 'react';
 import {
   UnifiedGameFlowProvider,
   useUnifiedGameFlow,
-  useUnifiedCursorPerformance
+  useUnifiedPerformance
 } from '../../contexts/UnifiedGameFlowContext';
 import type { ActivationMethod, CursorPerformanceMetrics } from '../../types/cursor-lens';
 
@@ -32,7 +32,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should initialize cursor performance state correctly', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -60,7 +60,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should start and stop cursor tracking', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -81,7 +81,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should update cursor performance metrics', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -102,7 +102,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should track activation events correctly', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -127,7 +127,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should calculate average latency correctly with multiple activations', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -146,7 +146,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should detect performance degradation correctly', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -185,7 +185,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should apply performance optimization correctly', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -205,7 +205,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should report frame drops correctly', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -223,7 +223,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should check for memory leaks correctly', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -251,7 +251,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should get optimized update intervals based on degradation level', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -278,7 +278,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should determine when to degrade quality correctly', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
@@ -300,7 +300,7 @@ describe('Cursor Performance Integration', () => {
   });
 
   it('should reset session stats correctly', () => {
-    const { result } = renderHook(() => useUnifiedCursorPerformance(), {
+    const { result } = renderHook(() => useUnifiedPerformance(), {
       wrapper: TestWrapper
     });
 
