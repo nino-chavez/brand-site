@@ -81,7 +81,29 @@ const getInitialState = (): UnifiedGameFlowState => ({
     averageFrameTime: 16.67,
     droppedFrames: 0,
     sectionTransitions: [],
-    customMetrics: {}
+    customMetrics: {},
+    // Cursor-specific performance tracking (for cursor-lens integration)
+    cursor: {
+      isTracking: false,
+      metrics: {
+        cursorTrackingFPS: 60,
+        averageResponseTime: 8,
+        memoryUsage: 0,
+        activationLatency: 50,
+        menuRenderTime: 8,
+        sessionDuration: 0
+      },
+      degradationLevel: 'none',
+      optimizationApplied: false,
+      activationHistory: [],
+      sessionStats: {
+        totalActivations: 0,
+        averageLatency: 0,
+        frameDropEvents: 0,
+        memoryLeakDetected: false,
+        sessionStartTime: 0
+      }
+    }
   },
 
   camera: {
@@ -123,6 +145,12 @@ type UnifiedGameFlowAction =
   | { type: 'PERFORMANCE_TRACK_METRIC'; payload: { name: string; value: number } }
   | { type: 'PERFORMANCE_UPDATE_FPS'; payload: number }
   | { type: 'PERFORMANCE_SET_DEGRADED'; payload: boolean }
+  // Cursor performance actions (missing methods causing test failures)
+  | { type: 'CURSOR_START_TRACKING' }
+  | { type: 'CURSOR_STOP_TRACKING' }
+  | { type: 'CURSOR_UPDATE_METRICS'; payload: Partial<import('../types/cursor-lens').CursorPerformanceMetrics> }
+  | { type: 'CURSOR_TRACK_ACTIVATION'; payload: { method: import('../types/cursor-lens').ActivationMethod; latency: number; success: boolean } }
+  | { type: 'CURSOR_RESET_STATS' }
   | { type: 'CAMERA_INTERACTION'; payload: { type: CameraInteractionType; data?: any } }
   | { type: 'CAMERA_ADJUST_FOCUS'; payload: FocusTarget }
   | { type: 'CAMERA_ADJUST_EXPOSURE'; payload: Partial<ExposureSettings> }
@@ -322,6 +350,99 @@ const unifiedGameFlowReducer = (state: UnifiedGameFlowState, action: UnifiedGame
         errors: []
       };
 
+    // Cursor performance actions (missing methods causing test failures)
+    case 'CURSOR_START_TRACKING':
+      return {
+        ...state,
+        performance: {
+          ...state.performance,
+          cursor: {
+            ...state.performance.cursor,
+            isTracking: true,
+            sessionStats: {
+              ...state.performance.cursor.sessionStats,
+              sessionStartTime: getTimestamp()
+            }
+          }
+        }
+      };
+
+    case 'CURSOR_STOP_TRACKING':
+      return {
+        ...state,
+        performance: {
+          ...state.performance,
+          cursor: {
+            ...state.performance.cursor,
+            isTracking: false
+          }
+        }
+      };
+
+    case 'CURSOR_UPDATE_METRICS':
+      return {
+        ...state,
+        performance: {
+          ...state.performance,
+          cursor: {
+            ...state.performance.cursor,
+            metrics: {
+              ...state.performance.cursor.metrics,
+              ...action.payload
+            }
+          }
+        }
+      };
+
+    case 'CURSOR_TRACK_ACTIVATION':
+      const { method, latency, success } = action.payload;
+      const newHistory = [
+        ...state.performance.cursor.activationHistory,
+        {
+          method,
+          latency,
+          success,
+          timestamp: getTimestamp()
+        }
+      ];
+      const totalActivations = state.performance.cursor.sessionStats.totalActivations + 1;
+      const averageLatency = (state.performance.cursor.sessionStats.averageLatency * (totalActivations - 1) + latency) / totalActivations;
+
+      return {
+        ...state,
+        performance: {
+          ...state.performance,
+          cursor: {
+            ...state.performance.cursor,
+            activationHistory: newHistory,
+            sessionStats: {
+              ...state.performance.cursor.sessionStats,
+              totalActivations,
+              averageLatency
+            }
+          }
+        }
+      };
+
+    case 'CURSOR_RESET_STATS':
+      return {
+        ...state,
+        performance: {
+          ...state.performance,
+          cursor: {
+            ...state.performance.cursor,
+            activationHistory: [],
+            sessionStats: {
+              totalActivations: 0,
+              averageLatency: 0,
+              frameDropEvents: 0,
+              memoryLeakDetected: false,
+              sessionStartTime: 0
+            }
+          }
+        }
+      };
+
     default:
       return state;
   }
@@ -472,6 +593,27 @@ export const UnifiedGameFlowProvider: React.FC<UnifiedGameFlowProviderProps> = (
         if (debugMode) {
           console.log('Performance Metrics:', state.performance);
         }
+      },
+
+      // Cursor-specific performance actions (missing methods causing test failures)
+      startTracking: () => {
+        dispatch({ type: 'CURSOR_START_TRACKING' });
+      },
+
+      stopTracking: () => {
+        dispatch({ type: 'CURSOR_STOP_TRACKING' });
+      },
+
+      updateMetrics: (metrics: Partial<import('../types/cursor-lens').CursorPerformanceMetrics>) => {
+        dispatch({ type: 'CURSOR_UPDATE_METRICS', payload: metrics });
+      },
+
+      trackActivation: (method: import('../types/cursor-lens').ActivationMethod, latency: number, success: boolean) => {
+        dispatch({ type: 'CURSOR_TRACK_ACTIVATION', payload: { method, latency, success } });
+      },
+
+      resetCursorStats: () => {
+        dispatch({ type: 'CURSOR_RESET_STATS' });
       }
     },
 
@@ -582,7 +724,7 @@ export const useUnifiedViewfinder = () => {
 export const useUnifiedPerformance = () => {
   const { state, actions } = useUnifiedGameFlow();
   return {
-    state: state.performance,
+    state: state.performance.cursor, // Return cursor performance state for cursor-lens integration
     actions: actions.performance
   };
 };

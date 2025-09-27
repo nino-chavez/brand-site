@@ -10,6 +10,7 @@ import type {
   PerformanceMetrics
 } from './index';
 import type { MousePosition, ViewfinderMetadata } from './viewfinder';
+import type { CursorPerformanceMetrics, ActivationMethod } from './cursor-lens';
 
 // Unified State Structure
 export interface UnifiedGameFlowState {
@@ -56,6 +57,26 @@ export interface UnifiedGameFlowState {
       duration?: number;
     }>;
     customMetrics: Record<string, number>;
+    // Cursor-specific performance tracking (for cursor-lens integration)
+    cursor: {
+      isTracking: boolean;
+      metrics: CursorPerformanceMetrics;
+      degradationLevel: 'none' | 'low' | 'medium' | 'high';
+      optimizationApplied: boolean;
+      activationHistory: Array<{
+        method: ActivationMethod;
+        latency: number;
+        success: boolean;
+        timestamp: number;
+      }>;
+      sessionStats: {
+        totalActivations: number;
+        averageLatency: number;
+        frameDropEvents: number;
+        memoryLeakDetected: boolean;
+        sessionStartTime: number;
+      };
+    };
   };
 
   // Unified Camera System
@@ -106,15 +127,20 @@ export interface UnifiedGameFlowActions {
 
   // Performance Actions (consolidated + ADDS MISSING METHODS!)
   performance: {
-    // These were missing and causing the errors!
+    // General performance tracking
     trackSectionTransition: (from: GameFlowSection, to: GameFlowSection, timestamp: number) => void;
     trackCustomMetric: (name: string, value: number) => void;
-    // Existing methods
     measurePerformance: () => void;
     optimizePerformance: () => void;
     degradePerformance: () => void;
     restorePerformance: () => void;
     reportMetrics: () => void;
+    // Cursor-specific performance actions (missing methods causing test failures)
+    startTracking: () => void;
+    stopTracking: () => void;
+    updateMetrics: (metrics: Partial<CursorPerformanceMetrics>) => void;
+    trackActivation: (method: ActivationMethod, latency: number, success: boolean) => void;
+    resetCursorStats: () => void;
   };
 
   // Camera Actions (consolidated)

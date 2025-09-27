@@ -37,6 +37,7 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
 }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [screenReaderAnnouncement, setScreenReaderAnnouncement] = useState('');
 
   // Access athletic design tokens
   const athleticColors = useAthleticColors();
@@ -59,7 +60,9 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
   useEffect(() => {
     if (isActive) {
       setIsVisible(true);
+      setScreenReaderAnnouncement('Viewfinder activated. Use mouse to aim, Enter to capture, V to toggle.');
     } else {
+      setScreenReaderAnnouncement('Viewfinder deactivated.');
       // Add fade out delay before hiding
       const timer = setTimeout(() => setIsVisible(false), 300);
       return () => clearTimeout(timer);
@@ -79,10 +82,17 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === 'v') {
         e.preventDefault();
-        setIsVisible(!isVisible);
+        const newVisible = !isVisible;
+        setIsVisible(newVisible);
+        setScreenReaderAnnouncement(newVisible ? 'Viewfinder visible' : 'Viewfinder hidden');
       } else if (e.key === 'Enter' && isVisible && onCapture) {
         e.preventDefault();
+        setScreenReaderAnnouncement('Capturing image');
         onCapture();
+      } else if (e.key === 'Escape' && isVisible) {
+        e.preventDefault();
+        setIsVisible(false);
+        setScreenReaderAnnouncement('Viewfinder closed');
       }
     };
 
@@ -117,6 +127,10 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
       ref={overlayRef}
       className={`fixed inset-0 z-50 pointer-events-auto ${className}`}
       onClick={handleClick}
+      role="application"
+      aria-label="Interactive camera viewfinder"
+      aria-description="Camera-style viewfinder interface with crosshair tracking. Press Enter to capture or V to toggle visibility."
+      tabIndex={isActive ? 0 : -1}
       style={{
         background: 'transparent',
         cursor: isActive ? 'crosshair' : 'default',
@@ -125,9 +139,20 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
         visibility: isActive ? 'visible' : 'hidden',
       }}
     >
+      {/* Screen Reader Announcements */}
+      <div
+        className="sr-only"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        {screenReaderAnnouncement}
+      </div>
+
       {/* Crosshair Component */}
       <div
         className="absolute pointer-events-none"
+        role="img"
+        aria-label={`Viewfinder crosshair positioned at ${Math.round(currentPosition.x)}, ${Math.round(currentPosition.y)}`}
         style={enhancement.enhanceStyles(
           {
             left: currentPosition.x - config.visual.crosshairSize / 2,
@@ -154,6 +179,8 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
       {/* Focus Ring */}
       <div
         className="absolute pointer-events-none"
+        role="img"
+        aria-label={`Viewfinder focus ring, ${isActive ? 'active' : 'inactive'}`}
         style={enhancement.enhanceStyles(
           {
             left: currentPosition.x - config.visual.focusRingSize / 2,
@@ -175,7 +202,11 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
       />
 
       {/* Viewfinder Corner Brackets */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div
+        className="absolute inset-0 pointer-events-none"
+        role="img"
+        aria-label="Camera viewfinder frame with corner brackets"
+      >
         <ViewfinderBrackets />
       </div>
 
@@ -183,6 +214,9 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
       {isActive && (
         <div
           className="absolute pointer-events-none"
+          role="complementary"
+          aria-label="Camera metadata information"
+          aria-live="polite"
           style={enhancement.enhanceStyles(
             {
               left: Math.min(currentPosition.x + 30, window.innerWidth - 200),
