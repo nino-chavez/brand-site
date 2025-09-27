@@ -24,24 +24,28 @@ The entire experience is built around capturing the perfect moment—whether it'
 ## Tech Stack
 
 ### Frontend Architecture
+
 - **React 19.1.1** with TypeScript for enterprise-grade type safety
 - **Vite 6.2.0** for lightning-fast development and optimized builds
 - **Tailwind CSS** with custom athletic-inspired design tokens
 - **Athletic Token System** - Custom design system for consistent branding
 
 ### Development & Build Tools
+
 - **TypeScript** with strict configuration for maximum code quality
 - **Vitest** for comprehensive testing coverage (50+ test files)
 - **PostCSS** for advanced CSS processing
 - **ESLint** and custom code standards for consistency
 
 ### Performance & Accessibility
+
 - **Static Site Generation** for optimal loading performance
 - **WCAG Compliance** with comprehensive ARIA support
 - **Responsive Design** with mobile-first approach
 - **Hardware Acceleration** for smooth animations and interactions
 
 ### Architecture Patterns
+
 - **Component-Driven Development** with reusable, typed components
 - **Custom Hooks** for state management and performance optimization
 - **Browser Compatibility** utilities with progressive enhancement
@@ -52,27 +56,31 @@ The entire experience is built around capturing the perfect moment—whether it'
 This project showcases the future of software development through **100% AI-powered collaboration**. Every line of code, design decision, and architectural choice has been the result of human-AI partnership:
 
 ### Core AI Agents
+
 - **[Claude Code](https://claude.ai)** - Primary coding assistant and architectural planning
 - **[Gemini CLI](https://github.com/google/gemini-cli)** - Secondary assistant for debugging and code review
-- **[Amazon Q Developer](https://aws.amazon.com/q/developer/)** - AWS integration and cloud architecture guidance
+- **[Amazon Kiro IDE](https://aws.amazon.com/kiro/)** - Advanced IDE features and development workflows
 - **[GitHub Copilot](https://github.com/features/copilot)** - Real-time code completion and pair programming
 - **[Cursor AI](https://cursor.sh)** - Intelligent code editing and refactoring
 
 ### Enhanced Agent-OS Framework
 
-I've significantly enhanced the open-source [Agent-OS framework](https://github.com/buildermethods/agent-os) by integrating **Amazon Kiro methodology** to create a sophisticated AI collaboration system:
+I've significantly enhanced the open-source [Agent-OS framework](https://github.com/buildermethods/agent-os) by integrating **Amazon Kiro's internal prompting and specification methodology** to create a sophisticated AI collaboration system:
 
 **What Agent-OS Provides:**
+
 - Structured specification creation with formal acceptance criteria
 - Task breakdown methodology with incremental building approach
 - Quality gates and requirement traceability
 - Collaborative development workflows
 
 **My Kiro-Enhanced Additions:**
+
 - **Enhanced Task Creation** - 4-phase implementation with early testing priority
 - **Comprehensive Context Awareness** - Agents read ALL spec documents for complete implementation context
 - **Iterative Validation** - Real-time approval loops for quality assurance
 - **Multi-Agent Coordination** - Specialized agents for git workflows, testing, and project management
+- **Kiro Internal Prompting Patterns** - Adopted Kiro's internal specification and prompting approach for enhanced agent performance
 
 **Key Agent Specializations:**
 - `context-fetcher` - Intelligent information retrieval from documentation
@@ -122,7 +130,7 @@ This approach has enabled:
 
 ## Project Structure
 
-```
+```text
 ├── components/          # React components with TypeScript
 │   ├── sections/       # Main portfolio sections
 │   ├── ui/            # Reusable UI components
@@ -141,18 +149,21 @@ This approach has enabled:
 ## Features Showcase
 
 ### Camera-Inspired Interactions
+
 - **Viewfinder Hero Interface** - Interactive camera viewfinder with crosshairs and focus ring
 - **Shutter Transitions** - Authentic camera shutter animations between sections
 - **Burst Mode Project Display** - Projects shown as photography sequence with EXIF metadata
 - **Depth of Field Effects** - CSS blur effects with reduced motion support
 
 ### Performance Engineering
+
 - **Aggressive Bundle Optimization** - Terser minification with tree-shaking
 - **Hardware Acceleration** - Transform3D and backdrop-filter with fallbacks
 - **Progressive Enhancement** - Graceful degradation for older browsers
 - **Accessibility First** - Screen reader support and keyboard navigation
 
 ### Athletic Design System
+
 - Custom color palette inspired by athletic branding
 - Consistent motion timing based on sports dynamics
 - Typography optimized for technical content readability
@@ -160,7 +171,7 @@ This approach has enabled:
 
 ## AI Development Methodology
 
-This project serves as a proof-of-concept for **enterprise-scale AI-assisted development**:
+This project serves as a proof-of-concept for **enterprise-scale AI-assisted development** with comprehensive documentation showcasing the methodology:
 
 1. **Specification-Driven Development** - All features begin with formal specs and acceptance criteria
 2. **Incremental Implementation** - Features built in phases with continuous validation
@@ -168,9 +179,32 @@ This project serves as a proof-of-concept for **enterprise-scale AI-assisted dev
 4. **Living Documentation** - Self-updating architectural decisions and technical specifications
 5. **Multi-Agent Coordination** - Specialized AI agents handling different aspects of development
 
+### Comprehensive AI Development Documentation
+
+This project includes detailed documentation of the AI development methodology:
+
+- **[AI-COLLABORATION.md](./AI-COLLABORATION.md)** - Human-AI partnership patterns and collaboration strategies
+- **[TECHNICAL-DECISIONS.md](./TECHNICAL-DECISIONS.md)** - Sophisticated architectural choices made by AI agents
+- **[DEVELOPMENT-PHASES.md](./DEVELOPMENT-PHASES.md)** - Evolution from concept to sophisticated application
+- **[CODE-QUALITY.md](./CODE-QUALITY.md)** - AI-driven quality standards and testing strategies
+- **[PROMPTING-STRATEGIES.md](./PROMPTING-STRATEGIES.md)** - Proven techniques for effective AI-assisted development
+- **[docs/prompts/ai-document.md](./docs/prompts/ai-document.md)** - Comprehensive strategy for replicating this documentation approach
+
 ## Contributing
 
-While this is a personal portfolio, the AI development methodology and enhanced Agent-OS framework are available for collaboration and learning. The `.agent-os/` directory contains the complete framework for replication.
+While this is a personal portfolio, the AI development methodology and enhanced Agent-OS framework are available for collaboration and learning. The comprehensive documentation files demonstrate enterprise-scale AI-assisted development patterns that can be applied to any project.
+
+**For Developers & Teams:**
+
+- Review the AI collaboration documentation to understand effective human-AI partnership patterns
+- Adapt the prompting strategies for your own AI-assisted development workflows
+- Use the documentation generation approach outlined in `docs/prompts/ai-document.md` for your projects
+
+**Framework Components:**
+
+- `.agent-os/` directory contains the complete enhanced Agent-OS framework
+- Integration of Kiro's internal prompting and specification methodology
+- Specialized agent configurations for different development phases
 
 ## Contact
 

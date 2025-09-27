@@ -229,7 +229,7 @@ describe('Visual Continuity Tests', () => {
             expect(metrics.visualCoherence.scaleProgression.impactMaximization).toBe(true);
           }
         }
-      });
+      }
     });
 
     it('should provide satisfying resolution in follow-through phase', () => {
