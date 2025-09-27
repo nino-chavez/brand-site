@@ -3,6 +3,7 @@ import SimplifiedGameFlowContainer from './components/SimplifiedGameFlowContaine
 import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
 import Header from './components/Header';
 import BackgroundEffects from './components/BackgroundEffects';
+import CursorLens from './components/CursorLens';
 import { AthleticTokenProvider } from './tokens/simple-provider';
 
 const App: React.FC = () => {
@@ -34,6 +35,22 @@ const App: React.FC = () => {
                             debugMode={false}
                         />
                     </main>
+
+                    {/* CursorLens - Radial Navigation System */}
+                    <CursorLens
+                        isEnabled={true}
+                        activationDelay={800}
+                        onSectionSelect={(section) => {
+                            console.log('CursorLens navigation to:', section);
+                        }}
+                        onActivate={(method) => {
+                            console.log('CursorLens activated via:', method);
+                        }}
+                        onDeactivate={() => {
+                            console.log('CursorLens deactivated');
+                        }}
+                        fallbackMode="keyboard"
+                    />
                 </div>
             </UnifiedGameFlowProvider>
         </AthleticTokenProvider>

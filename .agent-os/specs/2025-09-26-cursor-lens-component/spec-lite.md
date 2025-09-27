@@ -1,0 +1,3 @@
+# Spec Summary (Lite)
+
+Implement a cursor-activated radial navigation menu component that replaces the current ViewfinderInterface with zero-occlusion navigation, allowing users to access the 6-section photography workflow through deliberate cursor interaction. This component serves as the foundation for the "Lens & Lightbox" transformation, demonstrating technical sophistication through the interaction itself while maintaining professional accessibility and camera metaphor consistency. The system features click-and-hold activation, smart viewport positioning, 60fps performance, and comprehensive edge case handling for desktop and mobile experiences.

@@ -16,7 +16,7 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-// Mock requestAnimationFrame for animation tests
+// Mock requestAnimationFrame for performance tests
 const mockRaf = vi.fn().mockImplementation(cb => {
   const id = setTimeout(cb, 16);
   return id as unknown as number;
@@ -26,6 +26,12 @@ const mockCancelRaf = vi.fn().mockImplementation(id => clearTimeout(id));
 
 global.requestAnimationFrame = mockRaf;
 global.cancelAnimationFrame = mockCancelRaf;
+
+// Mock performance.now for timing tests
+global.performance = {
+  ...global.performance,
+  now: vi.fn(() => Date.now()),
+};
 
 // Mock ResizeObserver
 global.ResizeObserver = vi.fn().mockImplementation(() => ({
@@ -40,9 +46,3 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
   unobserve: vi.fn(),
   disconnect: vi.fn(),
 }));
-
-// Mock performance.now for animation timing
-global.performance = {
-  ...global.performance,
-  now: vi.fn(() => Date.now()),
-};

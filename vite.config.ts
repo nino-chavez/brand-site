@@ -71,12 +71,14 @@ export default defineConfig(({ mode }) => {
         globals: true,
         environment: 'jsdom',
         setupFiles: ['./test/setup.ts'],
+        include: ['**/*.{test,spec}.{ts,tsx}'],
+        exclude: ['node_modules', 'dist', '.git'],
         coverage: {
           provider: 'v8',
           reporter: ['text', 'json', 'html'],
           include: ['components/**/*.{ts,tsx}', 'hooks/**/*.{ts,tsx}'],
           exclude: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', 'node_modules/**'],
-        },
+        }
       }
     };
 });
