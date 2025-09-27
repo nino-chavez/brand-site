@@ -18,6 +18,9 @@ export * from './game-flow';
 // Unified game flow types (from previous refactoring)
 export * from './unified-gameflow';
 
+// 2D Canvas layout system types
+export * from './canvas';
+
 // Deprecated - kept for backward compatibility during transition
 // TODO: Remove these legacy exports after updating all imports
 export type { TechnicalSkill, SkillCategory } from './viewfinder';
