@@ -10,7 +10,7 @@
  * @since Phase 2 - "The Lightbox" Implementation
  */
 
-import type React from 'react';
+import React from 'react';
 import type { PhotoWorkflowSection, ActivationMethod } from './cursor-lens';
 import type { GameFlowSection, PerformanceMetrics } from './game-flow';
 import type { UnifiedGameFlowState } from './unified-gameflow';
