@@ -488,3 +488,108 @@ export const DEFAULT_CAMERA_MOVEMENTS: Record<CameraMovement, CameraMovementConf
     priority: 'low'
   }
 } as const;
+
+// ===== TOUCH GESTURE HANDLER TYPES =====
+
+/**
+ * Gesture types that can be recognized
+ */
+export type GestureType = 'pan' | 'zoom' | 'tap';
+
+/**
+ * Gesture movement delta information
+ */
+export interface GestureDelta {
+  /** Horizontal movement delta */
+  x: number;
+  /** Vertical movement delta */
+  y: number;
+  /** Scale factor change (1.0 = no change) */
+  scale: number;
+  /** Center X position of gesture */
+  centerX: number;
+  /** Center Y position of gesture */
+  centerY: number;
+}
+
+/**
+ * Complete gesture state information
+ */
+export interface GestureState {
+  /** Type of gesture being performed */
+  type: GestureType;
+  /** Whether gesture is currently active */
+  isActive: boolean;
+  /** Starting position of gesture */
+  startPosition: { x: number; y: number };
+  /** Current position of gesture */
+  currentPosition: { x: number; y: number };
+  /** Duration of gesture in milliseconds */
+  duration: number;
+}
+
+/**
+ * Sensitivity configuration for gesture recognition
+ */
+export interface GestureSensitivity {
+  /** Pan gesture sensitivity multiplier */
+  pan: number;
+  /** Zoom gesture sensitivity multiplier */
+  zoom: number;
+  /** Minimum touch target size in pixels */
+  tap: number;
+}
+
+/**
+ * Props for TouchGestureHandler component
+ */
+export interface TouchGestureHandlerProps {
+  /** Callback fired when gesture starts */
+  onGestureStart: (gesture: GestureType) => void;
+  /** Callback fired during gesture movement */
+  onGestureMove: (delta: GestureDelta) => void;
+  /** Callback fired when gesture ends */
+  onGestureEnd: (finalState: GestureState) => void;
+  /** Sensitivity configuration for gesture recognition */
+  sensitivity: GestureSensitivity;
+  /** Enable debug mode for gesture visualization */
+  debugMode?: boolean;
+  /** Additional CSS classes */
+  className?: string;
+}
+
+// ===== ANIMATION CONTROLLER TYPES =====
+
+/**
+ * Props for AnimationController component
+ */
+export interface AnimationControllerProps {
+  /** Target position for ongoing transitions */
+  targetPosition: CanvasPosition;
+  /** Type of camera movement to execute */
+  movementType: CameraMovement;
+  /** Callback fired during animation with progress and current position */
+  onAnimationUpdate: (progress: number, position?: CanvasPosition) => void;
+  /** Callback fired when animation completes */
+  onAnimationComplete: () => void;
+  /** Current quality level for performance optimization */
+  qualityLevel: QualityLevel;
+  /** Initial position for animation (optional, defaults to current) */
+  fromPosition?: CanvasPosition;
+  /** Custom animation duration in milliseconds (optional) */
+  duration?: number;
+}
+
+// ===== CONTENT LEVEL MANAGEMENT TYPES =====
+
+/**
+ * Content level for progressive disclosure
+ * Determines how much content is shown based on scale factor
+ */
+export type ContentLevel = 'minimal' | 'compact' | 'normal' | 'detailed' | 'expanded';
+
+/**
+ * Device type for responsive scaling
+ * Used to adjust scale factors based on device capabilities
+ */
+export type DeviceType = 'mobile' | 'tablet' | 'desktop';
