@@ -18,6 +18,8 @@ import type { CanvasPosition, SpatialLayout } from '../types/canvas';
 import { CanvasPerformanceMonitor, measureCanvasOperation, optimizedRAF } from '../utils/canvasPerformanceMonitor';
 import { CanvasQualityManager, getQualityManager, type QualityLevel } from '../utils/canvasQualityManager';
 import { CompatibilityFallbacks, ProgressiveEnhancement } from '../utils/browserCompat';
+import { useSpatialAccessibility } from '../hooks/useSpatialAccessibility';
+import type { PhotoWorkflowSection } from '../types/cursor-lens';
 
 // Constants for spatial grid system
 const GRID_LAYOUTS = {
@@ -69,6 +71,20 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     fps: 60,
     frameTime: 16.67,
     memoryMB: 0
+  });
+
+  // Spatial accessibility
+  const spatialAccessibility = useSpatialAccessibility({
+    enableSpatialNavigation: true,
+    enableCameraControls: true,
+    enableSpatialAnnouncements: true,
+    enableDirectionalHints: true,
+    debugMode: debugMode,
+    keyboardShortcuts: {
+      panSpeed: 100,
+      zoomSpeed: 0.1,
+      enableCustomShortcuts: true
+    }
   });
 
   // Memoized layout configuration
@@ -577,6 +593,58 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       sections
     );
   }, [state.currentPosition]);
+
+  // Spatial accessibility integration
+  useEffect(() => {
+    spatialAccessibility.setNavigationCallbacks({
+      onSectionChange: (section: PhotoWorkflowSection) => {
+        // Map photo workflow sections to canvas actions
+        const sectionMapping: Record<PhotoWorkflowSection, string> = {
+          'hero': 'capture',
+          'about': 'focus',
+          'creative': 'frame',
+          'professional': 'exposure',
+          'thought-leadership': 'develop',
+          'ai-github': 'frame', // Map to frame as closest match
+          'contact': 'portfolio'
+        };
+
+        const canvasSection = sectionMapping[section];
+        if (canvasSection && actions.canvas.setActiveSection) {
+          actions.canvas.setActiveSection(canvasSection);
+        }
+
+        // Announce section change
+        spatialAccessibility.announce(`Navigated to ${section} section`);
+      },
+
+      onCanvasMove: (position: CanvasPosition) => {
+        executeCanvasMovement(position, 'pan-tilt');
+      },
+
+      onZoom: (scale: number) => {
+        const newPosition = { ...state.currentPosition, scale };
+        executeCanvasMovement(newPosition, 'zoom-in');
+      }
+    });
+
+    // Update spatial accessibility with current state
+    spatialAccessibility.updateCanvasPosition(state.currentPosition);
+
+    // Map current canvas section to photo workflow section
+    const reverseSectionMapping: Record<string, PhotoWorkflowSection> = {
+      'capture': 'hero',
+      'focus': 'about',
+      'frame': 'creative',
+      'exposure': 'professional',
+      'develop': 'thought-leadership',
+      'portfolio': 'contact'
+    };
+
+    const photoSection = reverseSectionMapping[state.activeSection] || 'hero';
+    spatialAccessibility.updateCurrentSection(photoSection);
+
+  }, [spatialAccessibility, state.currentPosition, state.activeSection, actions.canvas, executeCanvasMovement]);
 
   // Cleanup animation on unmount
   useEffect(() => {

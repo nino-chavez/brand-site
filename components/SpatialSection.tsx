@@ -13,6 +13,7 @@
 import React, { useRef, useMemo, useCallback, useEffect, useState } from 'react';
 import type { SpatialSectionProps } from '../types/canvas';
 import type { SpatialCoordinates, CanvasPosition } from '../types/canvas';
+import { SPATIAL_SECTION_DESCRIPTIONS } from '../hooks/useSpatialAccessibility';
 
 // Scale thresholds for progressive disclosure
 const SCALE_THRESHOLDS = {
@@ -284,8 +285,14 @@ export const SpatialSection: React.FC<SpatialSectionProps> = ({
       aria-label={`${sectionMap.metadata.title} - ${sectionMap.metadata.description}`}
       aria-expanded={isActive}
       aria-live={isActive ? 'polite' : 'off'}
+      aria-description={SPATIAL_SECTION_DESCRIPTIONS[section as keyof typeof SPATIAL_SECTION_DESCRIPTIONS] || sectionMap.metadata.description}
+      aria-current={isActive ? 'location' : undefined}
+      aria-setsize={7} // Total number of spatial sections
+      aria-posinset={sectionMap.metadata.priority || 1}
       data-section={section}
       data-content-level={contentLevel}
+      data-grid-position={`${sectionMap.coordinates.gridX},${sectionMap.coordinates.gridY}`}
+      data-canvas-position={`${sectionMap.canvasPosition.x},${sectionMap.canvasPosition.y}`}
       data-testid={`spatial-section-${section}`}
     >
       {SectionMetadata}
