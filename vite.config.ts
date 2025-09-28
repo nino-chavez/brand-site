@@ -50,6 +50,21 @@ export default defineConfig(({ mode }) => {
                 return 'viewports';
               }
 
+              // 2D Canvas Layout System components (Task 15 optimization)
+              if (id.includes('components/') &&
+                  (id.includes('LightboxCanvas') || id.includes('CameraController') ||
+                   id.includes('SpatialSection') || id.includes('Canvas') ||
+                   id.includes('canvas/') || id.includes('spatial/'))) {
+                return 'canvas-system';
+              }
+
+              // Canvas utilities and coordinate systems
+              if (id.includes('utils/') &&
+                  (id.includes('canvas') || id.includes('spatial') ||
+                   id.includes('camera') || id.includes('coordinate'))) {
+                return 'canvas-utils';
+              }
+
               // UI framework components
               if (id.includes('components/') &&
                   (id.includes('Navigation') || id.includes('Controls') ||
