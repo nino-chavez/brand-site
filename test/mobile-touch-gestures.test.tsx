@@ -122,19 +122,8 @@ vi.mock('../utils/canvasCoordinateTransforms', () => ({
   getSectionCanvasPosition: vi.fn(() => ({ x: 0, y: 0, scale: 1.0 }))
 }));
 
-// Mock performance.now for consistent timing
-const mockPerformanceNow = vi.fn();
-
-// Mock the global performance object
-Object.defineProperty(global, 'performance', {
-  value: {
-    now: mockPerformanceNow,
-    memory: {
-      usedJSHeapSize: 1024 * 1024 * 50 // 50MB
-    }
-  },
-  writable: true
-});
+// Use the global mock for consistent timing
+const mockPerformanceNow = (global as any).__mockPerformanceNow;
 
 // Mock touch events
 class MockTouch implements Touch {

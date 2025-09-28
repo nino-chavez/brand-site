@@ -168,8 +168,8 @@ const createMockCanvasActions = (): CanvasActions => ({
   updateCanvasMetrics: vi.fn()
 } as any);
 
-// Mock performance APIs
-const mockPerformanceNow = vi.fn();
+// Use the global mock for consistent timing
+const mockPerformanceNow = (global as any).__mockPerformanceNow;
 const mockRequestAnimationFrame = vi.fn();
 
 // Test utilities
@@ -192,19 +192,18 @@ function simulateDeviceProfile(profile: DeviceProfile) {
 
 function simulatePerformanceCondition(fps: number, memoryMB: number) {
   const frameTime = 1000 / fps;
-  mockPerformanceNow.mockReturnValue(performance.now());
+  const currentTime = Date.now();
+  mockPerformanceNow.mockReturnValue(currentTime);
 
-  // Mock memory if available
-  if ('memory' in performance) {
-    Object.defineProperty(performance, 'memory', {
-      value: {
-        usedJSHeapSize: memoryMB * 1024 * 1024,
-        totalJSHeapSize: memoryMB * 1.5 * 1024 * 1024,
-        jsHeapSizeLimit: memoryMB * 2 * 1024 * 1024
-      },
-      configurable: true
-    });
-  }
+  // Update memory in global performance object
+  Object.defineProperty(global.performance, 'memory', {
+    value: {
+      usedJSHeapSize: memoryMB * 1024 * 1024,
+      totalJSHeapSize: memoryMB * 1.5 * 1024 * 1024,
+      jsHeapSizeLimit: memoryMB * 2 * 1024 * 1024
+    },
+    configurable: true
+  });
 
   return frameTime;
 }
@@ -226,11 +225,8 @@ describe('Canvas Performance Tests', () => {
     qualityManager = getQualityManager();
     performanceDebugger = getPerformanceDebugger();
 
-    // Mock performance APIs
-    Object.defineProperty(global, 'performance', {
-      value: { now: mockPerformanceNow },
-      writable: true
-    });
+    // Reset performance mock to known state
+    mockPerformanceNow.mockReturnValue(1000);
 
     Object.defineProperty(global, 'requestAnimationFrame', {
       value: mockRequestAnimationFrame,
@@ -263,7 +259,8 @@ describe('Canvas Performance Tests', () => {
         // Run a series of operations
         for (let i = 0; i < 10; i++) {
           performanceMonitor.trackOperation('test-operation', frameTime);
-          mockPerformanceNow.mockReturnValue(mockPerformanceNow() + frameTime);
+          const currentTime = 1000 + (i * frameTime);
+          mockPerformanceNow.mockReturnValue(currentTime);
           vi.advanceTimersByTime(frameTime);
         }
 
@@ -312,7 +309,8 @@ describe('Canvas Performance Tests', () => {
             performanceMonitor.trackOperation(`${operation.type}-${operation.complexity}`, frameTime);
             totalOperations++;
 
-            mockPerformanceNow.mockReturnValue(mockPerformanceNow() + frameTime);
+            const currentTime = 1000 + (totalOperations * frameTime);
+            mockPerformanceNow.mockReturnValue(currentTime);
             vi.advanceTimersByTime(frameTime);
           }
         }

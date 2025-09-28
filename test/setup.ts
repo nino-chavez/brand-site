@@ -27,11 +27,22 @@ const mockCancelRaf = vi.fn().mockImplementation(id => clearTimeout(id));
 global.requestAnimationFrame = mockRaf;
 global.cancelAnimationFrame = mockCancelRaf;
 
-// Mock performance.now for timing tests
+// Mock performance.now for timing tests with better compatibility
+const mockPerformanceNow = vi.fn(() => Date.now());
+
 global.performance = {
   ...global.performance,
-  now: vi.fn(() => Date.now()),
+  now: mockPerformanceNow,
+  // Add memory property for performance monitoring tests
+  memory: {
+    usedJSHeapSize: 1024 * 1024 * 50, // 50MB
+    totalJSHeapSize: 1024 * 1024 * 100, // 100MB
+    jsHeapSizeLimit: 1024 * 1024 * 200 // 200MB
+  }
 };
+
+// Export the mock for test files that need to control timing
+(global as any).__mockPerformanceNow = mockPerformanceNow;
 
 // Mock ResizeObserver
 global.ResizeObserver = vi.fn().mockImplementation(() => ({

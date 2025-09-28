@@ -137,11 +137,19 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     if (!canvasRef.current || !performanceMonitorRef.current) return;
 
     return measureCanvasOperation('canvas-render', () => {
-      const startTime = performance.now();
+      const safeNow = () => {
+        try {
+          return performance?.now?.() ?? Date.now();
+        } catch {
+          return Date.now();
+        }
+      };
+
+      const startTime = safeNow();
 
       // Measure render performance
       requestAnimationFrame(() => {
-        const renderTime = performance.now() - startTime;
+        const renderTime = safeNow() - startTime;
         const fps = 1000 / renderTime;
 
         // Update performance metrics

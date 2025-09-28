@@ -101,12 +101,23 @@ export class CanvasPerformanceMonitor {
   }
 
   /**
+   * Safe performance.now that works in test environments
+   */
+  private safePerformanceNow(): number {
+    try {
+      return performance?.now?.() ?? Date.now();
+    } catch {
+      return Date.now();
+    }
+  }
+
+  /**
    * Start performance monitoring
    */
   start(): void {
     if (this.rafId) return; // Already running
 
-    const startTime = performance.now();
+    const startTime = this.safePerformanceNow();
     let lastFrameTime = startTime;
 
     const measureFrame = (currentTime: number) => {
@@ -492,9 +503,18 @@ export function measureCanvasOperation<T>(
   operation: () => T,
   monitor?: CanvasPerformanceMonitor
 ): T {
-  const start = performance.now();
+  // Use a safe performance.now that falls back in test environments
+  const now = () => {
+    try {
+      return performance?.now?.() ?? Date.now();
+    } catch {
+      return Date.now();
+    }
+  };
+
+  const start = now();
   const result = operation();
-  const duration = performance.now() - start;
+  const duration = now() - start;
 
   monitor?.trackOperation(name, duration);
 
