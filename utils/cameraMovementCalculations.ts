@@ -399,21 +399,9 @@ export function calculatePanTiltMovement(
 }
 
 /**
- * Calculate zoom movement with progress parameter (test-compatible)
+ * Calculate zoom movement with overloaded parameters (test-compatible)
  */
-export function calculateZoomMovement(
-  from: CanvasPosition,
-  to: CanvasPosition,
-  progress: number,
-  duration?: number
-): CanvasPosition;
-export function calculateZoomMovement(
-  basePosition: CanvasPosition,
-  targetScale: number,
-  zoomType: 'zoom-in' | 'zoom-out',
-  duration?: number
-): MovementCalculationResult;
-export function calculateZoomMovement(
+function calculateZoomMovementOverloaded(
   fromOrBase: CanvasPosition,
   toOrScale: CanvasPosition | number,
   progressOrType: number | 'zoom-in' | 'zoom-out',
