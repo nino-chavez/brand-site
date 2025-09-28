@@ -17,6 +17,7 @@ import { validateCanvasPosition, calculateMovementDuration } from '../utils/canv
 import type { CanvasPosition, SpatialLayout } from '../types/canvas';
 import { CanvasPerformanceMonitor, measureCanvasOperation, optimizedRAF } from '../utils/canvasPerformanceMonitor';
 import { CanvasQualityManager, getQualityManager, type QualityLevel } from '../utils/canvasQualityManager';
+import { CompatibilityFallbacks, ProgressiveEnhancement } from '../utils/browserCompat';
 
 // Constants for spatial grid system
 const GRID_LAYOUTS = {
@@ -56,6 +57,10 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [renderCount, setRenderCount] = useState(0);
 
+  // Browser compatibility
+  const compat = useMemo(() => CompatibilityFallbacks.getInstance(), []);
+  const enhancement = useMemo(() => new ProgressiveEnhancement(), []);
+
   // Performance monitoring
   const performanceMonitorRef = useRef<CanvasPerformanceMonitor | null>(null);
   const qualityManagerRef = useRef<CanvasQualityManager | null>(null);
@@ -87,17 +92,30 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
 
     const finalPosition = validatedPosition.success ? validatedPosition.position : { x, y, scale };
 
-    // Hardware-accelerated CSS transform
-    const transformValue = `translate3d(${-finalPosition.x}px, ${-finalPosition.y}px, 0) scale(${finalPosition.scale})`;
+    // Cross-browser compatible transform with fallbacks
+    const baseTransformStyle = compat.getTransformStyle(-finalPosition.x, -finalPosition.y);
+
+    // Enhanced styles with scale and progressive enhancement
+    const enhancedStyle = enhancement.enhanceStyles(baseTransformStyle, {
+      animation: {
+        duration: isTransitioning ? 300 : 0,
+        easing: 'ease-out'
+      }
+    });
+
+    // Scale transform (applied separately due to compatibility system limitations)
+    const scaleTransform = finalPosition.scale !== 1 ? ` scale(${finalPosition.scale})` : '';
+    const finalTransform = enhancedStyle.transform + scaleTransform;
 
     return {
-      transform: transformValue,
+      ...enhancedStyle,
+      transform: finalTransform,
       transformOrigin: 'center center',
       willChange: isTransitioning ? 'transform' : 'auto',
-      backfaceVisibility: 'hidden' as const,
-      perspective: '1000px'
+      backfaceVisibility: compat.isSupported('transform3d') ? 'hidden' as const : undefined,
+      perspective: compat.isSupported('transform3d') ? '1000px' : undefined
     };
-  }, [state.currentPosition, isTransitioning]);
+  }, [state.currentPosition, isTransitioning, compat, enhancement]);
 
   // CSS classes based on performance mode
   const canvasClasses = useMemo(() => {
