@@ -183,11 +183,11 @@ This project serves as a proof-of-concept for **enterprise-scale AI-assisted dev
 
 This project includes detailed documentation of the AI development methodology:
 
-- **[AI-COLLABORATION.md](./AI-COLLABORATION.md)** - Human-AI partnership patterns and collaboration strategies
-- **[TECHNICAL-DECISIONS.md](./TECHNICAL-DECISIONS.md)** - Sophisticated architectural choices made by AI agents
-- **[DEVELOPMENT-PHASES.md](./DEVELOPMENT-PHASES.md)** - Evolution from concept to sophisticated application
-- **[CODE-QUALITY.md](./CODE-QUALITY.md)** - AI-driven quality standards and testing strategies
-- **[PROMPTING-STRATEGIES.md](./PROMPTING-STRATEGIES.md)** - Proven techniques for effective AI-assisted development
+- **[AI-COLLABORATION.md](./docs/AI-COLLABORATION.md)** - Human-AI partnership patterns and collaboration strategies
+- **[TECHNICAL-DECISIONS.md](./docs/TECHNICAL-DECISIONS.md)** - Sophisticated architectural choices made by AI agents
+- **[DEVELOPMENT-PHASES.md](./docs/DEVELOPMENT-PHASES.md)** - Evolution from concept to sophisticated application
+- **[CODE-QUALITY.md](./docs/CODE-QUALITY.md)** - AI-driven quality standards and testing strategies
+- **[PROMPTING-STRATEGIES.md](./docs/PROMPTING-STRATEGIES.md)** - Proven techniques for effective AI-assisted development
 - **[docs/prompts/ai-document.md](./docs/prompts/ai-document.md)** - Comprehensive strategy for replicating this documentation approach
 
 ## Contributing

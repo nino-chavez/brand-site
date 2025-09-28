@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import React from 'react';
 import ViewfinderOverlay from '../components/ViewfinderOverlay';
-import { HERO_TECHNICAL_SKILLS, SKILL_CATEGORIES, HERO_VIEWFINDER_CONFIG } from '../constants';
+import { HERO_TECHNICAL_SKILLS, SKILL_CATEGORIES, HERO_VIEWFINDER_CONFIG } from '../src/constants';
 
 // Mock the useMouseTracking hook
 vi.mock('../hooks/useMouseTracking', () => ({

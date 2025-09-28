@@ -1,0 +1,244 @@
+{
+  "monitoring": {
+    "enabled": true,
+    "mode": "production",
+    "sampling": {
+      "frameRate": 100,
+      "memory": 1000,
+      "network": 5000,
+      "userInteraction": 100
+    },
+    "bufferSizes": {
+      "frameTimeBuffer": 60,
+      "metricsHistory": 300,
+      "alertHistory": 100
+    }
+  },
+
+  "thresholds": {
+    "performance": {
+      "criticalFPS": 45,
+      "warningFPS": 55,
+      "targetFPS": 60,
+      "maxMemoryMB": 100,
+      "warningMemoryMB": 75,
+      "maxRenderTimeMS": 16.67,
+      "warningRenderTimeMS": 12,
+      "maxInputLatencyMS": 100,
+      "warningInputLatencyMS": 50,
+      "minSmoothness": 0.85,
+      "warningSmoothness": 0.9
+    },
+
+    "canvas": {
+      "maxCanvasMemoryMB": 50,
+      "maxTextureSize": 4096,
+      "maxDrawCalls": 1000,
+      "maxVertices": 100000
+    },
+
+    "accessibility": {
+      "maxScreenReaderLatencyMS": 200,
+      "maxKeyboardResponseMS": 100,
+      "maxFocusDelayMS": 50
+    }
+  },
+
+  "alerting": {
+    "enabled": true,
+    "cooldownMs": 300000,
+    "endpoints": {
+      "webhook": {
+        "enabled": true,
+        "url": "${PERFORMANCE_WEBHOOK_URL}",
+        "timeout": 5000,
+        "retries": 3
+      },
+      "email": {
+        "enabled": false,
+        "endpoint": "${EMAIL_ALERT_ENDPOINT}",
+        "recipients": "${ALERT_EMAIL_RECIPIENTS}"
+      },
+      "slack": {
+        "enabled": false,
+        "webhookUrl": "${SLACK_WEBHOOK_URL}",
+        "channel": "#performance-alerts"
+      },
+      "console": {
+        "enabled": true,
+        "logLevel": "warn"
+      }
+    },
+
+    "rules": [
+      {
+        "name": "fps_critical",
+        "condition": "frameRate < 45",
+        "severity": "critical",
+        "enabled": true,
+        "cooldown": 60000,
+        "message": "Critical FPS drop detected: {{frameRate}}fps (target: 60fps)"
+      },
+      {
+        "name": "fps_warning",
+        "condition": "frameRate < 55 && frameRate >= 45",
+        "severity": "medium",
+        "enabled": true,
+        "cooldown": 120000,
+        "message": "FPS below target: {{frameRate}}fps (target: 60fps)"
+      },
+      {
+        "name": "memory_high",
+        "condition": "memoryUsage > 100",
+        "severity": "high",
+        "enabled": true,
+        "cooldown": 180000,
+        "message": "High memory usage: {{memoryUsage}}MB (limit: 100MB)"
+      },
+      {
+        "name": "memory_warning",
+        "condition": "memoryUsage > 75 && memoryUsage <= 100",
+        "severity": "medium",
+        "enabled": true,
+        "cooldown": 300000,
+        "message": "Memory usage elevated: {{memoryUsage}}MB (warning: 75MB)"
+      },
+      {
+        "name": "render_slow",
+        "condition": "canvasRenderTime > 16.67",
+        "severity": "medium",
+        "enabled": true,
+        "cooldown": 120000,
+        "message": "Slow canvas render: {{canvasRenderTime}}ms (target: <16.67ms)"
+      },
+      {
+        "name": "input_lag",
+        "condition": "inputLatency > 100",
+        "severity": "high",
+        "enabled": true,
+        "cooldown": 60000,
+        "message": "High input latency: {{inputLatency}}ms (target: <100ms)"
+      },
+      {
+        "name": "animation_choppy",
+        "condition": "animationSmoothness < 0.85",
+        "severity": "medium",
+        "enabled": true,
+        "cooldown": 180000,
+        "message": "Choppy animations: {{animationSmoothness}}% smooth (target: >85%)"
+      },
+      {
+        "name": "long_task",
+        "condition": "taskDuration > 50",
+        "severity": "medium",
+        "enabled": true,
+        "cooldown": 30000,
+        "message": "Long task detected: {{taskDuration}}ms (blocking)"
+      },
+      {
+        "name": "layout_shift",
+        "condition": "layoutShift > 0.1",
+        "severity": "low",
+        "enabled": true,
+        "cooldown": 60000,
+        "message": "Layout shift detected: {{layoutShift}} CLS score"
+      }
+    ]
+  },
+
+  "analytics": {
+    "enabled": true,
+    "service": "custom",
+    "batchSize": 50,
+    "flushInterval": 30000,
+    "endpoints": {
+      "metrics": "${ANALYTICS_METRICS_ENDPOINT}",
+      "events": "${ANALYTICS_EVENTS_ENDPOINT}"
+    },
+
+    "events": [
+      "canvas_render_start",
+      "canvas_render_end",
+      "spatial_navigation_start",
+      "spatial_navigation_end",
+      "camera_movement_start",
+      "camera_movement_end",
+      "focus_change",
+      "performance_degradation",
+      "performance_recovery"
+    ],
+
+    "customMetrics": [
+      "spatial_navigation_accuracy",
+      "camera_movement_smoothness",
+      "focus_transition_quality",
+      "user_interaction_satisfaction"
+    ]
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "autoStart": false,
+    "updateInterval": 100,
+    "maxDataPoints": 300,
+    "charts": {
+      "frameRate": {
+        "enabled": true,
+        "color": "#10b981",
+        "yMin": 0,
+        "yMax": 70
+      },
+      "memoryUsage": {
+        "enabled": true,
+        "color": "#3b82f6",
+        "yMin": 0,
+        "yMax": 150
+      },
+      "inputLatency": {
+        "enabled": true,
+        "color": "#f59e0b",
+        "yMin": 0,
+        "yMax": 200
+      }
+    }
+  },
+
+  "optimization": {
+    "adaptiveQuality": {
+      "enabled": true,
+      "thresholds": {
+        "enableHighQuality": 58,
+        "enableMediumQuality": 50,
+        "enableLowQuality": 40
+      }
+    },
+    "automaticFallback": {
+      "enabled": true,
+      "triggers": [
+        "fps < 30 for 5 seconds",
+        "memory > 150MB for 10 seconds",
+        "multiple long tasks detected"
+      ]
+    }
+  },
+
+  "reporting": {
+    "enabled": true,
+    "format": "json",
+    "includeUserAgent": true,
+    "includeEnvironment": true,
+    "compression": "gzip",
+    "retention": {
+      "realtime": "1 hour",
+      "aggregated": "7 days",
+      "alerts": "30 days"
+    }
+  },
+
+  "development": {
+    "verboseLogging": false,
+    "debugMode": false,
+    "mockAlerts": false,
+    "simulateIssues": false
+  }
+}

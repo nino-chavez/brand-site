@@ -1,0 +1,54 @@
+{
+  "name": "Python FastAPI Template",
+  "description": "Template for Python FastAPI projects with modern async patterns and type safety",
+  "version": "1.0.0", 
+  "tech_stack": "python-fastapi",
+  "base_validator": "PythonFastAPIValidator",
+  "supported_standards": [
+    "pep8",
+    "type-hints",
+    "async-patterns",
+    "performance-optimized",
+    "security",
+    "test-coverage"
+  ],
+  "default_rules": {
+    "function_limits": {
+      "max_lines": 50,
+      "max_parameters": 5,
+      "max_complexity": 10,
+      "require_docstrings": true
+    },
+    "type_safety": {
+      "require_type_hints": true,
+      "require_return_types": true,
+      "no_any_equivalent": true
+    },
+    "async_patterns": {
+      "prefer_async": true,
+      "no_sync_calls_in_async": true,
+      "proper_exception_handling": true
+    },
+    "performance": {
+      "use_pydantic_models": true,
+      "async_db_operations": true,
+      "proper_connection_pooling": true
+    },
+    "security": {
+      "input_validation": true,
+      "sql_injection_prevention": true,
+      "secure_headers": true
+    }
+  },
+  "file_patterns": {
+    "routes": "**/routes/*.py",
+    "models": "**/models/*.py", 
+    "services": "**/services/*.py",
+    "schemas": "**/schemas/*.py"
+  },
+  "quality_gates": {
+    "response_time_ms": 200,
+    "memory_usage_mb": 100,
+    "test_coverage_percent": 80
+  }
+}

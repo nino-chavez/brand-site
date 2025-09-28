@@ -1,6 +1,6 @@
 import React, { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import type { TechnicalSkill } from '../../types';
-import { SKILL_CATEGORIES } from '../../constants';
+import { SKILL_CATEGORIES } from '../../src/constants';
 
 interface HeroTechnicalProfileProps {
   skills: TechnicalSkill[];

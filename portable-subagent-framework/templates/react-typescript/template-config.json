@@ -1,0 +1,72 @@
+{
+  "name": "React TypeScript Template",
+  "description": "Template for React/TypeScript projects with proven architecture standards from SmugMug Photo Discovery app",
+  "version": "1.0.0",
+  "tech_stack": "react-typescript",
+  "base_validator": "ReactTypeScriptValidator",
+  "supported_standards": [
+    "clean-architecture",
+    "performance-optimized", 
+    "agent-native",
+    "accessibility",
+    "test-coverage",
+    "security"
+  ],
+  "default_rules": {
+    "component_limits": {
+      "max_lines": 200,
+      "max_props": 5,
+      "max_hooks": 5,
+      "single_responsibility": true
+    },
+    "hook_constraints": {
+      "max_useeffect_dependencies": 3,
+      "require_cleanup": true,
+      "use_abort_controller": true,
+      "extract_complex_logic": true
+    },
+    "type_safety": {
+      "no_any_types": true,
+      "explicit_interfaces": true,
+      "strict_mode": true,
+      "result_pattern": true
+    },
+    "performance": {
+      "require_memoization": true,
+      "react_memo_for_heavy_components": true,
+      "virtualize_large_lists": true,
+      "debounce_user_input": true
+    },
+    "memory_management": {
+      "cleanup_side_effects": true,
+      "abort_async_operations": true,
+      "remove_event_listeners": true,
+      "clear_timeouts_intervals": true
+    },
+    "agent_native": {
+      "dual_interface_required": true,
+      "schema_org_markup": true,
+      "global_state_exposure": true,
+      "natural_language_support": true
+    }
+  },
+  "file_patterns": {
+    "components": "**/*.tsx",
+    "hooks": "**/use*.ts",
+    "types": "**/types.ts",
+    "services": "**/services/*.ts"
+  },
+  "quality_gates": {
+    "component_render_time_ms": 100,
+    "bundle_size_mb": 0.5,
+    "memory_growth_mb": 5,
+    "search_response_ms": 3000
+  },
+  "integration_patterns": [
+    "agent-os",
+    "vite",
+    "vitest",
+    "tailwindcss",
+    "eslint"
+  ]
+}

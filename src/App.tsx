@@ -1,10 +1,10 @@
 import React from 'react';
-import SimplifiedGameFlowContainer from './components/SimplifiedGameFlowContainer';
-import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
-import Header from './components/Header';
-import BackgroundEffects from './components/BackgroundEffects';
-import CursorLens from './components/CursorLens';
-import { AthleticTokenProvider } from './tokens/simple-provider';
+import SimplifiedGameFlowContainer from '../components/SimplifiedGameFlowContainer';
+import { UnifiedGameFlowProvider } from '../contexts/UnifiedGameFlowContext';
+import Header from '../components/Header';
+import BackgroundEffects from '../components/BackgroundEffects';
+import CursorLens from '../components/CursorLens';
+import { AthleticTokenProvider } from '../tokens/simple-provider';
 
 const App: React.FC = () => {
     return (

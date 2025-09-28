@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import BlurContainer, { HeroBlurContainer, BlurableSection } from '../components/BlurContainer';
-import { HERO_VIEWFINDER_CONFIG } from '../constants';
+import { HERO_VIEWFINDER_CONFIG } from '../src/constants';
 
 // Mock RAF functionality
 let rafCallbacks: ((timestamp: number) => void)[] = [];

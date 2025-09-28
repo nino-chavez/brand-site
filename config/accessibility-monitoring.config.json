@@ -1,0 +1,323 @@
+{
+  "monitoring": {
+    "enabled": true,
+    "mode": "continuous",
+    "auditInterval": 30000,
+    "realTimeValidation": true,
+    "photographyMetaphorValidation": true
+  },
+
+  "wcag": {
+    "targetLevel": "AA",
+    "version": "2.1",
+    "tags": ["wcag2a", "wcag2aa", "wcag21aa"],
+    "includeExperimentalRules": false,
+    "customRules": [
+      "photography-metaphor-explanation",
+      "spatial-navigation-accessibility",
+      "camera-control-accessibility"
+    ]
+  },
+
+  "thresholds": {
+    "compliance": {
+      "minWcagScore": 85,
+      "targetWcagScore": 95,
+      "maxViolations": {
+        "critical": 0,
+        "serious": 2,
+        "moderate": 5,
+        "minor": 10
+      }
+    },
+
+    "performance": {
+      "maxScreenReaderResponseMs": 200,
+      "maxKeyboardResponseMs": 100,
+      "maxFocusDelayMs": 50,
+      "maxAnnouncementQueueSize": 10
+    },
+
+    "visual": {
+      "minContrastRatio": 4.5,
+      "targetContrastRatio": 7.0,
+      "minTextSize": 14,
+      "maxColorIssues": 3
+    },
+
+    "keyboard": {
+      "minNavigationScore": 90,
+      "maxKeyboardTraps": 0,
+      "requireSkipLinks": true,
+      "requireFocusIndicators": true
+    },
+
+    "photography": {
+      "minMetaphorExplanationRatio": 0.8,
+      "minAlternativeDescriptionRatio": 0.7,
+      "minConsistencyScore": 85,
+      "requireProgressiveDisclosure": true
+    }
+  },
+
+  "validation": {
+    "realTime": {
+      "enabled": true,
+      "validateOnMutation": true,
+      "validateOnFocus": true,
+      "validateOnInteraction": true
+    },
+
+    "elements": {
+      "requiredAltText": ["img", "[role='img']"],
+      "requiredAriaLabels": ["button:not(:has(*))", "input", "[role='button']"],
+      "requiredHeadings": true,
+      "requiredLandmarks": true,
+      "requiredSkipLinks": true
+    },
+
+    "customValidation": [
+      {
+        "name": "photography-button-accessibility",
+        "selector": "button[data-camera-action]",
+        "rules": [
+          "must have aria-label explaining photography metaphor",
+          "must provide alternative description",
+          "must be keyboard accessible"
+        ]
+      },
+      {
+        "name": "spatial-navigation-accessibility",
+        "selector": "[data-spatial-navigation]",
+        "rules": [
+          "must support arrow key navigation",
+          "must announce position changes",
+          "must provide orientation information"
+        ]
+      },
+      {
+        "name": "focus-accessibility",
+        "selector": "[data-camera-focus]",
+        "rules": [
+          "must explain focus metaphor in aria-label",
+          "must provide depth information",
+          "must announce focus changes"
+        ]
+      }
+    ]
+  },
+
+  "reporting": {
+    "enabled": true,
+    "format": "detailed",
+    "includePhotographyMetrics": true,
+    "includeSuggestions": true,
+    "includeHelpUrls": true,
+
+    "output": {
+      "console": {
+        "enabled": true,
+        "logLevel": "warn",
+        "groupViolations": true
+      },
+      "dashboard": {
+        "enabled": true,
+        "realTimeUpdates": true,
+        "showTrends": true
+      },
+      "webhook": {
+        "enabled": true,
+        "url": "${ACCESSIBILITY_WEBHOOK_URL}",
+        "batchSize": 10,
+        "flushInterval": 60000
+      },
+      "localStorage": {
+        "enabled": true,
+        "maxEntries": 100,
+        "keyPrefix": "accessibility_"
+      }
+    }
+  },
+
+  "alerts": {
+    "enabled": true,
+    "severityLevels": ["critical", "serious", "moderate"],
+    "cooldownMs": 300000,
+
+    "rules": [
+      {
+        "name": "critical_wcag_violation",
+        "condition": "wcag violation with severity critical",
+        "severity": "critical",
+        "immediate": true,
+        "message": "Critical WCAG violation detected: {{rule}} - {{description}}"
+      },
+      {
+        "name": "accessibility_score_drop",
+        "condition": "overall score < 75",
+        "severity": "serious",
+        "cooldown": 180000,
+        "message": "Accessibility score dropped to {{score}}% (target: 85%+)"
+      },
+      {
+        "name": "keyboard_navigation_issues",
+        "condition": "keyboard score < 80",
+        "severity": "moderate",
+        "cooldown": 300000,
+        "message": "Keyboard navigation issues detected (score: {{score}}%)"
+      },
+      {
+        "name": "contrast_ratio_failure",
+        "condition": "contrast ratio < 4.5",
+        "severity": "serious",
+        "cooldown": 240000,
+        "message": "Contrast ratio below WCAG AA: {{ratio}} (required: 4.5)"
+      },
+      {
+        "name": "photography_metaphor_issues",
+        "condition": "photography score < 70",
+        "severity": "moderate",
+        "cooldown": 360000,
+        "message": "Photography metaphor accessibility issues (score: {{score}}%)"
+      },
+      {
+        "name": "screen_reader_compatibility",
+        "condition": "screen reader response time > 300ms",
+        "severity": "moderate",
+        "cooldown": 180000,
+        "message": "Screen reader response time high: {{responseTime}}ms"
+      }
+    ]
+  },
+
+  "integration": {
+    "axeCore": {
+      "enabled": true,
+      "version": "latest",
+      "loadTimeout": 5000,
+      "fallbackMode": "basic"
+    },
+
+    "screenReaders": {
+      "testCompatibility": true,
+      "simulateAnnouncements": false,
+      "trackResponseTimes": true
+    },
+
+    "analytics": {
+      "enabled": true,
+      "trackViolations": true,
+      "trackImprovements": true,
+      "trackUserInteractions": true
+    }
+  },
+
+  "dashboard": {
+    "enabled": true,
+    "autoOpen": false,
+    "position": "top-right",
+    "updateInterval": 1000,
+
+    "widgets": [
+      {
+        "type": "compliance-score",
+        "title": "WCAG Compliance",
+        "showTrend": true,
+        "alertThreshold": 85
+      },
+      {
+        "type": "violation-summary",
+        "title": "Violations",
+        "groupBySeverity": true,
+        "showRecent": 10
+      },
+      {
+        "type": "keyboard-navigation",
+        "title": "Keyboard Navigation",
+        "showScore": true,
+        "showTraps": true
+      },
+      {
+        "type": "photography-metaphors",
+        "title": "Photography Accessibility",
+        "showExplanations": true,
+        "showConsistency": true
+      },
+      {
+        "type": "contrast-analysis",
+        "title": "Visual Accessibility",
+        "showRatio": true,
+        "showIssues": true
+      }
+    ],
+
+    "keyboard": {
+      "toggleShortcut": "Ctrl+Shift+A",
+      "runAuditShortcut": "Ctrl+Shift+R",
+      "exportReportShortcut": "Ctrl+Shift+E"
+    }
+  },
+
+  "testing": {
+    "enabled": true,
+    "automated": {
+      "runOnLoad": true,
+      "runOnNavigation": true,
+      "runOnDOMChange": true,
+      "intervalMs": 60000
+    },
+
+    "manual": {
+      "checklists": [
+        "wcag-aa-checklist",
+        "photography-metaphor-checklist",
+        "keyboard-navigation-checklist",
+        "screen-reader-checklist"
+      ],
+      "saveResults": true,
+      "compareToBaseline": true
+    }
+  },
+
+  "photography": {
+    "terminology": {
+      "validateConsistency": true,
+      "requireExplanations": true,
+      "checkAlternatives": true,
+      "approvedTerms": [
+        "pan", "tilt", "zoom", "focus", "aperture",
+        "shutter", "lens", "camera", "viewfinder",
+        "capture", "frame", "composition"
+      ]
+    },
+
+    "metaphors": {
+      "validateAccuracy": true,
+      "requireContext": true,
+      "checkProgression": true,
+      "maxComplexity": "intermediate"
+    },
+
+    "accessibility": {
+      "requireAlternativeDescriptions": true,
+      "validateProgressiveDisclosure": true,
+      "checkMultiLanguageSupport": false,
+      "requireAudioDescriptions": false
+    }
+  },
+
+  "compliance": {
+    "standards": ["WCAG 2.1 AA", "Section 508", "EN 301 549"],
+    "reportFormat": "detailed",
+    "includeEvidence": true,
+    "generateCertificate": false
+  },
+
+  "development": {
+    "verboseLogging": false,
+    "debugMode": false,
+    "mockViolations": false,
+    "skipAxeLoad": false,
+    "enableExperimentalFeatures": false
+  }
+}

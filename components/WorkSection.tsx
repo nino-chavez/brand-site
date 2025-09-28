@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import Section, { SectionTitle } from './Section';
-import { WORK_PROJECTS } from '../constants';
+import { WORK_PROJECTS } from '../src/constants';
 import type { WorkProject } from '../types';
 
 interface WorkSectionProps {

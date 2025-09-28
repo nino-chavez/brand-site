@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { SectionId } from '../types';
-import { SECTIONS } from '../constants';
+import { SECTIONS } from '../src/constants';
 
 interface AthleticScoreboardProps {
     activeSection: SectionId;

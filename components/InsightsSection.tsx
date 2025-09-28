@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Section, { SectionTitle } from './Section';
-import { INSIGHTS_ARTICLES } from '../constants';
+import { INSIGHTS_ARTICLES } from '../src/constants';
 import type { InsightArticle } from '../types';
 import { BlogIcon, LinkedinIcon } from './Icons';
 

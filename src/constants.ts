@@ -1,6 +1,6 @@
 
-import type { Section, SectionId, WorkProject, InsightArticle, SocialLink, TechnicalSkill } from './types';
-import { GithubIcon, LinkedinIcon, InstagramIcon, MailIcon, CameraIcon, BlogIcon } from './components/Icons';
+import type { Section, SectionId, WorkProject, InsightArticle, SocialLink, TechnicalSkill } from '../types';
+import { GithubIcon, LinkedinIcon, InstagramIcon, MailIcon, CameraIcon, BlogIcon } from '../components/Icons';
 
 export const SECTIONS: Section[] = [
     { id: 'hero', title: 'Home' },

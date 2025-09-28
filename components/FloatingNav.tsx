@@ -1,7 +1,7 @@
 
 import React from 'react';
 import type { SectionId } from '../types';
-import { SECTIONS } from '../constants';
+import { SECTIONS } from '../src/constants';
 
 interface FloatingNavProps {
     onNavigate: (id: SectionId) => void;

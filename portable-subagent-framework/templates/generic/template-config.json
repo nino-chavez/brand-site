@@ -1,0 +1,43 @@
+{
+  "name": "Generic Template",
+  "description": "Universal template that works with any programming language or framework",
+  "version": "1.0.0",
+  "tech_stack": "generic",
+  "base_validator": "GenericValidator",
+  "supported_standards": [
+    "clean-code",
+    "maintainability", 
+    "documentation",
+    "performance",
+    "security"
+  ],
+  "default_rules": {
+    "general": {
+      "max_file_lines": 300,
+      "max_function_lines": 50,
+      "max_function_parameters": 5,
+      "require_documentation": false,
+      "no_magic_numbers": true
+    },
+    "maintainability": {
+      "max_cyclomatic_complexity": 10,
+      "max_nesting_depth": 4,
+      "descriptive_naming": true
+    },
+    "performance": {
+      "no_n_plus_one_queries": true,
+      "efficient_algorithms": true,
+      "memory_management": true
+    }
+  },
+  "file_patterns": {
+    "source": "**/*.{js,ts,py,java,cs,cpp,rb,go,rs}",
+    "config": "**/*.{json,yaml,yml,toml,ini}",
+    "docs": "**/*.{md,txt,rst}"
+  },
+  "quality_gates": {
+    "complexity_threshold": 10,
+    "duplication_threshold": 5,
+    "maintainability_index": 70
+  }
+}
