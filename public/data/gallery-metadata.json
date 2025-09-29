@@ -1,12 +1,14 @@
 {
   "version": "1.0.0",
-  "lastUpdated": "2025-09-29T00:00:00Z",
+  "lastUpdated": "2025-09-29T23:23:53.636Z",
   "images": [
     {
       "id": "portfolio-00",
       "filename": "portfolio-00.jpg",
       "alt": "Action sports photography showcase - Portfolio image 1",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-00.webp",
         "preview": "/images/gallery/preview/portfolio-00.webp",
@@ -14,16 +16,20 @@
         "fallback": "/images/gallery/portfolio-00.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
         "iso": 400,
-        "aperture": "f/4.0",
+        "aperture": "f/2.8",
         "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T14:30:00Z",
+        "focalLength": "85mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 0,
@@ -33,7 +39,9 @@
       "id": "portfolio-01",
       "filename": "portfolio-01.jpg",
       "alt": "Action sports photography showcase - Portfolio image 2",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-01.webp",
         "preview": "/images/gallery/preview/portfolio-01.webp",
@@ -41,16 +49,20 @@
         "fallback": "/images/gallery/portfolio-01.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
         "iso": 400,
-        "aperture": "f/4.0",
+        "aperture": "f/2.8",
         "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T14:35:00Z",
+        "focalLength": "85mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 1,
@@ -60,7 +72,9 @@
       "id": "portfolio-02",
       "filename": "portfolio-02.jpg",
       "alt": "Action sports photography showcase - Portfolio image 3",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-02.webp",
         "preview": "/images/gallery/preview/portfolio-02.webp",
@@ -68,16 +82,20 @@
         "fallback": "/images/gallery/portfolio-02.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T14:40:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
+        "iso": 200,
+        "aperture": "f/2.8",
+        "shutterSpeed": "1/640",
+        "focalLength": "70mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 2,
@@ -87,7 +105,9 @@
       "id": "portfolio-03",
       "filename": "portfolio-03.jpg",
       "alt": "Action sports photography showcase - Portfolio image 4",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-03.webp",
         "preview": "/images/gallery/preview/portfolio-03.webp",
@@ -95,16 +115,20 @@
         "fallback": "/images/gallery/portfolio-03.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T14:45:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 640,
+        "aperture": "f/2.8",
+        "shutterSpeed": "1/1600",
+        "focalLength": "150mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 3,
@@ -114,7 +138,9 @@
       "id": "portfolio-04",
       "filename": "portfolio-04.jpg",
       "alt": "Action sports photography showcase - Portfolio image 5",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-04.webp",
         "preview": "/images/gallery/preview/portfolio-04.webp",
@@ -122,16 +148,20 @@
         "fallback": "/images/gallery/portfolio-04.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 800,
         "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T14:50:00Z",
+        "shutterSpeed": "1/2000",
+        "focalLength": "105mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 4,
@@ -141,7 +171,9 @@
       "id": "portfolio-05",
       "filename": "portfolio-05.jpg",
       "alt": "Action sports photography showcase - Portfolio image 6",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-05.webp",
         "preview": "/images/gallery/preview/portfolio-05.webp",
@@ -149,16 +181,20 @@
         "fallback": "/images/gallery/portfolio-05.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T14:55:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "E 35-150mm F2.0-F2.8 A058",
+        "iso": 50,
+        "aperture": "f/20",
+        "shutterSpeed": "1/400",
+        "focalLength": "105mm",
+        "dateTaken": "2024-01-31T03:47:37.000Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 5,
@@ -168,7 +204,9 @@
       "id": "portfolio-06",
       "filename": "portfolio-06.jpg",
       "alt": "Action sports photography showcase - Portfolio image 7",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-06.webp",
         "preview": "/images/gallery/preview/portfolio-06.webp",
@@ -176,16 +214,20 @@
         "fallback": "/images/gallery/portfolio-06.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:00:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 640,
+        "aperture": "f/2.8",
+        "shutterSpeed": "1/1600",
+        "focalLength": "150mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 6,
@@ -195,7 +237,9 @@
       "id": "portfolio-07",
       "filename": "portfolio-07.jpg",
       "alt": "Action sports photography showcase - Portfolio image 8",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-07.webp",
         "preview": "/images/gallery/preview/portfolio-07.webp",
@@ -203,16 +247,20 @@
         "fallback": "/images/gallery/portfolio-07.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
         "iso": 400,
-        "aperture": "f/4.0",
+        "aperture": "f/2.8",
         "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:05:00Z",
+        "focalLength": "85mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 7,
@@ -222,7 +270,9 @@
       "id": "portfolio-08",
       "filename": "portfolio-08.jpg",
       "alt": "Action sports photography showcase - Portfolio image 9",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-08.webp",
         "preview": "/images/gallery/preview/portfolio-08.webp",
@@ -230,16 +280,20 @@
         "fallback": "/images/gallery/portfolio-08.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 800,
         "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:10:00Z",
+        "shutterSpeed": "1/2000",
+        "focalLength": "105mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 8,
@@ -249,7 +303,9 @@
       "id": "portfolio-09",
       "filename": "portfolio-09.jpg",
       "alt": "Action sports photography showcase - Portfolio image 10",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-09.webp",
         "preview": "/images/gallery/preview/portfolio-09.webp",
@@ -257,16 +313,20 @@
         "fallback": "/images/gallery/portfolio-09.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:15:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 640,
+        "aperture": "f/2.8",
+        "shutterSpeed": "1/1600",
+        "focalLength": "150mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 9,
@@ -276,7 +336,9 @@
       "id": "portfolio-10",
       "filename": "portfolio-10.jpg",
       "alt": "Action sports photography showcase - Portfolio image 11",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-10.webp",
         "preview": "/images/gallery/preview/portfolio-10.webp",
@@ -284,16 +346,20 @@
         "fallback": "/images/gallery/portfolio-10.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:20:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 320,
+        "aperture": "f/3.5",
+        "shutterSpeed": "1/800",
+        "focalLength": "90mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 10,
@@ -303,7 +369,9 @@
       "id": "portfolio-11",
       "filename": "portfolio-11.jpg",
       "alt": "Action sports photography showcase - Portfolio image 12",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-11.webp",
         "preview": "/images/gallery/preview/portfolio-11.webp",
@@ -311,16 +379,20 @@
         "fallback": "/images/gallery/portfolio-11.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
         "iso": 400,
-        "aperture": "f/4.0",
+        "aperture": "f/2.8",
         "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:25:00Z",
+        "focalLength": "85mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 11,
@@ -330,7 +402,9 @@
       "id": "portfolio-12",
       "filename": "portfolio-12.jpg",
       "alt": "Action sports photography showcase - Portfolio image 13",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-12.webp",
         "preview": "/images/gallery/preview/portfolio-12.webp",
@@ -338,16 +412,20 @@
         "fallback": "/images/gallery/portfolio-12.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
+        "iso": 100,
+        "aperture": "f/2.0",
+        "shutterSpeed": "1/500",
         "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:30:00Z",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 12,
@@ -357,7 +435,9 @@
       "id": "portfolio-13",
       "filename": "portfolio-13.jpg",
       "alt": "Action sports photography showcase - Portfolio image 14",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-13.webp",
         "preview": "/images/gallery/preview/portfolio-13.webp",
@@ -365,16 +445,20 @@
         "fallback": "/images/gallery/portfolio-13.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:35:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 320,
+        "aperture": "f/3.5",
+        "shutterSpeed": "1/800",
+        "focalLength": "90mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 13,
@@ -384,7 +468,9 @@
       "id": "portfolio-14",
       "filename": "portfolio-14.jpg",
       "alt": "Action sports photography showcase - Portfolio image 15",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-14.webp",
         "preview": "/images/gallery/preview/portfolio-14.webp",
@@ -392,16 +478,20 @@
         "fallback": "/images/gallery/portfolio-14.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:40:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 500,
+        "aperture": "f/3.2",
+        "shutterSpeed": "1/1250",
+        "focalLength": "100mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 14,
@@ -411,7 +501,9 @@
       "id": "portfolio-15",
       "filename": "portfolio-15.jpg",
       "alt": "Action sports photography showcase - Portfolio image 16",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-15.webp",
         "preview": "/images/gallery/preview/portfolio-15.webp",
@@ -419,16 +511,20 @@
         "fallback": "/images/gallery/portfolio-15.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
+        "iso": 100,
+        "aperture": "f/2.0",
+        "shutterSpeed": "1/500",
         "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:45:00Z",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 15,
@@ -438,7 +534,9 @@
       "id": "portfolio-16",
       "filename": "portfolio-16.jpg",
       "alt": "Action sports photography showcase - Portfolio image 17",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-16.webp",
         "preview": "/images/gallery/preview/portfolio-16.webp",
@@ -446,16 +544,20 @@
         "fallback": "/images/gallery/portfolio-16.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
+        "iso": 100,
+        "aperture": "f/2.0",
+        "shutterSpeed": "1/500",
         "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:50:00Z",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 16,
@@ -465,7 +567,9 @@
       "id": "portfolio-17",
       "filename": "portfolio-17.jpg",
       "alt": "Action sports photography showcase - Portfolio image 18",
-      "categories": ["action-sports"],
+      "categories": [
+        "action-sports"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-17.webp",
         "preview": "/images/gallery/preview/portfolio-17.webp",
@@ -473,16 +577,20 @@
         "fallback": "/images/gallery/portfolio-17.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 400,
-        "aperture": "f/4.0",
-        "shutterSpeed": "1/1000",
-        "focalLength": "50mm",
-        "dateTaken": "2024-08-15T15:55:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 320,
+        "aperture": "f/3.5",
+        "shutterSpeed": "1/800",
+        "focalLength": "90mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
-        "tags": ["action", "sports", "photography"],
+        "tags": [
+          "action",
+          "sports",
+          "photography"
+        ],
         "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
       },
       "displayOrder": 17,
@@ -492,7 +600,9 @@
       "id": "portfolio-18",
       "filename": "portfolio-18.jpg",
       "alt": "Technical software project showcase - Portfolio image 19",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-18.webp",
         "preview": "/images/gallery/preview/portfolio-18.webp",
@@ -500,16 +610,20 @@
         "fallback": "/images/gallery/portfolio-18.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T10:00:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 50,
+        "aperture": "f/16",
+        "shutterSpeed": "1/320",
+        "focalLength": "90mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 18,
@@ -519,7 +633,9 @@
       "id": "portfolio-19",
       "filename": "portfolio-19.jpg",
       "alt": "Technical software project showcase - Portfolio image 20",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-19.webp",
         "preview": "/images/gallery/preview/portfolio-19.webp",
@@ -527,16 +643,20 @@
         "fallback": "/images/gallery/portfolio-19.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T10:15:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 50,
+        "aperture": "f/16",
+        "shutterSpeed": "1/320",
+        "focalLength": "90mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 19,
@@ -546,7 +666,9 @@
       "id": "portfolio-20",
       "filename": "portfolio-20.jpg",
       "alt": "Technical software project showcase - Portfolio image 21",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-20.webp",
         "preview": "/images/gallery/preview/portfolio-20.webp",
@@ -554,16 +676,20 @@
         "fallback": "/images/gallery/portfolio-20.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T10:30:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
+        "iso": 64,
+        "aperture": "f/2.0",
+        "shutterSpeed": "1/200",
+        "focalLength": "50mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 20,
@@ -573,7 +699,9 @@
       "id": "portfolio-21",
       "filename": "portfolio-21.jpg",
       "alt": "Technical software project showcase - Portfolio image 22",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-21.webp",
         "preview": "/images/gallery/preview/portfolio-21.webp",
@@ -581,16 +709,20 @@
         "fallback": "/images/gallery/portfolio-21.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T10:45:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 50,
+        "aperture": "f/20",
+        "shutterSpeed": "1/400",
+        "focalLength": "105mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 21,
@@ -600,7 +732,9 @@
       "id": "portfolio-22",
       "filename": "portfolio-22.jpg",
       "alt": "Technical software project showcase - Portfolio image 23",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-22.webp",
         "preview": "/images/gallery/preview/portfolio-22.webp",
@@ -608,16 +742,20 @@
         "fallback": "/images/gallery/portfolio-22.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T11:00:00Z",
+        "camera": "SONY ILCE-6100",
+        "lens": "FE 85mm F1.8",
+        "iso": 100,
+        "aperture": "f/1.8",
+        "shutterSpeed": "1/500",
+        "focalLength": "85mm",
+        "dateTaken": "2022-07-24T15:32:25.000Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 22,
@@ -627,7 +765,9 @@
       "id": "portfolio-23",
       "filename": "portfolio-23.jpg",
       "alt": "Technical software project showcase - Portfolio image 24",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-23.webp",
         "preview": "/images/gallery/preview/portfolio-23.webp",
@@ -635,16 +775,20 @@
         "fallback": "/images/gallery/portfolio-23.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T11:15:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "FE 85mm F1.8",
+        "iso": 64,
+        "aperture": "f/2.0",
+        "shutterSpeed": "1/200",
+        "focalLength": "50mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 23,
@@ -654,7 +798,9 @@
       "id": "portfolio-24",
       "filename": "portfolio-24.jpg",
       "alt": "Technical software project showcase - Portfolio image 25",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-24.webp",
         "preview": "/images/gallery/preview/portfolio-24.webp",
@@ -662,16 +808,20 @@
         "fallback": "/images/gallery/portfolio-24.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T11:30:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 50,
+        "aperture": "f/16",
+        "shutterSpeed": "1/320",
+        "focalLength": "90mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 24,
@@ -681,7 +831,9 @@
       "id": "portfolio-25",
       "filename": "portfolio-25.jpg",
       "alt": "Technical software project showcase - Portfolio image 26",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-25.webp",
         "preview": "/images/gallery/preview/portfolio-25.webp",
@@ -689,16 +841,20 @@
         "fallback": "/images/gallery/portfolio-25.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T11:45:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "E 35-150mm F2.0-F2.8 A058",
+        "iso": 50,
+        "aperture": "f/20",
+        "shutterSpeed": "1/400",
+        "focalLength": "150mm",
+        "dateTaken": "2024-01-31T03:47:28.000Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 25,
@@ -708,7 +864,9 @@
       "id": "portfolio-26",
       "filename": "portfolio-26.jpg",
       "alt": "Technical software project showcase - Portfolio image 27",
-      "categories": ["technical"],
+      "categories": [
+        "technical"
+      ],
       "urls": {
         "thumbnail": "/images/gallery/thumbs/portfolio-26.webp",
         "preview": "/images/gallery/preview/portfolio-26.webp",
@@ -716,16 +874,20 @@
         "fallback": "/images/gallery/portfolio-26.jpg"
       },
       "metadata": {
-        "camera": "Canon EOS R5",
-        "lens": "RF 24-70mm f/2.8",
-        "iso": 200,
-        "aperture": "f/5.6",
-        "shutterSpeed": "1/125",
-        "focalLength": "35mm",
-        "dateTaken": "2024-09-01T12:00:00Z",
+        "camera": "SONY ILCE-7M4",
+        "lens": "Tamron 35-150mm F2-2.8 A058",
+        "iso": 50,
+        "aperture": "f/20",
+        "shutterSpeed": "1/400",
+        "focalLength": "105mm",
+        "dateTaken": "2024-01-01T12:00:00Z",
         "location": "Location to be specified",
         "projectContext": "Technical documentation and software project showcase",
-        "tags": ["technical", "software", "documentation"],
+        "tags": [
+          "technical",
+          "software",
+          "documentation"
+        ],
         "processingNotes": "Clarity enhancement, color grading for technical content"
       },
       "displayOrder": 26,
