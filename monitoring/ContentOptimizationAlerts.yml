@@ -1,0 +1,603 @@
+# Content Optimization Monitoring and Alerting Configuration
+#
+# Task 12: Production Readiness and Documentation - Monitoring Alerts
+# Version: 1.0.0
+# Last Updated: 2025-09-28
+
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: content-optimization-alerts
+  namespace: production
+  labels:
+    app: nino-chavez-portfolio
+    component: content-optimization
+    severity: critical
+spec:
+  groups:
+    # ============================================================================
+    # PERFORMANCE ALERTS
+    # ============================================================================
+    - name: content-optimization.performance
+      interval: 30s
+      rules:
+        # Content level transition performance
+        - alert: ContentTransitionSlow
+          expr: histogram_quantile(0.95, rate(content_level_transition_duration_ms_bucket[5m])) > 200
+          for: 2m
+          labels:
+            severity: warning
+            component: content-optimization
+            category: performance
+          annotations:
+            summary: "Content level transitions are slow"
+            description: "95th percentile of content level transitions is {{ $value }}ms, exceeding 200ms threshold"
+            runbook_url: "https://docs.example.com/runbooks/content-optimization/slow-transitions"
+            dashboard_url: "https://grafana.example.com/d/content-performance"
+
+        - alert: ContentTransitionCritical
+          expr: histogram_quantile(0.95, rate(content_level_transition_duration_ms_bucket[5m])) > 500
+          for: 1m
+          labels:
+            severity: critical
+            component: content-optimization
+            category: performance
+          annotations:
+            summary: "Content level transitions critically slow"
+            description: "95th percentile of content level transitions is {{ $value }}ms, exceeding critical 500ms threshold"
+            action_required: "Immediate investigation required - users experiencing significant delays"
+
+        # Memory usage monitoring
+        - alert: ContentOptimizationMemoryHigh
+          expr: content_optimization_memory_usage_mb > 100
+          for: 5m
+          labels:
+            severity: warning
+            component: content-optimization
+            category: resource
+          annotations:
+            summary: "Content optimization memory usage high"
+            description: "Memory usage is {{ $value }}MB, exceeding 100MB threshold"
+            possible_causes: "Memory leaks in content adapters, excessive caching, large content datasets"
+
+        - alert: ContentOptimizationMemoryCritical
+          expr: content_optimization_memory_usage_mb > 200
+          for: 1m
+          labels:
+            severity: critical
+            component: content-optimization
+            category: resource
+          annotations:
+            summary: "Content optimization memory usage critical"
+            description: "Memory usage is {{ $value }}MB, exceeding critical 200MB threshold"
+            action_required: "Immediate memory leak investigation required"
+
+        # Bundle size impact
+        - alert: BundleSizeIncrease
+          expr: content_optimization_bundle_size_kb > 1000
+          for: 10m
+          labels:
+            severity: warning
+            component: content-optimization
+            category: performance
+          annotations:
+            summary: "Content optimization bundle size too large"
+            description: "Bundle size is {{ $value }}KB, exceeding 1MB threshold"
+            impact: "Slower page load times, especially on mobile networks"
+
+    # ============================================================================
+    # ERROR RATE ALERTS
+    # ============================================================================
+    - name: content-optimization.errors
+      interval: 30s
+      rules:
+        # General error rate
+        - alert: ContentOptimizationErrorRate
+          expr: rate(content_optimization_errors_total[5m]) > 0.01
+          for: 2m
+          labels:
+            severity: warning
+            component: content-optimization
+            category: reliability
+          annotations:
+            summary: "Content optimization error rate elevated"
+            description: "Error rate is {{ $value | humanizePercentage }}, exceeding 1% threshold"
+            common_causes: "Content adapter initialization failures, canvas state sync issues, token application errors"
+
+        - alert: ContentOptimizationErrorRateCritical
+          expr: rate(content_optimization_errors_total[5m]) > 0.05
+          for: 1m
+          labels:
+            severity: critical
+            component: content-optimization
+            category: reliability
+          annotations:
+            summary: "Content optimization error rate critical"
+            description: "Error rate is {{ $value | humanizePercentage }}, exceeding critical 5% threshold"
+            action_required: "Immediate investigation - consider feature flag rollback"
+
+        # Component-specific errors
+        - alert: ContentAdapterFailures
+          expr: rate(content_adapter_initialization_failures_total[5m]) > 0.02
+          for: 3m
+          labels:
+            severity: warning
+            component: content-optimization
+            category: reliability
+          annotations:
+            summary: "Content adapter initialization failures"
+            description: "{{ $labels.adapter_type }} adapter failing to initialize: {{ $value | humanizePercentage }} failure rate"
+            troubleshooting: "Check component props, canvas state, and feature flag status"
+
+        # Analytics pipeline errors
+        - alert: AnalyticsPipelineErrors
+          expr: rate(user_journey_analytics_errors_total[5m]) > 0.005
+          for: 5m
+          labels:
+            severity: warning
+            component: analytics
+            category: data
+          annotations:
+            summary: "User journey analytics pipeline errors"
+            description: "Analytics pipeline error rate: {{ $value | humanizePercentage }}"
+            impact: "User behavior data may be incomplete"
+
+    # ============================================================================
+    # USER EXPERIENCE ALERTS
+    # ============================================================================
+    - name: content-optimization.user-experience
+      interval: 60s
+      rules:
+        # Accessibility score monitoring
+        - alert: AccessibilityScoreDrop
+          expr: avg_over_time(accessibility_compliance_score[10m]) < 90
+          for: 15m
+          labels:
+            severity: warning
+            component: accessibility
+            category: compliance
+          annotations:
+            summary: "Accessibility compliance score dropped"
+            description: "Average accessibility score is {{ $value }}, below 90 threshold"
+            compliance_risk: "WCAG 2.1 AA compliance may be at risk"
+            action_items: "Review recent content changes, validate ARIA labels, check color contrast"
+
+        # User engagement monitoring
+        - alert: UserEngagementDrop
+          expr: rate(content_level_progressions_total[1h]) < (rate(content_level_progressions_total[1h] offset 24h) * 0.8)
+          for: 30m
+          labels:
+            severity: warning
+            component: content-optimization
+            category: engagement
+          annotations:
+            summary: "User engagement with progressive disclosure dropped"
+            description: "Content level progression rate dropped by {{ $value | humanizePercentage }} compared to 24h ago"
+            possible_causes: "Content relevance issues, performance problems, A/B test impact"
+
+        # Content level distribution anomalies
+        - alert: ContentLevelDistributionAnomaly
+          expr: abs(rate(content_level_preview_views_total[1h]) - rate(content_level_preview_views_total[1h] offset 24h)) / rate(content_level_preview_views_total[1h] offset 24h) > 0.3
+          for: 20m
+          labels:
+            severity: warning
+            component: content-optimization
+            category: behavior
+          annotations:
+            summary: "Unusual content level viewing pattern"
+            description: "Preview level views changed by {{ $value | humanizePercentage }} compared to baseline"
+            investigation: "Check for A/B test effects, canvas interaction issues, or user flow changes"
+
+    # ============================================================================
+    # FEATURE FLAG HEALTH
+    # ============================================================================
+    - name: content-optimization.feature-flags
+      interval: 60s
+      rules:
+        # Feature flag service availability
+        - alert: FeatureFlagServiceDown
+          expr: up{job="feature-flags"} == 0
+          for: 1m
+          labels:
+            severity: critical
+            component: feature-flags
+            category: availability
+          annotations:
+            summary: "Feature flag service unavailable"
+            description: "Feature flag service is down - content optimization features may default to disabled state"
+            immediate_action: "Check feature flag service health, restart if necessary"
+
+        # Flag configuration errors
+        - alert: FeatureFlagConfigErrors
+          expr: rate(feature_flag_config_errors_total[5m]) > 0
+          for: 2m
+          labels:
+            severity: warning
+            component: feature-flags
+            category: configuration
+          annotations:
+            summary: "Feature flag configuration errors"
+            description: "Feature flag configuration errors detected: {{ $value }} errors/sec"
+            check_items: "Flag dependencies, rollout percentages, environment settings"
+
+    # ============================================================================
+    # A/B TESTING ALERTS
+    # ============================================================================
+    - name: content-optimization.ab-testing
+      interval: 300s
+      rules:
+        # A/B test statistical significance
+        - alert: ABTestVariantUnderperforming
+          expr: ab_test_conversion_rate{variant="control"} - ab_test_conversion_rate{variant!="control"} > 0.1
+          for: 30m
+          labels:
+            severity: warning
+            component: ab-testing
+            category: experiment
+          annotations:
+            summary: "A/B test variant significantly underperforming"
+            description: "Variant {{ $labels.variant }} conversion rate is {{ $value | humanizePercentage }} lower than control"
+            recommendation: "Consider early termination of underperforming variant"
+
+        # Sample size validation
+        - alert: ABTestSampleSizeLow
+          expr: ab_test_sample_size < 1000
+          for: 1h
+          labels:
+            severity: info
+            component: ab-testing
+            category: experiment
+          annotations:
+            summary: "A/B test sample size below recommended threshold"
+            description: "Test {{ $labels.test_name }} has only {{ $value }} samples"
+            statistical_note: "Results may not be statistically significant"
+
+    # ============================================================================
+    # SECURITY ALERTS
+    # ============================================================================
+    - name: content-optimization.security
+      interval: 60s
+      rules:
+        # Analytics data privacy
+        - alert: PIIInAnalyticsData
+          expr: rate(analytics_pii_detection_total[5m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+            component: analytics
+            category: privacy
+          annotations:
+            summary: "Potential PII detected in analytics data"
+            description: "Possible personally identifiable information in analytics stream"
+            compliance_risk: "GDPR/CCPA compliance violation risk"
+            immediate_action: "Stop analytics collection, investigate data flow"
+
+        # Unauthorized feature flag changes
+        - alert: UnauthorizedFeatureFlagChanges
+          expr: rate(feature_flag_unauthorized_changes_total[5m]) > 0
+          for: 1m
+          labels:
+            severity: critical
+            component: feature-flags
+            category: security
+          annotations:
+            summary: "Unauthorized feature flag modifications detected"
+            description: "Unauthorized changes to feature flags: {{ $value }} changes/min"
+            security_action: "Investigate access logs, check admin permissions"
+
+    # ============================================================================
+    # BUSINESS IMPACT ALERTS
+    # ============================================================================
+    - name: content-optimization.business
+      interval: 300s
+      rules:
+        # Conversion impact
+        - alert: ConversionRateImpact
+          expr: (rate(conversion_events_total[1h]) - rate(conversion_events_total[1h] offset 24h)) / rate(conversion_events_total[1h] offset 24h) < -0.1
+          for: 45m
+          labels:
+            severity: warning
+            component: content-optimization
+            category: business
+          annotations:
+            summary: "Conversion rate decreased after content optimization changes"
+            description: "Conversion rate dropped by {{ $value | humanizePercentage }} compared to 24h baseline"
+            business_impact: "Potential revenue impact - investigate recent changes"
+
+        # User satisfaction (from feedback)
+        - alert: UserSatisfactionDrop
+          expr: avg_over_time(user_satisfaction_score[2h]) < 3.5
+          for: 1h
+          labels:
+            severity: warning
+            component: content-optimization
+            category: satisfaction
+          annotations:
+            summary: "User satisfaction score below threshold"
+            description: "Average user satisfaction is {{ $value }}/5, below 3.5 threshold"
+            feedback_analysis: "Review recent feedback comments for common issues"
+
+# ============================================================================
+# ALERTMANAGER ROUTING CONFIGURATION
+# ============================================================================
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-content-optimization-config
+  namespace: production
+data:
+  alertmanager.yml: |
+    global:
+      smtp_smarthost: 'localhost:587'
+      smtp_from: 'alerts@example.com'
+
+    route:
+      group_by: ['alertname', 'component']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 1h
+      receiver: 'web.hook'
+      routes:
+        # Critical alerts go to PagerDuty
+        - match:
+            severity: critical
+          receiver: 'pagerduty'
+          continue: true
+
+        # Performance alerts during business hours
+        - match:
+            category: performance
+          receiver: 'performance-team'
+          active_time_intervals:
+          - business-hours
+
+        # Security alerts always go to security team
+        - match:
+            category: security
+          receiver: 'security-team'
+
+        # Business impact alerts to product team
+        - match:
+            category: business
+          receiver: 'product-team'
+
+    receivers:
+    - name: 'web.hook'
+      webhook_configs:
+      - url: 'http://webhook-service:8080/alerts'
+
+    - name: 'pagerduty'
+      pagerduty_configs:
+      - routing_key: 'YOUR_PAGERDUTY_ROUTING_KEY'
+        description: 'Content Optimization Critical Alert: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}'
+
+    - name: 'performance-team'
+      slack_configs:
+      - api_url: 'YOUR_SLACK_WEBHOOK_URL'
+        channel: '#performance-alerts'
+        title: 'Content Optimization Performance Alert'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+
+    - name: 'security-team'
+      email_configs:
+      - to: 'security@example.com'
+        subject: 'SECURITY ALERT: Content Optimization'
+        body: |
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Severity: {{ .Labels.severity }}
+          Component: {{ .Labels.component }}
+          {{ end }}
+
+    - name: 'product-team'
+      slack_configs:
+      - api_url: 'YOUR_SLACK_WEBHOOK_URL'
+        channel: '#product-alerts'
+        title: 'Content Optimization Business Impact'
+        text: '{{ range .Alerts }}{{ .Annotations.description }}{{ end }}'
+
+    time_intervals:
+    - name: business-hours
+      time_intervals:
+      - times:
+        - start_time: '09:00'
+          end_time: '17:00'
+        weekdays: ['monday:friday']
+
+# ============================================================================
+# GRAFANA DASHBOARD CONFIGURATION
+# ============================================================================
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: content-optimization-dashboard
+  namespace: monitoring
+data:
+  dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "Content Optimization Monitoring",
+        "tags": ["content-optimization", "performance", "ux"],
+        "timezone": "browser",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Content Level Transition Performance",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.50, rate(content_level_transition_duration_ms_bucket[5m]))",
+                "legendFormat": "p50"
+              },
+              {
+                "expr": "histogram_quantile(0.95, rate(content_level_transition_duration_ms_bucket[5m]))",
+                "legendFormat": "p95"
+              }
+            ],
+            "yAxes": [
+              {
+                "label": "Duration (ms)",
+                "max": 500,
+                "min": 0
+              }
+            ],
+            "alert": {
+              "conditions": [
+                {
+                  "query": {
+                    "queryType": "",
+                    "refId": "A"
+                  },
+                  "reducer": {
+                    "type": "last",
+                    "params": []
+                  },
+                  "evaluator": {
+                    "params": [200],
+                    "type": "gt"
+                  }
+                }
+              ],
+              "executionErrorState": "alerting",
+              "for": "2m",
+              "frequency": "10s",
+              "handler": 1,
+              "name": "Content Transition Performance",
+              "noDataState": "no_data"
+            }
+          },
+          {
+            "id": 2,
+            "title": "Error Rates by Component",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(content_optimization_errors_total[5m]) by (component)",
+                "legendFormat": "{{ component }}"
+              }
+            ],
+            "yAxes": [
+              {
+                "label": "Errors/sec",
+                "min": 0
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "title": "User Engagement Metrics",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "rate(content_level_progressions_total[1h])",
+                "legendFormat": "Level Progressions/hour"
+              },
+              {
+                "expr": "avg_over_time(user_satisfaction_score[1h])",
+                "legendFormat": "Satisfaction Score"
+              }
+            ]
+          },
+          {
+            "id": 4,
+            "title": "Accessibility Compliance Score",
+            "type": "gauge",
+            "targets": [
+              {
+                "expr": "accessibility_compliance_score",
+                "legendFormat": "WCAG 2.1 AA Score"
+              }
+            ],
+            "fieldConfig": {
+              "defaults": {
+                "min": 0,
+                "max": 100,
+                "thresholds": {
+                  "steps": [
+                    {"color": "red", "value": 0},
+                    {"color": "yellow", "value": 80},
+                    {"color": "green", "value": 90}
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "time": {
+          "from": "now-1h",
+          "to": "now"
+        },
+        "refresh": "30s"
+      }
+    }
+
+# ============================================================================
+# PROMETHEUS RECORDING RULES
+# ============================================================================
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: content-optimization-recording-rules
+spec:
+  groups:
+  - name: content-optimization.rules
+    interval: 30s
+    rules:
+    # Performance aggregations
+    - record: content_optimization:transition_duration_p95
+      expr: histogram_quantile(0.95, rate(content_level_transition_duration_ms_bucket[5m]))
+
+    - record: content_optimization:error_rate_5m
+      expr: rate(content_optimization_errors_total[5m])
+
+    # User experience metrics
+    - record: content_optimization:engagement_rate_1h
+      expr: rate(content_level_progressions_total[1h])
+
+    - record: content_optimization:satisfaction_avg_2h
+      expr: avg_over_time(user_satisfaction_score[2h])
+
+    # Business metrics
+    - record: content_optimization:conversion_rate_24h
+      expr: rate(conversion_events_total[24h])
+
+    # A/B testing metrics
+    - record: ab_test:conversion_rate_by_variant
+      expr: rate(conversion_events_total[1h]) by (variant)
+
+    - record: ab_test:sample_size_by_variant
+      expr: sum(ab_test_impressions_total) by (variant)
+
+---
+# Health check endpoint configuration
+apiVersion: v1
+kind: Service
+metadata:
+  name: content-optimization-health
+  labels:
+    app: nino-chavez-portfolio
+    component: health-check
+spec:
+  ports:
+  - port: 8080
+    name: health
+  selector:
+    app: nino-chavez-portfolio
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: content-optimization-health
+spec:
+  selector:
+    matchLabels:
+      app: nino-chavez-portfolio
+  endpoints:
+  - port: health
+    path: /health/content-optimization
+    interval: 30s
