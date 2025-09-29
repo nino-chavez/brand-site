@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import SimplifiedGameFlowContainer from './components/SimplifiedGameFlowContainer';
-import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
-import { CanvasStateProvider } from './components/providers/CanvasStateProvider';
-import Header from './components/Header';
-import BackgroundEffects from './components/BackgroundEffects';
-import CursorLens from './components/CursorLens';
-import LightboxCanvas from './components/LightboxCanvas';
-import CanvasDebugDiagnostic from './CanvasDebugDiagnostic';
-import { AthleticTokenProvider } from './tokens/simple-provider';
+import SimplifiedGameFlowContainer from '../components/SimplifiedGameFlowContainer';
+import { UnifiedGameFlowProvider } from '../contexts/UnifiedGameFlowContext';
+import { CanvasStateProvider } from '../components/providers/CanvasStateProvider';
+import Header from '../components/Header';
+import BackgroundEffects from '../components/BackgroundEffects';
+import CursorLens from '../components/CursorLens';
+import LightboxCanvas from '../components/LightboxCanvas';
+// import CanvasDebugDiagnostic from '../CanvasDebugDiagnostic'; // File not found
+import { AthleticTokenProvider } from '../tokens/simple-provider';
 
 const App: React.FC = () => {
     const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas'>('traditional');
@@ -65,7 +65,7 @@ const App: React.FC = () => {
 
         // Diagnostic mode - simple test component
         if (isDiagnosticMode) {
-            return <CanvasDebugDiagnostic />;
+            return <div>Canvas Debug Diagnostic (Component Missing)</div>;
         }
 
         // Test mode detection logging
