@@ -11,12 +11,15 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { CursorLens } from '../../components/CursorLens';
 import { UnifiedGameFlowProvider } from '../../contexts/UnifiedGameFlowContext';
+import { CanvasStateProvider } from '../../contexts/CanvasStateProvider';
 import type { CursorLensProps, PhotoWorkflowSection, ActivationMethod } from '../../types/cursor-lens';
 
-// Test wrapper component
+// Enhanced test wrapper component with CanvasStateProvider
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <UnifiedGameFlowProvider debugMode={true}>
-    {children}
+    <CanvasStateProvider>
+      {children}
+    </CanvasStateProvider>
   </UnifiedGameFlowProvider>
 );
 

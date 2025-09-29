@@ -1,0 +1,14 @@
+{
+  "subagents": [
+    {
+      "name": "FileOrganizerAgent",
+      "description": "A subagent that safely and efficiently reorganizes the file structure of a project according to best practices and user-defined conventions.",
+      "instruction_file": "./FileOrganizerAgent.md"
+    },
+    {
+      "name": "CodeGuardianAgent",
+      "description": "An architecture compliance enforcer and code quality guardian.",
+      "instruction_file": "./CodeGuardianAgent.md"
+    }
+  ]
+}

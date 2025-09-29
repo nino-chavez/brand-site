@@ -1,0 +1,59 @@
+{
+  "name": "portable-subagent-framework",
+  "version": "1.0.0",
+  "description": "A generalized framework for creating project-specific AI coding subagents that enforce architecture standards",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "create-subagent": "node generators/create-subagent.js",
+    "integrate-agent-os": "node generators/integrate-agent-os.js",
+    "test": "node test/framework-test.js",
+    "validate": "node core/validate-framework.js",
+    "demo": "node examples/demo.js"
+  },
+  "keywords": [
+    "ai",
+    "subagent",
+    "code-quality",
+    "architecture",
+    "standards",
+    "copilot",
+    "claude",
+    "cursor",
+    "portable",
+    "framework",
+    "agent-os",
+    "integration"
+  ],
+  "author": "AI Development Team",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^9.4.1",
+    "inquirer": "^8.2.5",
+    "fs-extra": "^11.1.1",
+    "handlebars": "^4.7.8",
+    "glob": "^8.1.0",
+    "chalk": "^4.1.2",
+    "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.56.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/portable-subagent-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/portable-subagent-framework/issues"
+  },
+  "homepage": "https://github.com/your-org/portable-subagent-framework#readme",
+  "bin": {
+    "create-subagent": "./bin/create-subagent.js",
+    "integrate-agent-os": "./bin/integrate-agent-os.js"
+  }
+}

@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import React from 'react';
 import ViewfinderOverlay from '../components/ViewfinderOverlay';
 import { HeroBlurContainer } from '../components/BlurContainer';
-import { HERO_VIEWFINDER_CONFIG } from '../constants';
+import { HERO_VIEWFINDER_CONFIG } from '../src/constants';
 
 // Mock the useMouseTracking hook
 vi.mock('../hooks/useMouseTracking', () => ({

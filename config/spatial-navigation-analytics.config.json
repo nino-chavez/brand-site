@@ -1,0 +1,437 @@
+{
+  "analytics": {
+    "enabled": true,
+    "privacyMode": "balanced",
+    "batchSize": 50,
+    "flushInterval": 30000,
+
+    "endpoints": {
+      "events": "${ANALYTICS_EVENTS_ENDPOINT}/spatial-navigation",
+      "performance": "${ANALYTICS_PERFORMANCE_ENDPOINT}/canvas-performance",
+      "accessibility": "${ANALYTICS_ACCESSIBILITY_ENDPOINT}/navigation-accessibility",
+      "userJourney": "${ANALYTICS_JOURNEY_ENDPOINT}/photography-portfolio"
+    },
+
+    "photography": {
+      "trackMetaphorLearning": true,
+      "trackTerminologyUsage": true,
+      "trackNavigationPatterns": true,
+      "trackAccessibilityUsage": true,
+      "trackVisualEffectsUsage": true,
+      "trackCinematicTransitions": true
+    },
+
+    "privacy": {
+      "anonymizeData": true,
+      "respectDoNotTrack": true,
+      "sessionTimeout": 1800000,
+      "dataRetention": 2592000000,
+      "allowPersonalization": false,
+      "encryptSensitiveData": true
+    },
+
+    "tracking": {
+      "navigationEvents": {
+        "enabled": true,
+        "sampleRate": 1.0,
+        "includePerformanceMetrics": true,
+        "trackUserIntentions": true,
+        "trackPhotographyContext": true
+      },
+
+      "spatialMovements": {
+        "panEvents": {
+          "enabled": true,
+          "trackDirection": true,
+          "trackMagnitude": true,
+          "trackSmoothness": true,
+          "trackPhotographyMetaphor": "Camera panning to reveal composition"
+        },
+        "tiltEvents": {
+          "enabled": true,
+          "trackDirection": true,
+          "trackMagnitude": true,
+          "trackPhotographyMetaphor": "Camera tilting for perspective change"
+        },
+        "zoomEvents": {
+          "enabled": true,
+          "trackLevel": true,
+          "trackSpeed": true,
+          "trackPhotographyMetaphor": "Lens zoom for subject framing"
+        },
+        "focusEvents": {
+          "enabled": true,
+          "trackDepthOfField": true,
+          "trackFocusTransitions": true,
+          "trackPhotographyMetaphor": "Lens focus for subject emphasis"
+        }
+      },
+
+      "userInteractions": {
+        "inputMethods": {
+          "keyboard": {
+            "enabled": true,
+            "trackArrowKeys": true,
+            "trackShortcuts": true,
+            "trackAccessibilityKeys": true
+          },
+          "mouse": {
+            "enabled": true,
+            "trackDrag": true,
+            "trackWheel": true,
+            "trackHover": true
+          },
+          "touch": {
+            "enabled": true,
+            "trackGestures": true,
+            "trackMultiTouch": true,
+            "trackSwipes": true
+          },
+          "accessibility": {
+            "enabled": true,
+            "trackScreenReader": true,
+            "trackKeyboardNavigation": true,
+            "trackVoiceControl": true
+          }
+        },
+
+        "sessionFlow": {
+          "trackEntryPoint": true,
+          "trackNavigationStart": true,
+          "trackPortfolioEngagement": true,
+          "trackMetaphorLearning": true,
+          "trackGoalCompletion": true,
+          "trackExitPoint": true
+        }
+      },
+
+      "performanceMetrics": {
+        "frameRate": {
+          "enabled": true,
+          "targetFPS": 60,
+          "alertThreshold": 45,
+          "trackConsistency": true
+        },
+        "renderTime": {
+          "enabled": true,
+          "targetTime": 16.67,
+          "trackVariability": true
+        },
+        "memoryUsage": {
+          "enabled": true,
+          "trackLeaks": true,
+          "alertThreshold": 100
+        },
+        "inputLatency": {
+          "enabled": true,
+          "targetLatency": 100,
+          "trackConsistency": true
+        },
+        "navigationSmoothness": {
+          "enabled": true,
+          "targetSmoothness": 90,
+          "trackStuttering": true
+        }
+      },
+
+      "accessibilityMetrics": {
+        "screenReaderUsage": {
+          "enabled": true,
+          "trackAnnouncements": true,
+          "trackMetaphorExplanations": true,
+          "trackNavigationEfficiency": true
+        },
+        "keyboardNavigation": {
+          "enabled": true,
+          "trackTabOrder": true,
+          "trackSkipLinks": true,
+          "trackFocusManagement": true
+        },
+        "visualAccessibility": {
+          "enabled": true,
+          "trackContrastPreferences": true,
+          "trackMotionPreferences": true,
+          "trackTextSize": true
+        },
+        "photographyAccessibility": {
+          "enabled": true,
+          "trackMetaphorComprehension": true,
+          "trackAlternativeDescriptions": true,
+          "trackProgressiveDisclosure": true
+        }
+      }
+    },
+
+    "dataCollection": {
+      "userJourney": {
+        "enabled": true,
+        "trackDuration": true,
+        "trackEngagement": true,
+        "trackConversionFunnels": true,
+        "photographySpecific": {
+          "trackPortfolioViewing": true,
+          "trackNavigationLearning": true,
+          "trackMetaphorAdoption": true,
+          "trackAccessibilityUsage": true
+        }
+      },
+
+      "behavioralPatterns": {
+        "navigationPreferences": {
+          "inputMethodPreference": true,
+          "navigationSpeedPreference": true,
+          "metaphorUsagePatterns": true,
+          "accessibilityFeatureUsage": true
+        },
+        "learningPatterns": {
+          "metaphorLearningCurve": true,
+          "navigationImprovement": true,
+          "featureDiscovery": true,
+          "assistanceSeeking": true
+        },
+        "engagementPatterns": {
+          "sessionLength": true,
+          "returnVisits": true,
+          "featureUsage": true,
+          "goalAchievement": true
+        }
+      },
+
+      "contextualData": {
+        "deviceInformation": {
+          "screenSize": true,
+          "deviceType": true,
+          "inputCapabilities": true,
+          "performanceClass": true,
+          "accessibilityFeatures": true
+        },
+        "environmentalContext": {
+          "timeOfDay": true,
+          "sessionLength": true,
+          "networkConditions": false,
+          "batteryLevel": false
+        },
+        "photographyContext": {
+          "portfolioSection": true,
+          "imageType": true,
+          "navigationComplexity": true,
+          "metaphorDifficulty": true
+        }
+      }
+    },
+
+    "reporting": {
+      "realTimeMetrics": {
+        "enabled": true,
+        "updateInterval": 5000,
+        "dashboardDisplay": true,
+        "alertSystem": true
+      },
+
+      "dashboardWidgets": [
+        {
+          "type": "navigation-heatmap",
+          "title": "Spatial Navigation Patterns",
+          "config": {
+            "showPhotographyMetaphors": true,
+            "showAccessibilityPaths": true,
+            "showPerformanceOverlay": true
+          }
+        },
+        {
+          "type": "metaphor-adoption",
+          "title": "Photography Metaphor Learning",
+          "config": {
+            "showLearningCurves": true,
+            "showTerminologyUsage": true,
+            "showExplanationAccess": true
+          }
+        },
+        {
+          "type": "accessibility-usage",
+          "title": "Accessibility Feature Usage",
+          "config": {
+            "showScreenReaderPaths": true,
+            "showKeyboardPatterns": true,
+            "showAssistiveTechnology": true
+          }
+        },
+        {
+          "type": "performance-metrics",
+          "title": "Navigation Performance",
+          "config": {
+            "showFrameRate": true,
+            "showSmoothness": true,
+            "showInputLatency": true
+          }
+        },
+        {
+          "type": "user-journey-flow",
+          "title": "Photography Portfolio Journey",
+          "config": {
+            "showConversionFunnel": true,
+            "showEngagementMetrics": true,
+            "showDropoffPoints": true
+          }
+        }
+      ],
+
+      "exportFormats": {
+        "json": {
+          "enabled": true,
+          "includeRawEvents": true,
+          "includeAggregations": true,
+          "includeMetadata": true
+        },
+        "csv": {
+          "enabled": true,
+          "flattenNestedData": true,
+          "includeHeaders": true
+        },
+        "analytics": {
+          "googleAnalytics": {
+            "enabled": false,
+            "customDimensions": true,
+            "customMetrics": true
+          },
+          "mixpanel": {
+            "enabled": false,
+            "eventTracking": true,
+            "userProfiles": false
+          }
+        }
+      }
+    },
+
+    "alerts": {
+      "enabled": true,
+      "channels": {
+        "console": {
+          "enabled": true,
+          "logLevel": "warn"
+        },
+        "webhook": {
+          "enabled": true,
+          "url": "${ANALYTICS_WEBHOOK_URL}",
+          "timeout": 5000
+        },
+        "email": {
+          "enabled": false,
+          "recipients": ["${ANALYTICS_ALERT_EMAIL}"]
+        }
+      },
+
+      "triggers": [
+        {
+          "name": "navigation_performance_degradation",
+          "condition": "frameRate < 45 OR inputLatency > 200",
+          "severity": "high",
+          "cooldown": 300000,
+          "message": "Navigation performance below acceptable thresholds"
+        },
+        {
+          "name": "accessibility_issues",
+          "condition": "accessibilityErrors > 0",
+          "severity": "medium",
+          "cooldown": 600000,
+          "message": "Accessibility issues detected in spatial navigation"
+        },
+        {
+          "name": "metaphor_confusion",
+          "condition": "metaphorExplanationRequests > 5 IN session",
+          "severity": "low",
+          "cooldown": 1800000,
+          "message": "Users frequently requesting photography metaphor explanations"
+        },
+        {
+          "name": "user_journey_dropoff",
+          "condition": "portfolioCompletionRate < 0.3",
+          "severity": "medium",
+          "cooldown": 3600000,
+          "message": "High dropoff rate in photography portfolio navigation"
+        }
+      ]
+    },
+
+    "qualityAssurance": {
+      "dataValidation": {
+        "enabled": true,
+        "validateEventStructure": true,
+        "validateTimestamps": true,
+        "validateSessionConsistency": true,
+        "validatePhotographyMetaphors": true
+      },
+
+      "samplingRules": {
+        "highFrequencyEvents": {
+          "sampleRate": 0.1,
+          "events": ["mouse_movement", "scroll", "resize"]
+        },
+        "performanceEvents": {
+          "sampleRate": 1.0,
+          "events": ["frame_rate", "render_time", "input_latency"]
+        },
+        "accessibilityEvents": {
+          "sampleRate": 1.0,
+          "events": ["screen_reader", "keyboard_navigation", "focus_change"]
+        },
+        "photographyEvents": {
+          "sampleRate": 1.0,
+          "events": ["metaphor_explanation", "terminology_usage", "navigation_pattern"]
+        }
+      },
+
+      "anomalyDetection": {
+        "enabled": true,
+        "trackUnusualNavigationPatterns": true,
+        "trackPerformanceAnomalies": true,
+        "trackAccessibilityDeviations": true,
+        "trackMetaphorUsageAnomalies": true
+      }
+    },
+
+    "compliance": {
+      "gdpr": {
+        "enabled": true,
+        "requireConsent": true,
+        "allowDataDeletion": true,
+        "allowDataExport": true,
+        "respectPrivacySettings": true
+      },
+      "ccpa": {
+        "enabled": true,
+        "allowOptOut": true,
+        "transparentDataUsage": true
+      },
+      "accessibility": {
+        "trackComplianceMetrics": true,
+        "respectAccessibilityPreferences": true,
+        "provideAnalyticsAccessibility": true
+      }
+    }
+  },
+
+  "development": {
+    "debugMode": {
+      "enabled": false,
+      "verboseLogging": false,
+      "mockAnalyticsEndpoints": false,
+      "showRealTimeEvents": false,
+      "enableTestingMode": false
+    },
+
+    "testing": {
+      "mockData": {
+        "enabled": false,
+        "generateSampleEvents": false,
+        "simulateUserJourneys": false
+      },
+      "validation": {
+        "validatePhotographyMetaphors": true,
+        "validateAccessibilityTracking": true,
+        "validatePerformanceMetrics": true,
+        "validatePrivacyCompliance": true
+      }
+    }
+  }
+}

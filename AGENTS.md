@@ -6,6 +6,8 @@ This project employs multiple AI agents working together under Nino's direction.
 
 ## Coding Standards
 
+All code in this project is expected to adhere to the standards enforced by the `CodeGuardianAgent`. Key standards include:
+
 ### TypeScript Requirements
 - All new components must be fully typed
 - Use proper interface definitions from `types.ts`
@@ -19,9 +21,12 @@ This project employs multiple AI agents working together under Nino's direction.
 - Implement proper ref forwarding when needed
 
 ### File Organization
+
+For any major file reorganization tasks, invoke the `FileOrganizerAgent` to ensure that all changes are made safely and that no broken references are introduced.
+
 - Components in `/components/` directory
 - Shared types in `types.ts`
-- Constants and data in `constants.ts`
+- Constants and data in `src/constants.ts`
 - Custom hooks in `/hooks/` directory
 
 ### Naming Conventions

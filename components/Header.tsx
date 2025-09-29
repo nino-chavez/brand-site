@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import type { SectionId } from '../types';
-import { SECTIONS } from '../constants';
+import { SECTIONS } from '../src/constants';
 import { useAthleticTokens } from '../tokens/simple-provider';
 import { TechnicalHUD } from './TechnicalHUD';
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useMouseTracking } from '../hooks/useMouseTracking';
-import { HERO_VIEWFINDER_CONFIG } from '../constants';
+import { HERO_VIEWFINDER_CONFIG } from '../src/constants';
 
 interface BlurContainerProps {
   children: React.ReactNode;

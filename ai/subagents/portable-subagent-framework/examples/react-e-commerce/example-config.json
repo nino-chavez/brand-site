@@ -1,0 +1,42 @@
+{
+  "project": {
+    "name": "ECommerceShop",
+    "description": "React TypeScript e-commerce application",
+    "tech_stack": "react-typescript",
+    "organization": "ShopCorp Development Team"
+  },
+  "standards": [
+    "clean-architecture",
+    "performance-optimized", 
+    "accessibility",
+    "agent-native",
+    "security",
+    "test-coverage"
+  ],
+  "custom_rules": {
+    "e_commerce_specific": {
+      "payment_security": true,
+      "pci_compliance": true,
+      "cart_performance": {
+        "max_items_before_virtualization": 50,
+        "checkout_flow_max_steps": 4
+      }
+    },
+    "component_limits": {
+      "max_lines": 150,
+      "max_props": 4,
+      "max_hooks": 4
+    },
+    "accessibility": {
+      "color_contrast_ratio": 4.5,
+      "keyboard_navigation": true,
+      "screen_reader_support": true
+    }
+  },
+  "integration": {
+    "agent_os": true,
+    "ci_cd": "github-actions",
+    "testing": "jest",
+    "bundler": "vite"
+  }
+}

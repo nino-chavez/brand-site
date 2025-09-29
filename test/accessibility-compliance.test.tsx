@@ -4,7 +4,7 @@ import React from 'react';
 import { axe, toHaveNoViolations } from 'jest-axe';
 import ViewfinderOverlay from '../components/ViewfinderOverlay';
 import HeroSection from '../components/HeroSection';
-import { HERO_VIEWFINDER_CONFIG } from '../constants';
+import { HERO_VIEWFINDER_CONFIG } from '../src/constants';
 
 // Extend Jest matchers for accessibility testing
 expect.extend(toHaveNoViolations);

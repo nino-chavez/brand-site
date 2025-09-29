@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Section, { SectionTitle } from './Section';
-import { GALLERY_IMAGES } from '../constants';
+import { GALLERY_IMAGES } from '../src/constants';
 
 interface GallerySectionProps {
     setRef: (el: HTMLDivElement | null) => void;

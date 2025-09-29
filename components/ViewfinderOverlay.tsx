@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { useMouseTracking } from '../hooks/useMouseTracking';
 import { CompatibilityFallbacks, ProgressiveEnhancement } from '../utils/browserCompat';
 import type { TechnicalSkill, SkillCategory } from '../types';
-import { HERO_VIEWFINDER_CONFIG, HERO_TECHNICAL_SKILLS, SKILL_CATEGORIES } from '../constants';
+import { HERO_VIEWFINDER_CONFIG, HERO_TECHNICAL_SKILLS, SKILL_CATEGORIES } from '../src/constants';
 import { useAthleticColors } from '../tokens/simple-provider';
 
 // Extracted viewfinder components

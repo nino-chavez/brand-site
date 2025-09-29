@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Section, { SectionTitle } from './Section';
-import { SOCIAL_LINKS } from '../constants';
+import { SOCIAL_LINKS } from '../src/constants';
 
 interface ContactSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
