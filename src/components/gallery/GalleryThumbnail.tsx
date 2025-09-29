@@ -11,11 +11,15 @@ import type { GalleryImage } from '../../types/gallery';
 export interface GalleryThumbnailProps {
   image: GalleryImage;
   onClick: () => void;
+  index?: number;
+  totalCount?: number;
 }
 
 export const GalleryThumbnail: React.FC<GalleryThumbnailProps> = ({
   image,
   onClick,
+  index,
+  totalCount,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -64,6 +68,10 @@ export const GalleryThumbnail: React.FC<GalleryThumbnailProps> = ({
     }
   };
 
+  const ariaLabel = index !== undefined && totalCount !== undefined
+    ? `Image ${index + 1} of ${totalCount}: ${image.alt}. Press Enter to view full size.`
+    : `${image.alt}. Press Enter to view full size.`;
+
   return (
     <div
       ref={thumbnailRef}
@@ -72,7 +80,7 @@ export const GalleryThumbnail: React.FC<GalleryThumbnailProps> = ({
       onKeyDown={handleKeyDown}
       role="button"
       tabIndex={0}
-      aria-label={image.alt}
+      aria-label={ariaLabel}
     >
       {/* Blur-up placeholder */}
       <div className="placeholder" aria-hidden="true" />

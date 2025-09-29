@@ -18,17 +18,30 @@ export const CategoryFilterBar: React.FC<CategoryFilterBarProps> = ({
   activeCategory,
   onCategoryChange,
 }) => {
+  const totalCount = categories.reduce((sum, cat) => sum + cat.count, 0);
+  const activeCount = activeCategory
+    ? categories.find(cat => cat.id === activeCategory)?.count || totalCount
+    : totalCount;
+
   return (
     <div className="category-filter-bar" role="toolbar" aria-label="Filter gallery by category">
+      {/* Screen reader announcement for filter changes */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+        {activeCategory === null
+          ? `Showing all ${totalCount} images`
+          : `Showing ${activeCount} ${categories.find(cat => cat.id === activeCategory)?.label} images`
+        }
+      </div>
       {/* All categories chip */}
       <button
         className={`filter-chip ${activeCategory === null ? 'active' : ''}`}
         onClick={() => onCategoryChange(null)}
         aria-pressed={activeCategory === null}
+        aria-label={`Show all ${totalCount} images`}
       >
-        <span className="chip-icon">🖼️</span>
+        <span className="chip-icon" aria-hidden="true">🖼️</span>
         <span className="chip-label">All</span>
-        <span className="chip-count">{categories.reduce((sum, cat) => sum + cat.count, 0)}</span>
+        <span className="chip-count" aria-hidden="true">{totalCount}</span>
       </button>
 
       {/* Category-specific chips */}
@@ -38,10 +51,11 @@ export const CategoryFilterBar: React.FC<CategoryFilterBarProps> = ({
           className={`filter-chip ${activeCategory === category.id ? 'active' : ''}`}
           onClick={() => onCategoryChange(category.id)}
           aria-pressed={activeCategory === category.id}
+          aria-label={`Show ${category.count} ${category.label} images`}
         >
-          <span className="chip-icon">{category.icon}</span>
+          <span className="chip-icon" aria-hidden="true">{category.icon}</span>
           <span className="chip-label">{category.label}</span>
-          <span className="chip-count">{category.count}</span>
+          <span className="chip-count" aria-hidden="true">{category.count}</span>
         </button>
       ))}
 
@@ -155,6 +169,19 @@ export const CategoryFilterBar: React.FC<CategoryFilterBarProps> = ({
           .filter-chip:active {
             transform: none;
           }
+        }
+
+        /* Screen reader only content */
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
         }
       `}</style>
     </div>

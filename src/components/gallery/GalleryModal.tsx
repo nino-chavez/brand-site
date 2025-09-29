@@ -8,6 +8,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import type { GalleryImage } from '../../types/gallery';
 import { useGalleryNavigation } from '../../hooks/useGalleryNavigation';
+import { useAttachTouchGestures } from '../../hooks/useTouchGestures';
 import { MetadataPanel } from './MetadataPanel';
 
 export interface GalleryModalProps {
@@ -29,6 +30,7 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
   const [transitionDirection, setTransitionDirection] = useState<'left' | 'right' | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
 
   const {
     currentImage,
@@ -44,11 +46,43 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
     enableWrapAround: false,
   });
 
+  // Touch gesture support for mobile navigation
+  const { swipeDirection } = useAttachTouchGestures(imageContainerRef, {
+    onSwipeLeft: () => {
+      if (!isLast) {
+        setTransitionDirection('left');
+        goToNext();
+      }
+    },
+    onSwipeRight: () => {
+      if (!isFirst) {
+        setTransitionDirection('right');
+        goToPrevious();
+      }
+    },
+    enabled: isOpen,
+    swipeThreshold: 50,
+    swipeVelocityThreshold: 0.3,
+  });
+
   // Reset image load state when image changes
   useEffect(() => {
     setIsImageLoaded(false);
     setHasImageError(false);
   }, [currentImage?.id]);
+
+  // Screen reader announcements for image changes
+  const [announcement, setAnnouncement] = useState<string>('');
+  useEffect(() => {
+    if (isOpen && currentImage) {
+      const message = `Viewing image ${currentIndex + 1} of ${images.length}: ${currentImage.alt}`;
+      setAnnouncement(message);
+
+      // Clear announcement after 1 second to allow re-announcement on next change
+      const timer = setTimeout(() => setAnnouncement(''), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [currentImage?.id, currentIndex, images.length, isOpen, currentImage?.alt]);
 
   // Handle escape key to close modal
   useEffect(() => {
@@ -151,6 +185,16 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
       {/* Backdrop */}
       <div className="backdrop" aria-hidden="true" />
 
+      {/* Screen reader announcements */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {announcement}
+      </div>
+
       {/* Close button */}
       <button
         className="close-button"
@@ -164,7 +208,7 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
       </button>
 
       {/* Image counter */}
-      <div className="image-counter" aria-live="polite">
+      <div className="image-counter" aria-hidden="true">
         {currentIndex + 1} / {images.length}
       </div>
 
@@ -173,7 +217,7 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
         <button
           className="nav-button prev"
           onClick={handlePrevious}
-          aria-label="Previous image"
+          aria-label={`Previous image (${currentIndex} of ${images.length})`}
         >
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="15 18 9 12 15 6" />
@@ -186,7 +230,7 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
         <button
           className="nav-button next"
           onClick={handleNext}
-          aria-label="Next image"
+          aria-label={`Next image (${currentIndex + 2} of ${images.length})`}
         >
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <polyline points="9 18 15 12 9 6" />
@@ -195,7 +239,10 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
       )}
 
       {/* Image container */}
-      <div className={`image-container ${transitionDirection || ''}`}>
+      <div
+        ref={imageContainerRef}
+        className={`image-container ${transitionDirection || ''} ${swipeDirection ? `swipe-${swipeDirection}` : ''}`}
+      >
         {/* Blur-up placeholder */}
         {!isImageLoaded && !hasImageError && (
           <div className="image-placeholder" aria-hidden="true" />
@@ -366,6 +413,18 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
           max-width: 90vw;
           max-height: 85vh;
           z-index: 1;
+          touch-action: pan-y pinch-zoom; /* Allow vertical scroll, prevent horizontal */
+        }
+
+        /* Touch swipe visual feedback */
+        .image-container.swipe-left {
+          transform: translateX(-5px);
+          transition: transform 0.1s ease-out;
+        }
+
+        .image-container.swipe-right {
+          transform: translateX(5px);
+          transition: transform 0.1s ease-out;
         }
 
         .image-container img {
@@ -521,6 +580,19 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
           .metadata-toggle:hover {
             transform: none;
           }
+        }
+
+        /* Screen reader only content */
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
         }
       `}</style>
     </div>

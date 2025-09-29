@@ -46,12 +46,14 @@ export const ContactSheetGrid: React.FC<ContactSheetGridProps> = ({
       <div
         className="grid-container"
         role="list"
-        aria-label="Portfolio gallery"
+        aria-label={`Portfolio gallery with ${displayedImages.length} images`}
       >
-        {displayedImages.map((image) => (
+        {displayedImages.map((image, index) => (
           <GalleryThumbnail
             key={image.id}
             image={image}
+            index={index}
+            totalCount={displayedImages.length}
             onClick={() => onImageClick(image.id)}
           />
         ))}
