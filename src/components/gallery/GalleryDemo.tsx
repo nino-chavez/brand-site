@@ -7,6 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ContactSheetGrid } from './ContactSheetGrid';
+import { GalleryModal } from './GalleryModal';
 import type { GalleryImage, CategoryFilter } from '../../types/gallery';
 
 interface GalleryMetadata {
@@ -20,6 +21,7 @@ export const GalleryDemo: React.FC = () => {
   const [metadata, setMetadata] = useState<GalleryMetadata | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadTime, setLoadTime] = useState<number>(0);
+  const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
 
   useEffect(() => {
     const startTime = performance.now();
@@ -42,8 +44,18 @@ export const GalleryDemo: React.FC = () => {
   }, []);
 
   const handleImageClick = (imageId: string) => {
-    console.log('Image clicked:', imageId);
-    // TODO: Open modal when GalleryModal component is ready
+    const modalStartTime = performance.now();
+    setSelectedImageId(imageId);
+
+    // Log modal open time
+    requestAnimationFrame(() => {
+      const modalEndTime = performance.now();
+      console.log(`✅ Modal opened in ${(modalEndTime - modalStartTime).toFixed(2)}ms`);
+    });
+  };
+
+  const handleCloseModal = () => {
+    setSelectedImageId(null);
   };
 
   if (error) {
@@ -80,6 +92,16 @@ export const GalleryDemo: React.FC = () => {
         categories={metadata.categories}
         onImageClick={handleImageClick}
       />
+
+      {/* Gallery Modal */}
+      {selectedImageId && (
+        <GalleryModal
+          images={metadata.images}
+          initialImageId={selectedImageId}
+          isOpen={true}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };
