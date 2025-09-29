@@ -3,10 +3,13 @@
  *
  * Zero-occlusion cursor-activated radial navigation system with 60fps performance.
  * Orchestrates cursor tracking, gesture detection, and menu positioning for photography workflow.
+ * Extended in Phase 3 with canvas coordinate mapping for spatial navigation.
  *
  * @fileoverview Phase 1: Setup and Foundation - Task 7: Core Component Implementation
- * @version 1.0.0
+ * @fileoverview Phase 3: Canvas Integration - Task 6: CursorLens Canvas Integration
+ * @version 1.1.0
  * @since 2025-09-26
+ * @updated 2025-09-27 - Canvas coordinate mapping integration
  */
 
 import React, { useEffect, useCallback, useMemo, useState, useRef } from 'react';
@@ -22,6 +25,8 @@ import type {
   ActivationMethod,
   CameraMetaphorLabels
 } from '../types/cursor-lens';
+import type { CanvasPosition, CanvasState } from '../types/canvas';
+import { getSectionCanvasPosition } from '../utils/canvasCoordinateTransforms';
 
 // Default viewport dimensions (will be replaced by actual viewport on mount)
 const DEFAULT_VIEWPORT: ViewportDimensions = {
@@ -106,26 +111,42 @@ const RadialMenuItem: React.FC<RadialMenuItemProps> = ({
       type="button"
       className={`
         absolute transform -translate-x-1/2 -translate-y-1/2
-        w-16 h-16 rounded-full border-2 border-white/20
+        w-16 h-16 min-w-[44px] min-h-[44px] rounded-full border-2 border-white/20
         bg-slate-900/90 backdrop-blur-sm
         flex flex-col items-center justify-center
         text-xs text-white font-medium
         transition-all duration-150 ease-out
         hover:border-orange-400/60 hover:bg-slate-800/95
         focus:outline-none focus:ring-2 focus:ring-orange-400/50
+        active:scale-95 active:bg-slate-700/95
+        touch-manipulation
         ${isHighlighted ? 'border-orange-400/80 bg-slate-800/95 scale-110' : ''}
         ${isAccessible ? 'ring-2 ring-blue-400/50' : ''}
       `}
       style={{
         left: `${x}px`,
         top: `${y}px`,
-        zIndex: 9999
+        zIndex: 9999,
+        // Enhanced touch targets for mobile
+        minWidth: '44px',
+        minHeight: '44px'
       }}
       onClick={() => onSelect(section)}
       onFocus={() => onFocus(section)}
       onBlur={onBlur}
       onMouseEnter={() => onFocus(section)}
       onMouseLeave={onBlur}
+      onTouchStart={(e) => {
+        // Enhanced touch feedback
+        e.currentTarget.style.transform = 'translate(-50%, -50%) scale(0.95)';
+        onFocus(section);
+      }}
+      onTouchEnd={(e) => {
+        // Reset touch feedback
+        e.currentTarget.style.transform = isHighlighted
+          ? 'translate(-50%, -50%) scale(1.1)'
+          : 'translate(-50%, -50%) scale(1)';
+      }}
       aria-label={label.ariaLabel}
       tabIndex={isAccessible ? 0 : -1}
     >
@@ -162,6 +183,21 @@ const ActivationIndicator: React.FC<ActivationIndicatorProps> = ({
   const strokeDasharray = 2 * Math.PI * 12; // Circumference of progress circle
   const strokeDashoffset = strokeDasharray * (1 - activationProgress);
 
+  // Enhanced touch feedback colors
+  const getProgressColor = () => {
+    if (activationMethod === 'touch-long-press') {
+      return activationProgress < 0.5 ? 'rgb(34, 197, 94)' : 'rgb(251, 146, 60)';
+    }
+    return 'rgb(251, 146, 60)';
+  };
+
+  const getProgressBackgroundColor = () => {
+    if (activationMethod === 'touch-long-press') {
+      return 'rgba(34, 197, 94, 0.3)';
+    }
+    return 'rgba(251, 146, 60, 0.3)';
+  };
+
   return (
     <div
       className="absolute transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
@@ -171,59 +207,105 @@ const ActivationIndicator: React.FC<ActivationIndicatorProps> = ({
         zIndex: 9998
       }}
     >
-      {/* Progress circle */}
+      {/* Enhanced progress circle with touch feedback */}
       <svg
-        width="32"
-        height="32"
-        className={`transition-opacity duration-200 ${
-          activationProgress > 0 && !isActive ? 'opacity-100' : 'opacity-0'
-        }`}
+        width="36"
+        height="36"
+        className={`transition-all duration-200 ${
+          activationProgress > 0 && !isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+        } ${activationMethod === 'touch-long-press' ? 'filter drop-shadow-lg' : ''}`}
       >
         <circle
-          cx="16"
-          cy="16"
-          r="12"
+          cx="18"
+          cy="18"
+          r="14"
           fill="none"
-          stroke="rgba(251, 146, 60, 0.3)"
-          strokeWidth="2"
+          stroke={getProgressBackgroundColor()}
+          strokeWidth={activationMethod === 'touch-long-press' ? '3' : '2'}
         />
         <circle
-          cx="16"
-          cy="16"
-          r="12"
+          cx="18"
+          cy="18"
+          r="14"
           fill="none"
-          stroke="rgb(251, 146, 60)"
-          strokeWidth="2"
+          stroke={getProgressColor()}
+          strokeWidth={activationMethod === 'touch-long-press' ? '3' : '2'}
           strokeDasharray={strokeDasharray}
           strokeDashoffset={strokeDashoffset}
-          transform="rotate(-90 16 16)"
+          transform="rotate(-90 18 18)"
           className="transition-all duration-100 ease-out"
         />
+        {/* Pulse effect for touch */}
+        {activationMethod === 'touch-long-press' && activationProgress > 0.5 && (
+          <circle
+            cx="18"
+            cy="18"
+            r="18"
+            fill="none"
+            stroke="rgba(34, 197, 94, 0.5)"
+            strokeWidth="1"
+            className="animate-ping"
+          />
+        )}
       </svg>
 
-      {/* Active state indicator */}
+      {/* Enhanced active state indicator */}
       <div
         className={`
-          absolute inset-0 w-8 h-8 rounded-full border-2
+          absolute inset-0 w-9 h-9 rounded-full border-2
           transition-all duration-200 ease-out
           ${isActive
-            ? 'border-orange-400 bg-orange-400/20 scale-100'
+            ? `border-orange-400 bg-orange-400/20 scale-100 ${
+                activationMethod === 'touch-long-press' ? 'shadow-lg shadow-green-400/25' : ''
+              }`
             : 'border-transparent scale-75'
           }
         `}
       />
 
-      {/* Method indicator */}
+      {/* Enhanced method indicator with touch optimization */}
       {activationMethod && (
         <div
-          className="absolute -bottom-8 left-1/2 transform -translate-x-1/2
-                     px-2 py-1 bg-slate-900/90 backdrop-blur-sm rounded
-                     text-xs text-white/80 whitespace-nowrap border border-white/10"
+          className={`absolute -bottom-10 left-1/2 transform -translate-x-1/2
+                     px-3 py-2 bg-slate-900/95 backdrop-blur-sm rounded-lg
+                     text-xs text-white/90 whitespace-nowrap border border-white/20
+                     transition-all duration-200
+                     ${activationMethod === 'touch-long-press' ? 'bg-green-900/95 border-green-400/30' : ''}`}
         >
-          {activationMethod === 'click-hold' && 'Click & Hold'}
-          {activationMethod === 'hover' && 'Hover'}
-          {activationMethod === 'keyboard' && 'Keyboard'}
-          {activationMethod === 'touch-long-press' && 'Long Press'}
+          {activationMethod === 'click-hold' && (
+            <span className="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-orange-400">
+                <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Click & Hold
+            </span>
+          )}
+          {activationMethod === 'hover' && (
+            <span className="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-orange-400">
+                <path d="M12 19L7 14H10V5H14V14H17L12 19Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Hover
+            </span>
+          )}
+          {activationMethod === 'keyboard' && (
+            <span className="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-orange-400">
+                <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" strokeWidth="2"/>
+                <path d="M6 8H6.01M10 8H10.01M14 8H14.01M18 8H18.01M8 12H16M6 16H18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              Keyboard
+            </span>
+          )}
+          {activationMethod === 'touch-long-press' && (
+            <span className="flex items-center gap-1">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-green-400">
+                <path d="M9 1V3H15V1M20 8H22V10H20M20 14H22V16H20M4 8H2V10H4M4 14H2V16H4M5 19V21H19V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <path d="M9 7H15V13H9V7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Long Press ({Math.round(activationProgress * 100)}%)
+            </span>
+          )}
         </div>
       )}
     </div>
@@ -249,7 +331,13 @@ export const CursorLens: React.FC<CursorLensProps> = ({
   onDeactivate,
   onPerformanceUpdate,
   fallbackMode,
-  viewportDimensions: propViewportDimensions
+  viewportDimensions: propViewportDimensions,
+  // Canvas integration props (Phase 3)
+  canvasMode = false,
+  canvasState,
+  onCanvasPositionChange,
+  sectionToCanvasMapper,
+  showSpatialPreview = false
 }) => {
   // State management
   const [viewportDimensions, setViewportDimensions] = useState<ViewportDimensions>(
@@ -354,10 +442,20 @@ export const CursorLens: React.FC<CursorLensProps> = ({
 
   // Section selection handler
   const handleSectionSelect = useCallback((section: PhotoWorkflowSection) => {
-    // Navigate to corresponding scroll section
-    const scrollSectionId = SECTION_SCROLL_MAPPING[section];
-    if (scrollSectionId && actions.setSection) {
-      actions.setSection(scrollSectionId as any);
+    // Canvas navigation (Phase 3 integration)
+    if (canvasMode && onCanvasPositionChange) {
+      // Use custom mapper or default spatial grid mapping
+      const canvasPosition = sectionToCanvasMapper
+        ? sectionToCanvasMapper(section)
+        : getSectionCanvasPosition(section);
+
+      onCanvasPositionChange(canvasPosition);
+    } else {
+      // Traditional scroll navigation (backward compatibility)
+      const scrollSectionId = SECTION_SCROLL_MAPPING[section];
+      if (scrollSectionId && actions.setSection) {
+        actions.setSection(scrollSectionId as any);
+      }
     }
 
     // Callback to parent
@@ -365,7 +463,7 @@ export const CursorLens: React.FC<CursorLensProps> = ({
 
     // Deactivate lens after selection
     lensActivation.deactivate();
-  }, [actions, onSectionSelect, lensActivation]);
+  }, [canvasMode, onCanvasPositionChange, sectionToCanvasMapper, actions, onSectionSelect, lensActivation]);
 
   // Section highlighting handler
   const handleSectionFocus = useCallback((section: PhotoWorkflowSection) => {
@@ -405,7 +503,14 @@ export const CursorLens: React.FC<CursorLensProps> = ({
       ref={containerRef}
       className={`fixed inset-0 pointer-events-none z-[9990] ${className}`}
       {...lensActivation.gestureEvents}
-      style={{ pointerEvents: lensActivation.isActive ? 'auto' : 'none' }}
+      style={{
+        pointerEvents: lensActivation.isActive ? 'auto' : 'none',
+        // Enhanced touch optimization
+        touchAction: 'none',
+        WebkitTouchCallout: 'none',
+        WebkitUserSelect: 'none',
+        userSelect: 'none'
+      }}
     >
       {/* Activation indicator at menu center */}
       {radialMenu.menuPosition.center && (

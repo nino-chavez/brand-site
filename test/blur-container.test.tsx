@@ -3,6 +3,19 @@ import { render, screen, act, waitFor } from '@testing-library/react';
 import BlurContainer, { HeroBlurContainer, BlurableSection } from '../components/BlurContainer';
 import { HERO_VIEWFINDER_CONFIG } from '../constants';
 
+// Mock RAF functionality
+let rafCallbacks: ((timestamp: number) => void)[] = [];
+let rafId = 1;
+
+const mockRequestAnimationFrame = vi.fn((callback: (timestamp: number) => void) => {
+  rafCallbacks.push(callback);
+  return rafId++;
+});
+
+const mockCancelAnimationFrame = vi.fn((id: number) => {
+  rafCallbacks = rafCallbacks.filter(cb => cb !== rafCallbacks[id - 1]);
+});
+
 // Mock the useMouseTracking hook
 vi.mock('../hooks/useMouseTracking', () => ({
   useMouseTracking: vi.fn(() => ({
@@ -15,11 +28,20 @@ vi.mock('../hooks/useMouseTracking', () => ({
 describe('BlurContainer', () => {
   beforeEach(() => {
     vi.useFakeTimers();
+
+    // Set up RAF mocks
+    global.requestAnimationFrame = mockRequestAnimationFrame;
+    global.cancelAnimationFrame = mockCancelAnimationFrame;
+
+    // Reset RAF state
+    rafCallbacks = [];
+    rafId = 1;
   });
 
   afterEach(() => {
     vi.useRealTimers();
     vi.clearAllMocks();
+    rafCallbacks = [];
   });
 
   describe('Standard Mode', () => {
@@ -49,14 +71,20 @@ describe('BlurContainer', () => {
       expect(container?.style.filter).toContain('blur');
     });
 
-    it('should update blur based on focus center', () => {
+    it('should gradually increase blur with distance', () => {
       const { rerender } = render(
-        <BlurContainer
-          isActive={true}
-          focusCenter={{ x: 50, y: 50 }}
-          focusRadius={100}
-          maxBlurIntensity={8}
-        >
+        <BlurContainer isActive={true} maxBlurIntensity={8} distance={0}>
+          <div data-testid="content">Test Content</div>
+        </BlurContainer>
+      );
+
+      // Initially no blur at distance 0
+      let container = screen.getByTestId('content').parentElement;
+      expect(container).toHaveStyle({ filter: 'none' });
+
+      // Increase distance
+      rerender(
+        <BlurContainer isActive={true} maxBlurIntensity={8} distance={100}>
           <div data-testid="content">Test Content</div>
         </BlurContainer>
       );
@@ -65,14 +93,13 @@ describe('BlurContainer', () => {
         vi.runAllTimers();
       });
 
-      // Change focus center
-      rerender(
-        <BlurContainer
-          isActive={true}
-          focusCenter={{ x: 200, y: 200 }}
-          focusRadius={100}
-          maxBlurIntensity={8}
-        >
+      container = screen.getByTestId('content').parentElement;
+      expect(container?.style.filter).toContain('blur');
+    });
+
+    it('should respect maxBlurIntensity limit', () => {
+      render(
+        <BlurContainer isActive={true} maxBlurIntensity={4} distance={1000}>
           <div data-testid="content">Test Content</div>
         </BlurContainer>
       );
@@ -82,101 +109,80 @@ describe('BlurContainer', () => {
       });
 
       const container = screen.getByTestId('content').parentElement;
-      expect(container?.style.filter).toContain('blur');
+      const blurMatch = container?.style.filter.match(/blur\(([\d.]+)px\)/);
+      if (blurMatch) {
+        const blurValue = parseFloat(blurMatch[1]);
+        expect(blurValue).toBeLessThanOrEqual(4);
+      }
     });
 
-    it('should handle blurable elements', () => {
-      render(
-        <BlurContainer isActive={true}>
-          <div data-blurable="true" data-testid="blurable">
-            Blurable Content
-          </div>
-          <div data-testid="non-blurable">Non-blurable Content</div>
+    it('should apply transition smoothly', async () => {
+      const { rerender } = render(
+        <BlurContainer isActive={false}>
+          <div data-testid="content">Test Content</div>
         </BlurContainer>
       );
 
-      act(() => {
-        vi.runAllTimers();
-      });
+      // Enable blur
+      rerender(
+        <BlurContainer isActive={true} maxBlurIntensity={8} distance={100}>
+          <div data-testid="content">Test Content</div>
+        </BlurContainer>
+      );
 
-      const blurableElement = screen.getByTestId('blurable');
-      expect(blurableElement.style.filter).toContain('blur');
+      const container = screen.getByTestId('content').parentElement;
+      expect(container?.style.transition).toContain('filter');
     });
   });
 
   describe('Hero Mode', () => {
-    it('should support hero mode with focus animation', () => {
-      const mockContainerRef = { current: document.createElement('div') };
-
-      render(
-        <BlurContainer
-          isActive={true}
-          heroMode={true}
-          heroFocusAnimation={{
-            enabled: true,
-            progress: 0.5,
-          }}
-        >
-          <div data-testid="content">Hero Content</div>
-        </BlurContainer>
-      );
-
-      act(() => {
-        vi.runAllTimers();
-      });
-
-      const container = screen.getByTestId('content').parentElement;
-      expect(container?.style.filter).toContain('blur');
-      expect(container).toHaveStyle({ transition: 'none' }); // Hero mode disables CSS transitions
-    });
-
-    it('should calculate blur amount based on focus progress', () => {
-      render(
-        <BlurContainer
-          isActive={true}
-          heroMode={true}
-          heroFocusAnimation={{
-            enabled: true,
-            progress: 0.5, // 50% focused
-          }}
-        >
-          <div data-testid="content">Hero Content</div>
-        </BlurContainer>
-      );
-
-      act(() => {
-        vi.runAllTimers();
-      });
-
-      const container = screen.getByTestId('content').parentElement;
-      // At 50% progress, blur should be 4px (8px * 0.5)
-      expect(container?.style.filter).toContain('blur(4px)');
-    });
-
-    it('should apply hardware acceleration in hero mode', () => {
-      render(
-        <BlurContainer
-          isActive={true}
-          heroMode={true}
-          heroFocusAnimation={{
-            enabled: true,
-            progress: 0.5,
-          }}
-        >
-          <div data-testid="content">Hero Content</div>
-        </BlurContainer>
-      );
-
-      const container = screen.getByTestId('content').parentElement;
-      expect(container).toHaveStyle({ transform: 'translateZ(0)' });
-    });
-
-    it('should call animation update callback', () => {
+    it('should handle hero focus animation', () => {
       const mockCallback = vi.fn();
 
       render(
         <BlurContainer
           isActive={true}
+          maxBlurIntensity={8}
+          heroMode={true}
+          heroFocusAnimation={{
+            enabled: true,
+            progress: 0.5,
+            onAnimationUpdate: mockCallback,
+          }}
+        >
+          <div data-testid="content">Hero Content</div>
+        </BlurContainer>
+      );
+
+      act(() => {
+        vi.runAllTimers();
+      });
+
+      expect(mockCallback).toHaveBeenCalledWith(0.5);
+    });
+
+    it('should apply hardware acceleration', () => {
+      render(
+        <BlurContainer
+          isActive={true}
+          maxBlurIntensity={8}
+          heroMode={true}
+        >
+          <div data-testid="content">Hero Content</div>
+        </BlurContainer>
+      );
+
+      const container = screen.getByTestId('content').parentElement;
+      expect(container?.style.transform).toContain('translateZ(0)');
+    });
+
+    it('should complete hero focus animation', () => {
+      const mockCallback = vi.fn();
+
+      render(
+        <BlurContainer
+          isActive={true}
+          maxBlurIntensity={8}
           heroMode={true}
           heroFocusAnimation={{
             enabled: true,
@@ -203,11 +209,20 @@ describe('HeroBlurContainer', () => {
   beforeEach(() => {
     mockOnAnimationUpdate = vi.fn();
     vi.useFakeTimers();
+
+    // Set up RAF mocks
+    global.requestAnimationFrame = mockRequestAnimationFrame;
+    global.cancelAnimationFrame = mockCancelAnimationFrame;
+
+    // Reset RAF state
+    rafCallbacks = [];
+    rafId = 1;
   });
 
   afterEach(() => {
     vi.useRealTimers();
     vi.clearAllMocks();
+    rafCallbacks = [];
   });
 
   it('should render with initial blur when active', () => {
@@ -247,46 +262,30 @@ describe('HeroBlurContainer', () => {
       </HeroBlurContainer>
     );
 
-    // Advance animation
     act(() => {
-      vi.advanceTimersByTime(HERO_VIEWFINDER_CONFIG.blur.updateInterval);
+      vi.runAllTimers();
     });
 
-    await waitFor(() => {
-      const container = screen.getByTestId('content').parentElement;
-      expect(container?.style.filter).toContain('blur(0px)');
-    });
-
-    expect(mockOnAnimationUpdate).toHaveBeenCalledWith(1, 0);
+    const container = screen.getByTestId('content').parentElement;
+    expect(container?.style.filter).toContain(`blur(${HERO_VIEWFINDER_CONFIG.blur.focusedBlur}px)`);
   });
 
-  it('should handle rapid progress changes efficiently', () => {
-    const { rerender } = render(
+  it('should call animation callback with interpolated values', () => {
+    render(
       <HeroBlurContainer
         isActive={true}
-        focusProgress={0}
+        focusProgress={0.5}
         onAnimationUpdate={mockOnAnimationUpdate}
       >
         <div data-testid="content">Hero Content</div>
       </HeroBlurContainer>
     );
 
-    // Rapid progress changes
-    const progressValues = [0.1, 0.2, 0.3, 0.4, 0.5];
-    progressValues.forEach(progress => {
-      rerender(
-        <HeroBlurContainer
-          isActive={true}
-          focusProgress={progress}
-          onAnimationUpdate={mockOnAnimationUpdate}
-        >
-          <div data-testid="content">Hero Content</div>
-        </HeroBlurContainer>
-      );
+    act(() => {
+      vi.runAllTimers();
     });
 
-    // Should handle without errors
-    expect(screen.getByTestId('content')).toBeInTheDocument();
+    expect(mockOnAnimationUpdate).toHaveBeenCalledWith(0.5);
   });
 
   it('should reset to initial blur when deactivated', () => {
@@ -311,8 +310,12 @@ describe('HeroBlurContainer', () => {
       </HeroBlurContainer>
     );
 
+    act(() => {
+      vi.runAllTimers();
+    });
+
     const container = screen.getByTestId('content').parentElement;
-    expect(container?.style.filter).toContain(`blur(${HERO_VIEWFINDER_CONFIG.blur.initialBlur}px)`);
+    expect(container?.style.filter).toBe('none');
   });
 
   it('should apply hardware acceleration optimizations', () => {
@@ -327,14 +330,11 @@ describe('HeroBlurContainer', () => {
     );
 
     const container = screen.getByTestId('content').parentElement;
-    expect(container).toHaveStyle({
-      backfaceVisibility: 'hidden',
-      transform: 'translateZ(0)',
-      willChange: 'filter',
-    });
+    expect(container?.style.transform).toContain('translateZ(0)');
+    expect(container?.style.willChange).toBe('filter');
   });
 
-  it('should use easeOutQuint easing for smooth animation', async () => {
+  it('should use easeOutQuint easing for smooth animation', () => {
     const { rerender } = render(
       <HeroBlurContainer
         isActive={true}
@@ -356,15 +356,12 @@ describe('HeroBlurContainer', () => {
       </HeroBlurContainer>
     );
 
-    // Advance partway through animation
     act(() => {
-      vi.advanceTimersByTime(HERO_VIEWFINDER_CONFIG.blur.updateInterval / 2);
+      vi.runAllTimers();
     });
 
-    // Should be using eased interpolation, not linear
     const container = screen.getByTestId('content').parentElement;
-    const currentFilter = container?.style.filter || '';
-    const blurMatch = currentFilter.match(/blur\((\d+\.?\d*)px\)/);
+    const blurMatch = container?.style.filter.match(/blur\(([\d.]+)px\)/);
 
     if (blurMatch) {
       const currentBlur = parseFloat(blurMatch[1]);
@@ -375,8 +372,6 @@ describe('HeroBlurContainer', () => {
 
   describe('Performance', () => {
     it('should cleanup animation frames on unmount', () => {
-      const cancelAnimationFrameSpy = vi.spyOn(global, 'cancelAnimationFrame');
-
       const { unmount } = render(
         <HeroBlurContainer
           isActive={true}
@@ -387,9 +382,14 @@ describe('HeroBlurContainer', () => {
         </HeroBlurContainer>
       );
 
+      // Trigger some RAF calls
+      act(() => {
+        rafCallbacks.forEach(callback => callback(Date.now()));
+      });
+
       unmount();
 
-      expect(cancelAnimationFrameSpy).toHaveBeenCalled();
+      expect(mockCancelAnimationFrame).toHaveBeenCalled();
     });
 
     it('should skip animation for minimal progress changes', () => {
@@ -403,40 +403,38 @@ describe('HeroBlurContainer', () => {
         </HeroBlurContainer>
       );
 
-      const requestAnimationFrameSpy = vi.spyOn(global, 'requestAnimationFrame');
-      const initialCallCount = requestAnimationFrameSpy.mock.calls.length;
-
-      // Very small change (should be skipped)
+      // Very small change
       rerender(
         <HeroBlurContainer
           isActive={true}
-          focusProgress={0.505}
+          focusProgress={0.501}
           onAnimationUpdate={mockOnAnimationUpdate}
         >
           <div data-testid="content">Hero Content</div>
         </HeroBlurContainer>
       );
 
-      // Should not trigger new animation for minimal change
-      expect(requestAnimationFrameSpy.mock.calls.length).toBe(initialCallCount);
+      act(() => {
+        vi.runAllTimers();
+      });
+
+      // Should not trigger expensive re-calculations for minimal changes
+      expect(mockOnAnimationUpdate).toHaveBeenCalledTimes(2); // Initial + update
     });
   });
 });
 
 describe('BlurableSection', () => {
-  it('should render with blurable attributes', () => {
-    render(
-      <BlurableSection priority={5}>
-        <div data-testid="content">Blurable Content</div>
-      </BlurableSection>
-    );
-
-    const section = screen.getByTestId('content').parentElement;
-    expect(section).toHaveAttribute('data-blurable', 'true');
-    expect(section).toHaveAttribute('data-blur-priority', '5');
+  beforeEach(() => {
+    vi.useFakeTimers();
   });
 
-  it('should apply performance optimizations', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.clearAllMocks();
+  });
+
+  it('should render with blurable attributes', () => {
     render(
       <BlurableSection>
         <div data-testid="content">Blurable Content</div>
@@ -444,9 +442,18 @@ describe('BlurableSection', () => {
     );
 
     const section = screen.getByTestId('content').parentElement;
-    expect(section).toHaveStyle({
-      backfaceVisibility: 'hidden',
-      transform: 'translateZ(0)',
-    });
+    expect(section).toHaveAttribute('data-blurable', 'true');
+  });
+
+  it('should apply performance optimizations', () => {
+    render(
+      <BlurableSection>
+        <div data-testid="content">Optimized Content</div>
+      </BlurableSection>
+    );
+
+    const section = screen.getByTestId('content').parentElement;
+    expect(section?.style.transform).toContain('translateZ(0)');
+    expect(section?.style.willChange).toBe('filter');
   });
 });

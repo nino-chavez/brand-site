@@ -11,17 +11,11 @@
  */
 
 import type { GameFlowSection } from '../types';
+import type { CanvasPosition, ViewportConstraints, SpatialCoordinates, PhotoWorkflowSection } from '../types/canvas';
 
 // ===== COORDINATE TRANSFORMATION TYPES =====
 
-/**
- * Canvas position with scale factor
- */
-interface CanvasPosition {
-  x: number;
-  y: number;
-  scale: number;
-}
+// Types imported from ../types/canvas
 
 /**
  * Section mapping for spatial layout
@@ -41,32 +35,32 @@ interface SectionSpatialMapping {
 const DEFAULT_SECTION_MAPPING: SectionSpatialMapping[] = [
   {
     section: 'capture',
-    canvasPosition: { x: 0, y: -100, scale: 1.0 },      // Top center (Hero)
+    canvasPosition: { x: 400, y: 200, scale: 1.0 },      // Center (Hero)
     scrollPosition: 0
   },
   {
     section: 'focus',
-    canvasPosition: { x: 200, y: -100, scale: 1.0 },    // Top right (About)
+    canvasPosition: { x: 600, y: 200, scale: 1.0 },    // Right center (About)
     scrollPosition: 20
   },
   {
     section: 'frame',
-    canvasPosition: { x: 200, y: 100, scale: 1.0 },     // Bottom right (Creative)
+    canvasPosition: { x: 600, y: 400, scale: 1.0 },     // Bottom right (Creative)
     scrollPosition: 40
   },
   {
     section: 'exposure',
-    canvasPosition: { x: 0, y: 100, scale: 1.0 },       // Bottom center (Professional)
+    canvasPosition: { x: 400, y: 400, scale: 1.0 },       // Bottom center (Professional)
     scrollPosition: 60
   },
   {
     section: 'develop',
-    canvasPosition: { x: -200, y: 100, scale: 1.0 },    // Bottom left (Thought Leadership)
+    canvasPosition: { x: 200, y: 400, scale: 1.0 },    // Bottom left (Thought Leadership)
     scrollPosition: 80
   },
   {
     section: 'portfolio',
-    canvasPosition: { x: -200, y: -100, scale: 1.0 },   // Top left (Contact)
+    canvasPosition: { x: 200, y: 200, scale: 1.0 },   // Left center (Contact)
     scrollPosition: 100
   }
 ];
@@ -77,11 +71,42 @@ const DEFAULT_SECTION_MAPPING: SectionSpatialMapping[] = [
  * Convert scroll position to canvas coordinates
  * Maintains smooth mapping between linear scroll and spatial navigation
  *
- * @param scrollPosition - Scroll progress as percentage (0-100)
- * @param sectionHeight - Height of each section in pixels (optional, for fine-tuning)
+ * @param scrollPosition - Scroll position as {x, y} coordinates or legacy number
+ * @param scale - Scale factor for canvas transformation
  * @returns Canvas position corresponding to scroll position
  */
-export function scrollToCanvas(scrollPosition: number, sectionHeight: number = 1000): CanvasPosition {
+export function scrollToCanvas(
+  scrollPosition: { x: number; y: number } | number,
+  scale: number = 1.0,
+  constraints?: ViewportConstraints
+): CanvasPosition {
+  // Handle both new object format and legacy number format
+  const normalizedInput = typeof scrollPosition === 'number'
+    ? { x: scrollPosition, y: 0 }
+    : scrollPosition;
+
+  // Apply basic scale constraints (0.5 to 3.0 default range to match viewport constraints)
+  const clampedScale = Math.max(0.5, Math.min(3.0, scale));
+
+  // Convert to canvas coordinates with scale factor
+  let position: CanvasPosition = {
+    x: normalizedInput.x * clampedScale,
+    y: normalizedInput.y * clampedScale,
+    scale: clampedScale
+  };
+
+  // Apply viewport constraints if provided
+  if (constraints) {
+    position = applyViewportConstraints(position, constraints);
+  }
+
+  return position;
+}
+
+/**
+ * Legacy scroll to canvas function for backward compatibility
+ */
+export function scrollToCanvasLegacy(scrollPosition: number, sectionHeight: number = 1000): CanvasPosition {
   // Normalize scroll position to 0-100 range
   const normalizedScroll = Math.max(0, Math.min(100, scrollPosition));
 
@@ -108,10 +133,20 @@ export function scrollToCanvas(scrollPosition: number, sectionHeight: number = 1
  * Enables reverse mapping from spatial navigation back to traditional scroll
  *
  * @param canvasPosition - Canvas position with x, y, and scale
- * @param sectionHeight - Height of each section in pixels (optional, for fine-tuning)
- * @returns Scroll progress as percentage (0-100)
+ * @returns Scroll position as {x, y} coordinates
  */
-export function canvasToScroll(canvasPosition: CanvasPosition, sectionHeight: number = 1000): number {
+export function canvasToScroll(canvasPosition: CanvasPosition): { x: number; y: number } {
+  // Convert canvas coordinates back to scroll coordinates
+  return {
+    x: canvasPosition.x / canvasPosition.scale,
+    y: canvasPosition.y / canvasPosition.scale
+  };
+}
+
+/**
+ * Legacy canvas to scroll function for backward compatibility
+ */
+export function canvasToScrollLegacy(canvasPosition: CanvasPosition, sectionHeight: number = 1000): number {
   let closestDistance = Infinity;
   let closestScrollPosition = 0;
 
@@ -139,9 +174,54 @@ export function canvasToScroll(canvasPosition: CanvasPosition, sectionHeight: nu
  * @param section - GameFlow section identifier
  * @returns Canvas position for the section
  */
-export function getSectionCanvasPosition(section: GameFlowSection): CanvasPosition {
+export function getSectionCanvasPosition(
+  section: GameFlowSection | PhotoWorkflowSection,
+  grid?: { width: number; height: number; rows: number; cols: number }
+): CanvasPosition {
   const mapping = DEFAULT_SECTION_MAPPING.find(m => m.section === section);
-  return mapping ? mapping.canvasPosition : { x: 0, y: 0, scale: 1.0 };
+
+  if (mapping && !grid) {
+    return mapping.canvasPosition;
+  }
+
+  // If grid is provided, calculate position based on grid layout
+  if (grid) {
+    // Special handling for hero section (capture) - place at center of total grid
+    if (section === 'capture') {
+      return {
+        x: (grid.width * grid.cols) / 2,
+        y: (grid.height * grid.rows) / 2,
+        scale: 1.0
+      };
+    }
+
+    const sectionIndex = getSectionIndex(section as PhotoWorkflowSection);
+    const cellWidth = grid.width / grid.cols;
+    const cellHeight = grid.height / grid.rows;
+
+    const gridX = sectionIndex % grid.cols;
+    const gridY = Math.floor(sectionIndex / grid.cols);
+
+    // Calculate position within grid bounds (0 to grid dimensions)
+    return {
+      x: Math.max(0, Math.min(grid.width * grid.cols, gridX * cellWidth + cellWidth / 2)),
+      y: Math.max(0, Math.min(grid.height * grid.rows, gridY * cellHeight + cellHeight / 2)),
+      scale: 1.0
+    };
+  }
+
+  // Default fallback to center
+  return { x: 400, y: 300, scale: 1.0 };
+}
+
+/**
+ * Get section index for grid calculations
+ */
+function getSectionIndex(section: PhotoWorkflowSection): number {
+  const sectionOrder: PhotoWorkflowSection[] = [
+    'capture', 'creative', 'professional', 'thought-leadership', 'ai-github', 'contact'
+  ];
+  return sectionOrder.indexOf(section);
 }
 
 /**
@@ -225,14 +305,62 @@ export function calculateTransitionPath(
 }
 
 /**
- * Validate canvas position within bounds
- * Ensures canvas position stays within reasonable spatial limits
+ * Validate canvas position within viewport constraints
+ * Returns validation result with success status and potential errors
  *
  * @param position - Canvas position to validate
- * @param bounds - Optional bounds (default: reasonable spatial limits)
- * @returns Clamped canvas position within bounds
+ * @param constraints - Viewport constraints to validate against
+ * @returns Validation result with success, position, and optional error
  */
 export function validateCanvasPosition(
+  position: CanvasPosition,
+  constraints: ViewportConstraints
+): { success: boolean; position: CanvasPosition; error?: string } {
+  const errors: string[] = [];
+
+  // Check position bounds
+  if (position.x < constraints.minPosition.x || position.x > constraints.maxPosition.x) {
+    errors.push(`X position ${position.x} is out of bounds [${constraints.minPosition.x}, ${constraints.maxPosition.x}]`);
+  }
+
+  if (position.y < constraints.minPosition.y || position.y > constraints.maxPosition.y) {
+    errors.push(`Y position ${position.y} is out of bounds [${constraints.minPosition.y}, ${constraints.maxPosition.y}]`);
+  }
+
+  if (position.scale < constraints.minScale || position.scale > constraints.maxScale) {
+    errors.push(`Scale ${position.scale} is out of bounds [${constraints.minScale}, ${constraints.maxScale}]`);
+  }
+
+  return {
+    success: errors.length === 0,
+    position: position,
+    error: errors.length > 0 ? errors.join('; ') : undefined
+  };
+}
+
+/**
+ * Apply viewport constraints to position (clamping)
+ * Ensures canvas position stays within viewport bounds
+ *
+ * @param position - Canvas position to constrain
+ * @param constraints - Viewport constraints to apply
+ * @returns Constrained canvas position
+ */
+export function applyViewportConstraints(
+  position: CanvasPosition,
+  constraints: ViewportConstraints
+): CanvasPosition {
+  return {
+    x: Math.max(constraints.minPosition.x, Math.min(constraints.maxPosition.x, position.x)),
+    y: Math.max(constraints.minPosition.y, Math.min(constraints.maxPosition.y, position.y)),
+    scale: Math.max(constraints.minScale, Math.min(constraints.maxScale, position.scale))
+  };
+}
+
+/**
+ * Legacy validate function for backward compatibility
+ */
+export function validateCanvasPositionLegacy(
   position: CanvasPosition,
   bounds: {
     minX: number;
@@ -278,6 +406,11 @@ export function calculateMovementDuration(
     Math.pow(to.y - from.y, 2) +
     Math.pow((to.scale - from.scale) * 200, 2) // Scale change impact
   );
+
+  // Return 0 for zero movement
+  if (distance === 0) {
+    return 0;
+  }
 
   // Normalize distance to 0-1 range (assuming max reasonable distance of ~500)
   const normalizedDistance = Math.min(distance / 500, 1);

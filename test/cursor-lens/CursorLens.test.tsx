@@ -669,4 +669,112 @@ describe('CursorLens Component', () => {
       expect(onDeactivate).toBeDefined();
     });
   });
+
+  // ===== CANVAS INTEGRATION TESTS (Phase 3) =====
+
+  describe('Canvas Integration', () => {
+    it('should support canvas mode prop', () => {
+      const canvasProps = {
+        ...mockProps,
+        canvasMode: true
+      };
+
+      render(
+        <TestWrapper>
+          <CursorLens {...canvasProps} />
+        </TestWrapper>
+      );
+
+      // Component should render without errors in canvas mode
+      const container = document.querySelector('.fixed.inset-0');
+      expect(container).toBeInTheDocument();
+    });
+
+    it('should call onCanvasPositionChange when canvas mode is enabled', async () => {
+      const user = userEvent.setup();
+      const onCanvasPositionChange = vi.fn();
+      const canvasProps = {
+        ...mockProps,
+        canvasMode: true,
+        onCanvasPositionChange
+      };
+
+      render(
+        <TestWrapper>
+          <CursorLens {...canvasProps} />
+        </TestWrapper>
+      );
+
+      // Click on capture section using ARIA label
+      const captureButton = screen.getByLabelText(/Navigate to introduction section - capture readiness/);
+      await user.click(captureButton);
+
+      // Should call canvas position change callback
+      expect(onCanvasPositionChange).toHaveBeenCalled();
+    });
+
+    it('should use custom sectionToCanvasMapper when provided', async () => {
+      const user = userEvent.setup();
+      const onCanvasPositionChange = vi.fn();
+      const customMapper = vi.fn(() => ({ x: 100, y: 200, scale: 1.5 }));
+
+      const canvasProps = {
+        ...mockProps,
+        canvasMode: true,
+        onCanvasPositionChange,
+        sectionToCanvasMapper: customMapper
+      };
+
+      render(
+        <TestWrapper>
+          <CursorLens {...canvasProps} />
+        </TestWrapper>
+      );
+
+      // Click on capture section using ARIA label
+      const captureButton = screen.getByLabelText(/Navigate to introduction section - capture readiness/);
+      await user.click(captureButton);
+
+      // Should call custom mapper
+      expect(customMapper).toHaveBeenCalledWith('capture');
+      // Should call canvas position change with mapped position
+      expect(onCanvasPositionChange).toHaveBeenCalledWith({ x: 100, y: 200, scale: 1.5 });
+    });
+
+    it('should fall back to scroll navigation when canvas mode is disabled', async () => {
+      const user = userEvent.setup();
+      const onCanvasPositionChange = vi.fn();
+      const canvasProps = {
+        ...mockProps,
+        canvasMode: false, // Explicitly disabled
+        onCanvasPositionChange
+      };
+
+      render(
+        <TestWrapper>
+          <CursorLens {...canvasProps} />
+        </TestWrapper>
+      );
+
+      // Click on capture section using ARIA label
+      const captureButton = screen.getByLabelText(/Navigate to introduction section - capture readiness/);
+      await user.click(captureButton);
+
+      // Should NOT call canvas position change callback
+      expect(onCanvasPositionChange).not.toHaveBeenCalled();
+    });
+
+    it('should maintain backward compatibility with existing props', () => {
+      // Test with only original props (no canvas props)
+      render(
+        <TestWrapper>
+          <CursorLens {...mockProps} />
+        </TestWrapper>
+      );
+
+      // Component should render normally
+      const container = document.querySelector('.fixed.inset-0');
+      expect(container).toBeInTheDocument();
+    });
+  });
 });
