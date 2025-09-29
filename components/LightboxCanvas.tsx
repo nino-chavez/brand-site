@@ -20,6 +20,8 @@ import { CanvasQualityManager, getQualityManager, type QualityLevel } from '../u
 import { CompatibilityFallbacks, ProgressiveEnhancement } from '../utils/browserCompat';
 import { useSpatialAccessibility } from '../hooks/useSpatialAccessibility';
 import type { PhotoWorkflowSection } from '../types/cursor-lens';
+import CursorLens from './CursorLens';
+import { getSectionCanvasPosition } from '../utils/canvasCoordinateTransforms';
 
 // Constants for spatial grid system
 const GRID_LAYOUTS = {
@@ -733,6 +735,22 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       >
         {children}
       </div>
+
+      {/* CursorLens for spatial navigation */}
+      <CursorLens
+        canvasMode={true}
+        showSpatialPreview={true}
+        onCanvasPositionChange={(position: CanvasPosition) => {
+          executeCanvasMovement(position, 'pan-tilt');
+        }}
+        sectionToCanvasMapper={(section: PhotoWorkflowSection) => {
+          return getSectionCanvasPosition(section);
+        }}
+        onSectionSelect={(section: PhotoWorkflowSection) => {
+          console.log(`🎯 Canvas navigation: Moving to ${section} section`);
+        }}
+        className="z-30"
+      />
 
       {/* Debug overlay */}
       {debugInfo}
