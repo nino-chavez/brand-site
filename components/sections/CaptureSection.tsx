@@ -20,7 +20,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 }, ref) => {
   // Game Flow section hook
   const { state, actions } = useUnifiedGameFlow();
-  const { isActive } = state.currentSection === 'capture';
+  const isActive = state.currentSection === 'capture';
 
   // Debug logging
   const gameFlowDebugger = useGameFlowDebugger();

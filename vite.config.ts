@@ -97,7 +97,9 @@ export default defineConfig(({ mode }) => {
       },
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+        'process.env.TEST_MODE': JSON.stringify(env.TEST_MODE || mode === 'test' ? 'true' : 'false'),
+        '__TEST_MODE__': JSON.stringify(env.TEST_MODE === 'true' || mode === 'test')
       },
       resolve: {
         alias: {
@@ -111,6 +113,8 @@ export default defineConfig(({ mode }) => {
         setupFiles: ['./test/setup.ts'],
         include: ['**/*.{test,spec}.{ts,tsx}'],
         exclude: ['node_modules', 'dist', '.git'],
+        testTimeout: 30000, // 30 seconds for complex UI tests
+        hookTimeout: 10000, // 10 seconds for setup/teardown
         coverage: {
           provider: 'v8',
           reporter: ['text', 'json', 'html'],

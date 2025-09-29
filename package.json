@@ -12,15 +12,17 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:traditional": "vitest --config vitest-parallel.config.ts --mode traditional",
+    "test:canvas": "vitest --config vitest-parallel.config.ts --mode canvas",
+    "test:parallel": "npm run test:traditional & npm run test:canvas",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
-    "test:e2e:report": "playwright show-report",
-    "test:canvas": "playwright test tests/e2e/canvas --headed",
-    "test:mobile": "playwright test tests/e2e/canvas/mobile-touch.spec.ts --headed",
-    "test:performance": "playwright test tests/e2e/canvas/performance.spec.ts --headed",
-    "test:visual": "playwright test tests/e2e/canvas/visual-regression.spec.ts --headed"
+    "test:e2e:canvas": "playwright test tests/e2e/canvas-layout.spec.ts",
+    "test:e2e:cross-browser": "playwright test tests/e2e/cross-browser.spec.ts",
+    "test:all": "npm run test:run && npm run test:e2e",
+    "test:migration": "npm run test:traditional && npm run test:canvas && npm run test:e2e:canvas"
   },
   "dependencies": {
     "color2k": "^2.0.3",

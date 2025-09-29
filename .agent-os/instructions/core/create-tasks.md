@@ -14,6 +14,7 @@ With the user's approval, proceed to creating a tasks list based on the current 
 
 <pre_flight_check>
   EXECUTE: @.agent-os/instructions/meta/pre-flight.md
+  EXECUTE: @.agent-os/instructions/core/portfolio-integration-guard.md
 </pre_flight_check>
 
 <process_flow>

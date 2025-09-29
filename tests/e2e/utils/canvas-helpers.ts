@@ -30,7 +30,7 @@ export class CanvasTestHelper {
     await this.page.goto('/?layout=canvas&test=true');
 
     // Wait for canvas to be ready
-    await this.page.waitForSelector('[data-testid="lightbox-canvas"]', { timeout: 10000 });
+    await this.page.waitForSelector('.lightbox-canvas', { timeout: 10000 });
 
     // Wait for initial animation to complete
     await this.page.waitForTimeout(1000);
@@ -40,7 +40,7 @@ export class CanvasTestHelper {
    * Get the main canvas element
    */
   getCanvas(): Locator {
-    return this.page.locator('[data-testid="lightbox-canvas"]');
+    return this.page.locator('.lightbox-canvas');
   }
 
   /**
@@ -48,7 +48,7 @@ export class CanvasTestHelper {
    */
   async getCanvasPosition(): Promise<CanvasPosition> {
     return await this.page.evaluate(() => {
-      const canvas = document.querySelector('[data-testid="lightbox-canvas"] .canvas-content') as HTMLElement;
+      const canvas = document.querySelector('.lightbox-canvas .canvas-content') as HTMLElement;
       if (!canvas) throw new Error('Canvas content not found');
 
       const transform = canvas.style.transform;
@@ -68,7 +68,7 @@ export class CanvasTestHelper {
    */
   async navigateToSection(section: string): Promise<void> {
     // Click on the specified section in cursor lens or direct navigation
-    await this.page.click(`[data-section="${section}"]`);
+    await this.page.click(`[data-spatial-section="${section}"]`);
 
     // Wait for transition to complete
     await this.page.waitForTimeout(1000);
@@ -172,7 +172,7 @@ export class CanvasTestHelper {
   async waitForTransition(): Promise<void> {
     // Wait for any ongoing transitions
     await this.page.waitForFunction(() => {
-      const canvas = document.querySelector('[data-testid="lightbox-canvas"]') as HTMLElement;
+      const canvas = document.querySelector('.lightbox-canvas') as HTMLElement;
       return !canvas?.classList.contains('canvas-transitioning');
     }, { timeout: 5000 });
   }
@@ -241,7 +241,7 @@ export class VisualRegressionHelper {
    * Compare canvas layout with baseline
    */
   async compareCanvasLayout(testName: string): Promise<void> {
-    const canvas = this.page.locator('[data-testid="lightbox-canvas"]');
+    const canvas = this.page.locator('.lightbox-canvas');
     await expect(canvas).toHaveScreenshot(`${testName}-canvas-layout.png`);
   }
 
@@ -249,7 +249,7 @@ export class VisualRegressionHelper {
    * Compare specific section positioning
    */
   async compareSectionPositioning(section: string): Promise<void> {
-    const sectionElement = this.page.locator(`[data-section="${section}"]`);
+    const sectionElement = this.page.locator(`[data-spatial-section="${section}"]`);
     await expect(sectionElement).toHaveScreenshot(`${section}-positioning.png`);
   }
 
@@ -257,6 +257,6 @@ export class VisualRegressionHelper {
    * Compare camera movement states
    */
   async compareCameraStates(movementType: string): Promise<void> {
-    await expect(this.page.locator('[data-testid="lightbox-canvas"]')).toHaveScreenshot(`camera-${movementType}.png`);
+    await expect(this.page.locator('.lightbox-canvas')).toHaveScreenshot(`camera-${movementType}.png`);
   }
 }

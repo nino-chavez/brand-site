@@ -10,9 +10,17 @@ export {
   athleticColors,
   athleticTiming,
   athleticEasing,
+  contentLevelColors,
+  contentTransitions,
+  contentDensity,
+  sectionColors,
   type AthleticColor,
   type AthleticTiming,
-  type AthleticEasing
+  type AthleticEasing,
+  type ContentLevel,
+  type ContentTransition,
+  type ContentDensity,
+  type SectionColor,
 } from './simple-tokens';
 
 // React provider (if actually needed)

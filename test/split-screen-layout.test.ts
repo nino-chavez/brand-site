@@ -1,3 +1,16 @@
+/**
+ * @deprecated Traditional Split-Screen Layout Tests
+ *
+ * Split-screen layout is being replaced by the 2D canvas navigation system.
+ * Traditional side-by-side viewport concepts are incompatible with the
+ * photographer's lightbox spatial arrangement.
+ *
+ * Status: DEPRECATED - Will be removed in Phase 2 completion
+ * Replacement: 2D spatial navigation in canvas layout system
+ *
+ * See: TEST-DEPRECATION-ASSESSMENT.md for migration strategy
+ */
+
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';

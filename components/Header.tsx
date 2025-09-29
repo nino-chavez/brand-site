@@ -36,8 +36,9 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
     return (
         <header
             className={`
-                fixed top-0 left-0 right-0 z-40
+                fixed top-0 left-0 right-0 z-30
                 athletic-animate-transition
+                pointer-events-none
                 ${isScrolled
                     ? 'bg-brand-dark/90 backdrop-blur-md shadow-2xl'
                     : 'bg-black/20 backdrop-blur-sm'
@@ -45,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
             `}
             style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)' }}
         >
-            <div className="container mx-auto px-6 py-4">
+            <div className="container mx-auto px-6 py-4 pointer-events-auto">
                 {/* Header content with logo and volleyball navigation */}
                 <div className="flex justify-between items-center">
                     {/* Logo - preserved from original */}

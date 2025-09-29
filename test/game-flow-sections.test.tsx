@@ -1,3 +1,16 @@
+/**
+ * @deprecated Traditional Layout System Tests
+ *
+ * These tests are deprecated as part of the canvas layout transition.
+ * Traditional section components (CaptureSection, FocusSection, etc.) are being
+ * replaced by Content Adapters in the canvas system.
+ *
+ * Status: DEPRECATED - Will be removed in Phase 3
+ * Replacement: Canvas layout integration tests in tests/e2e/canvas-layout.spec.ts
+ *
+ * See: TEST-DEPRECATION-ASSESSMENT.md for migration strategy
+ */
+
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { CaptureSection } from '../components/sections/CaptureSection';

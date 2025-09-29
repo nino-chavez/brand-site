@@ -13,7 +13,7 @@ import {
   AthleticTokenProvider,
   useAthleticColors,
   useAthleticTiming
-} from '../../tokens/providers/AthleticTokenProvider';
+} from '../../tokens/simple-provider';
 
 // Mock component that uses athletic tokens
 const TokenConsumerComponent: React.FC<{ testId: string }> = ({ testId }) => {

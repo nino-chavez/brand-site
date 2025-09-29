@@ -21,6 +21,9 @@ export * from './unified-gameflow';
 // 2D Canvas layout system types
 export * from './canvas';
 
+// Section content optimization types (Phase 3: Content Integration)
+export * from './section-content';
+
 // Deprecated - kept for backward compatibility during transition
 // TODO: Remove these legacy exports after updating all imports
 export type { TechnicalSkill, SkillCategory } from './viewfinder';

@@ -14,6 +14,7 @@ Execute a specific task along with its sub-tasks systematically following a TDD 
 
 <pre_flight_check>
   EXECUTE: @.agent-os/instructions/meta/pre-flight.md
+  EXECUTE: @.agent-os/instructions/core/portfolio-integration-guard.md
 </pre_flight_check>
 
 
