@@ -130,19 +130,6 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [x] **BONUS:** Safari-specific touch event handling with passive: false
   - [x] **BONUS:** Comprehensive touch state tracking and interaction analytics
 
-### 8. Performance Optimization and Monitoring
-- [ ] **Implement canvas-specific performance tracking**
-  - *Scope:* Extend existing performance infrastructure for canvas operations
-  - *References:* Design.md performance requirements - 60fps with automatic optimization
-  - *Deliverable:* Real-time canvas performance monitoring with optimization
-
-  - [ ] Extend existing performance metrics for canvas-specific operations
-  - [ ] Implement automatic quality degradation below 45fps threshold
-  - [ ] Add memory usage monitoring for canvas transforms
-  - [ ] Create performance debugging tools for development
-  - [ ] Test canvas performance across different devices and browsers
-  - [ ] Implement canvas bounds optimization for off-screen sections
-
 ## Phase 3: Additional Canvas System Components ✅ **COMPLETED**
 
 ### 8. Canvas Grid and Section Orchestrator ✅ **IMPLEMENTED**
@@ -228,7 +215,7 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
 
 ## Phase 5: Mobile Optimization and Browser Compatibility
 
-### 12. Cross-Browser and Mobile Testing
+### 13. Cross-Browser and Mobile Testing
 - [ ] **Ensure compatibility across target browsers**
   - *Scope:* Test canvas system on modern browsers with graceful degradation
   - *References:* Technical constraints - modern browser support
@@ -241,7 +228,7 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [ ] Verify WebKit prefix requirements for Safari
   - [ ] Test accessibility features across browsers and screen readers
 
-### 13. Accessibility Enhancement and Validation
+### 14. Accessibility Enhancement and Validation
 - [ ] **Implement comprehensive spatial accessibility**
   - *Scope:* Full keyboard and screen reader support for 2D navigation
   - *References:* Acceptance criteria - accessibility compliance
@@ -256,7 +243,7 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
 
 ## Phase 6: Performance Validation and Deployment Preparation
 
-### 14. End-to-End Performance Testing
+### 15. End-to-End Performance Testing
 - [ ] **Validate complete user experience flows**
   - *Scope:* Test complete navigation paths with performance validation
   - *References:* User story workflows and camera movement requirements
@@ -269,7 +256,7 @@ These are the tasks to be completed for the spec detailed in @.agent-os/specs/20
   - [ ] Validate memory usage stability during extended use
   - [ ] Test performance with all 6 sections visible and interactive
 
-### 15. Production Readiness and Documentation
+### 16. Production Readiness and Documentation
 - [ ] **Prepare canvas system for production deployment**
   - *Scope:* Final optimizations and deployment preparation
   - *References:* All implementation artifacts and performance requirements
