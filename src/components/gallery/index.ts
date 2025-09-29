@@ -3,7 +3,11 @@
  *
  * Phase 1 - ContactSheetGrid with lazy loading and filtering
  * Phase 2 - GalleryModal with navigation and metadata
+ * Phase 2 - GalleryContentAdapter (complete system)
  */
+
+// Complete Gallery System
+export { GalleryContentAdapter } from './GalleryContentAdapter';
 
 // Phase 1 Components
 export { ContactSheetGrid } from './ContactSheetGrid';
@@ -14,7 +18,11 @@ export { CategoryFilterBar } from './CategoryFilterBar';
 export { GalleryModal } from './GalleryModal';
 export { MetadataPanel } from './MetadataPanel';
 
+// Demo Component
+export { GalleryDemo } from './GalleryDemo';
+
 // Type exports
+export type { GalleryContentAdapterProps } from './GalleryContentAdapter';
 export type { ContactSheetGridProps } from './ContactSheetGrid';
 export type { GalleryThumbnailProps } from './GalleryThumbnail';
 export type { CategoryFilterBarProps } from './CategoryFilterBar';
