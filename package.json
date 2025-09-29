@@ -11,7 +11,16 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:report": "playwright show-report",
+    "test:canvas": "playwright test tests/e2e/canvas --headed",
+    "test:mobile": "playwright test tests/e2e/canvas/mobile-touch.spec.ts --headed",
+    "test:performance": "playwright test tests/e2e/canvas/performance.spec.ts --headed",
+    "test:visual": "playwright test tests/e2e/canvas/visual-regression.spec.ts --headed"
   },
   "dependencies": {
     "color2k": "^2.0.3",
@@ -20,6 +29,7 @@
   },
   "devDependencies": {
     "@axe-core/react": "^4.10.2",
+    "@playwright/test": "^1.55.1",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4.1.13",
     "@testing-library/jest-dom": "^6.8.0",
@@ -32,6 +42,7 @@
     "autoprefixer": "^10.4.21",
     "jest-axe": "^10.0.0",
     "jsdom": "^27.0.0",
+    "playwright": "^1.55.1",
     "postcss": "^8.5.6",
     "stats.js": "^0.17.0",
     "tailwindcss": "^4.1.13",
