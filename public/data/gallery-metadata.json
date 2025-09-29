@@ -1,0 +1,749 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2025-09-29T00:00:00Z",
+  "images": [
+    {
+      "id": "portfolio-00",
+      "filename": "portfolio-00.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 1",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-00.webp",
+        "preview": "/images/gallery/preview/portfolio-00.webp",
+        "full": "/images/gallery/full/portfolio-00.webp",
+        "fallback": "/images/gallery/portfolio-00.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T14:30:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 0,
+      "isFeatured": true
+    },
+    {
+      "id": "portfolio-01",
+      "filename": "portfolio-01.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 2",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-01.webp",
+        "preview": "/images/gallery/preview/portfolio-01.webp",
+        "full": "/images/gallery/full/portfolio-01.webp",
+        "fallback": "/images/gallery/portfolio-01.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T14:35:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 1,
+      "isFeatured": true
+    },
+    {
+      "id": "portfolio-02",
+      "filename": "portfolio-02.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 3",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-02.webp",
+        "preview": "/images/gallery/preview/portfolio-02.webp",
+        "full": "/images/gallery/full/portfolio-02.webp",
+        "fallback": "/images/gallery/portfolio-02.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T14:40:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 2,
+      "isFeatured": true
+    },
+    {
+      "id": "portfolio-03",
+      "filename": "portfolio-03.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 4",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-03.webp",
+        "preview": "/images/gallery/preview/portfolio-03.webp",
+        "full": "/images/gallery/full/portfolio-03.webp",
+        "fallback": "/images/gallery/portfolio-03.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T14:45:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 3,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-04",
+      "filename": "portfolio-04.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 5",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-04.webp",
+        "preview": "/images/gallery/preview/portfolio-04.webp",
+        "full": "/images/gallery/full/portfolio-04.webp",
+        "fallback": "/images/gallery/portfolio-04.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T14:50:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 4,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-05",
+      "filename": "portfolio-05.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 6",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-05.webp",
+        "preview": "/images/gallery/preview/portfolio-05.webp",
+        "full": "/images/gallery/full/portfolio-05.webp",
+        "fallback": "/images/gallery/portfolio-05.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T14:55:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 5,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-06",
+      "filename": "portfolio-06.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 7",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-06.webp",
+        "preview": "/images/gallery/preview/portfolio-06.webp",
+        "full": "/images/gallery/full/portfolio-06.webp",
+        "fallback": "/images/gallery/portfolio-06.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:00:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 6,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-07",
+      "filename": "portfolio-07.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 8",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-07.webp",
+        "preview": "/images/gallery/preview/portfolio-07.webp",
+        "full": "/images/gallery/full/portfolio-07.webp",
+        "fallback": "/images/gallery/portfolio-07.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:05:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 7,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-08",
+      "filename": "portfolio-08.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 9",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-08.webp",
+        "preview": "/images/gallery/preview/portfolio-08.webp",
+        "full": "/images/gallery/full/portfolio-08.webp",
+        "fallback": "/images/gallery/portfolio-08.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:10:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 8,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-09",
+      "filename": "portfolio-09.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 10",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-09.webp",
+        "preview": "/images/gallery/preview/portfolio-09.webp",
+        "full": "/images/gallery/full/portfolio-09.webp",
+        "fallback": "/images/gallery/portfolio-09.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:15:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 9,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-10",
+      "filename": "portfolio-10.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 11",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-10.webp",
+        "preview": "/images/gallery/preview/portfolio-10.webp",
+        "full": "/images/gallery/full/portfolio-10.webp",
+        "fallback": "/images/gallery/portfolio-10.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:20:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 10,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-11",
+      "filename": "portfolio-11.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 12",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-11.webp",
+        "preview": "/images/gallery/preview/portfolio-11.webp",
+        "full": "/images/gallery/full/portfolio-11.webp",
+        "fallback": "/images/gallery/portfolio-11.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:25:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 11,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-12",
+      "filename": "portfolio-12.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 13",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-12.webp",
+        "preview": "/images/gallery/preview/portfolio-12.webp",
+        "full": "/images/gallery/full/portfolio-12.webp",
+        "fallback": "/images/gallery/portfolio-12.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:30:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 12,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-13",
+      "filename": "portfolio-13.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 14",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-13.webp",
+        "preview": "/images/gallery/preview/portfolio-13.webp",
+        "full": "/images/gallery/full/portfolio-13.webp",
+        "fallback": "/images/gallery/portfolio-13.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:35:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 13,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-14",
+      "filename": "portfolio-14.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 15",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-14.webp",
+        "preview": "/images/gallery/preview/portfolio-14.webp",
+        "full": "/images/gallery/full/portfolio-14.webp",
+        "fallback": "/images/gallery/portfolio-14.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:40:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 14,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-15",
+      "filename": "portfolio-15.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 16",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-15.webp",
+        "preview": "/images/gallery/preview/portfolio-15.webp",
+        "full": "/images/gallery/full/portfolio-15.webp",
+        "fallback": "/images/gallery/portfolio-15.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:45:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 15,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-16",
+      "filename": "portfolio-16.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 17",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-16.webp",
+        "preview": "/images/gallery/preview/portfolio-16.webp",
+        "full": "/images/gallery/full/portfolio-16.webp",
+        "fallback": "/images/gallery/portfolio-16.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:50:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 16,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-17",
+      "filename": "portfolio-17.jpg",
+      "alt": "Action sports photography showcase - Portfolio image 18",
+      "categories": ["action-sports"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-17.webp",
+        "preview": "/images/gallery/preview/portfolio-17.webp",
+        "full": "/images/gallery/full/portfolio-17.webp",
+        "fallback": "/images/gallery/portfolio-17.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 400,
+        "aperture": "f/4.0",
+        "shutterSpeed": "1/1000",
+        "focalLength": "50mm",
+        "dateTaken": "2024-08-15T15:55:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "tags": ["action", "sports", "photography"],
+        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+      },
+      "displayOrder": 17,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-18",
+      "filename": "portfolio-18.jpg",
+      "alt": "Technical software project showcase - Portfolio image 19",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-18.webp",
+        "preview": "/images/gallery/preview/portfolio-18.webp",
+        "full": "/images/gallery/full/portfolio-18.webp",
+        "fallback": "/images/gallery/portfolio-18.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T10:00:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 18,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-19",
+      "filename": "portfolio-19.jpg",
+      "alt": "Technical software project showcase - Portfolio image 20",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-19.webp",
+        "preview": "/images/gallery/preview/portfolio-19.webp",
+        "full": "/images/gallery/full/portfolio-19.webp",
+        "fallback": "/images/gallery/portfolio-19.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T10:15:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 19,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-20",
+      "filename": "portfolio-20.jpg",
+      "alt": "Technical software project showcase - Portfolio image 21",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-20.webp",
+        "preview": "/images/gallery/preview/portfolio-20.webp",
+        "full": "/images/gallery/full/portfolio-20.webp",
+        "fallback": "/images/gallery/portfolio-20.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T10:30:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 20,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-21",
+      "filename": "portfolio-21.jpg",
+      "alt": "Technical software project showcase - Portfolio image 22",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-21.webp",
+        "preview": "/images/gallery/preview/portfolio-21.webp",
+        "full": "/images/gallery/full/portfolio-21.webp",
+        "fallback": "/images/gallery/portfolio-21.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T10:45:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 21,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-22",
+      "filename": "portfolio-22.jpg",
+      "alt": "Technical software project showcase - Portfolio image 23",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-22.webp",
+        "preview": "/images/gallery/preview/portfolio-22.webp",
+        "full": "/images/gallery/full/portfolio-22.webp",
+        "fallback": "/images/gallery/portfolio-22.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T11:00:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 22,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-23",
+      "filename": "portfolio-23.jpg",
+      "alt": "Technical software project showcase - Portfolio image 24",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-23.webp",
+        "preview": "/images/gallery/preview/portfolio-23.webp",
+        "full": "/images/gallery/full/portfolio-23.webp",
+        "fallback": "/images/gallery/portfolio-23.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T11:15:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 23,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-24",
+      "filename": "portfolio-24.jpg",
+      "alt": "Technical software project showcase - Portfolio image 25",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-24.webp",
+        "preview": "/images/gallery/preview/portfolio-24.webp",
+        "full": "/images/gallery/full/portfolio-24.webp",
+        "fallback": "/images/gallery/portfolio-24.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T11:30:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 24,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-25",
+      "filename": "portfolio-25.jpg",
+      "alt": "Technical software project showcase - Portfolio image 26",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-25.webp",
+        "preview": "/images/gallery/preview/portfolio-25.webp",
+        "full": "/images/gallery/full/portfolio-25.webp",
+        "fallback": "/images/gallery/portfolio-25.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T11:45:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 25,
+      "isFeatured": false
+    },
+    {
+      "id": "portfolio-26",
+      "filename": "portfolio-26.jpg",
+      "alt": "Technical software project showcase - Portfolio image 27",
+      "categories": ["technical"],
+      "urls": {
+        "thumbnail": "/images/gallery/thumbs/portfolio-26.webp",
+        "preview": "/images/gallery/preview/portfolio-26.webp",
+        "full": "/images/gallery/full/portfolio-26.webp",
+        "fallback": "/images/gallery/portfolio-26.jpg"
+      },
+      "metadata": {
+        "camera": "Canon EOS R5",
+        "lens": "RF 24-70mm f/2.8",
+        "iso": 200,
+        "aperture": "f/5.6",
+        "shutterSpeed": "1/125",
+        "focalLength": "35mm",
+        "dateTaken": "2024-09-01T12:00:00Z",
+        "location": "Location to be specified",
+        "projectContext": "Technical documentation and software project showcase",
+        "tags": ["technical", "software", "documentation"],
+        "processingNotes": "Clarity enhancement, color grading for technical content"
+      },
+      "displayOrder": 26,
+      "isFeatured": false
+    }
+  ],
+  "categories": [
+    {
+      "id": "action-sports",
+      "label": "Action Sports",
+      "count": 18,
+      "icon": "🏄"
+    },
+    {
+      "id": "technical",
+      "label": "Technical Work",
+      "count": 9,
+      "icon": "💻"
+    }
+  ]
+}
