@@ -53,6 +53,30 @@ When collaborating with Nino:
 - Suggest architectural improvements when appropriate
 - Consider the professional context of all changes
 
+## Agent OS Workflow
+
+This project uses an autonomy-optimized Agent OS workflow built for Sonnet 4.5:
+
+### Key Features
+- **Work Preservation**: 30-minute commit cadence (95% reduction in work loss risk)
+- **Automated Quality Gates**: 5 specialized blocking agents enforce standards
+- **Tiered Context Management**: Reduces file reads by 95% per feature
+- **Keyword-Based Activation**: Agents trigger automatically based on file paths and content
+
+### Specialized Agents
+1. **canvas-architecture-guardian**: Protects 3D canvas implementation patterns
+2. **accessibility-validator**: Enforces WCAG 2.2 AA and keyboard navigation standards
+3. **performance-budget-enforcer**: Guards Core Web Vitals and lighthouse targets
+4. **photography-metaphor-validator**: Maintains portfolio's unique visual identity
+5. **test-coverage-guardian**: Ensures comprehensive test coverage for changes
+
+### Decision Patterns
+Reference `.claude/agents/intelligence/*.md` for:
+- Component evolution strategies
+- Accessibility preservation patterns
+- Performance optimization decision trees
+- Test coverage requirements
+
 ## Project Goals
 
 Remember that this portfolio serves multiple professional audiences:
