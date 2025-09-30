@@ -158,11 +158,23 @@ function matchesExclude(filePath, excludePatterns) {
 }
 
 function analyzeFileContent(filePath) {
-  // Only analyze text files, skip validation script itself
-  if (filePath.includes('.claude/scripts/') ||
-      filePath.includes('node_modules/') ||
-      filePath.match(/\.(jpg|jpeg|png|gif|svg|ico|woff|woff2|ttf|eot)$/i)) {
-    return '';
+  // Skip files that shouldn't trigger keyword matching
+  const skipPatterns = [
+    '.claude/CLAUDE.md',       // Project context (references agents)
+    '.claude/scripts/',        // Validation scripts
+    '.claude/workflows/',      // Workflow documentation (contains all keywords)
+    '.claude/agents/',         // Agent specifications (contains keywords)
+    '.agent-os/',              // Agent OS documentation
+    'node_modules/',           // Dependencies
+    /\.(jpg|jpeg|png|gif|svg|ico|woff|woff2|ttf|eot)$/i  // Binary files
+  ];
+
+  for (const pattern of skipPatterns) {
+    if (pattern instanceof RegExp) {
+      if (pattern.test(filePath)) return '';
+    } else {
+      if (filePath.includes(pattern)) return '';
+    }
   }
 
   try {

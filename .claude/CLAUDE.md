@@ -60,8 +60,8 @@ This project uses an autonomy-optimized Agent OS workflow built for Sonnet 4.5:
 ### Key Features
 - **Work Preservation**: 30-minute commit cadence (95% reduction in work loss risk)
 - **Automated Quality Gates**: 5 specialized blocking agents enforce standards
-- **Tiered Context Management**: Reduces file reads by 95% per feature
-- **Keyword-Based Activation**: Agents trigger automatically based on file paths and content
+- **Dual Activation**: Path-based + keyword-based triggers catch all relevant changes
+- **Manual Validation**: Natural language commands for on-demand validation
 
 ### Specialized Agents
 1. **canvas-architecture-guardian**: Protects 3D canvas implementation patterns
@@ -69,6 +69,17 @@ This project uses an autonomy-optimized Agent OS workflow built for Sonnet 4.5:
 3. **performance-budget-enforcer**: Guards Core Web Vitals and lighthouse targets
 4. **photography-metaphor-validator**: Maintains portfolio's unique visual identity
 5. **test-coverage-guardian**: Ensures comprehensive test coverage for changes
+
+### Validation Commands
+User can request manual validation using natural language:
+- **"validate architecture"** → Runs canvas-architecture-guardian
+- **"check accessibility"** → Runs accessibility-validator
+- **"validate performance"** → Runs performance-budget-enforcer
+- **"check metaphor"** → Runs photography-metaphor-validator
+- **"validate coverage"** → Runs test-coverage-guardian
+- **"run all quality gates"** → Runs complete validation suite
+
+See `.claude/workflows/validation-commands.md` for complete command patterns.
 
 ### Decision Patterns
 Reference `.claude/agents/intelligence/*.md` for:
