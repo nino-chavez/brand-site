@@ -8,11 +8,11 @@
 import React from 'react';
 import { render, screen, waitFor, act } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { ProgressiveContentRenderer, useProgressiveContent } from '../ProgressiveContentRenderer';
-import type { ContentLevel } from '../../types/canvas';
+import { ProgressiveContentRenderer, useProgressiveContent } from '../../../../src/components/content/ProgressiveContentRenderer';
+import type { ContentLevel } from '../../../../src/types/canvas';
 
 // Mock the ContentLevelManager
-vi.mock('../../services/ContentLevelManager', () => ({
+vi.mock('../../../../src/services/ContentLevelManager', () => ({
   useContentLevelManager: () => ({
     getProgressiveStyles: vi.fn((level: ContentLevel, isActive: boolean) => ({
       padding: level === 'minimal' ? '0.5rem' : '1rem',
