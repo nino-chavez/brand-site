@@ -99,6 +99,8 @@ Validated by:
 
 ## Agent Activation Rules
 
+Agents activate when staged files match either **path patterns** OR **content keywords**.
+
 ### canvas-architecture-guardian
 **Paths:**
 - `src/components/canvas/**`
@@ -106,22 +108,29 @@ Validated by:
 - `src/hooks/*3d*`
 - `src/utils/*webgl*`
 
-**Keywords:** WebGL, canvas, THREE, requestAnimationFrame, getContext
+**Keywords:** WebGL, canvas, THREE, requestAnimationFrame, getContext, lightbox, navigation
+
+**Example:** Any file in `src/components/canvas/` OR any `.tsx` file containing "WebGL"
 
 ### accessibility-validator
 **Paths:**
 - `src/components/**/*.tsx`
 - `src/App.tsx`
 
-**Keywords:** aria-, role=, tabIndex, keyboard, focus, screen reader
+**Keywords:** aria-, role=, tabIndex, keyboard, focus, screen reader, WCAG, accessibility, a11y
+
+**Example:** Any component file OR any file with ARIA attributes
 
 ### performance-budget-enforcer
 **Paths:**
 - `src/**/*.tsx`
 - `src/**/*.ts`
 - `package.json`
+- `vite.config.ts`
 
-**Keywords:** import, lazy, Suspense, useMemo, useCallback, Bundle
+**Keywords:** import, lazy, Suspense, useMemo, useCallback, performance, optimization, bundle
+
+**Example:** Any source file OR files with performance optimizations
 
 ### photography-metaphor-validator
 **Paths:**
@@ -129,14 +138,20 @@ Validated by:
 - `src/types/gallery.ts`
 - `src/data/gallery-images.ts`
 
-**Keywords:** camera, lens, aperture, shutter, ISO, shot, exposure, focus
+**Keywords:** camera, lens, aperture, shutter, ISO, shot, exposure, focus, photography
+
+**Example:** Gallery files OR any file using camera terminology
 
 ### test-coverage-guardian
 **Paths:**
 - `src/**/*.tsx`
 - `src/**/*.ts`
 
-**Keywords:** export function, export const, export class
+**Exclude:** `src/**/*.test.{tsx,ts}`, `src/test/**`
+
+**Keywords:** export function, export const, export class, export default
+
+**Example:** Any source file with exported functionality (excluding tests)
 
 ## Work Preservation Integration
 

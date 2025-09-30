@@ -8,14 +8,14 @@
  */
 
 import { execSync } from 'child_process';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Agent activation rules (path-based triggers only - more reliable)
+// Agent activation rules (path + keyword-based triggers)
 const AGENT_RULES = {
   'canvas-architecture-guardian': {
     paths: [
@@ -23,12 +23,32 @@ const AGENT_RULES = {
       'src/hooks/*canvas*',
       'src/hooks/*3d*',
       'src/utils/*webgl*'
+    ],
+    keywords: [
+      'WebGL',
+      'canvas',
+      'THREE',
+      'requestAnimationFrame',
+      'getContext',
+      'lightbox',
+      'navigation'
     ]
   },
   'accessibility-validator': {
     paths: [
       'src/components/**/*.tsx',
       'src/App.tsx'
+    ],
+    keywords: [
+      'aria-',
+      'role=',
+      'tabIndex',
+      'keyboard',
+      'focus',
+      'screen reader',
+      'WCAG',
+      'accessibility',
+      'a11y'
     ]
   },
   'performance-budget-enforcer': {
@@ -37,6 +57,16 @@ const AGENT_RULES = {
       'src/**/*.ts',
       'package.json',
       'vite.config.ts'
+    ],
+    keywords: [
+      'import ',
+      'lazy',
+      'Suspense',
+      'useMemo',
+      'useCallback',
+      'performance',
+      'optimization',
+      'bundle'
     ]
   },
   'photography-metaphor-validator': {
@@ -44,6 +74,17 @@ const AGENT_RULES = {
       'src/components/gallery/**',
       'src/types/gallery.ts',
       'src/data/gallery-images.ts'
+    ],
+    keywords: [
+      'camera',
+      'lens',
+      'aperture',
+      'shutter',
+      'ISO',
+      'shot',
+      'exposure',
+      'focus',
+      'photography'
     ]
   },
   'test-coverage-guardian': {
@@ -55,6 +96,12 @@ const AGENT_RULES = {
       'src/**/*.test.tsx',
       'src/**/*.test.ts',
       'src/test/**'
+    ],
+    keywords: [
+      'export function',
+      'export const',
+      'export class',
+      'export default'
     ]
   }
 };
@@ -110,31 +157,88 @@ function matchesExclude(filePath, excludePatterns) {
   });
 }
 
+function analyzeFileContent(filePath) {
+  // Only analyze text files, skip validation script itself
+  if (filePath.includes('.claude/scripts/') ||
+      filePath.includes('node_modules/') ||
+      filePath.match(/\.(jpg|jpeg|png|gif|svg|ico|woff|woff2|ttf|eot)$/i)) {
+    return '';
+  }
+
+  try {
+    if (existsSync(filePath)) {
+      return readFileSync(filePath, 'utf-8');
+    }
+    return '';
+  } catch (error) {
+    // File might be binary or unreadable
+    return '';
+  }
+}
+
+function containsKeywords(content, keywords) {
+  if (!keywords || keywords.length === 0) return false;
+
+  return keywords.some(keyword => {
+    // Case-insensitive search for keywords
+    const regex = new RegExp(keyword, 'i');
+    return regex.test(content);
+  });
+}
+
 function determineActiveAgents(stagedFiles) {
-  const activeAgents = new Set();
+  const activeAgents = new Map(); // Track files that triggered each agent
 
   for (const [agentName, rules] of Object.entries(AGENT_RULES)) {
-    // Check if any staged file matches agent's path patterns
-    const matchingFiles = stagedFiles.filter(file => {
-      const pathMatch = matchesPath(file, rules.paths);
+    const matchingFiles = [];
+
+    for (const file of stagedFiles) {
       const excluded = matchesExclude(file, rules.exclude);
-      return pathMatch && !excluded;
-    });
+      if (excluded) continue;
+
+      // Path-based matching
+      const pathMatch = matchesPath(file, rules.paths);
+
+      // Keyword-based matching (only for source files)
+      let keywordMatch = false;
+      if (rules.keywords && file.match(/\.(tsx?|jsx?|md)$/)) {
+        const content = analyzeFileContent(file);
+        keywordMatch = containsKeywords(content, rules.keywords);
+      }
+
+      // Agent activates if either path OR keywords match
+      if (pathMatch || keywordMatch) {
+        matchingFiles.push({
+          file,
+          reason: pathMatch ? 'path' : 'keyword'
+        });
+      }
+    }
 
     if (matchingFiles.length > 0) {
-      activeAgents.add(agentName);
+      activeAgents.set(agentName, matchingFiles);
     }
   }
 
-  return Array.from(activeAgents);
+  return activeAgents;
 }
 
-function generateValidationReport(agents, stagedFiles) {
+function generateValidationReport(agentsMap, stagedFiles) {
+  const agentDetails = {};
+
+  for (const [agentName, matchingFiles] of agentsMap.entries()) {
+    agentDetails[agentName] = matchingFiles.map(m => ({
+      file: m.file,
+      trigger: m.reason
+    }));
+  }
+
   const report = {
     timestamp: new Date().toISOString(),
     stagedFiles: stagedFiles,
-    activeAgents: agents,
-    requiredValidations: agents.length
+    activeAgents: Array.from(agentsMap.keys()),
+    agentTriggers: agentDetails,
+    requiredValidations: agentsMap.size
   };
 
   return report;
@@ -155,22 +259,24 @@ function main() {
   stagedFiles.forEach(file => console.log(`   - ${file}`));
   console.log();
 
-  const activeAgents = determineActiveAgents(stagedFiles);
+  const activeAgentsMap = determineActiveAgents(stagedFiles);
 
-  if (activeAgents.length === 0) {
+  if (activeAgentsMap.size === 0) {
     console.log('✅ No quality gates triggered for these changes.');
     console.log('   Safe to commit.');
     process.exit(0);
   }
 
-  console.log(`⚡ Quality gates activated (${activeAgents.length}):`);
-  activeAgents.forEach(agent => {
-    const agentFile = join(__dirname, '..', 'agents', `${agent}.md`);
-    console.log(`   - ${agent}`);
-  });
+  console.log(`⚡ Quality gates activated (${activeAgentsMap.size}):`);
+  for (const [agentName, matchingFiles] of activeAgentsMap.entries()) {
+    console.log(`   - ${agentName}`);
+    matchingFiles.forEach(match => {
+      console.log(`     • ${match.file} (${match.reason})`);
+    });
+  }
   console.log();
 
-  const report = generateValidationReport(activeAgents, stagedFiles);
+  const report = generateValidationReport(activeAgentsMap, stagedFiles);
 
   console.log('📋 Validation Report:');
   console.log(JSON.stringify(report, null, 2));
@@ -178,7 +284,7 @@ function main() {
 
   console.log('⚠️  ACTION REQUIRED:');
   console.log('   Claude should invoke these agents before committing:');
-  activeAgents.forEach(agent => {
+  Array.from(activeAgentsMap.keys()).forEach(agent => {
     console.log(`   → Task(subagent_type="general-purpose", prompt="You are ${agent}...")`);
   });
   console.log();
