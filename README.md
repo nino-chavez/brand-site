@@ -131,20 +131,36 @@ This approach has enabled:
 ## Project Structure
 
 ```text
-├── components/          # React components with TypeScript
-│   ├── sections/       # Main portfolio sections
-│   ├── ui/            # Reusable UI components
-│   └── effects/       # Animation and interaction components
-├── hooks/              # Custom React hooks
-├── utils/              # Utility functions and browser compatibility
-├── types/              # TypeScript type definitions
-├── tokens/             # Athletic design token system
-├── test/               # Comprehensive test coverage
-└── .agent-os/          # AI agent collaboration framework
-    ├── instructions/   # Agent workflow definitions
-    ├── specs/         # Feature specifications
-    └── product/       # Product documentation
+├── src/                # Main source directory (feature-based organization)
+│   ├── components/    # React components organized by domain
+│   │   ├── canvas/   # 2D canvas navigation system
+│   │   ├── content/  # Progressive content adapters
+│   │   ├── effects/  # Visual effects and transitions
+│   │   ├── layout/   # Page sections and structure
+│   │   ├── sports/   # Sports demo components
+│   │   └── ui/       # Reusable UI components
+│   ├── hooks/         # Custom React hooks
+│   ├── utils/         # Utility functions
+│   ├── types/         # TypeScript definitions
+│   ├── contexts/      # React context providers
+│   └── services/      # Business logic services
+├── test/              # Comprehensive test coverage
+│   ├── e2e/          # End-to-end tests (Playwright)
+│   └── __tests__/    # Unit tests (Vitest)
+├── tokens/            # Athletic design token system
+├── docs/              # Project documentation
+│   ├── showcase/     # AI development showcase (future Docusaurus)
+│   ├── developer/    # Developer guides and references
+│   ├── components/   # Component/API documentation
+│   └── archive/      # Historical documents
+└── .agent-os/         # AI agent collaboration framework
+    ├── workflow/     # Development workflows
+    ├── intelligence/ # Architectural patterns
+    ├── standards/    # Code standards
+    └── product/      # Product roadmap
 ```
+
+**Note:** See [docs/developer/project-structure.md](./docs/developer/project-structure.md) for detailed structure documentation.
 
 ## Features Showcase
 
@@ -183,12 +199,21 @@ This project serves as a proof-of-concept for **enterprise-scale AI-assisted dev
 
 This project includes detailed documentation of the AI development methodology:
 
-- **[AI-COLLABORATION.md](./docs/AI-COLLABORATION.md)** - Human-AI partnership patterns and collaboration strategies
-- **[TECHNICAL-DECISIONS.md](./docs/TECHNICAL-DECISIONS.md)** - Sophisticated architectural choices made by AI agents
-- **[DEVELOPMENT-PHASES.md](./docs/DEVELOPMENT-PHASES.md)** - Evolution from concept to sophisticated application
-- **[CODE-QUALITY.md](./docs/CODE-QUALITY.md)** - AI-driven quality standards and testing strategies
-- **[PROMPTING-STRATEGIES.md](./docs/PROMPTING-STRATEGIES.md)** - Proven techniques for effective AI-assisted development
-- **[docs/prompts/ai-document.md](./docs/prompts/ai-document.md)** - Comprehensive strategy for replicating this documentation approach
+**Showcase Documentation** (AI Development Portfolio):
+- **[AI Collaboration](./docs/showcase/ai-collaboration.md)** - Human-AI partnership patterns and collaboration strategies
+- **[Technical Architecture](./docs/showcase/technical-architecture.md)** - Enterprise-grade architectural choices
+- **[AI Development Showcase](./docs/showcase/ai-development-showcase.md)** - Complete development methodology demonstration
+- **[Prompting Strategies](./docs/showcase/prompting-strategies.md)** - Proven techniques for effective AI-assisted development
+
+**Developer Documentation** (Implementation Reference):
+- **[Project Structure](./docs/developer/project-structure.md)** - Complete codebase organization guide
+- **[Code Quality Standards](./docs/developer/code-quality.md)** - AI-driven quality standards and testing strategies
+- **[Deployment Guides](./docs/developer/deployment/)** - Production deployment procedures
+
+**Component Documentation** (API Reference):
+- **[Viewfinder System](./docs/components/viewfinder-system.md)** - Camera-inspired hero interface
+- **[Athletic Design Tokens](./docs/components/athletic-tokens.md)** - Design system documentation
+- **[Canvas API](./docs/components/api/)** - 2D navigation system reference
 
 ## Contributing
 
@@ -196,15 +221,16 @@ While this is a personal portfolio, the AI development methodology and enhanced 
 
 **For Developers & Teams:**
 
-- Review the AI collaboration documentation to understand effective human-AI partnership patterns
-- Adapt the prompting strategies for your own AI-assisted development workflows
-- Use the documentation generation approach outlined in `docs/prompts/ai-document.md` for your projects
+- Review the [showcase documentation](./docs/showcase/) to understand effective human-AI partnership patterns
+- Adapt the [prompting strategies](./docs/showcase/prompting-strategies.md) for your own AI-assisted development workflows
+- Explore [developer guides](./docs/developer/guides/) for implementation patterns and best practices
 
 **Framework Components:**
 
 - `.agent-os/` directory contains the complete enhanced Agent-OS framework
 - Integration of Kiro's internal prompting and specification methodology
-- Specialized agent configurations for different development phases
+- Specialized workflow configurations in `.agent-os/workflow/`
+- Architectural patterns documented in `.agent-os/intelligence/`
 
 ## Contact
 
