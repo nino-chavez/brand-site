@@ -8,6 +8,8 @@
     "build": "vite build",
     "build:analyze": "npm run build && node scripts/bundle-analyzer.js",
     "preview": "vite preview",
+    "validate": "node .claude/scripts/validate-changes.js",
+    "validate:force": "npm run validate || true",
     "gallery:optimize": "node scripts/optimize-gallery-images.js",
     "gallery:exif": "node scripts/extract-exif.js",
     "test": "NODE_OPTIONS='--max-old-space-size=8192' vitest",
