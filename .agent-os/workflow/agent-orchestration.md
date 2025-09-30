@@ -191,6 +191,69 @@ Feature Complete ✅
 
 ---
 
+## Specification Creation in Autonomous Mode
+
+### Intent-Driven Development (Default)
+
+For most features, **skip formal specs**:
+
+```
+User: "Add filtering to the gallery"
+Agent: [analyzes, plans, implements, validates, commits]
+Agent: "Gallery filtering complete. 15 tests passing. Ready?"
+```
+
+**No spec file created.** The agent:
+- Understands requirements from user intent
+- Loads strategic context automatically
+- Plans implementation internally (no formal plan document)
+- Documents decisions in commit messages
+- Creates decision logs only for architectural choices
+
+### When Formal Specs Are Needed
+
+Create specs for:
+
+1. **Complex features** (>1 week effort)
+2. **High-risk changes** (architectural, breaking changes)
+3. **Multiple stakeholders** (coordination needed)
+4. **User requests** ("Create a spec for X")
+
+**Spec format:**
+- Overview + User Stories + Acceptance Criteria + Deliverables
+- Skip sub-specs unless needed (no spec-lite, design, technical-spec by default)
+- Store in `.agent-os/specs/` (active) or `.agent-os/archive/completed-specs/` (done)
+
+**See:** `.agent-os/workflow/spec-creation-guide.md` for complete decision matrix and format guidelines.
+
+### Quality Gates Replace Checkpoints
+
+Instead of "spec approval" → "task approval" → "implementation approval":
+
+**Old workflow (checkpoint-heavy):**
+```
+Spec → User approval → Tasks → User approval → Implementation → User review
+```
+
+**New workflow (quality gates):**
+```
+Intent → Autonomous implementation with continuous validation
+       → Blocking quality gates enforce standards
+       → Completion report with evidence
+```
+
+**Quality gates automatically validate:**
+- TypeScript compilation (blocking)
+- Test coverage >90% (blocking)
+- Accessibility WCAG AAA (blocking)
+- Performance 60fps (blocking)
+- Architecture patterns (blocking)
+- Photography metaphor (non-blocking, advisory)
+
+**No manual checkpoints needed** - automation enforces quality.
+
+---
+
 ## Context Management
 
 ### Tiered Loading Strategy
