@@ -487,6 +487,56 @@ Documentation maintenance is successful when:
 
 ---
 
+## Tools and Scripts
+
+### Validation Scripts
+
+1. **Structure Validation:** `.agent-os/scripts/validate-docs-structure.sh`
+   - Validates directory organization
+   - Checks for orphaned files
+   - Ensures archive separation
+
+2. **Link Validation:** `.agent-os/scripts/check-doc-links.sh`
+   - Checks all internal markdown links
+   - Resolves relative paths
+   - Reports broken references
+
+3. **Quality Gates:** `.agent-os/scripts/run-quality-gates.sh`
+   - Runs all validation gates locally
+   - Matches CI/CD validation behavior
+   - Color-coded pass/fail/warning output
+
+4. **Pre-commit Hook:** `.git/hooks/pre-commit`
+   - Runs structure and link validation automatically
+   - Blocks commits with documentation issues
+   - Provides immediate feedback
+
+### Automation Scripts
+
+5. **Metrics Extraction:** `.agent-os/scripts/extract-metrics.sh`
+   - Collects LOC, test coverage, bundle size
+   - Tracks file counts by category (components, hooks, contexts, utilities, types)
+   - Measures documentation coverage (diagrams, code refs)
+   - Outputs timestamped JSON with git statistics
+   - **Usage:** Run monthly or before releases
+
+6. **Import Analysis:** `.agent-os/scripts/analyze-imports.cjs`
+   - Maps TypeScript/TSX import relationships
+   - Generates Mermaid architecture diagrams automatically
+   - Produces codebase statistics (150 files, 215 relationships)
+   - Identifies component categories and dependencies
+   - **Usage:** Run after refactoring or architecture changes
+
+7. **Component Diagram:** `.agent-os/scripts/generate-component-diagram.sh`
+   - Quick component hierarchy visualization
+   - Scans src/ directory structure (contexts, components)
+   - Outputs Mermaid diagram to custom location
+   - **Usage:** Quick overview for new contributors
+
+**Detailed Usage Guide:** `.agent-os/docs/automation-tools-usage.md`
+
+---
+
 ## Contact
 
 **Documentation Owner:** Development Team

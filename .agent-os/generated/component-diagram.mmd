@@ -1,0 +1,88 @@
+```mermaid
+graph TD
+    subgraph "Application Root"
+        A[App.tsx]
+    end
+
+    subgraph "Context Providers"
+        A[CanvasStateProvider]
+        B[UnifiedGameFlowContext]
+        C[ViewfinderContext]
+    end
+
+    subgraph "Ucanvas Components"
+        D[CameraController]
+        E[CursorLens]
+        F[EnhancedCameraController]
+        G[LightboxCanvas]
+    end
+
+    subgraph "Ulayout Components"
+        H[AboutSection]
+        I[CleanHeroSection]
+        J[ContactSection]
+        K[GallerySection]
+        L[Header]
+        M[HeroSection]
+    end
+
+    subgraph "Uui Components"
+        N[BackdropBlurOverlay]
+        O[BlurContainer]
+        P[ExifMetadata]
+        Q[FloatingNav]
+        R[Icons]
+        S[ImageCarousel]
+    end
+
+    subgraph "Usports Components"
+        T[AthleticScoreboard]
+        U[CourtPosition]
+        V[CrosshairSystem]
+        W[FloatingHUD]
+        X[FloatingScoreboard]
+        Y[InteractivePauseSystem]
+    end
+
+    subgraph "Ugallery Components"
+        Z[CategoryFilterBar]
+        [[ContactSheetGrid]
+        \[GalleryContentAdapter]
+        ][GalleryDemo]
+        ^[GalleryModal]
+        _[GalleryThumbnail]
+    end
+
+    subgraph "Ucontent Components"
+        `[AboutContentAdapter]
+        a[ExperienceContentAdapter]
+        b[ProgressiveContentRenderer]
+        c[ProjectsContentAdapter]
+        d[SkillsContentAdapter]
+    end
+
+    subgraph "Ueffects Components"
+        e[BackgroundEffects]
+        f[MorphingTransition]
+        g[ShutterEffect]
+        h[SpotlightCursor]
+        i[VisualContinuitySystem]
+    end
+
+    A --> B
+    A --> C
+    A --> D
+
+    B -.->|provides state| E
+    C -.->|provides state| F
+    D -.->|provides state| G
+
+    classDef rootClass fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    classDef contextClass fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    classDef componentClass fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+
+    class A rootClass
+    class B,C,D contextClass
+```
+
+*Generated: 2025-09-30 from src/ component analysis*

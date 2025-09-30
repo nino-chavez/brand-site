@@ -1,0 +1,40 @@
+{
+  "timestamp": "2025-09-30T16:20:34Z",
+  "metrics": {
+    "lines_of_code": {
+      "typescript": 61777,
+      "tsx": 0,
+      "css": 59,
+      "total": 61836
+    },
+    "test_coverage": {
+      "test_files":      127,
+      "test_lines": 62558,
+      "coverage_percent": 0
+    },
+    "bundle_size": {
+      "human_readable": "407M",
+      "bytes": 426856448
+    },
+    "file_counts": {
+      "components":       64,
+      "hooks":       28,
+      "contexts":        3,
+      "utilities":       21,
+      "types":       12
+    },
+    "documentation": {
+      "total_files":       42,
+      "files_with_diagrams":        8,
+      "total_diagrams": 11,
+      "files_with_code_refs":        5,
+      "total_code_refs": 13,
+      "diagram_coverage_percent": 19
+    },
+    "git_stats": {
+      "total_commits": 108,
+      "contributors":        1,
+      "latest_commit": "98fd797 - feat: implement documentation quality gates for CI/CD"
+    }
+  }
+}

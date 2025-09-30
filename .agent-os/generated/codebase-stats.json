@@ -1,0 +1,13 @@
+{
+  "totalFiles": 150,
+  "totalComponents": 119,
+  "totalRelationships": 215,
+  "byCategory": {
+    "Other": 20,
+    "Components": 65,
+    "Context Providers": 3,
+    "Custom Hooks": 28,
+    "Type Definitions": 12,
+    "Utilities": 22
+  }
+}
