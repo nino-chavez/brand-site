@@ -16,7 +16,13 @@ errors=0
 find docs/ -name "*.md" | while read -r file; do
   # Extract markdown links [text](path)
   # Matches: [text](path) but not [text](http://...)
-  links=$(grep -o '\[[^]]*\]([^)]*)' "$file" | grep -o '([^)]*)' | tr -d '()' | grep -v '^http' || true)
+  # Also filters out regex patterns and code examples
+  links=$(grep -o '\[[^]]*\]([^)]*)' "$file" | \
+          grep -o '([^)]*)' | \
+          tr -d '()' | \
+          grep -v '^http' | \
+          grep -v '|' | \
+          grep -v '\\' || true)
 
   if [ -z "$links" ]; then
     continue

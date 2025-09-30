@@ -388,10 +388,10 @@ export interface SynchronizedAnimationConfig {
 ```
 
 **AI-Generated Documentation Architecture**:
-- **[TECHNICAL-DECISIONS.md](./TECHNICAL-DECISIONS.md)**: Architectural choices and technical sophistication
-- **[AI-COLLABORATION.md](./AI-COLLABORATION.md)**: Human-AI partnership patterns and methodologies
-- **[CODE-QUALITY.md](./CODE-QUALITY.md)**: Quality standards and testing strategies
-- **[PROMPTING-STRATEGIES.md](./PROMPTING-STRATEGIES.md)**: Proven techniques for AI-assisted development
+- **[TECHNICAL-DECISIONS.md](../showcase/technical-decisions.md)**: Architectural choices and technical sophistication
+- **[AI-COLLABORATION.md](../showcase/ai-collaboration.md)**: Human-AI partnership patterns and methodologies
+- **[CODE-QUALITY.md](../developer/code-quality.md)**: Quality standards and testing strategies
+- **[PROMPTING-STRATEGIES.md](../showcase/prompting-strategies.md)**: Proven techniques for AI-assisted development
 
 ### Phase 5 Outcomes
 - **Development Time**: 1 week
