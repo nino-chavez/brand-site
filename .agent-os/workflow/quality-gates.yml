@@ -1,0 +1,259 @@
+# Documentation Quality Gates
+# Automated validation and quality checks for documentation maintenance
+
+name: Documentation Quality Gates
+version: 1.0.0
+last_updated: 2025-09-30
+
+# Trigger conditions
+triggers:
+  pull_request:
+    paths:
+      - 'docs/**/*.md'
+      - '.agent-os/**/*.md'
+      - 'README.md'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**/*.md'
+      - '.agent-os/**/*.md'
+  workflow_dispatch: {}
+
+# Quality gate definitions
+quality_gates:
+  # Gate 1: Documentation Structure
+  structure_validation:
+    enabled: true
+    blocking: true
+    script: ".agent-os/scripts/validate-docs-structure.sh"
+    timeout: 60
+    failure_message: "Documentation structure validation failed. See errors above."
+    success_message: "✅ Documentation structure is valid"
+
+  # Gate 2: Link Validation
+  link_validation:
+    enabled: true
+    blocking: true
+    script: ".agent-os/scripts/check-doc-links.sh"
+    timeout: 120
+    failure_message: "Broken links found in documentation. Fix links before merging."
+    success_message: "✅ All documentation links are valid"
+
+  # Gate 3: Mermaid Diagram Validation
+  diagram_validation:
+    enabled: true
+    blocking: false  # Warning only, doesn't block
+    script: ".agent-os/scripts/validate-mermaid-diagrams.sh"
+    timeout: 90
+    failure_message: "⚠️  Some Mermaid diagrams may have syntax errors"
+    success_message: "✅ All Mermaid diagrams are valid"
+
+  # Gate 4: File:Line Reference Validation
+  reference_validation:
+    enabled: true
+    blocking: false  # Warning only
+    script: ".agent-os/scripts/validate-file-references.sh"
+    timeout: 60
+    failure_message: "⚠️  Some file:line references may be outdated"
+    success_message: "✅ File references are up to date"
+
+  # Gate 5: Spelling and Grammar
+  spelling_check:
+    enabled: true
+    blocking: false  # Warning only
+    command: "npx cspell '**/*.md' --no-progress"
+    timeout: 90
+    failure_message: "⚠️  Spelling issues detected (review suggestions)"
+    success_message: "✅ Spelling check passed"
+
+# Workflow stages
+stages:
+  # Stage 1: Fast validation (runs on every PR)
+  fast_validation:
+    runs_on: ubuntu-latest
+    timeout_minutes: 5
+    gates:
+      - structure_validation
+      - link_validation
+    conditions:
+      - event: pull_request
+      - event: push
+
+  # Stage 2: Comprehensive validation (runs on merge to main)
+  comprehensive_validation:
+    runs_on: ubuntu-latest
+    timeout_minutes: 10
+    gates:
+      - structure_validation
+      - link_validation
+      - diagram_validation
+      - reference_validation
+      - spelling_check
+    conditions:
+      - event: push
+        branch: main
+
+  # Stage 3: Automated fixes (optional, runs on workflow_dispatch)
+  auto_fix:
+    runs_on: ubuntu-latest
+    timeout_minutes: 15
+    enabled: false  # Manual trigger only
+    tasks:
+      - name: "Fix broken links"
+        script: ".agent-os/scripts/fix-broken-links.sh"
+      - name: "Update file references"
+        script: ".agent-os/scripts/update-file-references.sh"
+      - name: "Regenerate diagrams"
+        script: ".agent-os/scripts/regenerate-diagrams.sh"
+    conditions:
+      - event: workflow_dispatch
+
+# Reporting configuration
+reporting:
+  # GitHub PR comments
+  pr_comments:
+    enabled: true
+    include_warnings: true
+    include_suggestions: true
+    format: markdown
+
+  # Status checks
+  status_checks:
+    enabled: true
+    required:
+      - structure_validation
+      - link_validation
+    optional:
+      - diagram_validation
+      - reference_validation
+
+  # Metrics collection
+  metrics:
+    enabled: true
+    track:
+      - validation_duration
+      - error_count
+      - warning_count
+      - documentation_coverage
+    export_to: ".agent-os/metrics/quality-gates-metrics.json"
+
+# Integration with doc-maintainer agent
+agent_integration:
+  trigger_on_failure:
+    enabled: false  # Future: automatically trigger doc-maintainer
+    conditions:
+      - gate: reference_validation
+        status: failed
+      - gate: diagram_validation
+        status: failed
+
+  report_to_agent:
+    enabled: true
+    format: structured_json
+    include:
+      - failed_gates
+      - error_details
+      - suggested_fixes
+
+# Notification settings
+notifications:
+  slack:
+    enabled: false  # Configure when Slack webhook available
+    webhook_url: "${SLACK_WEBHOOK_URL}"
+    channels:
+      - "#documentation"
+    events:
+      - validation_failed
+      - validation_fixed
+
+  email:
+    enabled: false  # Configure when email service available
+    recipients:
+      - "${TEAM_EMAIL}"
+    events:
+      - validation_failed_on_main
+
+# Performance settings
+performance:
+  cache:
+    enabled: true
+    paths:
+      - "~/.npm"
+      - "node_modules"
+    key: "docs-validation-${{ hashFiles('package-lock.json') }}"
+
+  parallel_execution:
+    enabled: true
+    max_parallel: 3
+
+# Security settings
+security:
+  secrets_scanning:
+    enabled: true
+    scan_documentation: true
+    block_on_secrets: true
+
+  dependency_check:
+    enabled: true
+    audit_level: moderate
+
+---
+
+# Usage Examples
+
+## Local Testing
+```bash
+# Run all gates locally
+.agent-os/scripts/run-quality-gates.sh
+
+# Run specific gate
+.agent-os/scripts/validate-docs-structure.sh
+```
+
+## CI/CD Integration
+```yaml
+# .github/workflows/documentation.yml
+name: Documentation Quality
+
+on:
+  pull_request:
+    paths: ['docs/**']
+  push:
+    branches: [main]
+    paths: ['docs/**']
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run Quality Gates
+        run: |
+          chmod +x .agent-os/scripts/*.sh
+          .agent-os/scripts/run-quality-gates.sh
+```
+
+## Manual Trigger
+```bash
+# Trigger automated fixes via GitHub UI
+# Navigate to Actions → Documentation Quality Gates → Run workflow
+```
+
+---
+
+# Future Enhancements
+
+## Planned Features
+1. **Automated diagram generation** - Generate missing diagrams automatically
+2. **AI-powered suggestions** - Use doc-maintainer agent for automatic fixes
+3. **Performance metrics** - Track documentation health over time
+4. **Coverage reports** - Visual dashboard of documentation coverage
+5. **Automated PRs** - Bot creates PRs with fixes automatically
+
+## Integration Targets
+- GitHub Actions (primary)
+- GitLab CI/CD (secondary)
+- Local pre-commit hooks (active)
+- VS Code extension (future)

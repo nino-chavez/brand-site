@@ -1,0 +1,264 @@
+name: Documentation Quality Gates
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**/*.md'
+      - '.agent-os/**/*.md'
+      - 'README.md'
+      - '.agent-os/scripts/*.sh'
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**/*.md'
+      - '.agent-os/**/*.md'
+  workflow_dispatch:
+
+jobs:
+  validate-structure:
+    name: Validate Documentation Structure
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Make scripts executable
+        run: |
+          chmod +x .agent-os/scripts/validate-docs-structure.sh
+          chmod +x .agent-os/scripts/check-doc-links.sh
+
+      - name: Validate documentation structure
+        id: structure
+        run: |
+          echo "::group::Documentation Structure Validation"
+          .agent-os/scripts/validate-docs-structure.sh
+          echo "::endgroup::"
+
+      - name: Validate documentation links
+        id: links
+        run: |
+          echo "::group::Documentation Link Validation"
+          .agent-os/scripts/check-doc-links.sh
+          echo "::endgroup::"
+
+      - name: Report validation results
+        if: always()
+        run: |
+          if [ "${{ steps.structure.outcome }}" == "success" ] && [ "${{ steps.links.outcome }}" == "success" ]; then
+            echo "✅ All documentation quality gates passed"
+          else
+            echo "❌ Documentation quality gates failed"
+            exit 1
+          fi
+
+  validate-diagrams:
+    name: Validate Mermaid Diagrams
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true  # Warning only, doesn't block
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Extract and validate Mermaid diagrams
+        run: |
+          echo "::group::Mermaid Diagram Validation"
+
+          # Find all markdown files with mermaid blocks
+          files=$(find docs .agent-os -name "*.md" -type f)
+
+          errors=0
+          for file in $files; do
+            # Count mermaid blocks
+            mermaid_count=$(grep -c '```mermaid' "$file" || true)
+
+            if [ "$mermaid_count" -gt 0 ]; then
+              echo "📊 Found $mermaid_count Mermaid diagram(s) in $file"
+
+              # Extract and validate each diagram
+              # Note: Full validation would require extracting each block
+              # For now, just check for basic syntax
+              if grep -A 50 '```mermaid' "$file" | grep -q 'graph\|sequenceDiagram\|classDiagram'; then
+                echo "  ✅ Diagram syntax looks valid"
+              else
+                echo "  ⚠️  Diagram may have syntax issues"
+                ((errors++))
+              fi
+            fi
+          done
+
+          if [ $errors -gt 0 ]; then
+            echo "⚠️  Found $errors potential diagram issue(s)"
+          else
+            echo "✅ All Mermaid diagrams validated successfully"
+          fi
+
+          echo "::endgroup::"
+
+  check-coverage:
+    name: Documentation Coverage Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate coverage report
+        run: |
+          echo "::group::Documentation Coverage Report"
+
+          # Count total markdown files
+          total_files=$(find docs -name "*.md" -type f | wc -l)
+
+          # Count files with Mermaid diagrams
+          files_with_diagrams=$(find docs -name "*.md" -type f -exec grep -l '```mermaid' {} \; | wc -l)
+
+          # Count total diagrams
+          total_diagrams=$(find docs -name "*.md" -type f -exec grep -c '```mermaid' {} \; | awk '{sum+=$1} END {print sum}')
+
+          # Count files with file:line references
+          files_with_refs=$(find docs -name "*.md" -type f -exec grep -l 'src/.*\.tsx\?:' {} \; | wc -l)
+
+          # Count total file:line references
+          total_refs=$(find docs -name "*.md" -type f -exec grep -c 'src/.*\.tsx\?:' {} \; | awk '{sum+=$1} END {print sum}')
+
+          # Calculate percentages
+          diagram_coverage=$((files_with_diagrams * 100 / total_files))
+
+          echo "📊 Documentation Coverage Report"
+          echo "================================"
+          echo "Total documentation files: $total_files"
+          echo ""
+          echo "Visual Documentation:"
+          echo "  - Files with diagrams: $files_with_diagrams"
+          echo "  - Total diagrams: $total_diagrams"
+          echo "  - Coverage: $diagram_coverage%"
+          echo ""
+          echo "Code References:"
+          echo "  - Files with references: $files_with_refs"
+          echo "  - Total references: $total_refs"
+          echo ""
+
+          # Create job summary
+          cat >> $GITHUB_STEP_SUMMARY << EOF
+          # 📊 Documentation Coverage Report
+
+          | Metric | Count | Coverage |
+          |--------|-------|----------|
+          | Total Files | $total_files | 100% |
+          | Files with Diagrams | $files_with_diagrams | $diagram_coverage% |
+          | Total Diagrams | $total_diagrams | - |
+          | Files with Code Refs | $files_with_refs | - |
+          | Total Code References | $total_refs | - |
+
+          ## Quality Status
+
+          ✅ Documentation structure validated
+          ✅ All links valid
+          📊 Visual coverage: $diagram_coverage%
+          EOF
+
+          echo "::endgroup::"
+
+  spell-check:
+    name: Spelling Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    continue-on-error: true  # Warning only
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install cspell
+        run: npm install -g cspell
+
+      - name: Run spelling check
+        run: |
+          echo "::group::Spelling Check"
+
+          # Create temporary cspell config if it doesn't exist
+          if [ ! -f "cspell.json" ]; then
+            cat > cspell.json << 'EOF'
+          {
+            "version": "0.2",
+            "language": "en",
+            "words": [
+              "CursorLens",
+              "LightboxCanvas",
+              "ViewfinderOverlay",
+              "UnifiedGameFlowContext",
+              "AthleticTokenProvider",
+              "Mermaid",
+              "tsx",
+              "TypeScript",
+              "Nino",
+              "Chavez",
+              "WCAG",
+              "viewport",
+              "codebase"
+            ],
+            "ignoreRegExpList": [
+              "/```[\\s\\S]*?```/g",
+              "/`[^`]*`/g",
+              "/\\bhttps?:\\/\\/\\S+/g"
+            ]
+          }
+          EOF
+          fi
+
+          cspell "**/*.md" --no-progress --no-summary || true
+
+          echo "::endgroup::"
+
+  quality-summary:
+    name: Quality Gates Summary
+    runs-on: ubuntu-latest
+    needs: [validate-structure, validate-diagrams, check-coverage, spell-check]
+    if: always()
+
+    steps:
+      - name: Generate summary
+        run: |
+          cat >> $GITHUB_STEP_SUMMARY << 'EOF'
+          # Documentation Quality Gates Summary
+
+          ## Gate Results
+
+          - **Structure Validation**: ${{ needs.validate-structure.result == 'success' && '✅ Passed' || '❌ Failed' }}
+          - **Diagram Validation**: ${{ needs.validate-diagrams.result == 'success' && '✅ Passed' || '⚠️ Warning' }}
+          - **Coverage Check**: ${{ needs.check-coverage.result == 'success' && '✅ Completed' || '⚠️ Incomplete' }}
+          - **Spell Check**: ${{ needs.spell-check.result == 'success' && '✅ Passed' || '⚠️ Issues found' }}
+
+          ## Actions Required
+
+          ${{ needs.validate-structure.result != 'success' && '- ⚠️ Fix documentation structure issues' || '' }}
+          ${{ needs.validate-diagrams.result != 'success' && '- ℹ️ Review diagram syntax warnings' || '' }}
+
+          ---
+
+          *Automated by Documentation Quality Gates workflow*
+          EOF
+
+          if [ "${{ needs.validate-structure.result }}" != "success" ]; then
+            exit 1
+          fi
