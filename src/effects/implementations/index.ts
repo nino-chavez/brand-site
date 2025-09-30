@@ -8,3 +8,5 @@ export { DepthOfFieldEffect } from './DepthOfFieldEffect';
 export { ExposureEffect } from './ExposureEffect';
 export { ColorGradingEffect } from './ColorGradingEffect';
 export { EdgeFramingEffect } from './EdgeFramingEffect';
+export { MotionBlurEffect } from './MotionBlurEffect';
+export { ChromaticAberrationEffect } from './ChromaticAberrationEffect';
