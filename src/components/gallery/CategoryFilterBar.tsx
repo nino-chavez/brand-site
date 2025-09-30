@@ -2,6 +2,9 @@
  * CategoryFilterBar Component
  *
  * Filter chips for gallery categories (action-sports, technical)
+ *
+ * Photography metaphor: Contact sheet frame selection with optional
+ * quick-access shortcuts (0-9) for rapid portfolio review workflows
  */
 
 import React from 'react';

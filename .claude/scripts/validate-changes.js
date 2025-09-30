@@ -84,12 +84,14 @@ function getStagedDiff() {
 
 function matchesPath(filePath, patterns) {
   return patterns.some(pattern => {
-    const regex = new RegExp(
-      '^' + pattern
-        .replace(/\*\*/g, '.*')
-        .replace(/\*/g, '[^/]*')
-        .replace(/\./g, '\\.')
-    );
+    // Convert glob pattern to regex
+    const regexPattern = '^' + pattern
+      .replace(/\./g, '\\.') // Escape dots first
+      .replace(/\*\*/g, '___DOUBLESTAR___') // Temporarily replace **
+      .replace(/\*/g, '[^/]*') // Replace single * with non-slash chars
+      .replace(/___DOUBLESTAR___/g, '.*') // Replace ** with any chars
+      + '$';
+    const regex = new RegExp(regexPattern);
     return regex.test(filePath);
   });
 }
@@ -97,12 +99,13 @@ function matchesPath(filePath, patterns) {
 function matchesExclude(filePath, excludePatterns) {
   if (!excludePatterns) return false;
   return excludePatterns.some(pattern => {
-    const regex = new RegExp(
-      '^' + pattern
-        .replace(/\*\*/g, '.*')
-        .replace(/\*/g, '[^/]*')
-        .replace(/\./g, '\\.')
-    );
+    const regexPattern = '^' + pattern
+      .replace(/\./g, '\\.') // Escape dots first
+      .replace(/\*\*/g, '___DOUBLESTAR___') // Temporarily replace **
+      .replace(/\*/g, '[^/]*') // Replace single * with non-slash chars
+      .replace(/___DOUBLESTAR___/g, '.*') // Replace ** with any chars
+      + '$';
+    const regex = new RegExp(regexPattern);
     return regex.test(filePath);
   });
 }
