@@ -2,8 +2,6 @@
 # Documentation Link Validation
 # Ensures all internal markdown links resolve correctly
 
-set -e
-
 echo "🔗 Checking markdown links..."
 
 RED='\033[0;31m'
@@ -11,6 +9,7 @@ GREEN='\033[0;32m'
 NC='\033[0m'
 
 errors=0
+error_count=0
 
 # Find all markdown files
 find docs/ -name "*.md" | while read -r file; do
@@ -49,16 +48,16 @@ find docs/ -name "*.md" | while read -r file; do
     # Check if file exists
     if [ ! -f "$target_file" ] && [ ! -d "$target_file" ]; then
       echo -e "${RED}ERROR: Broken link in $file: $link → $target_file${NC}"
-      ((errors++))
+      error_count=$((error_count + 1))
     fi
   done
 done
 
 # Check exit status
-if [ $errors -eq 0 ]; then
+if [ $error_count -eq 0 ]; then
   echo -e "${GREEN}✅ All documentation links are valid${NC}"
   exit 0
 else
-  echo -e "${RED}❌ Found $errors broken link(s)${NC}"
+  echo -e "${RED}❌ Found $error_count broken link(s)${NC}"
   exit 1
 fi

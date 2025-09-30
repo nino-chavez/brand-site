@@ -229,5 +229,5 @@ See `.agent-os/workflow/quality-gates.yml` for CI/CD configuration.
 ## Related Documentation
 
 - [Documentation Maintenance Workflow](../../.agent-os/workflow/documentation-maintenance.md)
-- [Documentation Standards](./documentation-standards.md)
-- [Quality Gates](../../.agent-os/workflow/quality-gates.yml)
+- [Documentation Gaps](../../.agent-os/DOC-GAPS.md)
+- Quality Gates (coming in CI/CD integration phase)
