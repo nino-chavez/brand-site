@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import SimplifiedGameFlowContainer from '../components/SimplifiedGameFlowContainer';
-import { UnifiedGameFlowProvider } from '../contexts/UnifiedGameFlowContext';
-import { CanvasStateProvider } from '../components/providers/CanvasStateProvider';
-import Header from '../components/Header';
-import BackgroundEffects from '../components/BackgroundEffects';
-import CursorLens from '../components/CursorLens';
-import LightboxCanvas from '../components/LightboxCanvas';
+import SimplifiedGameFlowContainer from './components/sports/SimplifiedGameFlowContainer';
+import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
+import { CanvasStateProvider } from './contexts/CanvasStateProvider';
+import Header from './components/layout/Header';
+import BackgroundEffects from './components/effects/BackgroundEffects';
+import CursorLens from './components/canvas/CursorLens';
+import LightboxCanvas from './components/canvas/LightboxCanvas';
 // import CanvasDebugDiagnostic from '../CanvasDebugDiagnostic'; // File not found
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 

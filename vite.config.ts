@@ -27,48 +27,46 @@ export default defineConfig(({ mode }) => {
                 return 'vendor';
               }
 
-              // Hero viewfinder components (largest feature)
-              if (id.includes('components/') &&
+              // Hero viewfinder components (largest feature) - now in src/components/layout/
+              if (id.includes('src/components/layout/') &&
                   (id.includes('Viewfinder') || id.includes('ViewfinderOverlay') ||
-                   id.includes('HeroSection') || id.includes('BlurContainer') ||
-                   id.includes('viewfinder/') || id.includes('CrosshairSystem'))) {
+                   id.includes('HeroSection') || id.includes('CleanHeroSection'))) {
                 return 'hero-viewfinder';
               }
 
-              // Volleyball/sports components based on naming patterns
-              if (id.includes('components/') &&
-                  (id.includes('Volleyball') || id.includes('Sports') ||
-                   id.includes('Timing') || id.includes('Court') ||
-                   id.includes('Interactive') || id.includes('Sequence'))) {
+              // Legacy viewfinder sub-components
+              if (id.includes('components/viewfinder/')) {
+                return 'hero-viewfinder';
+              }
+
+              // Sports components - now in src/components/sports/
+              if (id.includes('src/components/sports/') ||
+                  (id.includes('components/') &&
+                   (id.includes('Volleyball') || id.includes('Sports') ||
+                    id.includes('Timing') || id.includes('Court') ||
+                    id.includes('Interactive') || id.includes('Sequence')))) {
                 return 'sports';
               }
 
-              // Large viewport components
-              if (id.includes('components/') &&
-                  (id.includes('LeftViewport') || id.includes('RightViewport') ||
-                   id.includes('InteractivePauseSystem') || id.includes('SportsSequenceController'))) {
-                return 'viewports';
-              }
-
-              // 2D Canvas Layout System components (Task 15 optimization)
-              if (id.includes('components/') &&
-                  (id.includes('LightboxCanvas') || id.includes('CameraController') ||
-                   id.includes('SpatialSection') || id.includes('Canvas') ||
-                   id.includes('canvas/') || id.includes('spatial/'))) {
+              // Canvas system components - now in src/components/canvas/
+              if (id.includes('src/components/canvas/') ||
+                  (id.includes('src/') &&
+                   (id.includes('LightboxCanvas') || id.includes('CameraController') ||
+                    id.includes('SpatialSection') || id.includes('CursorLens')))) {
                 return 'canvas-system';
               }
 
-              // Canvas utilities and coordinate systems
-              if (id.includes('utils/') &&
+              // Canvas utilities and coordinate systems - now in src/utils/
+              if (id.includes('src/utils/') &&
                   (id.includes('canvas') || id.includes('spatial') ||
                    id.includes('camera') || id.includes('coordinate'))) {
                 return 'canvas-utils';
               }
 
-              // UI framework components
-              if (id.includes('components/') &&
-                  (id.includes('Navigation') || id.includes('Controls') ||
-                   id.includes('HUD') || id.includes('sections/'))) {
+              // UI framework components - now in src/components/ui/
+              if (id.includes('src/components/ui/') ||
+                  (id.includes('components/sections/') ||
+                   id.includes('Navigation') || id.includes('Controls') || id.includes('HUD'))) {
                 return 'ui';
               }
 
@@ -118,7 +116,7 @@ export default defineConfig(({ mode }) => {
         coverage: {
           provider: 'v8',
           reporter: ['text', 'json', 'html'],
-          include: ['components/**/*.{ts,tsx}', 'hooks/**/*.{ts,tsx}'],
+          include: ['src/components/**/*.{ts,tsx}', 'src/hooks/**/*.{ts,tsx}', 'src/utils/**/*.{ts,tsx}'],
           exclude: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}', 'node_modules/**'],
         }
       }

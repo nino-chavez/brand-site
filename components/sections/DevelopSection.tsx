@@ -1,7 +1,7 @@
 import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'react';
-import { useUnifiedGameFlow } from '../../contexts/UnifiedGameFlowContext';
-import { useGameFlowDebugger } from '../../hooks/useGameFlowDebugger';
-import ViewfinderOverlay from '../ViewfinderOverlay';
+import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
+import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
+import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
 
 interface DevelopSectionProps {
   active: boolean;
