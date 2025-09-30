@@ -6,6 +6,108 @@ This guide provides comprehensive setup instructions for the LightboxCanvas perf
 
 ## Architecture Components
 
+### Performance Monitoring Flow
+
+The monitoring system continuously collects metrics, analyzes performance, and triggers alerts when thresholds are exceeded:
+
+```mermaid
+graph TB
+    subgraph "Metric Collection"
+        A[Browser Performance API]
+        B[Canvas Render Observer]
+        C[Memory Profiler]
+        D[Input Latency Tracker]
+    end
+
+    subgraph "Performance Monitor Core"
+        E[PerformanceMonitor]
+        F[Metric Aggregator]
+        G[Threshold Analyzer]
+    end
+
+    subgraph "Analysis & Detection"
+        H{Check Thresholds}
+        I[FPS < 45?]
+        J[Memory > 100MB?]
+        K[Latency > 100ms?]
+    end
+
+    subgraph "Alert System"
+        L[Alert Manager]
+        M[Slack Webhook]
+        N[Email Service]
+        O[Performance Dashboard]
+    end
+
+    subgraph "Data Storage"
+        P[Analytics Database]
+        Q[Performance Logs]
+        R[Historical Metrics]
+    end
+
+    A -->|requestAnimationFrame| E
+    B -->|render time| E
+    C -->|heap size| E
+    D -->|event latency| E
+
+    E --> F
+    F --> G
+
+    G --> H
+
+    H -->|Critical| I
+    H -->|Critical| J
+    H -->|Critical| K
+
+    I -->|Yes| L
+    J -->|Yes| L
+    K -->|Yes| L
+
+    L --> M
+    L --> N
+    L --> O
+
+    F --> P
+    F --> Q
+    G --> R
+
+    P -.->|Query for trends| G
+    R -.->|Historical analysis| H
+
+    classDef collectClass fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    classDef coreClass fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    classDef analyzeClass fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    classDef alertClass fill:#ffebee,stroke:#f44336,stroke-width:2px
+    classDef storageClass fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+
+    class A,B,C,D collectClass
+    class E,F,G coreClass
+    class H,I,J,K analyzeClass
+    class L,M,N,O alertClass
+    class P,Q,R storageClass
+```
+
+*Generated: 2025-09-30 from monitoring system architecture*
+
+**Monitoring Flow Stages:**
+
+1. **Collection** (60fps): Performance API + custom observers gather real-time metrics
+2. **Aggregation** (1s intervals): Metrics averaged to smooth out noise
+3. **Analysis** (continuous): Compare against configured thresholds
+4. **Alerting** (immediate): Multi-channel notifications when thresholds exceeded
+5. **Storage** (persistent): Historical data for trend analysis
+
+**Key Performance Indicators:**
+- FPS (frames per second): Target 60, warn < 55, critical < 45
+- Memory Usage: Target < 50MB, warn > 75MB, critical > 100MB
+- Input Latency: Target < 16ms, warn > 50ms, critical > 100ms
+- Render Time: Target < 16.67ms, warn > 25ms, critical > 33ms
+
+**Implementation** (`src/components/ui/PerformanceMonitor.tsx:40-280`):
+- Continuous monitoring with minimal overhead (< 0.5ms per frame)
+- Configurable thresholds via `performance-monitoring.config.json`
+- Real-time dashboard accessible via Ctrl+Shift+P
+
 ### Core Components
 
 1. **PerformanceMonitor.ts** - Core monitoring engine

@@ -13,6 +13,89 @@ The Viewfinder System provides an immersive camera-like interface where users ca
 
 ## Architecture
 
+### Component Relationship Diagram
+
+The Viewfinder System integrates multiple specialized components with clear data flow and state management:
+
+```mermaid
+graph TD
+    subgraph "State Management"
+        A[ViewfinderContext]
+        B[useMouseTracking Hook]
+        C[useViewfinder Hook]
+    end
+
+    subgraph "Main Interface"
+        D[ViewfinderOverlay]
+        E[ViewfinderErrorBoundary]
+        F[ViewfinderLazy]
+    end
+
+    subgraph "Visual Components"
+        G[CrosshairSystem]
+        H[BlurContainer]
+        I[ShutterEffect]
+        J[ExifMetadata]
+    end
+
+    subgraph "Control Components"
+        K[KeyboardControls]
+        L[CameraController]
+    end
+
+    subgraph "Browser Compatibility"
+        M[browserCompat.ts]
+        N[CompatibilityFallbacks]
+    end
+
+    A --> C
+    B --> D
+    C --> D
+
+    E --> F
+    F --> D
+
+    D --> G
+    D --> H
+    D --> I
+    D --> J
+    D --> K
+
+    G --> L
+    H --> L
+
+    D --> M
+    M --> N
+
+    B -.->|Mouse Position| G
+    B -.->|Focus Center| H
+    C -.->|Capture Event| I
+    C -.->|Active State| J
+    K -.->|Keyboard Events| D
+
+    classDef stateClass fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    classDef componentClass fill:#fff4e6,stroke:#ff9800,stroke-width:2px
+    classDef utilClass fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+
+    class A,B,C stateClass
+    class D,E,F,G,H,I,J,K,L componentClass
+    class M,N utilClass
+```
+
+*Generated: 2025-09-30 from src/components/ and src/hooks/ analysis*
+
+**Data Flow:**
+- **Mouse Events**: Tracked by `useMouseTracking` → propagated to visual components
+- **State Changes**: Managed by `ViewfinderContext` → synchronized across all components
+- **Capture Actions**: Triggered by keyboard/mouse → coordinated through context
+- **Browser Compat**: Detected once → cached settings applied to all components
+
+**Component Responsibilities:**
+- `ViewfinderOverlay` (`src/components/layout/ViewfinderOverlay.tsx:1-450`): Main orchestration and event handling
+- `CrosshairSystem` (`src/components/sports/CrosshairSystem.tsx:1-280`): Cursor tracking and visual rendering
+- `BlurContainer` (`src/components/ui/BlurContainer.tsx:1-150`): Dynamic focus effects with performance optimization
+- `KeyboardControls` (`src/components/ui/KeyboardControls.tsx:1-200`): Accessibility and keyboard navigation
+
 ### Core Components
 
 ```

@@ -4,6 +4,100 @@
 
 This guide provides comprehensive optimization strategies for touch interactions within the LightboxCanvas spatial navigation system. Mobile devices require specialized touch gesture patterns, performance considerations, and responsive design adaptations to deliver smooth 60fps experiences.
 
+## Touch Gesture Handling Flow
+
+Mobile touch interactions follow a sophisticated detection and response pipeline for responsive 60fps gestures:
+
+```mermaid
+sequenceDiagram
+    participant U as User Touch
+    participant TL as Touch Listener
+    participant GD as Gesture Detector
+    participant Nav as Navigator
+    participant Haptic as Haptic Feedback
+    participant UI as UI Update
+
+    U->>TL: touchstart
+    TL->>GD: Capture Start Position
+    GD->>GD: Start Timestamp
+    GD->>GD: Setup Long Press Timer
+
+    U->>TL: touchmove
+    TL->>GD: Track Current Position
+    GD->>GD: Calculate Delta & Distance
+
+    alt Distance > 50px
+        GD->>GD: Detect Gesture Type
+
+        alt Horizontal Swipe
+            GD->>Nav: Navigate Left/Right
+            Nav->>Haptic: Light Vibration
+            Nav->>UI: Trigger Pan Animation
+            UI-->>U: Smooth 60fps Pan
+        end
+
+        alt Vertical Swipe
+            GD->>Nav: Navigate Up/Down
+            Nav->>Haptic: Light Vibration
+            Nav->>UI: Trigger Scroll
+            UI-->>U: Smooth 60fps Scroll
+        end
+
+        alt Pinch (2 fingers)
+            GD->>Nav: Zoom In/Out
+            Nav->>Haptic: Medium Vibration
+            Nav->>UI: Trigger Scale Transform
+            UI-->>U: Smooth 60fps Zoom
+        end
+    end
+
+    U->>TL: touchend
+    TL->>GD: Calculate Velocity
+
+    alt Duration < 200ms && Distance < 10px
+        GD->>Nav: Tap Gesture
+        Nav->>Haptic: Sharp Vibration
+        Nav->>UI: Trigger Action
+    end
+
+    alt Duration > 500ms && Distance < 10px
+        GD->>Nav: Long Press
+        Nav->>Haptic: Double Vibration
+        Nav->>UI: Show Context Menu
+    end
+
+    alt Velocity > 0.3 && Distance > 50px
+        GD->>Nav: Fling Gesture
+        Nav->>UI: Momentum Animation
+        UI-->>U: Smooth Deceleration
+    end
+
+    Nav->>GD: Reset State
+    GD->>TL: Clear Touch Data
+```
+
+*Generated: 2025-09-30 from touch handler implementation*
+
+**Touch Processing Pipeline:**
+
+1. **Capture** (0ms): Record touch start position and timestamp
+2. **Detection** (16-32ms): Calculate movement distance and velocity
+3. **Classification** (< 50ms): Determine gesture type (swipe/pinch/tap/long-press)
+4. **Execution** (immediate): Trigger navigation or action with haptic feedback
+5. **Animation** (continuous): 60fps smooth animation until gesture complete
+
+**Gesture Thresholds:**
+- Swipe: > 50px movement, velocity > 0.3px/ms
+- Tap: < 200ms duration, < 10px movement
+- Long Press: > 500ms duration, < 10px movement
+- Pinch: 2 fingers, distance delta detection
+
+**Performance Optimizations** (`src/hooks/useTouchGestures.ts:40-180`):
+- Passive event listeners for scroll performance
+- RequestAnimationFrame for smooth animations
+- Hardware-accelerated transforms (translate3d, scale3d)
+- Touch event coalescing to reduce processing
+
 ## Touch Gesture Patterns
 
 ### 1. Core Touch Gestures

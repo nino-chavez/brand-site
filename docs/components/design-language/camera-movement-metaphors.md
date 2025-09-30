@@ -4,6 +4,70 @@
 
 This guide documents the implementation patterns for camera movement metaphors within the LightboxCanvas spatial navigation system. These metaphors create intuitive, photography-inspired interactions that feel natural to users familiar with camera operation while maintaining accessibility and performance standards.
 
+## Canvas Interaction Sequence
+
+User interactions with the canvas follow a camera-inspired flow with immediate visual feedback and smooth transitions:
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant Input as Input Handler
+    participant CC as CameraController
+    participant Canvas as LightboxCanvas
+    participant Visual as Visual Feedback
+    participant Audio as Audio Feedback
+
+    U->>Input: Mouse/Touch/Keyboard
+    Input->>Input: Detect Gesture Type
+
+    alt Pan Gesture
+        Input->>CC: panTo(direction, intensity)
+        CC->>CC: Calculate Target Position
+        CC->>Canvas: Apply Transform3D
+        Canvas->>Visual: Trigger Pan Animation
+        CC->>Audio: playCameraSound('pan')
+        Visual-->>U: Smooth Pan (60fps)
+        Audio-->>U: Subtle Click
+    end
+
+    alt Tilt Gesture
+        Input->>CC: tiltTo(direction, intensity)
+        CC->>CC: Calculate Tilt Angle
+        CC->>Canvas: Apply Perspective Transform
+        Canvas->>Visual: Trigger Tilt Animation
+        CC->>Audio: playCameraSound('tilt')
+        Visual-->>U: Smooth Tilt (60fps)
+        Audio-->>U: Subtle Whir
+    end
+
+    alt Zoom Gesture
+        Input->>CC: zoomTo(level, focalPoint)
+        CC->>CC: Calculate Scale & Focus
+        CC->>Canvas: Apply Scale Transform
+        Canvas->>Visual: Trigger Zoom Animation
+        CC->>Audio: playCameraSound('zoom')
+        Visual-->>U: Focal Zoom (60fps)
+        Audio-->>U: Lens Movement
+    end
+
+    Note over CC,Canvas: All transforms use<br/>hardware acceleration<br/>(transform3d)
+
+    Canvas->>Canvas: Check Performance
+    Canvas->>U: Update Complete
+```
+
+*Generated: 2025-09-30 from CameraController interaction patterns*
+
+**Interaction Performance:**
+- Input latency: < 16ms (immediate response at 60fps)
+- Animation duration: 200-800ms (natural camera feel)
+- Feedback delay: < 50ms (visual + haptic + audio)
+
+**Implementation Files:**
+- `src/components/canvas/CameraController.tsx:80-250` - Core movement logic
+- `src/components/canvas/EnhancedCameraController.tsx:120-340` - Enhanced interactions
+- `src/hooks/useMouseTracking.ts:25-150` - Input gesture detection
+
 ## Core Camera Movement Types
 
 ### 1. Panning (Horizontal Movement)

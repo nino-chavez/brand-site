@@ -4,6 +4,151 @@
 
 This comprehensive checklist ensures safe deployment of the LightboxCanvas spatial navigation system to production environments. It includes pre-deployment validation, deployment procedures, post-deployment verification, and emergency rollback procedures.
 
+## CI/CD Pipeline Architecture
+
+The deployment pipeline implements automated quality gates, blue-green deployment, and comprehensive monitoring:
+
+```mermaid
+graph TB
+    subgraph "Source Control"
+        A[Git Push to main]
+        B[Create PR]
+        C[Merge to main]
+    end
+
+    subgraph "CI: Quality Gates"
+        D[Run Unit Tests]
+        E[Run Integration Tests]
+        F[Run E2E Tests]
+        G[Run A11y Tests]
+        H[Run Performance Tests]
+        I[Build Production Bundle]
+        J[Bundle Size Check]
+    end
+
+    subgraph "Security & Quality"
+        K[TypeScript Check]
+        L[ESLint Check]
+        M[Security Scan]
+        N[Dependency Audit]
+    end
+
+    subgraph "Staging Deployment"
+        O[Deploy to Staging]
+        P[Smoke Tests]
+        Q[Performance Validation]
+        R[A11y Validation]
+    end
+
+    subgraph "Production Deployment"
+        S[Blue Environment Deploy]
+        T[Health Check]
+        U{Pass?}
+        V[Gradual Traffic Switch<br/>10% → 50% → 100%]
+        W[Monitor Metrics]
+    end
+
+    subgraph "Post-Deployment"
+        X[Performance Monitoring]
+        Y[Error Tracking]
+        Z[User Analytics]
+        AA[Generate Report]
+    end
+
+    subgraph "Rollback Path"
+        AB{Issues Detected?}
+        AC[Switch Traffic to Green]
+        AD[Alert Team]
+        AE[Incident Report]
+    end
+
+    A --> B
+    B --> D
+    B --> K
+
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+
+    K --> L
+    L --> M
+    M --> N
+
+    H --> I
+    I --> J
+
+    J --> O
+    N --> O
+
+    O --> P
+    P --> Q
+    Q --> R
+
+    R --> C
+    C --> S
+
+    S --> T
+    T --> U
+
+    U -->|Yes| V
+    U -->|No| AC
+
+    V --> W
+    W --> X
+    W --> Y
+    W --> Z
+
+    X --> AA
+    Y --> AA
+    Z --> AA
+
+    X --> AB
+    Y --> AB
+
+    AB -->|Yes| AC
+    AB -->|No| AA
+
+    AC --> AD
+    AD --> AE
+
+    classDef sourceClass fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    classDef ciClass fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    classDef securityClass fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    classDef stagingClass fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    classDef prodClass fill:#e0f2f1,stroke:#009688,stroke-width:2px
+    classDef monitorClass fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px
+    classDef rollbackClass fill:#ffebee,stroke:#f44336,stroke-width:2px
+
+    class A,B,C sourceClass
+    class D,E,F,G,H,I,J ciClass
+    class K,L,M,N securityClass
+    class O,P,Q,R stagingClass
+    class S,T,U,V,W prodClass
+    class X,Y,Z,AA monitorClass
+    class AB,AC,AD,AE rollbackClass
+```
+
+*Generated: 2025-09-30 from deployment workflow configuration*
+
+**Pipeline Stages:**
+
+1. **Quality Gates** (5-8 min): All tests + lint + security checks must pass
+2. **Staging Deploy** (2-3 min): Deploy to staging + smoke tests
+3. **Production Deploy** (5-10 min): Blue-green deployment with gradual traffic switch
+4. **Monitoring** (continuous): Real-time metrics + automatic rollback if issues detected
+
+**Deployment Strategy:**
+- **Blue-Green**: Zero-downtime deployments with instant rollback capability
+- **Gradual Rollout**: 10% → 50% → 100% traffic migration with health checks
+- **Automatic Rollback**: Triggers on error rate > 0.5% or performance degradation
+
+**Quality Requirements:**
+- Test Coverage: > 85% line coverage, > 80% branch coverage
+- Bundle Size: < 2.5MB total, < 500KB initial chunk
+- Performance: 60fps maintained, Lighthouse score > 90
+- Accessibility: 100% WCAG 2.1 AA compliance
+
 ## Pre-Deployment Checklist
 
 ### 1. Code Quality and Testing

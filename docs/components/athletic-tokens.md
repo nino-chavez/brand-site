@@ -13,6 +13,149 @@ The Athletic Design Token System provides:
 - **CSS custom properties** for styling flexibility
 - **Reduced motion support** for accessibility
 
+## Token System Architecture
+
+The token system implements a hierarchical structure from base tokens through semantic layers to component-specific styles:
+
+```mermaid
+graph TD
+    subgraph "Base Tokens"
+        A[Color Primitives<br/>court-navy, court-orange]
+        B[Timing Primitives<br/>90ms, 120ms, 160ms]
+        C[Spacing Scale<br/>4px, 8px, 16px]
+        D[Typography Scale<br/>rem-based sizes]
+    end
+
+    subgraph "Semantic Tokens"
+        E[Color Semantic<br/>success, warning, error]
+        F[Motion Semantic<br/>quick-snap, reaction, transition]
+        G[Layout Semantic<br/>gap-sm, gap-md, gap-lg]
+        H[Text Semantic<br/>heading, body, caption]
+    end
+
+    subgraph "Component Tokens"
+        I[Button Tokens]
+        J[Card Tokens]
+        K[Navigation Tokens]
+        L[Modal Tokens]
+    end
+
+    subgraph "Delivery Mechanisms"
+        M[CSS Custom Properties<br/>--athletic-court-navy]
+        N[TypeScript Interfaces<br/>AthleticColor]
+        O[Tailwind Classes<br/>bg-athletic-court-navy]
+        P[React Hooks<br/>useAthleticColors]
+    end
+
+    subgraph "Accessibility Layer"
+        Q[Contrast Checker<br/>WCAG AAA]
+        R[Motion Reducer<br/>prefers-reduced-motion]
+        S[Focus Indicators<br/>keyboard navigation]
+    end
+
+    subgraph "Components"
+        T[UI Components]
+        U[Layout Components]
+        V[Sports Components]
+    end
+
+    A --> E
+    B --> F
+    C --> G
+    D --> H
+
+    E --> I
+    E --> J
+    E --> K
+    E --> L
+
+    F --> I
+    F --> J
+    F --> K
+    F --> L
+
+    I --> M
+    I --> N
+    I --> O
+    I --> P
+
+    J --> M
+    J --> N
+    J --> O
+    J --> P
+
+    K --> M
+    K --> N
+    K --> O
+    K --> P
+
+    L --> M
+    L --> N
+    L --> O
+    L --> P
+
+    M --> T
+    N --> T
+    O --> T
+    P --> T
+
+    M --> U
+    N --> U
+    O --> U
+    P --> U
+
+    M --> V
+    N --> V
+    O --> V
+    P --> V
+
+    A --> Q
+    E --> Q
+    I --> Q
+
+    B --> R
+    F --> R
+
+    E --> S
+    I --> S
+
+    classDef baseClass fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    classDef semanticClass fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    classDef componentClass fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    classDef deliveryClass fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    classDef a11yClass fill:#ffebee,stroke:#f44336,stroke-width:2px
+    classDef uiClass fill:#e0f2f1,stroke:#009688,stroke-width:2px
+
+    class A,B,C,D baseClass
+    class E,F,G,H semanticClass
+    class I,J,K,L componentClass
+    class M,N,O,P deliveryClass
+    class Q,R,S a11yClass
+    class T,U,V uiClass
+```
+
+*Generated: 2025-09-30 from token system structure*
+
+**Token Hierarchy:**
+
+1. **Base Layer**: Primitive values (colors, timings, spacing) - Single source of truth
+2. **Semantic Layer**: Contextual mappings (success → green) - Intent-based naming
+3. **Component Layer**: Component-specific tokens - Localized styling decisions
+4. **Delivery Layer**: Multiple consumption methods - Developer flexibility
+5. **Accessibility Layer**: Automated compliance checks - Built-in quality
+
+**Implementation Files:**
+- `tokens/simple-tokens.ts:1-150` - Color and timing token definitions with contrast ratios
+- `tokens/simple-provider.tsx:20-180` - React Context provider with hooks
+- `tailwind.config.js:15-45` - Tailwind CSS integration
+- `tokens/index.ts:1-50` - Token exports and TypeScript types
+
+**Key Features:**
+- Automatic WCAG AAA compliance checking
+- Motion reduction support via `prefers-reduced-motion`
+- TypeScript IntelliSense for all token values
+- Zero-runtime CSS custom properties
+
 ## Quick Start
 
 ### 1. Wrap your app with the provider

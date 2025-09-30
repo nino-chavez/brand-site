@@ -39,6 +39,135 @@ it('sets state value', () => {
 
 ---
 
+## Test Architecture
+
+The testing system employs a multi-layered approach with specialized test runners for different aspects:
+
+```mermaid
+graph TB
+    subgraph "Source Code"
+        A[src/components/]
+        B[src/contexts/]
+        C[src/hooks/]
+    end
+
+    subgraph "Test Categories"
+        D[Unit Tests]
+        E[Integration Tests]
+        F[E2E Tests]
+        G[Accessibility Tests]
+        H[Performance Tests]
+    end
+
+    subgraph "Test Utilities"
+        I[test/utils/]
+        J[test/mocks/]
+        K[test/fixtures/]
+        L[test/helpers/]
+    end
+
+    subgraph "Test Runners"
+        M[Vitest<br/>Unit + Integration]
+        N[Playwright<br/>E2E]
+        O[axe-core<br/>A11y]
+        P[Custom Perf Runner<br/>60fps]
+    end
+
+    subgraph "Quality Gates"
+        Q{Coverage > 85%?}
+        R{All A11y Pass?}
+        S{60fps Maintained?}
+        T{E2E Pass?}
+    end
+
+    subgraph "CI/CD"
+        U[GitHub Actions]
+        V[Test Reports]
+        W[Coverage Badge]
+        X[Deployment]
+    end
+
+    A --> D
+    A --> E
+    B --> D
+    B --> E
+    C --> D
+
+    A --> F
+    A --> G
+    A --> H
+
+    I --> D
+    I --> E
+    J --> D
+    J --> E
+    K --> F
+    L --> D
+
+    D --> M
+    E --> M
+    F --> N
+    G --> O
+    H --> P
+
+    M --> Q
+    N --> T
+    O --> R
+    P --> S
+
+    Q -->|Pass| U
+    R -->|Pass| U
+    S -->|Pass| U
+    T -->|Pass| U
+
+    Q -->|Fail| V
+    R -->|Fail| V
+    S -->|Fail| V
+    T -->|Fail| V
+
+    U --> V
+    U --> W
+    U --> X
+
+    classDef sourceClass fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    classDef testClass fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    classDef utilClass fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    classDef runnerClass fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    classDef gateClass fill:#ffebee,stroke:#f44336,stroke-width:2px
+    classDef ciClass fill:#e0f2f1,stroke:#009688,stroke-width:2px
+
+    class A,B,C sourceClass
+    class D,E,F,G,H testClass
+    class I,J,K,L utilClass
+    class M,N,O,P runnerClass
+    class Q,R,S,T gateClass
+    class U,V,W,X ciClass
+```
+
+*Generated: 2025-09-30 from test directory structure*
+
+**Test Execution Flow:**
+
+1. **Development**: Tests run on file save (watch mode)
+2. **Pre-commit**: Fast unit tests validate changes
+3. **CI Pipeline**: Full test suite (unit + integration + E2E + a11y + performance)
+4. **Quality Gates**: All categories must pass to deploy
+5. **Reporting**: Coverage reports + accessibility audit + performance metrics
+
+**Coverage Requirements:**
+- Unit Tests: 90% statement coverage, 85% branch coverage
+- Integration Tests: All context interactions tested
+- E2E Tests: Critical user flows covered
+- Accessibility: 100% WCAG 2.1 AA compliance
+- Performance: 60fps maintained across all interactions
+
+**Test Organization** (`test/`):
+- `test/*.test.tsx` - Component unit tests
+- `test/integration/*.test.tsx` - Context and system integration
+- `test/e2e/*.spec.ts` - Playwright end-to-end tests
+- `test/utils/` - Shared test utilities and custom renders
+- `test/mocks/` - Mock contexts, APIs, and browser APIs
+
 ## Test Structure
 
 ### Required Test Categories

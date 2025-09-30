@@ -6,6 +6,116 @@ This guide documents the production build optimization setup for the LightboxCan
 
 ## Build Architecture
 
+### Deployment Architecture Overview
+
+The production build system employs a multi-stage pipeline with optimized asset delivery and CDN integration:
+
+```mermaid
+graph TB
+    subgraph "Source Code"
+        A[src/ TypeScript/TSX]
+        B[public/ Static Assets]
+        C[tailwind.config.js]
+    end
+
+    subgraph "Build Pipeline"
+        D[TypeScript Compiler]
+        E[Vite Build System]
+        F[Tailwind CSS Processor]
+        G[Asset Optimizer]
+    end
+
+    subgraph "Optimization Layer"
+        H[Code Splitting]
+        I[Tree Shaking]
+        J[Minification]
+        K[Image Optimization]
+    end
+
+    subgraph "Output Artifacts"
+        L[dist/assets/]
+        M[dist/index.html]
+        N[Source Maps]
+        O[Build Manifest]
+    end
+
+    subgraph "Deployment Target"
+        P[Static Host<br/>Netlify/Vercel]
+        Q[CDN Edge Nodes]
+        R[Browser Cache]
+    end
+
+    subgraph "Quality Gates"
+        S[Bundle Size Check]
+        T[Performance Budget]
+        U[Accessibility Audit]
+        V[Type Safety]
+    end
+
+    A --> D
+    A --> E
+    C --> F
+    B --> G
+
+    D --> E
+    F --> E
+    G --> E
+
+    E --> H
+    E --> I
+    E --> J
+    E --> K
+
+    H --> L
+    I --> L
+    J --> L
+    K --> L
+    L --> M
+    L --> N
+    L --> O
+
+    M --> S
+    L --> T
+    M --> U
+    D --> V
+
+    S -->|Pass| P
+    T -->|Pass| P
+    U -->|Pass| P
+    V -->|Pass| P
+
+    P --> Q
+    Q --> R
+
+    classDef sourceClass fill:#e8f5e9,stroke:#4caf50,stroke-width:2px
+    classDef buildClass fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    classDef optimizeClass fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    classDef deployClass fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    classDef gateClass fill:#ffebee,stroke:#f44336,stroke-width:2px
+
+    class A,B,C sourceClass
+    class D,E,F,G buildClass
+    class H,I,J,K optimizeClass
+    class L,M,N,O,P,Q,R deployClass
+    class S,T,U,V gateClass
+```
+
+*Generated: 2025-09-30 from build configuration analysis*
+
+**Build Pipeline Stages:**
+
+1. **Compilation**: TypeScript → JavaScript with strict type checking
+2. **Bundling**: Vite processes modules with intelligent code splitting
+3. **Optimization**: Tree-shaking, minification, and asset compression
+4. **Quality Gates**: Automated checks block deployment if standards not met
+5. **Deployment**: Static hosting with global CDN distribution
+
+**Performance Optimizations:**
+- **Code Splitting** (`vite.config.ts:25-40`): Lazy-loaded routes reduce initial bundle
+- **Tree Shaking** (`vite.config.ts:45-60`): Removes unused code automatically
+- **Asset Optimization** (`vite.config.ts:65-85`): Images compressed, WebP variants generated
+- **CDN Integration**: Static assets served from edge locations for < 50ms latency
+
 ### Core Optimization Strategies
 
 1. **Performance-First Bundling**
