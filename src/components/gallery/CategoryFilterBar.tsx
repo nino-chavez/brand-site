@@ -11,13 +11,37 @@ export interface CategoryFilterBarProps {
   categories: CategoryFilter[];
   activeCategory: string | null;
   onCategoryChange: (categoryId: string | null) => void;
+  /** Enable keyboard shortcuts (1-9 for categories) */
+  enableKeyboardShortcuts?: boolean;
 }
 
 export const CategoryFilterBar: React.FC<CategoryFilterBarProps> = ({
   categories,
   activeCategory,
   onCategoryChange,
+  enableKeyboardShortcuts = false,
 }) => {
+  // Quick category filters using numbered shortcuts (like contact sheet frame selection)
+  React.useEffect(() => {
+    if (!enableKeyboardShortcuts) return;
+
+    const handleKeyPress = (e: KeyboardEvent) => {
+      // Ignore if user is typing in an input
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+
+      const key = parseInt(e.key);
+      if (key === 0) {
+        // '0' displays full contact sheet (all images)
+        onCategoryChange(null);
+      } else if (key >= 1 && key <= categories.length) {
+        // '1-9' select specific category filters (like choosing lens filters)
+        onCategoryChange(categories[key - 1].id);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [enableKeyboardShortcuts, categories, onCategoryChange]);
   const totalCount = categories.reduce((sum, cat) => sum + cat.count, 0);
   const activeCount = activeCategory
     ? categories.find(cat => cat.id === activeCategory)?.count || totalCount
@@ -37,22 +61,28 @@ export const CategoryFilterBar: React.FC<CategoryFilterBarProps> = ({
         className={`filter-chip ${activeCategory === null ? 'active' : ''}`}
         onClick={() => onCategoryChange(null)}
         aria-pressed={activeCategory === null}
-        aria-label={`Show all ${totalCount} images`}
+        aria-label={`Show all ${totalCount} images${enableKeyboardShortcuts ? '. Press 0 for quick access to full contact sheet' : ''}`}
       >
+        {enableKeyboardShortcuts && (
+          <span className="chip-shortcut" aria-hidden="true">0</span>
+        )}
         <span className="chip-icon" aria-hidden="true">🖼️</span>
         <span className="chip-label">All</span>
         <span className="chip-count" aria-hidden="true">{totalCount}</span>
       </button>
 
       {/* Category-specific chips */}
-      {categories.map((category) => (
+      {categories.map((category, index) => (
         <button
           key={category.id}
           className={`filter-chip ${activeCategory === category.id ? 'active' : ''}`}
           onClick={() => onCategoryChange(category.id)}
           aria-pressed={activeCategory === category.id}
-          aria-label={`Show ${category.count} ${category.label} images`}
+          aria-label={`Show ${category.count} ${category.label} images${enableKeyboardShortcuts ? `. Press ${index + 1} for quick category filter` : ''}`}
         >
+          {enableKeyboardShortcuts && (
+            <span className="chip-shortcut" aria-hidden="true">{index + 1}</span>
+          )}
           <span className="chip-icon" aria-hidden="true">{category.icon}</span>
           <span className="chip-label">{category.label}</span>
           <span className="chip-count" aria-hidden="true">{category.count}</span>
@@ -111,6 +141,29 @@ export const CategoryFilterBar: React.FC<CategoryFilterBarProps> = ({
 
         .filter-chip:focus:not(:focus-visible) {
           outline: none;
+        }
+
+        .chip-shortcut {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 1.25rem;
+          height: 1.25rem;
+          padding: 0 0.25rem;
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 4px;
+          font-size: 0.6875rem;
+          font-weight: 600;
+          font-family: ui-monospace, monospace;
+          line-height: 1;
+          color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-chip.active .chip-shortcut {
+          background: rgba(59, 130, 246, 0.15);
+          border-color: rgba(59, 130, 246, 0.4);
+          color: rgba(59, 130, 246, 0.9);
         }
 
         .chip-icon {
