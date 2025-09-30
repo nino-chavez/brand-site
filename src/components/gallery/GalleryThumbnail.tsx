@@ -3,6 +3,8 @@
  *
  * Individual thumbnail with lazy loading, blur-up placeholder,
  * and hover effects (backlit glow).
+ *
+ * Photography metaphor: Contact sheet thumbnail with light table glow effect
  */
 
 import React, { useState, useEffect, useRef } from 'react';
