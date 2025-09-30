@@ -1,0 +1,105 @@
+/**
+ * Visual Effects Styles
+ *
+ * CSS support for visual effects that require pseudo-elements or
+ * complex styling beyond CSS filters.
+ */
+
+/* Vignette effect for exposure lighting */
+[data-section].effect-vignette {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-section].effect-vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+/* Ensure content is above vignette */
+[data-section].effect-vignette > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Reduce vignette on hover */
+[data-section].effect-vignette:hover::after {
+  opacity: 0.5;
+}
+
+/* Performance optimization: Use GPU acceleration */
+[data-section] {
+  will-change: filter, opacity, box-shadow;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Disable will-change when effects are not active to save memory */
+[data-section]:not(.effect-active) {
+  will-change: auto;
+}
+
+/* Smooth transitions for all effect properties */
+[data-section] {
+  transition-property: filter, opacity, box-shadow, outline, transform;
+  transition-timing-function: ease-in-out;
+}
+
+/* Focus indicator for keyboard navigation (accessibility) */
+[data-section]:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 4px;
+}
+
+/* Ensure effects don't interfere with focus indicators */
+[data-section]:focus-visible {
+  z-index: 10;
+}
+
+/* Prevent layout shifts from effects */
+[data-section] {
+  contain: layout style;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  [data-section],
+  [data-section].effect-vignette::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print styles: Disable all effects */
+@media print {
+  [data-section] {
+    filter: none !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  [data-section].effect-vignette::after {
+    display: none;
+  }
+}
+
+/* High contrast mode: Disable subtle effects */
+@media (prefers-contrast: high) {
+  [data-section] {
+    filter: none !important;
+  }
+
+  [data-section].effect-vignette::after {
+    display: none;
+  }
+}
