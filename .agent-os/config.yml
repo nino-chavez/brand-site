@@ -340,6 +340,45 @@ production:
     - "Monitoring configured"
 
 # ============================================
+# Specialized Agent Configuration
+# ============================================
+
+specialized_agents:
+  # Enable specialized domain agents
+  enabled: true
+
+  # Agent activation rules (keywords trigger automatic activation)
+  canvas_architecture_guardian:
+    enabled: true
+    auto_activate: true
+    keywords: ["canvas", "lightbox", "camera", "lens", "navigation", "state"]
+    priority: high
+
+  accessibility_validator:
+    enabled: true
+    auto_activate: true
+    keywords: ["accessibility", "a11y", "keyboard", "screen reader", "WCAG", "interactive"]
+    priority: critical
+
+  performance_budget_enforcer:
+    enabled: true
+    auto_activate: true
+    keywords: ["performance", "fps", "bundle size", "optimization", "memory"]
+    priority: critical
+
+  photography_metaphor_validator:
+    enabled: true
+    auto_activate: true
+    keywords: ["camera", "lens", "photography", "metaphor", "naming", "terminology"]
+    priority: high
+
+  test_coverage_guardian:
+    enabled: true
+    auto_activate: true
+    keywords: ["tests", "coverage", "testing", "quality", "complete"]
+    priority: critical
+
+# ============================================
 # Agent Behavior Configuration
 # ============================================
 
@@ -358,6 +397,9 @@ agent_behavior:
 
   # Continuous validation during implementation
   continuous_validation: true
+
+  # Proactive agent activation
+  proactive_agent_activation: true
 
 # ============================================
 # Override Settings (Per Feature)
