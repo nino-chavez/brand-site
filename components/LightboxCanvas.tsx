@@ -94,46 +94,56 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     return GRID_LAYOUTS[state.layout] || GRID_LAYOUTS['3x2'];
   }, [state.layout]);
 
-  // Memoized transform style for hardware acceleration
+  // Memoized transform style for hardware acceleration (optimized with shallow comparison)
   const canvasTransform = useMemo(() => {
     const { x, y, scale } = state.currentPosition;
 
-    // Validate position within constraints
-    const validatedPosition = validateCanvasPosition(
-      { x, y, scale },
-      DEFAULT_VIEWPORT_CONSTRAINTS
-    );
+    // Only validate if values are significantly out of bounds (optimization: skip micro-adjustments)
+    const needsValidation =
+      Math.abs(x) > DEFAULT_VIEWPORT_CONSTRAINTS.maxPosition.x ||
+      Math.abs(y) > DEFAULT_VIEWPORT_CONSTRAINTS.maxPosition.y ||
+      scale < DEFAULT_VIEWPORT_CONSTRAINTS.minScale ||
+      scale > DEFAULT_VIEWPORT_CONSTRAINTS.maxScale;
 
-    if (!validatedPosition.success) {
-      console.warn('Canvas position validation failed:', validatedPosition.error);
+    let finalPosition = { x, y, scale };
+
+    if (needsValidation) {
+      const validatedPosition = validateCanvasPosition(
+        { x, y, scale },
+        DEFAULT_VIEWPORT_CONSTRAINTS
+      );
+
+      if (!validatedPosition.success) {
+        console.warn('Canvas position validation failed:', validatedPosition.error);
+      }
+
+      finalPosition = validatedPosition.success ? validatedPosition.position : { x, y, scale };
     }
-
-    const finalPosition = validatedPosition.success ? validatedPosition.position : { x, y, scale };
 
     // Cross-browser compatible transform with fallbacks
     const baseTransformStyle = compat.getTransformStyle(-finalPosition.x, -finalPosition.y);
 
-    // Enhanced styles with scale and progressive enhancement
-    const enhancedStyle = enhancement.enhanceStyles(baseTransformStyle, {
-      animation: {
-        duration: isTransitioning ? 300 : 0,
-        easing: 'ease-out'
-      }
-    });
-
-    // Scale transform (applied separately due to compatibility system limitations)
+    // Optimized: Skip enhancement during transitions for performance
     const scaleTransform = finalPosition.scale !== 1 ? ` scale(${finalPosition.scale})` : '';
-    const finalTransform = enhancedStyle.transform + scaleTransform;
+    const finalTransform = baseTransformStyle.transform + scaleTransform;
 
     return {
-      ...enhancedStyle,
       transform: finalTransform,
       transformOrigin: 'center center',
       willChange: isTransitioning ? 'transform' : 'auto',
-      backfaceVisibility: compat.isSupported('transform3d') ? 'hidden' as const : undefined,
-      perspective: compat.isSupported('transform3d') ? '1000px' : undefined
+      // Static optimizations (no need to recalculate)
+      backfaceVisibility: 'hidden' as const,
+      perspective: '1000px',
+      transition: isTransitioning ? 'transform 300ms ease-out' : 'none'
     };
-  }, [state.currentPosition, isTransitioning, compat, enhancement]);
+  }, [
+    // Optimized dependencies: only primitives that actually change the transform
+    state.currentPosition.x,
+    state.currentPosition.y,
+    state.currentPosition.scale,
+    isTransitioning,
+    compat
+  ]);
 
   // CSS classes based on performance mode
   const canvasClasses = useMemo(() => {
