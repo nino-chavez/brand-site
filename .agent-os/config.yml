@@ -1,0 +1,371 @@
+# Agent-OS Configuration
+# Version: 2.0 - Autonomy-Optimized Workflow
+# Last Updated: 2025-09-30
+
+# ============================================
+# Workflow Mode Configuration
+# ============================================
+
+# Default workflow mode for this project
+# Options: 'autonomous' | 'audited'
+default_mode: autonomous
+
+# Mode descriptions:
+# - autonomous: Maximum speed, minimal human interaction
+# - audited: Detailed audit trail, more checkpoints
+
+# ============================================
+# Work Preservation Settings
+# ============================================
+
+work_preservation:
+  # Auto-commit interval in minutes
+  # Commits occur at quality gates or this interval (whichever comes first)
+  auto_commit_interval: 30
+
+  # Commit at every quality gate checkpoint
+  checkpoint_on_quality_gate: true
+
+  # Warn before branch switch if uncommitted work exists
+  warn_before_branch_switch: true
+
+  # Auto-stash uncommitted work when switching branches
+  auto_stash_uncommitted: true
+
+  # Create recovery branches for long-running features
+  create_checkpoint_branches: true
+  checkpoint_branch_prefix: "checkpoint/"
+
+# ============================================
+# Decision Logging
+# ============================================
+
+decisions:
+  # Enable architectural decision logging
+  enabled: true
+
+  # Directory for decision logs
+  directory: .agent-os/decisions/
+
+  # Log format (markdown | json)
+  format: markdown
+
+  # Include alternatives considered
+  include_alternatives: true
+
+  # Include impact analysis
+  include_impact: true
+
+  # Automatically create decision log for architectural changes
+  auto_create_on_architecture_change: true
+
+# ============================================
+# Quality Gates (Always Enabled)
+# ============================================
+
+quality_gates:
+  # TypeScript compilation (blocking)
+  typescript:
+    enabled: true
+    blocking: true
+    strict_mode: true
+    no_any_types: true
+
+  # Test suite (blocking)
+  tests:
+    enabled: true
+    blocking: true
+    minimum_coverage: 90
+    canvas_components_coverage: 95
+    cursor_lens_coverage: 90
+    performance_monitoring_coverage: 85
+
+  # Performance validation (blocking)
+  performance:
+    enabled: true
+    blocking: true
+    target_fps: 60
+    max_frame_time_ms: 16.67
+    max_memory_growth_mb: 50
+    max_bundle_size_kb: 500
+
+  # Accessibility compliance (blocking)
+  accessibility:
+    enabled: true
+    blocking: true
+    wcag_level: AAA
+    run_axe_audit: true
+    check_keyboard_navigation: true
+    check_screen_reader_support: true
+
+  # Architecture compliance (blocking)
+  architecture:
+    enabled: true
+    blocking: true
+    enforce_invariants: true
+    check_pattern_consistency: true
+    prevent_state_drift: true
+    validate_photography_metaphor: true
+
+  # Bundle size (warning)
+  bundle_size:
+    enabled: true
+    blocking: false  # Warning only
+    per_component_kb: 15
+    per_utility_kb: 5
+
+# ============================================
+# Autonomous Mode Settings
+# ============================================
+
+autonomous_mode:
+  # Human approval required for strategic plan
+  require_plan_approval: false  # Can skip for very low-risk
+
+  # Human approval required for final validation
+  require_final_validation: true
+
+  # Auto-create tests for new features
+  auto_create_tests: true
+
+  # Auto-update documentation
+  auto_update_docs: true
+
+  # Parallel execution of independent streams
+  enable_parallel_execution: true
+
+  # Maximum concurrent execution streams
+  max_parallel_streams: 4
+
+# ============================================
+# Audited Mode Settings (Optional)
+# ============================================
+
+audited_mode:
+  # Enable detailed audit trail
+  detailed_logs: true
+
+  # Directory for audit logs
+  directory: .agent-os/audit/
+
+  # Include file diffs in audit
+  include_file_diffs: true
+
+  # Include reasoning for all decisions
+  include_reasoning: true
+
+  # Human approval between major steps
+  require_step_approval: true
+
+  # Generate compliance report
+  generate_compliance_report: true
+
+# ============================================
+# Project-Specific Settings
+# ============================================
+
+project:
+  # Project identification
+  name: "The Lens & Lightbox Portfolio"
+  type: low-risk  # low-risk | medium-risk | high-risk
+
+  # Project-specific requirements
+  photography_metaphor: required
+  athletic_design_tokens: required
+  canvas_performance: 60fps
+  accessibility_level: WCAG AAA
+
+  # Photography metaphor components must use camera terminology
+  enforce_camera_terminology: true
+
+  # Canvas components must use hardware acceleration
+  enforce_gpu_acceleration: true
+
+# ============================================
+# Commit Message Configuration
+# ============================================
+
+commit_messages:
+  # Format: conventional | detailed | standard
+  format: detailed
+
+  # Include implementation details
+  include_implementation: true
+
+  # Include architectural decisions
+  include_decisions: true
+
+  # Include quality gate results
+  include_quality_results: true
+
+  # Include context for next steps
+  include_context: true
+
+  # Add co-authorship attribution
+  add_coauthor: true
+  coauthor_name: "Claude"
+  coauthor_email: "noreply@anthropic.com"
+
+# ============================================
+# Performance Monitoring
+# ============================================
+
+performance_monitoring:
+  # Enable real-time performance tracking
+  enabled: true
+
+  # Track canvas FPS continuously
+  track_fps: true
+
+  # Track memory usage
+  track_memory: true
+
+  # Track bundle size on build
+  track_bundle_size: true
+
+  # Alert thresholds
+  alert_fps_below: 58  # Allow 2fps variance
+  alert_memory_growth_mb: 50
+  alert_bundle_increase_percent: 10
+
+# ============================================
+# Context Management
+# ============================================
+
+context_management:
+  # Use tiered context loading strategy
+  use_tiered_loading: true
+
+  # Keep strategic context loaded (Tier 1)
+  persistent_strategic_context: true
+
+  # Tier 1: Strategic context (always loaded)
+  tier1_files:
+    - .claude/CLAUDE.md
+    - .agent-os/product/mission-lite.md
+    - .agent-os/standards/**
+    - .agent-os/intelligence/**
+    - .agent-os/config.yml
+
+  # Auto-reload on staleness
+  detect_staleness: true
+  staleness_threshold_minutes: 30
+
+  # Validate context before major decisions
+  validate_before_decisions: true
+
+# ============================================
+# Git Workflow Configuration
+# ============================================
+
+git_workflow:
+  # Enhanced git-workflow agent
+  enable_proactive_commits: true
+  enable_checkpoint_detection: true
+  enable_branch_protection: true
+
+  # Commit frequency
+  commit_on_quality_gate: true
+  commit_on_timer: true
+  commit_interval_minutes: 30
+
+  # Branch operations
+  warn_before_destructive_ops: true
+  auto_backup_before_switch: true
+  create_recovery_branches: true
+
+  # Commit message template
+  use_detailed_messages: true
+  include_next_steps: true
+
+# ============================================
+# Feature Flags (Optional)
+# ============================================
+
+feature_flags:
+  # Enable experimental features
+  enable_experimental: false
+
+  # Specific experimental features
+  parallel_quality_gates: false
+  predictive_performance_analysis: false
+  auto_optimization_suggestions: false
+
+# ============================================
+# Notification Settings
+# ============================================
+
+notifications:
+  # Notify on quality gate failures
+  notify_on_gate_failure: true
+
+  # Notify on performance regressions
+  notify_on_performance_regression: true
+
+  # Notify on architectural drift detected
+  notify_on_drift_detected: true
+
+  # Notify on work preservation events
+  notify_on_checkpoint_created: false  # Too frequent
+
+# ============================================
+# Development Mode Overrides
+# ============================================
+
+development:
+  # Skip certain checks in development (use sparingly)
+  skip_bundle_size_check: false
+  skip_performance_tests: false
+  allow_console_logs: true  # For debugging
+
+# ============================================
+# Production Deployment Settings
+# ============================================
+
+production:
+  # Extra validation before production
+  require_human_approval: true
+  require_all_tests_passing: true
+  require_zero_accessibility_violations: true
+  require_performance_validation: true
+  require_bundle_size_check: true
+
+  # Deployment checklist
+  checklist:
+    - "All tests passing"
+    - "Performance budgets met"
+    - "Accessibility validated (WCAG AAA)"
+    - "Documentation updated"
+    - "Rollback procedure prepared"
+    - "Monitoring configured"
+
+# ============================================
+# Agent Behavior Configuration
+# ============================================
+
+agent_behavior:
+  # Verbosity level: minimal | normal | detailed
+  verbosity: normal
+
+  # Explain decisions
+  explain_decisions: true
+
+  # Suggest optimizations
+  suggest_optimizations: true
+
+  # Proactive context loading
+  proactive_context_loading: true
+
+  # Continuous validation during implementation
+  continuous_validation: true
+
+# ============================================
+# Override Settings (Per Feature)
+# ============================================
+
+# Features can override global settings using command flags:
+# /ao:implement <feature> --mode=audited
+# /ao:implement <feature> --skip-gates=bundle_size
+# /ao:implement <feature> --verbose
+
+# These overrides are temporary and do not modify this config file
