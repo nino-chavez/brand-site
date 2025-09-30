@@ -22,7 +22,11 @@ nino-chavez-site/
 │   ├── sections/          # Photography workflow sections
 │   └── viewfinder/        # Viewfinder sub-components
 ├── docs/                  # Project documentation
-│   └── project-status/    # Assessment and analysis documents
+│   ├── showcase/          # End-user facing documentation (future Docusaurus)
+│   ├── developer/         # Developer reference and guides
+│   ├── components/        # Component and API documentation
+│   ├── archive/           # Historical documents and assessments
+│   └── prompts/           # AI prompt templates
 ├── src/                   # ⭐ Main source directory
 │   ├── components/        # React components (feature-based organization)
 │   │   ├── canvas/       # 3D canvas system (4 files)
@@ -162,7 +166,7 @@ Total bundle size: ~491 KB (gzipped: ~127 KB)
 The project underwent a major reorganization:
 
 1. **Phase 1**: Cleaned root directory
-   - Moved assessment docs to `docs/project-status/`
+   - Moved assessment docs to `docs/archive/project-status/`
    - Removed backup files
    - Preserved AGENTS.md at root
 
@@ -214,7 +218,9 @@ When adding new components:
 
 - `.claude/CLAUDE.md` - Claude collaboration guide
 - `.agent-os/config.yml` - Agent OS workflow configuration
-- `docs/project-status/` - Historical assessment documents
+- `docs/archive/` - Historical documents and assessments
+- `docs/showcase/` - AI collaboration showcase documentation
+- `docs/components/` - Component and API reference
 - `.claude/workflows/` - Development workflow guides
 
 ## Maintenance
