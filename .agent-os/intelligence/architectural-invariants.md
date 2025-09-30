@@ -42,7 +42,7 @@ const canvasRef = useRef({ position: { x: 0, y: 0 } });
 **Validation:**
 ```bash
 # Quality gate checks for useState/useReducer outside context
-grep -r "useState.*canvas\|position\|scale" components/
+grep -r "useState.*canvas\|position\|scale" src/components/
 # Must return 0 matches (all state in context)
 ```
 
@@ -169,7 +169,7 @@ interface NavigatorProps {
 **Validation:**
 ```bash
 # Check component naming
-find components/ -type f -name "*.tsx" | \
+find src/components/ -type f -name "*.tsx" | \
   grep -v -E "Camera|Lens|Shutter|Focus|Aperture|Exposure"
 # Must return 0 matches in canvas-related files
 ```
@@ -215,7 +215,7 @@ npx tsc --noEmit
 # Exit code must be 0
 
 # Check for 'any' types
-grep -r ": any\|as any" components/ hooks/ contexts/
+grep -r ": any\|as any" src/components/ src/hooks/ src/contexts/
 # Must return 0 matches
 ```
 
@@ -351,7 +351,7 @@ export const moveToPosition = (target, options) => {
 **Validation:**
 ```bash
 # Check for JSDoc on exported functions
-eslint --rule 'require-jsdoc: error' components/
+eslint --rule 'require-jsdoc: error' src/components/
 ```
 
 **Automatic Block:** Undocumented APIs prevent merge
@@ -528,7 +528,7 @@ Automated pattern checker:
 ❌ Performance Invariant Violated
 
 Issue: Canvas frame time exceeds 16.67ms (measured: 24.3ms)
-Location: components/LightboxCanvas.tsx:145
+Location: src/components/canvas/LightboxCanvas.tsx:145
 
 Required: 60fps (16.67ms per frame)
 Measured: 41fps (24.3ms per frame)

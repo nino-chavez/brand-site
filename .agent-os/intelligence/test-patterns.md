@@ -557,22 +557,31 @@ const element = screen.getByRole('button', { name: /focus section/i });
 
 ```
 test/
-├── unit/                      # Unit tests for components/hooks
+├── __tests__/                 # Unit tests (mirrors src/ structure)
 │   ├── components/
-│   │   ├── CursorLens.test.tsx
-│   │   └── LightboxCanvas.test.tsx
-│   └── hooks/
-│       ├── useCanvasPerformance.test.tsx
-│       └── useCursorTracking.test.tsx
+│   │   ├── canvas/
+│   │   │   ├── CursorLens.test.tsx
+│   │   │   └── LightboxCanvas.test.tsx
+│   │   ├── content/
+│   │   ├── layout/
+│   │   └── ui/
+│   ├── hooks/
+│   │   ├── useCanvasPerformance.test.tsx
+│   │   └── useCursorTracking.test.tsx
+│   └── utils/
+├── e2e/                       # End-to-end tests (Playwright)
+│   ├── canvas/
+│   │   ├── basic-functionality.spec.ts
+│   │   ├── canvas-system.spec.ts
+│   │   └── performance.spec.ts
+│   ├── gallery/
+│   │   ├── gallery-accessibility.spec.ts
+│   │   └── gallery-basic.spec.ts
+│   └── utils/
+│       └── canvas-helpers.ts
 ├── integration/               # Integration tests
 │   ├── lens-canvas.test.tsx
 │   └── state-management.test.tsx
-├── e2e/                       # End-to-end tests (Playwright)
-│   ├── canvas-navigation.spec.ts
-│   └── accessibility.spec.ts
-├── accessibility/             # Dedicated a11y tests
-│   ├── keyboard-navigation.test.tsx
-│   └── screen-reader.test.tsx
 └── performance/               # Performance tests
     ├── canvas-fps.test.tsx
     └── bundle-size.test.ts
