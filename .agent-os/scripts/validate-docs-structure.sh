@@ -67,8 +67,8 @@ check_components() {
 check_archive() {
   echo "  Checking archive/ directory..."
 
-  # Ensure no active references to archive
-  active_docs=$(find docs/showcase docs/developer docs/components -name "*.md" 2>/dev/null)
+  # Ensure no active references to archive (except project-structure.md which documents the structure)
+  active_docs=$(find docs/showcase docs/developer docs/components -name "*.md" ! -name "project-structure.md" 2>/dev/null)
   if echo "$active_docs" | xargs grep -l "docs/archive/" 2>/dev/null; then
     echo -e "${RED}ERROR: Active docs reference archived content${NC}"
     ((errors++))
