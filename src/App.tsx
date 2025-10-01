@@ -134,18 +134,20 @@ const App: React.FC = () => {
                                 />
                             </main>
 
-                            {/* Canvas Mode Indicator */}
-                            <div className="fixed bottom-4 right-4 z-40 pointer-events-none">
-                                <div className="bg-black/60 backdrop-blur-sm border border-white/20 text-white px-3 py-2 rounded-lg text-sm">
-                                    <div className="flex items-center space-x-2">
-                                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                        <span className="font-mono">CANVAS MODE</span>
+                            {/* Canvas Mode Indicator - Development only */}
+                            {process.env.NODE_ENV === 'development' && (
+                                <div className="fixed bottom-4 right-4 z-40 pointer-events-none">
+                                    <div className="bg-black/60 backdrop-blur-sm border border-white/20 text-white px-3 py-2 rounded-lg text-sm">
+                                        <div className="flex items-center space-x-2">
+                                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                                            <span className="font-mono">CANVAS MODE</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
 
-                            {/* Performance warning */}
-                            {performanceMode === 'low' && (
+                            {/* Performance warning - Development only */}
+                            {process.env.NODE_ENV === 'development' && performanceMode === 'low' && (
                                 <div className="fixed bottom-16 right-4 z-40 pointer-events-none">
                                     <div className="bg-orange-500/90 backdrop-blur-sm text-white px-3 py-2 rounded-lg text-sm">
                                         ⚡ Performance mode: Low
@@ -267,20 +269,22 @@ const App: React.FC = () => {
                             </div>
                         )}
 
-                        {/* CursorLensV2 - Minimal Radial Navigation */}
-                        <CursorLensV2
-                            isEnabled={true}
-                            activationDelay={800}
-                            onSectionSelect={(section) => {
-                                console.log('CursorLens navigation to:', section);
-                            }}
-                            onActivate={() => {
-                                console.log('CursorLens activated');
-                            }}
-                            onDeactivate={() => {
-                                console.log('CursorLens deactivated');
-                            }}
-                        />
+                        {/* CursorLensV2 - Disabled in traditional mode (canvas-only feature) */}
+                        {process.env.NODE_ENV === 'development' && false && (
+                            <CursorLensV2
+                                isEnabled={true}
+                                activationDelay={800}
+                                onSectionSelect={(section) => {
+                                    console.log('CursorLens navigation to:', section);
+                                }}
+                                onActivate={() => {
+                                    console.log('CursorLens activated');
+                                }}
+                                onDeactivate={() => {
+                                    console.log('CursorLens deactivated');
+                                }}
+                            />
+                        )}
                     </div>
                 </CanvasStateProvider>
             </UnifiedGameFlowProvider>

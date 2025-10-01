@@ -19,8 +19,8 @@ interface UseScrollAnimationOptions {
 
 export const useScrollAnimation = (options: UseScrollAnimationOptions = {}) => {
   const {
-    threshold = 0.1,
-    rootMargin = '0px 0px -100px 0px',
+    threshold = 0.05, // Trigger earlier (was 0.1)
+    rootMargin = '0px 0px 50px 0px', // Trigger before entering viewport (was -100px)
     triggerOnce = true,
     staggerDelay = 100
   } = options;
@@ -100,8 +100,8 @@ export const useStaggeredChildren = (
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.05, // Trigger earlier
+        rootMargin: '0px 0px 100px 0px' // Trigger before entering viewport
       }
     );
 
@@ -122,7 +122,7 @@ export const getAnimationClasses = (
   isVisible: boolean,
   animation: 'fade-in-up' | 'fade-in' | 'slide-in-left' | 'slide-in-right' = 'fade-in-up'
 ) => {
-  const baseClasses = 'transition-all duration-700 ease-out';
+  const baseClasses = 'transition-all duration-500 ease-out'; // Faster (was 700ms)
 
   if (isVisible) {
     return `${baseClasses} animate-${animation}`;

@@ -67,7 +67,7 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
 };
 
 const WorkSection: React.FC<WorkSectionProps> = ({ setRef }) => {
-    const { containerRef, visibleIndices } = useStaggeredChildren(WORK_PROJECTS.length, 150);
+    const { containerRef, visibleIndices } = useStaggeredChildren(WORK_PROJECTS.length, 80); // Faster stagger (was 150ms)
 
     return (
         <Section id="work" setRef={setRef}>
@@ -80,13 +80,13 @@ const WorkSection: React.FC<WorkSectionProps> = ({ setRef }) => {
                     {WORK_PROJECTS.map((project, index) => (
                         <div
                             key={index}
-                            className={`transition-all duration-700 ease-out ${
+                            className={`transition-all duration-500 ease-out ${ // Faster animation (was 700ms)
                                 visibleIndices.has(index)
                                     ? 'opacity-100 translate-y-0'
                                     : 'opacity-0 translate-y-8'
                             }`}
                             style={{
-                                transitionDelay: `${index * 150}ms`
+                                transitionDelay: `${index * 80}ms` // Match stagger delay
                             }}
                         >
                             <ProjectCard project={project} />

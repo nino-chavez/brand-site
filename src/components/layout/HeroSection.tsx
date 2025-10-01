@@ -165,6 +165,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
     const [isPaused, setIsPaused] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [parallaxOffset, setParallaxOffset] = useState(0);
 
     // Access athletic design tokens
     const athleticTokens = useAthleticTokens();
@@ -230,6 +231,18 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
     // Profile toggle functionality
     const handleProfileToggle = useCallback(() => {
         setProfileMinimized(prev => !prev);
+    }, []);
+
+    // Parallax scroll effect
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrolled = window.scrollY;
+            // Move background slower than scroll (0.5 = half speed)
+            setParallaxOffset(scrolled * 0.5);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     // Mouse hover and position handlers
@@ -406,6 +419,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                         backgroundRepeat: 'no-repeat',
+                        transform: `translateY(${parallaxOffset}px)`, // Parallax effect
+                        willChange: 'transform',
                         willChange: 'transform, opacity',
                         // Extend the background slightly to prevent gaps during parallax
                         height: '120%',
