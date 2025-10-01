@@ -1,10 +1,10 @@
 # WOW Factor Completion - Task Breakdown
 
 > **Specification:** `2025-10-01-wow-factor-completion`
-> **Total Tasks:** 25
-> **Estimated Effort:** 2 weeks (56 hours)
-> **Priority:** P0 - CRITICAL (Navigation & Content Issues) → P1 (Production Polish)
-> **Status:** 🟡 IN PROGRESS - 0/25 Tasks Complete
+> **Total Tasks:** 28
+> **Estimated Effort:** 2.5 weeks (64 hours)
+> **Priority:** P0 - CRITICAL (Navigation, Content, & Integration) → P1 (Production Polish)
+> **Status:** 🟡 IN PROGRESS - 0/28 Tasks Complete
 
 ## Task Summary
 
@@ -12,12 +12,13 @@
 |-------|-------|-------|--------|
 | Phase -1: Navigation & CTA Fix (CRITICAL) | 3 | 8h | ⏸️ Not Started |
 | Phase -0.5: Content & Copy Polish (CRITICAL) | 6 | 12h | ⏸️ Not Started |
+| Phase -0.25: Content Integration (CRITICAL) | 3 | 8h | ⏸️ Not Started |
 | Phase 0: Gallery Implementation | 3 | 8h | ⏸️ Not Started |
 | Phase 1: Photography Metaphor | 3 | 8h | ⏸️ Not Started |
 | Phase 2: Polish & Delight | 3 | 6h | ⏸️ Not Started |
 | Phase 3: Accessibility | 3 | 6h | ⏸️ Not Started |
 | Phase 4: Performance & Testing | 4 | 8h | ⏸️ Not Started |
-| **TOTAL** | **25** | **56h** | **0% Complete** |
+| **TOTAL** | **28** | **64h** | **0% Complete** |
 
 ---
 
@@ -412,6 +413,199 @@ Multiple contact methods create decision paralysis, no clear primary action
 - [ ] Micro-copy reduces friction ("24 hours" builds trust)
 - [ ] Magnetic effect works on email CTA
 - [ ] Mobile layout prioritizes primary action
+
+---
+
+## Phase -0.25: Content Integration Strategy (Day 1-2, 8 hours) ⚠️ CRITICAL
+
+### Task -0.25.1: Remove Placeholder Content & Add Real Projects
+**Priority:** P0 (CRITICAL - Damages Credibility)
+**Effort:** 4 hours
+**Dependencies:** None (can work with anonymized content)
+**Files:** `components/sections/FrameSection.tsx`, `src/constants.ts`
+
+**Current Problem:**
+Work/Frame section shows fake projects with placeholder paths that look unprofessional
+
+**Subtasks:**
+- [ ] Delete ALL placeholder project data from FrameSection
+- [ ] Create 3-4 real case studies (can anonymize client names):
+  ```typescript
+  const realProjects = [
+    {
+      title: "Enterprise Architecture Transformation",
+      client: "Fortune 500 Retail Company", // Anonymized
+      description: "Led architectural redesign reducing deployment time by 70%",
+      impact: "Saved $2M annually in infrastructure costs",
+      technologies: ["AWS", "Kubernetes", "React", "Microservices"],
+      metrics: {
+        deploymentReduction: "70%",
+        costSavings: "$2M/year",
+        teamSize: "50 engineers"
+      },
+      duration: "18 months",
+      role: "Lead Architect",
+      caseStudy: null // Or link to detailed writeup
+    },
+    {
+      title: "Real-Time Analytics Platform",
+      client: "Healthcare Technology Company",
+      description: "Built scalable analytics platform processing millions of events daily",
+      technologies: ["Node.js", "PostgreSQL", "Redis", "TypeScript"],
+      github: "github.com/ninochavez/[repo-name]" // If open source
+    }
+  ];
+  ```
+- [ ] Add business ventures section:
+  ```typescript
+  const ventures = [
+    {
+      name: "FlickDay Media",
+      role: "Founder",
+      description: "Action sports photography business serving professional athletes",
+      link: "https://flickday.com",
+      established: "2018"
+    }
+  ];
+  ```
+- [ ] Update Work section UI to handle both projects and ventures
+- [ ] Ensure mobile responsiveness with real content
+
+**Acceptance Criteria:**
+- [ ] Zero fake/placeholder projects visible
+- [ ] 3-4 real case studies with specific metrics
+- [ ] Ventures positioned clearly (not competing with consulting services)
+- [ ] All project descriptions pass "credibility test"
+- [ ] Mobile layout works with real content length
+
+---
+
+### Task -0.25.2: Integrate LinkedIn Articles for Insights Section
+**Priority:** P1 (HIGH - Social Proof)
+**Effort:** 2 hours
+**Dependencies:** Task -0.25.1
+**Files:** `src/constants.ts`, Insights section components
+
+**Current Problem:**
+Insights section exists but content source unclear, missing thought leadership content
+
+**Implementation Options:**
+**Option A - Manual Curation** (Recommended):
+```typescript
+const linkedInArticles = [
+  {
+    title: "[Actual Article Title from LinkedIn]",
+    excerpt: "[First 150 characters]",
+    link: "https://linkedin.com/pulse/...",
+    date: "2024-01-15",
+    readTime: "5 min",
+    topics: ["Enterprise Architecture", "Technical Leadership"]
+  }
+];
+```
+
+**Option B - RSS Feed** (If LinkedIn has RSS):
+```typescript
+// Fetch latest articles
+const articles = await fetch('/api/linkedin-rss')
+  .then(res => res.json())
+  .catch(() => CURATED_FALLBACK);
+```
+
+**Subtasks:**
+- [ ] Identify top 3-5 LinkedIn articles to feature
+- [ ] Extract metadata (title, excerpt, date, read time)
+- [ ] Create Insights data structure in constants
+- [ ] Update Insights section component to display articles
+- [ ] Add "Read More on LinkedIn" CTAs
+- [ ] Optional: Add Ghost blog posts if available
+- [ ] Test loading states and fallbacks
+
+**Acceptance Criteria:**
+- [ ] 3-5 real articles displayed in Insights section
+- [ ] Article metadata accurate (titles, dates, read times)
+- [ ] Links open in new tab to LinkedIn
+- [ ] Section looks professional and credible
+- [ ] Mobile layout optimized
+
+---
+
+### Task -0.25.3: Position Business Entities & Add Social Proof Links
+**Priority:** P1 (HIGH - Brand Clarity)
+**Effort:** 2 hours
+**Dependencies:** Task -0.25.1
+**Files:** Footer, About section, Work section
+
+**Current Problem:**
+Three business entities (FlickDay Media, LetsPepper, SignalX Studio) exist without clear positioning
+
+**Brand Architecture Decision:**
+```typescript
+// Primary Brand: Nino Chavez (Individual Consultant)
+// Secondary: Business Ventures
+
+const brandHierarchy = {
+  primary: {
+    name: "Nino Chavez",
+    title: "Enterprise Architect & Technical Leader",
+    services: ["Architecture Consulting", "Technical Leadership", "Team Building"]
+  },
+  ventures: [
+    {
+      name: "FlickDay Media",
+      category: "Photography Business",
+      link: "https://flickday.com",
+      placement: "Work section + footer"
+    },
+    {
+      name: "LetsPepper",
+      category: "[Define category]",
+      link: "https://letspepper.com",
+      placement: "Footer only (unless active project)"
+    },
+    {
+      name: "SignalX Studio",
+      category: "[Define category]",
+      link: "https://signalx.studio",
+      placement: "Footer only (unless active project)"
+    }
+  ],
+  socialProof: [
+    {
+      platform: "LinkedIn",
+      link: "https://linkedin.com/in/ninochavez",
+      cta: "Connect on LinkedIn"
+    },
+    {
+      platform: "Instagram",
+      handle: "@ninochavez",
+      link: "https://instagram.com/ninochavez",
+      cta: "Follow My Photography"
+    },
+    {
+      platform: "GitHub",
+      link: "https://github.com/ninochavez",
+      cta: "View Open Source Work"
+    }
+  ]
+};
+```
+
+**Subtasks:**
+- [ ] Add ventures subsection to Work section (or separate card)
+- [ ] Update footer with all business entity links
+- [ ] Add social proof links (LinkedIn, Instagram, GitHub) to About or Contact
+- [ ] Ensure FlickDay Media is positioned as photography business (not conflicting with consulting)
+- [ ] Decide placement for LetsPepper and SignalX (active projects?)
+- [ ] Test that brand hierarchy is clear (Nino primary, businesses secondary)
+
+**Acceptance Criteria:**
+- [ ] Clear distinction between personal consulting and business ventures
+- [ ] FlickDay Media positioned as photography business
+- [ ] LetsPepper and SignalX placed appropriately
+- [ ] Social proof links visible and functional
+- [ ] No brand confusion (user understands "who is Nino")
+- [ ] Professional appearance maintained
 
 ---
 
