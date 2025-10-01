@@ -509,7 +509,7 @@ export const CursorLens: React.FC<CursorLensProps> = ({
     lensActivation.isActive,
     cursorTracking.position,
     viewportDimensions,
-    radialMenu
+    radialMenu.repositionMenu
   ]);
 
   // Enhanced performance monitoring with canvas coordination
@@ -569,7 +569,7 @@ export const CursorLens: React.FC<CursorLensProps> = ({
     } else if (!isEnabled && cursorTracking.isTracking) {
       cursorTracking.stopTracking();
     }
-  }, [isEnabled, cursorTracking, canvasContext.isInitialized, canvasStateFromProvider.performance, canvasActions]);
+  }, [isEnabled, cursorTracking.isTracking, cursorTracking.startTracking, cursorTracking.stopTracking, canvasContext.isInitialized, canvasStateFromProvider.performance, canvasActions.updatePerformanceMetrics]);
 
   // Handle activation/deactivation events
   useEffect(() => {
@@ -585,8 +585,10 @@ export const CursorLens: React.FC<CursorLensProps> = ({
   }, [
     lensActivation.isActive,
     lensActivation.activationMethod,
-    cursorTracking,
-    radialMenu,
+    cursorTracking.isTracking,
+    cursorTracking.startTracking,
+    cursorTracking.stopTracking,
+    radialMenu.resetMenu,
     onActivate,
     onDeactivate
   ]);
@@ -849,7 +851,7 @@ export const CursorLens: React.FC<CursorLensProps> = ({
       className={`fixed inset-0 pointer-events-none z-[9990] ${className}`}
       {...lensActivation.gestureEvents}
       style={{
-        pointerEvents: lensActivation.isActive ? 'auto' : 'none',
+        pointerEvents: 'auto', // Always enable to receive activation gestures
         // Enhanced touch optimization
         touchAction: 'none',
         WebkitTouchCallout: 'none',

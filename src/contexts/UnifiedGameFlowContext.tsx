@@ -995,33 +995,33 @@ export const useUnifiedGameFlowActions = () => {
 
 export const useUnifiedViewfinder = () => {
   const { state, actions } = useUnifiedGameFlow();
-  return {
+  return useMemo(() => ({
     state: state.viewfinder,
     actions: actions.viewfinder
-  };
+  }), [state.viewfinder, actions.viewfinder]);
 };
 
 export const useUnifiedPerformance = () => {
   const { state, actions } = useUnifiedGameFlow();
-  return {
+  return useMemo(() => ({
     state: state.performance.cursor, // Return cursor performance state for cursor-lens integration
     actions: actions.performance
-  };
+  }), [state.performance.cursor, actions.performance]);
 };
 
 export const useUnifiedCamera = () => {
   const { state, actions } = useUnifiedGameFlow();
-  return {
+  return useMemo(() => ({
     state: state.camera,
     actions: actions.camera
-  };
+  }), [state.camera, actions.camera]);
 };
 
 export const useUnifiedCanvas = () => {
   const { state, actions } = useUnifiedGameFlow();
-  return {
+  return useMemo(() => ({
     state: state.canvas,
     actions: actions.canvas,
     performance: state.performance.canvas
-  };
+  }), [state.canvas, actions.canvas, state.performance.canvas]);
 };

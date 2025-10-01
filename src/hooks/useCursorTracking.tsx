@@ -9,7 +9,7 @@
  * @since 2025-09-26
  */
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import Stats from 'stats.js';
 import { useUnifiedPerformance } from '../contexts/UnifiedGameFlowContext';
 import type { CursorTrackingHook, CursorPosition } from '../types/cursor-lens';
@@ -222,6 +222,24 @@ export const useCursorTracking = (): CursorTrackingHook => {
     };
   }, []);
 
+  // Mouse down event handler - capture initial position immediately
+  const handleMouseDown = useCallback((event: MouseEvent) => {
+    // Capture position synchronously on interaction
+    currentMousePositionRef.current = {
+      x: event.clientX,
+      y: event.clientY
+    };
+
+    // Initialize position state if tracking but no position set yet
+    if (isTracking && !position) {
+      setPosition({
+        x: event.clientX,
+        y: event.clientY,
+        timestamp: getHighResTimestamp()
+      });
+    }
+  }, [isTracking, position]);
+
   // Start tracking function
   const startTracking = useCallback(() => {
     if (isTracking) return;
@@ -240,15 +258,16 @@ export const useCursorTracking = (): CursorTrackingHook => {
     // Initialize stats if needed
     initializeStats();
 
-    // Add global mouse event listener
+    // Add global mouse event listeners
     if (typeof window !== 'undefined') {
       window.addEventListener('mousemove', handleMouseMove, { passive: true });
+      window.addEventListener('mousedown', handleMouseDown, { passive: true });
     }
 
     // Start RAF loop
     lastUpdateTimeRef.current = getHighResTimestamp();
     rafIdRef.current = requestAnimationFrame(updatePosition);
-  }, [isTracking, performanceActions, initializeStats, handleMouseMove, updatePosition]);
+  }, [isTracking, performanceActions, initializeStats, handleMouseMove, handleMouseDown, updatePosition]);
 
   // Stop tracking function
   const stopTracking = useCallback(() => {
@@ -263,16 +282,17 @@ export const useCursorTracking = (): CursorTrackingHook => {
       rafIdRef.current = null;
     }
 
-    // Remove global event listener
+    // Remove global event listeners
     if (typeof window !== 'undefined') {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousedown', handleMouseDown);
     }
 
     // Clear position data
     setPosition(null);
     currentMousePositionRef.current = null;
     positionHistoryRef.current = [];
-  }, [isTracking, performanceActions, handleMouseMove]);
+  }, [isTracking, performanceActions, handleMouseMove, handleMouseDown]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -286,8 +306,8 @@ export const useCursorTracking = (): CursorTrackingHook => {
     };
   }, [stopTracking]);
 
-  // Performance metrics calculation
-  const performance = {
+  // Performance metrics calculation - memoized to prevent circular dependencies
+  const performance = useMemo(() => ({
     frameRate: Math.round(
       performanceMetricsRef.current.frameCount > 0
         ? 1000 / (performanceMetricsRef.current.totalFrameTime / performanceMetricsRef.current.frameCount)
@@ -298,15 +318,17 @@ export const useCursorTracking = (): CursorTrackingHook => {
         ? performanceMetricsRef.current.totalFrameTime / performanceMetricsRef.current.frameCount
         : 16
     )
-  };
+  }), [performanceMetricsRef.current.frameCount, performanceMetricsRef.current.totalFrameTime]);
 
-  return {
+  // Memoize entire return object to prevent infinite loops
+  // CRITICAL: Do NOT include isTracking in dependencies as it would cause circular updates
+  return useMemo(() => ({
     position,
     isTracking,
     startTracking,
     stopTracking,
     performance
-  };
+  }), [position, isTracking, startTracking, stopTracking, performance]);
 };
 
 export default useCursorTracking;
