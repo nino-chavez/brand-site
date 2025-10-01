@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import type { GameFlowSection, GameFlowError } from '../types';
 
 interface ErrorHandlingConfig {
@@ -563,14 +563,23 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
         });
     }, [handler]);
 
-    return {
+    const createError = useCallback((type: any, message: string, section: any, recoverable: boolean) =>
+        handler.createGameFlowError(type, message, section, recoverable), [handler]);
+
+    const getErrorHistory = useCallback(() => handler.getErrorHistory(), [handler]);
+
+    const getRecommendations = useCallback(() => handler.getRecoveryRecommendations(), [handler]);
+
+    const isInFallbackMode = useCallback((section?: any) => handler.isInFallbackMode(section), [handler]);
+
+    return useMemo(() => ({
         ...errorState,
         handleError,
         recoverFromError,
         clearErrors,
-        createError: handler.createGameFlowError.bind(handler),
-        getErrorHistory: handler.getErrorHistory.bind(handler),
-        getRecommendations: handler.getRecoveryRecommendations.bind(handler),
-        isInFallbackMode: handler.isInFallbackMode.bind(handler)
-    };
+        createError,
+        getErrorHistory,
+        getRecommendations,
+        isInFallbackMode
+    }), [errorState, handleError, recoverFromError, clearErrors, createError, getErrorHistory, getRecommendations, isInFallbackMode]);
 }

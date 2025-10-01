@@ -567,7 +567,7 @@ export function useGameFlowDebugger(config: Partial<DebuggerConfig> = {}) {
         }
     }, []);
 
-    return {
+    return useMemo(() => ({
         isActive,
         log,
         trackState: trackGameFlowState,
@@ -579,7 +579,7 @@ export function useGameFlowDebugger(config: Partial<DebuggerConfig> = {}) {
         generateReport,
         exportLogs,
         clearLogs
-    };
+    }), [isActive, log, trackGameFlowState, trackEvent, startBenchmark, endBenchmark, measureFunction, trackPerformanceMetrics, generateReport, exportLogs, clearLogs]);
 }
 
 // Development-only helper functions

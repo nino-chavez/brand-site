@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useEffect, useCallback, useRef, useState, useMemo } from 'react';
 import type { GameFlowSection } from '../types';
 
 interface AccessibilityConfig {
@@ -529,14 +529,14 @@ export function useAccessibility(config: Partial<AccessibilityConfig> = {}) {
         manager.setNavigationCallback(callback);
     }, [manager]);
 
-    const focusManagement: FocusManagement = {
-        trapFocus: useCallback((element: HTMLElement) => manager.trapFocus(element), [manager]),
-        moveFocusToSection: useCallback((section: GameFlowSection) => manager.moveFocusToSection(section), [manager]),
-        restoreFocus: useCallback(() => manager.restoreFocus(), [manager]),
-        getCurrentFocusable: useCallback(() => manager['lastFocusedElement'] || null, [manager])
-    };
+    const focusManagement: FocusManagement = useMemo(() => ({
+        trapFocus: (element: HTMLElement) => manager.trapFocus(element),
+        moveFocusToSection: (section: GameFlowSection) => manager.moveFocusToSection(section),
+        restoreFocus: () => manager.restoreFocus(),
+        getCurrentFocusable: () => manager['lastFocusedElement'] || null
+    }), [manager]);
 
-    return {
+    return useMemo(() => ({
         ...accessibilityState,
         announce,
         announceSectionChange,
@@ -544,5 +544,5 @@ export function useAccessibility(config: Partial<AccessibilityConfig> = {}) {
         focusManagement,
         keyboardShortcuts: KEYBOARD_SHORTCUTS,
         sectionDescriptions: SECTION_DESCRIPTIONS
-    };
+    }), [accessibilityState, announce, announceSectionChange, setNavigationCallback, focusManagement]);
 }

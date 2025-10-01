@@ -205,69 +205,75 @@ const App: React.FC = () => {
                 performanceMode={performanceMode}
                 debugMode={debugMode}
             >
-                <div className="bg-brand-dark text-brand-light font-sans antialiased">
-                    <BackgroundEffects />
+                <CanvasStateProvider
+                    initialPosition={{ x: 0, y: 0, scale: 1.0 }}
+                    performanceMode={performanceMode}
+                    enableAnalytics={true}
+                >
+                    <div className="bg-brand-dark text-brand-light font-sans antialiased">
+                        <BackgroundEffects />
 
-                    {/* Skip link for accessibility */}
-                    <a
-                        href="#main-content"
-                        className="absolute left-[-9999px] top-auto w-px h-px overflow-hidden focus:left-auto focus:top-auto focus:w-auto focus:h-auto focus:p-4 focus:bg-brand-violet focus:text-white focus:z-50"
-                    >
-                        Skip to main content
-                    </a>
+                        {/* Skip link for accessibility */}
+                        <a
+                            href="#main-content"
+                            className="absolute left-[-9999px] top-auto w-px h-px overflow-hidden focus:left-auto focus:top-auto focus:w-auto focus:h-auto focus:p-4 focus:bg-brand-violet focus:text-white focus:z-50"
+                        >
+                            Skip to main content
+                        </a>
 
-                    {/* Simplified header - Game Flow Container handles most navigation */}
-                    <Header />
+                        {/* Simplified header - Game Flow Container handles most navigation */}
+                        <Header />
 
-                    {/* Main Game Flow experience */}
-                    <main id="main-content" className="relative z-10">
-                        <SimplifiedGameFlowContainer
-                            performanceMode={performanceMode}
-                            debugMode={debugMode}
-                        />
-                    </main>
+                        {/* Main Game Flow experience */}
+                        <main id="main-content" className="relative z-10">
+                            <SimplifiedGameFlowContainer
+                                performanceMode={performanceMode}
+                                debugMode={debugMode}
+                            />
+                        </main>
 
-                    {/* Layout switcher for development */}
-                    {process.env.NODE_ENV === 'development' && (
-                        <div className="fixed top-4 right-4 z-50">
-                            <div className="bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg p-2">
-                                <div className="flex space-x-2">
-                                    <button
-                                        className="px-3 py-1 text-sm rounded transition-colors bg-white/20 text-white"
-                                    >
-                                        Traditional
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            const url = new URL(window.location);
-                                            url.searchParams.set('layout', 'canvas');
-                                            window.location.href = url.toString();
-                                        }}
-                                        className="px-3 py-1 text-sm rounded transition-colors text-white/60 hover:text-white/80"
-                                    >
-                                        Canvas
-                                    </button>
+                        {/* Layout switcher for development */}
+                        {process.env.NODE_ENV === 'development' && (
+                            <div className="fixed top-4 right-4 z-50">
+                                <div className="bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg p-2">
+                                    <div className="flex space-x-2">
+                                        <button
+                                            className="px-3 py-1 text-sm rounded transition-colors bg-white/20 text-white"
+                                        >
+                                            Traditional
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                const url = new URL(window.location);
+                                                url.searchParams.set('layout', 'canvas');
+                                                window.location.href = url.toString();
+                                            }}
+                                            className="px-3 py-1 text-sm rounded transition-colors text-white/60 hover:text-white/80"
+                                        >
+                                            Canvas
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* CursorLens - Radial Navigation System */}
-                    <CursorLens
-                        isEnabled={true}
-                        activationDelay={800}
-                        onSectionSelect={(section) => {
-                            console.log('CursorLens navigation to:', section);
-                        }}
-                        onActivate={(method) => {
-                            console.log('CursorLens activated via:', method);
-                        }}
-                        onDeactivate={() => {
-                            console.log('CursorLens deactivated');
-                        }}
-                        fallbackMode="keyboard"
-                    />
-                </div>
+                        {/* CursorLens - Radial Navigation System */}
+                        <CursorLens
+                            isEnabled={true}
+                            activationDelay={800}
+                            onSectionSelect={(section) => {
+                                console.log('CursorLens navigation to:', section);
+                            }}
+                            onActivate={(method) => {
+                                console.log('CursorLens activated via:', method);
+                            }}
+                            onDeactivate={() => {
+                                console.log('CursorLens deactivated');
+                            }}
+                            fallbackMode="keyboard"
+                        />
+                        </div>
+                </CanvasStateProvider>
             </UnifiedGameFlowProvider>
         </AthleticTokenProvider>
     );

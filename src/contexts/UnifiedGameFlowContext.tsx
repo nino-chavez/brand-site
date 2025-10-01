@@ -847,6 +847,54 @@ export const UnifiedGameFlowProvider: React.FC<UnifiedGameFlowProviderProps> = (
 
       optimizeCanvasPerformance: () => {
         dispatch({ type: 'CANVAS_OPTIMIZE_PERFORMANCE' });
+      },
+
+      // CRITICAL: Missing methods causing infinite loops and errors
+      getOptimizedUpdateInterval: (): number => {
+        // Return update interval based on degradation level
+        const degradationLevel = state.performance.cursor.degradationLevel;
+        switch (degradationLevel) {
+          case 'severe':
+            return 33; // 30fps
+          case 'moderate':
+            return 20; // 50fps
+          case 'minor':
+            return 16.67; // 60fps
+          default:
+            return 16; // 60fps+
+        }
+      },
+
+      detectDegradation: (): 'none' | 'minor' | 'moderate' | 'severe' => {
+        // Check current performance metrics
+        const fps = state.performance.cursor.metrics.cursorTrackingFPS;
+        const memoryUsage = state.performance.cursor.metrics.memoryUsage;
+
+        if (fps < 30 || memoryUsage > 100) {
+          return 'severe';
+        } else if (fps < 45 || memoryUsage > 75) {
+          return 'moderate';
+        } else if (fps < 55 || memoryUsage > 50) {
+          return 'minor';
+        }
+        return 'none';
+      },
+
+      applyOptimization: (level: 'none' | 'minor' | 'moderate' | 'severe') => {
+        // Apply optimization based on degradation level
+        dispatch({
+          type: 'CURSOR_UPDATE_METRICS',
+          payload: {
+            cursorTrackingFPS: level === 'severe' ? 30 : level === 'moderate' ? 50 : 60
+          }
+        });
+      },
+
+      reportFrameDrop: (count: number) => {
+        // Report frame drops for monitoring
+        if (debugMode) {
+          console.warn(`Frame drops detected: ${count}`);
+        }
       }
     },
 

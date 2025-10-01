@@ -1,0 +1,11 @@
+# Ignore all screenshot output files
+*.png
+*.json
+
+# Ignore Playwright test artifacts
+.playwright/
+.playwright-report/
+
+# Keep directory structure
+!.gitignore
+!.gitkeep

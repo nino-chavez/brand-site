@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visual Effects Testing - End User Assessment</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.6;
+    }
+
+    /* Test Canvas Container */
+    [data-canvas-container] {
+      height: 100vh;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+    }
+
+    /* Test Sections */
+    [data-section] {
+      min-height: 100vh;
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #333;
+    }
+
+    [data-section="about"] {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+
+    [data-section="creative"] {
+      background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    }
+
+    [data-section="professional"] {
+      background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    }
+
+    [data-section="thought-leadership"] {
+      background: linear-gradient(135deg, #3e1f47 0%, #614385 100%);
+    }
+
+    [data-section="contact"] {
+      background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #888;
+    }
+
+    .content {
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .content p {
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    /* Test Controls */
+    #effects-test-controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid #444;
+      border-radius: 8px;
+      padding: 1.5rem;
+      min-width: 300px;
+      max-height: 90vh;
+      overflow-y: auto;
+      z-index: 1000;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    #effects-test-controls h3 {
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      border-bottom: 1px solid #444;
+      padding-bottom: 0.5rem;
+    }
+
+    .effect-control {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .effect-control:last-child {
+      border-bottom: none;
+    }
+
+    .effect-control label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .effect-control input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .effect-control input[type="range"] {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .intensity-label {
+      font-size: 0.875rem;
+      color: #888;
+      margin-top: 0.25rem;
+    }
+
+    .effect-info {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 0.25rem;
+      font-style: italic;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background 200ms;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    button.secondary {
+      background: #444;
+      margin-top: 0.5rem;
+    }
+
+    button.secondary:hover {
+      background: #555;
+    }
+
+    /* Performance Metrics */
+    #performance-metrics {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #444;
+      font-size: 0.875rem;
+    }
+
+    #performance-metrics div {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-label {
+      color: #888;
+    }
+
+    .metric-value {
+      color: #4ade80;
+      font-weight: 500;
+    }
+
+    .metric-value.warning {
+      color: #fbbf24;
+    }
+
+    .metric-value.error {
+      color: #ef4444;
+    }
+
+    /* Focus Indicator */
+    [data-section][data-focused="true"] {
+      outline: 2px solid rgba(59, 130, 246, 0.5);
+      outline-offset: -4px;
+    }
+  </style>
+</head>
+<body>
+  <div data-canvas-container>
+    <section data-section="about" data-distance="0">
+      <div class="content">
+        <h1>About Section</h1>
+        <h2>Warm Tones • Approachable</h2>
+        <p>
+          This section demonstrates the visual effects system with warm color grading,
+          subtle depth-of-field blur when unfocused, and exposure adjustments that
+          create a spotlight effect.
+        </p>
+        <p>
+          Scroll rapidly to trigger motion blur. Notice the chromatic aberration
+          at the viewport edges creating an analog film aesthetic.
+        </p>
+      </div>
+    </section>
+
+    <section data-section="creative" data-distance="1">
+      <div class="content">
+        <h1>Creative Section</h1>
+        <h2>Vibrant Saturation • Energetic</h2>
+        <p>
+          This section features increased saturation for a vibrant, energetic feel.
+          The color grading effect boosts saturation by 15% to make content pop.
+        </p>
+        <p>
+          Edge framing adds drop shadows when focused, creating visual elevation
+          and depth perception inspired by gallery mat boards.
+        </p>
+      </div>
+    </section>
+
+    <section data-section="professional" data-distance="2">
+      <div class="content">
+        <h1>Professional Section</h1>
+        <h2>Cool Tones • Authoritative</h2>
+        <p>
+          This section uses cool blue tones to convey authority and professionalism.
+          The color temperature shift is subtle but creates a distinct mood.
+        </p>
+        <p>
+          When unfocused, this section receives graduated blur and reduced exposure,
+          mimicking photographic depth-of-field and studio lighting.
+        </p>
+      </div>
+    </section>
+
+    <section data-section="thought-leadership" data-distance="3">
+      <div class="content">
+        <h1>Thought Leadership</h1>
+        <h2>Balanced • Insightful</h2>
+        <p>
+          A balanced section with subtle warm tones and standard color grading.
+          The effects here are more restrained to maintain readability.
+        </p>
+        <p>
+          Test the hover preview: when unfocused, hover over this section to see
+          partial restoration of brightness and reduced blur.
+        </p>
+      </div>
+    </section>
+
+    <section data-section="contact" data-distance="4">
+      <div class="content">
+        <h1>Contact Section</h1>
+        <h2>Inviting • Accessible</h2>
+        <p>
+          The final section uses slightly warm tones to create an inviting,
+          approachable feeling for contact and engagement.
+        </p>
+        <p>
+          Scroll back up rapidly to test motion blur in the opposite direction.
+          The effect should activate above 2000px/s scroll velocity.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <div id="effects-test-controls">
+    <h3>🎨 Visual Effects Testing</h3>
+
+    <div class="effect-control">
+      <label>
+        <input type="checkbox" id="depth-of-field-toggle" checked>
+        Depth of Field
+      </label>
+      <div class="effect-info">Graduated blur by distance</div>
+      <input type="range" id="depth-of-field-intensity" min="0" max="100" value="100">
+      <div class="intensity-label">Intensity: <span id="depth-of-field-value">100</span>%</div>
+    </div>
+
+    <div class="effect-control">
+      <label>
+        <input type="checkbox" id="exposure-toggle" checked>
+        Exposure & Lighting
+      </label>
+      <div class="effect-info">Brightness + vignette</div>
+      <input type="range" id="exposure-intensity" min="0" max="100" value="100">
+      <div class="intensity-label">Intensity: <span id="exposure-value">100</span>%</div>
+    </div>
+
+    <div class="effect-control">
+      <label>
+        <input type="checkbox" id="color-grading-toggle" checked>
+        Color Grading
+      </label>
+      <div class="effect-info">Section-specific color moods</div>
+      <input type="range" id="color-grading-intensity" min="0" max="100" value="100">
+      <div class="intensity-label">Intensity: <span id="color-grading-value">100</span>%</div>
+    </div>
+
+    <div class="effect-control">
+      <label>
+        <input type="checkbox" id="edge-framing-toggle" checked>
+        Edge Framing
+      </label>
+      <div class="effect-info">Drop shadows & borders</div>
+      <input type="range" id="edge-framing-intensity" min="0" max="100" value="100">
+      <div class="intensity-label">Intensity: <span id="edge-framing-value">100</span>%</div>
+    </div>
+
+    <div class="effect-control">
+      <label>
+        <input type="checkbox" id="motion-blur-toggle">
+        Motion Blur
+      </label>
+      <div class="effect-info">Velocity-triggered (>2000px/s)</div>
+      <input type="range" id="motion-blur-intensity" min="0" max="100" value="100">
+      <div class="intensity-label">Intensity: <span id="motion-blur-value">100</span>%</div>
+    </div>
+
+    <div class="effect-control">
+      <label>
+        <input type="checkbox" id="chromatic-aberration-toggle">
+        Chromatic Aberration
+      </label>
+      <div class="effect-info">RGB color fringing at edges</div>
+      <input type="range" id="chromatic-aberration-intensity" min="0" max="100" value="100">
+      <div class="intensity-label">Intensity: <span id="chromatic-aberration-value">100</span>%</div>
+    </div>
+
+    <button id="enable-all">Enable All Effects</button>
+    <button class="secondary" id="disable-all">Disable All Effects</button>
+
+    <div id="performance-metrics">
+      <h3 style="font-size: 1rem; margin-bottom: 0.5rem;">Performance</h3>
+      <div>
+        <span class="metric-label">FPS:</span>
+        <span class="metric-value" id="fps-value">60</span>
+      </div>
+      <div>
+        <span class="metric-label">Total Cost:</span>
+        <span class="metric-value" id="cost-value">0ms</span>
+      </div>
+      <div>
+        <span class="metric-label">Active Effects:</span>
+        <span class="metric-value" id="active-effects">0</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Note: This is a placeholder for the actual implementation
+    // In production, you would import from your built effects system
+
+    console.log('Visual Effects Test Page Loaded');
+    console.log('Instructions:');
+    console.log('1. Use checkboxes to enable/disable effects');
+    console.log('2. Use sliders to adjust intensity (0-100%)');
+    console.log('3. Scroll to change focused section');
+    console.log('4. Scroll rapidly (>2000px/s) to trigger motion blur');
+    console.log('5. Hover over unfocused sections for preview');
+    console.log('6. Monitor performance metrics in bottom panel');
+
+    // Simulate focus changes on scroll
+    const canvas = document.querySelector('[data-canvas-container]');
+    const sections = document.querySelectorAll('[data-section]');
+
+    function updateFocusedSection() {
+      const scrollY = canvas.scrollTop;
+      const viewportHeight = window.innerHeight;
+      const centerY = scrollY + viewportHeight / 2;
+
+      let closestSection = null;
+      let closestDistance = Infinity;
+
+      sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        const sectionCenterY = rect.top + rect.height / 2 + scrollY;
+        const distance = Math.abs(sectionCenterY - centerY);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestSection = section;
+        }
+
+        // Update distance attribute
+        section.setAttribute('data-distance', Math.abs(index - sections.length / 2).toString());
+      });
+
+      // Clear all focus
+      sections.forEach(s => s.removeAttribute('data-focused'));
+
+      // Set focused section
+      if (closestSection) {
+        closestSection.setAttribute('data-focused', 'true');
+      }
+    }
+
+    canvas.addEventListener('scroll', updateFocusedSection);
+    updateFocusedSection(); // Initial call
+
+    // Wire up control panel
+    const effectControls = [
+      'depth-of-field',
+      'exposure',
+      'color-grading',
+      'edge-framing',
+      'motion-blur',
+      'chromatic-aberration'
+    ];
+
+    effectControls.forEach(effect => {
+      const toggle = document.getElementById(`${effect}-toggle`);
+      const slider = document.getElementById(`${effect}-intensity`);
+      const valueDisplay = document.getElementById(`${effect}-value`);
+
+      toggle.addEventListener('change', (e) => {
+        console.log(`${effect}: ${e.target.checked ? 'enabled' : 'disabled'}`);
+        updateActiveEffects();
+      });
+
+      slider.addEventListener('input', (e) => {
+        valueDisplay.textContent = e.target.value;
+        console.log(`${effect} intensity: ${e.target.value}%`);
+      });
+    });
+
+    document.getElementById('enable-all').addEventListener('click', () => {
+      effectControls.forEach(effect => {
+        document.getElementById(`${effect}-toggle`).checked = true;
+      });
+      updateActiveEffects();
+      console.log('All effects enabled');
+    });
+
+    document.getElementById('disable-all').addEventListener('click', () => {
+      effectControls.forEach(effect => {
+        document.getElementById(`${effect}-toggle`).checked = false;
+      });
+      updateActiveEffects();
+      console.log('All effects disabled');
+    });
+
+    function updateActiveEffects() {
+      const active = effectControls.filter(effect =>
+        document.getElementById(`${effect}-toggle`).checked
+      ).length;
+
+      document.getElementById('active-effects').textContent = active;
+
+      // Simulate performance cost calculation
+      const costs = {
+        'depth-of-field': 4,
+        'exposure': 3,
+        'color-grading': 3,
+        'edge-framing': 2,
+        'motion-blur': 4,
+        'chromatic-aberration': 5
+      };
+
+      const totalCost = effectControls
+        .filter(effect => document.getElementById(`${effect}-toggle`).checked)
+        .reduce((sum, effect) => sum + costs[effect], 0);
+
+      const costElement = document.getElementById('cost-value');
+      costElement.textContent = `${totalCost}ms`;
+
+      if (totalCost > 16.67) {
+        costElement.className = 'metric-value error';
+      } else if (totalCost > 12) {
+        costElement.className = 'metric-value warning';
+      } else {
+        costElement.className = 'metric-value';
+      }
+    }
+
+    updateActiveEffects();
+
+    // Simulate FPS monitoring
+    let frameCount = 0;
+    let lastTime = performance.now();
+
+    function updateFPS() {
+      frameCount++;
+      const now = performance.now();
+
+      if (now - lastTime >= 1000) {
+        const fps = Math.round(frameCount * 1000 / (now - lastTime));
+        const fpsElement = document.getElementById('fps-value');
+        fpsElement.textContent = fps;
+
+        if (fps < 40) {
+          fpsElement.className = 'metric-value error';
+        } else if (fps < 50) {
+          fpsElement.className = 'metric-value warning';
+        } else {
+          fpsElement.className = 'metric-value';
+        }
+
+        frameCount = 0;
+        lastTime = now;
+      }
+
+      requestAnimationFrame(updateFPS);
+    }
+
+    requestAnimationFrame(updateFPS);
+  </script>
+</body>
+</html>

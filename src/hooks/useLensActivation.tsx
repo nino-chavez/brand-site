@@ -132,18 +132,30 @@ export const useLensActivation = (): LensActivationHook => {
     touchStartTimeRef.current = 0;
   }, [isActive, clearAllTimers]);
 
+  // Store activate function in ref to avoid circular dependencies
+  const activateRef = useRef(activate);
+  activateRef.current = activate;
+
+  // Track last progress to avoid excessive re-renders
+  const lastProgressRef = useRef<number>(0);
+
   // Update hover progress
   const updateHoverProgress = useCallback(() => {
     if (hoverStartTimeRef.current === 0) return;
 
     const elapsed = getHighResTimestamp() - hoverStartTimeRef.current;
     const progress = Math.min(elapsed / HOVER_DELAY, 1);
-    setActivationProgress(progress);
+
+    // Only update if progress changed significantly (> 5%) to reduce re-renders
+    if (Math.abs(progress - lastProgressRef.current) > 0.05 || progress >= 1) {
+      lastProgressRef.current = progress;
+      setActivationProgress(progress);
+    }
 
     if (progress >= 1) {
-      activate('hover');
+      activateRef.current('hover');
     }
-  }, [activate]);
+  }, []); // Empty deps - uses ref for activate
 
   // Mouse down handler (start of click-and-hold)
   const handleMouseDown = useCallback((event: MouseEvent) => {
@@ -164,10 +176,10 @@ export const useLensActivation = (): LensActivationHook => {
     // Set click-and-hold timeout
     clickTimeoutRef.current = setTimeout(() => {
       if (isMouseDownRef.current) {
-        activate('click-hold');
+        activateRef.current('click-hold');
       }
     }, CLICK_HOLD_DELAY);
-  }, [isActive, isDebounced, activate]);
+  }, [isActive, isDebounced]); // activate now via ref
 
   // Mouse up handler (end of click-and-hold or cancel)
   const handleMouseUp = useCallback((event: MouseEvent) => {
@@ -199,10 +211,10 @@ export const useLensActivation = (): LensActivationHook => {
 
       // Set hover timeout
       hoverTimeoutRef.current = setTimeout(() => {
-        activate('hover');
+        activateRef.current('hover');
       }, HOVER_DELAY);
     }
-  }, [isActive, isDebounced, activate, updateHoverProgress]);
+  }, [isActive, isDebounced, updateHoverProgress]); // activate now via ref
 
   // Mouse leave handler (cancel hover)
   const handleMouseLeave = useCallback(() => {
@@ -234,10 +246,10 @@ export const useLensActivation = (): LensActivationHook => {
     // Set touch long-press timeout
     touchTimeoutRef.current = setTimeout(() => {
       if (isTouchActiveRef.current) {
-        activate('touch-long-press');
+        activateRef.current('touch-long-press');
       }
     }, TOUCH_LONG_PRESS_DELAY);
-  }, [isActive, isDebounced, activate]);
+  }, [isActive, isDebounced]); // activate now via ref
 
   // Touch end handler (end of long-press or cancel)
   const handleTouchEnd = useCallback((event: TouchEvent) => {

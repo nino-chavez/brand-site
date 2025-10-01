@@ -51,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                 <div className="flex justify-between items-center">
                     {/* Logo - preserved from original */}
                     <button
-                        onClick={() => onNavigate('hero')}
+                        onClick={() => onNavigate?.('hero')}
                         className="
                             text-2xl font-bold tracking-wider text-white
                             athletic-animate-transition

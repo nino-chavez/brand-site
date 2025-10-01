@@ -584,6 +584,15 @@ export const useCanvasState = (): CanvasContextValue => {
   return context;
 };
 
+/**
+ * Optional version of useCanvasState that returns null if provider is not available.
+ * Use this when canvas state is optional (e.g., in traditional layout mode).
+ */
+export const useCanvasStateOptional = (): CanvasContextValue | null => {
+  const context = useContext(CanvasContext);
+  return context || null;
+};
+
 // ===== INTEGRATION HELPERS =====
 
 /**

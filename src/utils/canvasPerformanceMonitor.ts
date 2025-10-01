@@ -393,8 +393,12 @@ export class CanvasPerformanceMonitor {
     element.style.willChange = 'auto';
   }
 
+  private lastReportTime: number = 0;
   private reportMetrics(): void {
-    if (this.onMetricsUpdate) {
+    // Throttle metrics reporting to every 500ms to prevent infinite re-renders
+    const now = this.safePerformanceNow();
+    if (this.onMetricsUpdate && (now - this.lastReportTime) >= 500) {
+      this.lastReportTime = now;
       this.onMetricsUpdate(this.getMetrics());
     }
   }

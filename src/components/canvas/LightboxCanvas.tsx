@@ -208,7 +208,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
           gpuUtilization: fps > 55 ? 85 : 60
         };
 
-        actions.canvas.updateCanvasMetrics?.(metrics);
+        actions.canvas?.updateCanvasMetrics?.(metrics);
         setRenderCount(prev => prev + 1);
 
         // Update local performance state
@@ -233,7 +233,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     const qualityManager = qualityManagerRef.current;
 
     setIsTransitioning(true);
-    actions.canvas.setTargetPosition(targetPosition);
+    actions.canvas?.setTargetPosition(targetPosition);
 
     // Get optimized animation config based on current quality
     const animConfig = qualityManager?.getAnimationConfig(movement) || {
@@ -269,14 +269,14 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         };
 
         // Update canvas position
-        actions.canvas.updateCanvasPosition(currentPosition);
+        actions.canvas?.updateCanvasPosition(currentPosition);
 
         if (progress < 1) {
           animationRef.current = optimizedRAF(animateMovement, currentQuality);
         } else {
           // Movement complete
           setIsTransitioning(false);
-          actions.canvas.setTargetPosition(null);
+          actions.canvas?.setTargetPosition(null);
 
           // Track performance
           const completionTime = performance.now() - startTime;
@@ -349,7 +349,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       const centerX = (touch1.clientX + touch2.clientX) / 2;
       const centerY = (touch1.clientY + touch2.clientY) / 2;
 
-      actions.canvas.updateTouchState({
+      actions.canvas?.updateTouchState({
         initialDistance,
         initialPosition: state.currentPosition,
         // Enhanced touch state for better tracking
@@ -357,7 +357,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         touch1Initial: { x: touch1.clientX, y: touch1.clientY },
         touch2Initial: { x: touch2.clientX, y: touch2.clientY }
       });
-      actions.canvas.setZoomingState(true);
+      actions.canvas?.setZoomingState(true);
 
       // Show zoom feedback
       setTouchFeedback({ x: centerX, y: centerY, type: 'zoom' });
@@ -365,12 +365,12 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       // Single finger pan gesture
       const touch = event.touches[0];
       setTouchStartPosition({ x: touch.clientX, y: touch.clientY });
-      actions.canvas.setPanningState(true);
+      actions.canvas?.setPanningState(true);
 
       // Show pan feedback
       setTouchFeedback({ x: touch.clientX, y: touch.clientY, type: 'pan' });
     }
-  }, [state.currentPosition, actions.canvas]);
+  }, [state.currentPosition.x, state.currentPosition.y, state.currentPosition.scale, actions.canvas]);
 
   const handleTouchMove = useCallback((event: React.TouchEvent) => {
     event.preventDefault(); // Prevent default scroll behavior
@@ -410,7 +410,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         const newX = initialPosition.x - (centerDeltaX * panSensitivity);
         const newY = initialPosition.y - (centerDeltaY * panSensitivity);
 
-        actions.canvas.updateCanvasPosition({
+        actions.canvas?.updateCanvasPosition({
           x: newX,
           y: newY,
           scale: newScale
@@ -430,7 +430,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       const newX = state.currentPosition.x - (deltaX * panSensitivity);
       const newY = state.currentPosition.y - (deltaY * panSensitivity);
 
-      actions.canvas.updateCanvasPosition({
+      actions.canvas?.updateCanvasPosition({
         ...state.currentPosition,
         x: newX,
         y: newY
@@ -442,15 +442,24 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       // Update start position for next move
       setTouchStartPosition({ x: touch.clientX, y: touch.clientY });
     }
-  }, [state.interaction.touchState, state.currentPosition, actions.canvas, touchStartPosition]);
+  }, [
+    state.interaction.touchState.initialDistance,
+    state.interaction.touchState.initialPosition,
+    state.interaction.touchState.centerPoint,
+    state.currentPosition.x,
+    state.currentPosition.y,
+    state.currentPosition.scale,
+    actions.canvas,
+    touchStartPosition
+  ]);
 
   const handleTouchEnd = useCallback((event: React.TouchEvent) => {
     event.preventDefault();
 
     // Clear touch state
-    actions.canvas.setPanningState(false);
-    actions.canvas.setZoomingState(false);
-    actions.canvas.updateTouchState({
+    actions.canvas?.setPanningState(false);
+    actions.canvas?.setZoomingState(false);
+    actions.canvas?.updateTouchState({
       initialDistance: null,
       initialPosition: null,
       centerPoint: null,
@@ -474,9 +483,15 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
     );
 
     if (validatedPosition.success && validatedPosition.position) {
-      actions.canvas.updateCanvasPosition(validatedPosition.position);
+      actions.canvas?.updateCanvasPosition(validatedPosition.position);
     }
-  }, [actions.canvas, touchFeedback, state.currentPosition]);
+  }, [
+    actions.canvas,
+    touchFeedback,
+    state.currentPosition.x,
+    state.currentPosition.y,
+    state.currentPosition.scale
+  ]);
 
   // Keyboard navigation for accessibility
   useEffect(() => {
@@ -532,7 +547,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         });
 
         // Update unified context
-        actions.canvas.updateCanvasMetrics?.(metrics);
+        actions.canvas?.updateCanvasMetrics?.(metrics);
       },
       (qualityLevel) => {
         setCurrentQuality(qualityLevel);
@@ -622,8 +637,8 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         };
 
         const canvasSection = sectionMapping[section];
-        if (canvasSection && actions.canvas.setActiveSection) {
-          actions.canvas.setActiveSection(canvasSection);
+        if (canvasSection && actions.canvas?.setActiveSection) {
+          actions.canvas?.setActiveSection(canvasSection);
         }
 
         // Announce section change
@@ -745,6 +760,21 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       >
         {children}
       </div>
+
+      {/* Instruction overlay when no content */}
+      {!children && (
+        <div className="absolute inset-0 flex items-center justify-center text-white/70 pointer-events-none">
+          <div className="text-center max-w-md px-4">
+            <div className="text-6xl mb-4">📸</div>
+            <h2 className="text-2xl font-semibold mb-4 text-white">Canvas Mode</h2>
+            <p className="text-lg mb-4">Click and hold anywhere to activate spatial navigation</p>
+            <div className="text-sm text-white/50">
+              <p>Desktop: Click + hold for 300ms</p>
+              <p>Mobile: Long press</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* CursorLens for spatial navigation */}
       <CursorLens

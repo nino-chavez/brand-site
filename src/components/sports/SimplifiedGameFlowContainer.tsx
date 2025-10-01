@@ -62,7 +62,12 @@ export default function SimplifiedGameFlowContainer({
       performance.actions.trackSectionTransition(state.currentSection, currentSection, Date.now());
       actions.navigateToSection(currentSection);
     }
-  }, [state.currentSection, actions, performance.actions]);
+  }, [
+    state.currentSection,
+    actions.updateScrollProgress,
+    actions.navigateToSection,
+    performance.actions.trackSectionTransition
+  ]);
 
   // Set up scroll listener
   useEffect(() => {
@@ -125,6 +130,20 @@ export default function SimplifiedGameFlowContainer({
     actions.handleError(error);
   }, [errorHandler, state.currentSection, actions]);
 
+  // Memoized section-specific callbacks to prevent infinite loops
+  const handleCaptureSectionReady = useCallback(() => handleSectionReady('capture'), [handleSectionReady]);
+  const handleCaptureSectionError = useCallback((error: Error) => handleSectionError(error, 'capture'), [handleSectionError]);
+  const handleFocusSectionReady = useCallback(() => handleSectionReady('focus'), [handleSectionReady]);
+  const handleFocusSectionError = useCallback((error: Error) => handleSectionError(error, 'focus'), [handleSectionError]);
+  const handleFrameSectionReady = useCallback(() => handleSectionReady('frame'), [handleSectionReady]);
+  const handleFrameSectionError = useCallback((error: Error) => handleSectionError(error, 'frame'), [handleSectionError]);
+  const handleExposureSectionReady = useCallback(() => handleSectionReady('exposure'), [handleSectionReady]);
+  const handleExposureSectionError = useCallback((error: Error) => handleSectionError(error, 'exposure'), [handleSectionError]);
+  const handleDevelopSectionReady = useCallback(() => handleSectionReady('develop'), [handleSectionReady]);
+  const handleDevelopSectionError = useCallback((error: Error) => handleSectionError(error, 'develop'), [handleSectionError]);
+  const handlePortfolioSectionReady = useCallback(() => handleSectionReady('portfolio'), [handleSectionReady]);
+  const handlePortfolioSectionError = useCallback((error: Error) => handleSectionError(error, 'portfolio'), [handleSectionError]);
+
   return (
     <main className={`game-flow-container ${className}`} data-testid="game-flow-container">
       {/* Error recovery UI */}
@@ -146,48 +165,48 @@ export default function SimplifiedGameFlowContainer({
         ref={setSectionRef('capture')}
         active={state.currentSection === 'capture'}
         progress={state.currentSection === 'capture' ? state.scrollProgress : 0}
-        onSectionReady={() => handleSectionReady('capture')}
-        onError={(error) => handleSectionError(error, 'capture')}
+        onSectionReady={handleCaptureSectionReady}
+        onError={handleCaptureSectionError}
       />
 
       <FocusSection
         ref={setSectionRef('focus')}
         active={state.currentSection === 'focus'}
         progress={state.currentSection === 'focus' ? state.scrollProgress : 0}
-        onSectionReady={() => handleSectionReady('focus')}
-        onError={(error) => handleSectionError(error, 'focus')}
+        onSectionReady={handleFocusSectionReady}
+        onError={handleFocusSectionError}
       />
 
       <FrameSection
         ref={setSectionRef('frame')}
         active={state.currentSection === 'frame'}
         progress={state.currentSection === 'frame' ? state.scrollProgress : 0}
-        onSectionReady={() => handleSectionReady('frame')}
-        onError={(error) => handleSectionError(error, 'frame')}
+        onSectionReady={handleFrameSectionReady}
+        onError={handleFrameSectionError}
       />
 
       <ExposureSection
         ref={setSectionRef('exposure')}
         active={state.currentSection === 'exposure'}
         progress={state.currentSection === 'exposure' ? state.scrollProgress : 0}
-        onSectionReady={() => handleSectionReady('exposure')}
-        onError={(error) => handleSectionError(error, 'exposure')}
+        onSectionReady={handleExposureSectionReady}
+        onError={handleExposureSectionError}
       />
 
       <DevelopSection
         ref={setSectionRef('develop')}
         active={state.currentSection === 'develop'}
         progress={state.currentSection === 'develop' ? state.scrollProgress : 0}
-        onSectionReady={() => handleSectionReady('develop')}
-        onError={(error) => handleSectionError(error, 'develop')}
+        onSectionReady={handleDevelopSectionReady}
+        onError={handleDevelopSectionError}
       />
 
       <PortfolioSection
         ref={setSectionRef('portfolio')}
         active={state.currentSection === 'portfolio'}
         progress={state.currentSection === 'portfolio' ? state.scrollProgress : 0}
-        onSectionReady={() => handleSectionReady('portfolio')}
-        onError={(error) => handleSectionError(error, 'portfolio')}
+        onSectionReady={handlePortfolioSectionReady}
+        onError={handlePortfolioSectionError}
       />
 
       {/* Debug controls (simplified) */}

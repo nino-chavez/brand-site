@@ -9,7 +9,7 @@
  * @since Task 13 - Accessibility Enhancement and Validation
  */
 
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useEffect, useCallback, useRef, useState, useMemo } from 'react';
 import { useAccessibility } from './useAccessibility';
 import type { PhotoWorkflowSection } from '../types/cursor-lens';
 import type { CanvasPosition } from '../types/canvas';
@@ -627,11 +627,18 @@ export function useSpatialAccessibility(config: Partial<SpatialAccessibilityConf
     };
   }, []);
 
-  // Update state periodically
+  // Update state periodically - only when values actually change
+  const lastNavigationStateRef = useRef<string>('');
   useEffect(() => {
     const interval = setInterval(() => {
       if (managerRef.current) {
-        setNavigationState(managerRef.current.getCurrentNavigationState());
+        const newState = managerRef.current.getCurrentNavigationState();
+        // Only update if the state has actually changed (use JSON comparison)
+        const newStateStr = JSON.stringify(newState);
+        if (newStateStr !== lastNavigationStateRef.current) {
+          lastNavigationStateRef.current = newStateStr;
+          setNavigationState(newState);
+        }
       }
     }, 100);
 
@@ -666,13 +673,16 @@ export function useSpatialAccessibility(config: Partial<SpatialAccessibilityConf
     }
   }, []);
 
-  return {
+  const spatialRelationships = useMemo(() =>
+    managerRef.current?.getSpatialRelationships(), [navigationState]);
+
+  return useMemo(() => ({
     // Base accessibility features
     ...baseAccessibility,
 
     // Spatial accessibility features
     navigationState,
-    spatialRelationships: managerRef.current?.getSpatialRelationships(),
+    spatialRelationships,
     keyboardShortcuts: SPATIAL_KEYBOARD_SHORTCUTS,
     sectionDescriptions: SPATIAL_SECTION_DESCRIPTIONS,
 
@@ -684,7 +694,7 @@ export function useSpatialAccessibility(config: Partial<SpatialAccessibilityConf
 
     // Configuration
     config: fullConfig
-  };
+  }), [baseAccessibility, navigationState, spatialRelationships, setNavigationCallbacks, updateCanvasPosition, updateCurrentSection, announce, fullConfig]);
 }
 
 export type {

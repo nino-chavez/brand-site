@@ -47,12 +47,17 @@ export const useCursorTracking = (): CursorTrackingHook => {
   // Performance monitoring integration
   const { actions: performanceActions } = useUnifiedPerformance();
 
+  // Store performanceActions in ref to avoid circular dependencies
+  const performanceActionsRef = useRef(performanceActions);
+  performanceActionsRef.current = performanceActions;
+
   // Refs for RAF and performance tracking
   const rafIdRef = useRef<number | null>(null);
   const statsRef = useRef<Stats | null>(null);
   const lastUpdateTimeRef = useRef<number>(0);
   const positionHistoryRef = useRef<CursorPosition[]>([]);
   const currentMousePositionRef = useRef<{ x: number; y: number } | null>(null);
+  const isTrackingRef = useRef<boolean>(false); // Ref to avoid circular deps in cleanup
   const performanceMetricsRef = useRef({
     frameCount: 0,
     totalFrameTime: 0,
@@ -132,7 +137,7 @@ export const useCursorTracking = (): CursorTrackingHook => {
     // Detect dropped frames (frame time > 20ms indicates sub-50fps)
     if (frameTime > 20) {
       metrics.droppedFrames++;
-      performanceActions.reportFrameDrop(1);
+      performanceActionsRef.current.reportFrameDrop(1);
     }
 
     // Update performance metrics every 60 frames (~1 second at 60fps)
@@ -140,22 +145,23 @@ export const useCursorTracking = (): CursorTrackingHook => {
       const averageFrameTime = metrics.totalFrameTime / metrics.frameCount;
       const currentFPS = 1000 / averageFrameTime;
 
-      performanceActions.updateMetrics({
+      performanceActionsRef.current.updateMetrics({
         cursorTrackingFPS: Math.round(currentFPS),
         averageResponseTime: Math.round(averageFrameTime)
       });
 
       // Check for performance degradation
-      const degradationLevel = performanceActions.detectDegradation();
+      const degradationLevel = performanceActionsRef.current.detectDegradation();
       if (degradationLevel !== 'none') {
-        performanceActions.applyOptimization(degradationLevel);
+        performanceActionsRef.current.applyOptimization(degradationLevel);
       }
     }
-  }, [performanceActions]);
+  }, []); // Empty deps - uses ref
 
   // RAF-based position update loop
   const updatePosition = useCallback(() => {
-    if (!isTracking || !currentMousePositionRef.current) {
+    // Use ref to avoid circular dependency with isTracking state
+    if (!isTrackingRef.current || !currentMousePositionRef.current) {
       return;
     }
 
@@ -163,7 +169,7 @@ export const useCursorTracking = (): CursorTrackingHook => {
     const now = startTime;
 
     // Performance throttling based on degradation level
-    const updateInterval = performanceActions.getOptimizedUpdateInterval();
+    const updateInterval = performanceActionsRef.current.getOptimizedUpdateInterval();
     const timeSinceLastUpdate = now - lastUpdateTimeRef.current;
 
     if (timeSinceLastUpdate < updateInterval) {
@@ -212,7 +218,7 @@ export const useCursorTracking = (): CursorTrackingHook => {
 
     // Schedule next frame
     rafIdRef.current = requestAnimationFrame(updatePosition);
-  }, [isTracking, calculateVelocity, updatePerformanceMetrics, performanceActions]);
+  }, [calculateVelocity, updatePerformanceMetrics, performanceActions]); // isTracking removed - using ref instead
 
   // Mouse move event handler
   const handleMouseMove = useCallback((event: MouseEvent) => {
@@ -245,7 +251,8 @@ export const useCursorTracking = (): CursorTrackingHook => {
     if (isTracking) return;
 
     setIsTracking(true);
-    performanceActions.startTracking();
+    isTrackingRef.current = true; // Sync ref for cleanup
+    performanceActionsRef.current.startTracking();
 
     // Reset performance metrics
     performanceMetricsRef.current = {
@@ -267,14 +274,21 @@ export const useCursorTracking = (): CursorTrackingHook => {
     // Start RAF loop
     lastUpdateTimeRef.current = getHighResTimestamp();
     rafIdRef.current = requestAnimationFrame(updatePosition);
-  }, [isTracking, performanceActions, initializeStats, handleMouseMove, handleMouseDown, updatePosition]);
+  }, [isTracking, initializeStats, handleMouseMove, handleMouseDown, updatePosition]); // performanceActions via ref
+
+  // Store callbacks in refs to avoid circular dependencies
+  const handleMouseMoveRef = useRef(handleMouseMove);
+  const handleMouseDownRef = useRef(handleMouseDown);
+  handleMouseMoveRef.current = handleMouseMove;
+  handleMouseDownRef.current = handleMouseDown;
 
   // Stop tracking function
   const stopTracking = useCallback(() => {
-    if (!isTracking) return;
+    if (!isTrackingRef.current) return;
 
     setIsTracking(false);
-    performanceActions.stopTracking();
+    isTrackingRef.current = false; // Sync ref for cleanup
+    performanceActionsRef.current.stopTracking();
 
     // Cancel RAF loop
     if (rafIdRef.current !== null) {
@@ -284,41 +298,57 @@ export const useCursorTracking = (): CursorTrackingHook => {
 
     // Remove global event listeners
     if (typeof window !== 'undefined') {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mousedown', handleMouseDown);
+      window.removeEventListener('mousemove', handleMouseMoveRef.current);
+      window.removeEventListener('mousedown', handleMouseDownRef.current);
     }
 
     // Clear position data
     setPosition(null);
     currentMousePositionRef.current = null;
     positionHistoryRef.current = [];
-  }, [isTracking, performanceActions, handleMouseMove, handleMouseDown]);
+  }, []); // performanceActions via ref
 
-  // Cleanup on unmount
+  // Cleanup on unmount - uses refs to avoid circular dependencies
   useEffect(() => {
     return () => {
-      stopTracking();
+      // Cancel RAF loop
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+
+      // Remove global event listeners - always remove, safe even if not added
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mousedown', handleMouseDown);
+      }
 
       // Clean up stats DOM element
       if (statsRef.current && statsRef.current.dom && statsRef.current.dom.parentNode) {
         statsRef.current.dom.parentNode.removeChild(statsRef.current.dom);
       }
     };
-  }, [stopTracking]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps - cleanup should only run on unmount, uses refs for current values
 
-  // Performance metrics calculation - memoized to prevent circular dependencies
+  // Performance metrics calculation - stable reference without deps on changing ref values
+  // Using a stable object that gets calculated on-demand instead of reactive dependencies
   const performance = useMemo(() => ({
-    frameRate: Math.round(
-      performanceMetricsRef.current.frameCount > 0
-        ? 1000 / (performanceMetricsRef.current.totalFrameTime / performanceMetricsRef.current.frameCount)
-        : 60
-    ),
-    averageLatency: Math.round(
-      performanceMetricsRef.current.frameCount > 0
-        ? performanceMetricsRef.current.totalFrameTime / performanceMetricsRef.current.frameCount
-        : 16
-    )
-  }), [performanceMetricsRef.current.frameCount, performanceMetricsRef.current.totalFrameTime]);
+    get frameRate(): number {
+      return Math.round(
+        performanceMetricsRef.current.frameCount > 0
+          ? 1000 / (performanceMetricsRef.current.totalFrameTime / performanceMetricsRef.current.frameCount)
+          : 60
+      );
+    },
+    get averageLatency(): number {
+      return Math.round(
+        performanceMetricsRef.current.frameCount > 0
+          ? performanceMetricsRef.current.totalFrameTime / performanceMetricsRef.current.frameCount
+          : 16
+      );
+    }
+  }), []); // Empty deps - getters will access current ref values without triggering re-renders
 
   // Memoize entire return object to prevent infinite loops
   // CRITICAL: Do NOT include isTracking in dependencies as it would cause circular updates
