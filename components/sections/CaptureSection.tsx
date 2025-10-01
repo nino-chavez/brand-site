@@ -260,7 +260,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         </div>
       </div>
 
-      {/* ViewfinderOverlay in clean hero mode - NO technical stats display */}
+      {/* ViewfinderOverlay in clean hero mode - Corner brackets only */}
       <ViewfinderOverlay
         isActive={active || isActive}
         mode="hero-clean"

@@ -210,8 +210,8 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
         <ViewfinderBrackets />
       </div>
 
-      {/* EXIF Metadata Display */}
-      {isActive && (
+      {/* EXIF Metadata Display - Development only */}
+      {process.env.NODE_ENV === 'development' && isActive && (
         <div
           className="absolute pointer-events-none"
           role="complementary"
