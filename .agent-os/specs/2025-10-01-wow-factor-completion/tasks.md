@@ -1,22 +1,23 @@
 # WOW Factor Completion - Task Breakdown
 
 > **Specification:** `2025-10-01-wow-factor-completion`
-> **Total Tasks:** 19
-> **Estimated Effort:** 1.5 weeks (44 hours)
-> **Priority:** P0 - CRITICAL (Navigation Broken) → P1 (Production Polish)
-> **Status:** 🟡 IN PROGRESS - 0/19 Tasks Complete
+> **Total Tasks:** 25
+> **Estimated Effort:** 2 weeks (56 hours)
+> **Priority:** P0 - CRITICAL (Navigation & Content Issues) → P1 (Production Polish)
+> **Status:** 🟡 IN PROGRESS - 0/25 Tasks Complete
 
 ## Task Summary
 
 | Phase | Tasks | Hours | Status |
 |-------|-------|-------|--------|
 | Phase -1: Navigation & CTA Fix (CRITICAL) | 3 | 8h | ⏸️ Not Started |
+| Phase -0.5: Content & Copy Polish (CRITICAL) | 6 | 12h | ⏸️ Not Started |
 | Phase 0: Gallery Implementation | 3 | 8h | ⏸️ Not Started |
 | Phase 1: Photography Metaphor | 3 | 8h | ⏸️ Not Started |
 | Phase 2: Polish & Delight | 3 | 6h | ⏸️ Not Started |
 | Phase 3: Accessibility | 3 | 6h | ⏸️ Not Started |
 | Phase 4: Performance & Testing | 4 | 8h | ⏸️ Not Started |
-| **TOTAL** | **19** | **44h** | **0% Complete** |
+| **TOTAL** | **25** | **56h** | **0% Complete** |
 
 ---
 
@@ -153,6 +154,264 @@
 - [ ] No broken scroll behavior
 - [ ] Keyboard navigation working
 - [ ] Accessibility features functional
+
+---
+
+## Phase -0.5: Content & Copy Polish (Day 0.5-1.5, 12 hours) ⚠️ CRITICAL
+
+### Task -0.5.1: Remove Debug UI Overlays from Production
+**Priority:** P0 (CRITICAL - Damages Credibility)
+**Effort:** 2 hours
+**Dependencies:** None
+**Files:** `components/sections/FocusSection.tsx`, `FrameSection.tsx`, `ExposureSection.tsx`, `DevelopSection.tsx`, `PortfolioSection.tsx`
+
+**Current Problem:**
+Debug status indicators visible in production:
+- "FOCUS LOCKED" / "PROFILE REVEALED" / "STATS ACTIVE" (About section)
+- "PORTFOLIO COMPLETE" / "CONTACT READY" (Contact section)
+- Similar indicators in other sections
+
+**Subtasks:**
+- [ ] Remove debug UI from FocusSection (lines 349-372)
+  ```typescript
+  // DELETE THIS ENTIRE BLOCK
+  <div className="absolute top-4 left-4 z-40 space-y-2">
+    <div>FOCUS {focusTargetLocked ? 'LOCKED' : 'SEEKING'}</div>
+    ...
+  </div>
+  ```
+- [ ] Remove from FrameSection
+- [ ] Remove from ExposureSection
+- [ ] Remove from DevelopSection
+- [ ] Remove from PortfolioSection
+- [ ] Keep internal state variables (focusTargetLocked, etc.) - only remove visual indicators
+- [ ] Test all sections still function correctly
+
+**Acceptance Criteria:**
+- [ ] No debug text visible in any section
+- [ ] Internal state tracking still works
+- [ ] Section animations/interactions unchanged
+- [ ] Visual test: screenshot each section, verify clean
+
+---
+
+### Task -0.5.2: Clarify Section Titles & Navigation Labels
+**Priority:** P0 (CRITICAL - Navigation Confusion)
+**Effort:** 3 hours
+**Dependencies:** None
+**Files:** Section components, Header TechnicalHUD labels
+
+**Current Problem:**
+Photography metaphors create cognitive friction:
+- "Precision in Focus" → User doesn't know this is About
+- "Perfect Composition" → User doesn't know this is Work/Projects
+- "Perfect Development" → User doesn't know this is Gallery
+
+**Implementation Strategy (Option A - Dual Labeling):**
+```typescript
+// Add clear primary labels with artistic secondaries
+<SectionTitle>
+  <span className="text-sm text-white/60 uppercase tracking-wider">About</span>
+  <span className="text-4xl font-bold">Precision in Focus</span>
+</SectionTitle>
+
+// Or for navigation
+{ label: 'ABOUT', subtitle: 'Precision in Focus' }
+```
+
+**Subtasks:**
+- [ ] Update FocusSection title to include "About" label
+- [ ] Update FrameSection title to include "Work" or "Projects" label
+- [ ] Update DevelopSection title to include "Gallery" label
+- [ ] Update PortfolioSection title to include "Contact" label
+- [ ] Update Header TechnicalHUD to show clear primary labels
+- [ ] Ensure accessibility: ARIA labels use clear terms
+- [ ] User test: Can non-technical person navigate without confusion?
+
+**Acceptance Criteria:**
+- [ ] Every section has clear, unambiguous label visible
+- [ ] Photography metaphors preserved as secondary/artistic element
+- [ ] Header navigation uses clear terms (HOME, ABOUT, WORK, GALLERY, CONTACT)
+- [ ] ARIA labels use standard terminology
+- [ ] Visual hierarchy: clear label prominent, metaphor supportive
+
+---
+
+### Task -0.5.3: Strengthen Hero Value Proposition
+**Priority:** P0 (CRITICAL - Conversion Impact)
+**Effort:** 2 hours
+**Dependencies:** None
+**Files:** `src/components/layout/HeroSection.tsx`
+
+**Current Problem:**
+Tagline "Technical excellence meets athletic precision" is vague and doesn't communicate value
+
+**Content Options:**
+- **Option A:** "Enterprise Architect transforming complex systems into scalable solutions"
+- **Option B:** "20+ years architecting systems that serve millions"
+- **Option C:** "Building enterprise platforms that scale from MVP to millions"
+
+**Subtasks:**
+- [ ] Replace hero tagline with specific, outcome-focused copy
+- [ ] Add secondary line with technology stack:
+  ```typescript
+  <p className="text-lg text-white/80">
+    React • TypeScript • Node.js • Cloud Architecture • Technical Leadership
+  </p>
+  ```
+- [ ] Ensure copy passes "5-second test" (user understands offering immediately)
+- [ ] A/B test preferred option (show to 3-5 people, get feedback)
+- [ ] Update meta description to match new value prop
+
+**Acceptance Criteria:**
+- [ ] Value proposition clearly states what Nino does
+- [ ] Technology stack visible for technical credibility
+- [ ] Copy tested with non-technical audience (understood immediately)
+- [ ] Meta description updated
+- [ ] Character count reasonable for mobile (doesn't wrap excessively)
+
+---
+
+### Task -0.5.4: Add Context to Performance Metrics
+**Priority:** P1 (HIGH - Trust Building)
+**Effort:** 2 hours
+**Dependencies:** None
+**Files:** `components/sections/FocusSection.tsx`
+
+**Current Problem:**
+Stats lack context: "99.9% uptime" - of what? "100+ resources" - when? where?
+
+**Implementation:**
+```typescript
+const athleticStats = [
+  {
+    label: 'Experience',
+    value: '20+',
+    unit: 'years',
+    context: 'building enterprise systems',
+    icon: '🏆'
+  },
+  {
+    label: 'Team Scale',
+    value: '100+',
+    unit: 'engineers',
+    context: 'led across 5 continents',
+    icon: '👥'
+  },
+  {
+    label: 'Architecture',
+    value: '15+',
+    unit: 'systems',
+    context: 'serving millions of users',
+    icon: '🏗️'
+  },
+  {
+    label: 'Performance',
+    value: '99.9%',
+    unit: 'uptime',
+    context: 'SLA maintained in production',
+    icon: '⚡'
+  }
+];
+```
+
+**Subtasks:**
+- [ ] Add context property to each stat
+- [ ] Update UI to display context (smaller text below unit)
+- [ ] Ensure context doesn't make cards too tall on mobile
+- [ ] Test readability at various screen sizes
+
+**Acceptance Criteria:**
+- [ ] Every metric has specific context
+- [ ] Context is readable but not overwhelming
+- [ ] Mobile layout remains balanced
+- [ ] Stats feel more credible and specific
+
+---
+
+### Task -0.5.5: Add Gallery Context Bridge Copy
+**Priority:** P1 (HIGH - Positioning Clarity)
+**Effort:** 1 hour
+**Dependencies:** None
+**Files:** `components/sections/DevelopSection.tsx` (Gallery section)
+
+**Current Problem:**
+Photography section appears without explaining why it's relevant to enterprise architecture services
+
+**Implementation:**
+```typescript
+<div className="text-center max-w-3xl mx-auto mb-12">
+  <SectionSubtitle className="text-athletic-brand-cyan mb-4">
+    The Art of Technical Precision
+  </SectionSubtitle>
+  <p className="text-lg text-white/80 leading-relaxed">
+    My approach to action sports photography mirrors my enterprise architecture philosophy:
+    anticipate the critical moment, focus on what matters, execute with precision.
+    Whether capturing a championship spike or designing a distributed system,
+    excellence requires the same fundamental skills.
+  </p>
+</div>
+```
+
+**Subtasks:**
+- [ ] Add bridge copy above gallery grid
+- [ ] Ensure copy connects photography to technical work
+- [ ] Keep tone professional but personable
+- [ ] Test that copy enhances rather than detracts from gallery
+
+**Acceptance Criteria:**
+- [ ] Gallery section has introductory context
+- [ ] Copy explicitly connects photography to architecture
+- [ ] Tone matches rest of site
+- [ ] User understands why photography is included
+
+---
+
+### Task -0.5.6: Simplify Contact Form & Strengthen CTA
+**Priority:** P1 (HIGH - Conversion Optimization)
+**Effort:** 2 hours
+**Dependencies:** None
+**Files:** `src/components/layout/ContactSection.tsx`
+
+**Current Problem:**
+Multiple contact methods create decision paralysis, no clear primary action
+
+**Implementation Strategy:**
+```typescript
+// Primary CTA - Large, prominent
+<a
+  href="mailto:nino@ninochavez.com"
+  className="btn-primary btn-magnetic text-lg px-8 py-4"
+>
+  Email Me Directly
+</a>
+<p className="text-sm text-white/60 mt-2">
+  Response within 24 hours
+</p>
+
+// Secondary options - Smaller, below primary
+<div className="flex gap-4 mt-8">
+  <a href="linkedin.com/..." className="text-white/60 hover:text-white">
+    LinkedIn →
+  </a>
+  {/* Other socials */}
+</div>
+```
+
+**Subtasks:**
+- [ ] Make email the primary large CTA button
+- [ ] Add "Response within 24 hours" micro-copy
+- [ ] Move LinkedIn/social to secondary position (smaller, below)
+- [ ] Consider removing form entirely or making it expandable ("Or use form →")
+- [ ] Apply magnetic effect to email CTA
+- [ ] Test conversion with simplified layout
+
+**Acceptance Criteria:**
+- [ ] One clear primary action (email)
+- [ ] Secondary options don't compete visually
+- [ ] Micro-copy reduces friction ("24 hours" builds trust)
+- [ ] Magnetic effect works on email CTA
+- [ ] Mobile layout prioritizes primary action
 
 ---
 
