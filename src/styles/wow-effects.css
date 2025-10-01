@@ -246,7 +246,7 @@ section[data-section].active::before {
   border: 2px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
-  justify-center;
+  justify-content: center;
   z-index: 90;
   opacity: 0;
   transform: translateY(20px) scale(0.8);
