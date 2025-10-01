@@ -80,7 +80,7 @@ export const ViewfinderMetadata: React.FC<ViewfinderMetadataProps> = ({
   }, [currentSection, settings]);
 
   const positionClasses = {
-    'top-left': 'top-4 left-4',
+    'top-left': 'top-24 left-4', // Avoid header nav (was top-4)
     'bottom-right': 'bottom-4 right-4',
     'floating': 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
   };

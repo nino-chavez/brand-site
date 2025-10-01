@@ -160,30 +160,7 @@ const App: React.FC = () => {
                                 </div>
                             )}
 
-                            {/* Layout switcher for development */}
-                            {process.env.NODE_ENV === 'development' && (
-                                <div className="fixed top-4 right-4 z-50">
-                                    <div className="bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg p-2">
-                                        <div className="flex space-x-2">
-                                            <button
-                                                onClick={() => {
-                                                    const url = new URL(window.location);
-                                                    url.searchParams.delete('layout');
-                                                    window.location.href = url.toString();
-                                                }}
-                                                className="px-3 py-1 text-sm rounded transition-colors text-white/60 hover:text-white/80"
-                                            >
-                                                Traditional
-                                            </button>
-                                            <button
-                                                className="px-3 py-1 text-sm rounded transition-colors bg-white/20 text-white"
-                                            >
-                                                Canvas
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            {/* Layout switcher hidden - use ?layout=canvas URL param to switch modes */}
 
                             {/* CursorLensV2 - Integrated with Canvas */}
                             <CursorLensV2
@@ -250,30 +227,7 @@ const App: React.FC = () => {
                             />
                         </main>
 
-                        {/* Layout switcher for development */}
-                        {process.env.NODE_ENV === 'development' && (
-                            <div className="fixed top-4 right-4 z-50">
-                                <div className="bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg p-2">
-                                    <div className="flex space-x-2">
-                                        <button
-                                            className="px-3 py-1 text-sm rounded transition-colors bg-white/20 text-white"
-                                        >
-                                            Traditional
-                                        </button>
-                                        <button
-                                            onClick={() => {
-                                                const url = new URL(window.location);
-                                                url.searchParams.set('layout', 'canvas');
-                                                window.location.href = url.toString();
-                                            }}
-                                            className="px-3 py-1 text-sm rounded transition-colors text-white/60 hover:text-white/80"
-                                        >
-                                            Canvas
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
+                        {/* Layout switcher hidden - use ?layout=canvas URL param to switch modes */}
 
                         {/* CursorLensV2 - Disabled in traditional mode (canvas-only feature) */}
                         {process.env.NODE_ENV === 'development' && false && (

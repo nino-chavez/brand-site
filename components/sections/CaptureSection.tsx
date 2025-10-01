@@ -261,40 +261,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 
       {/* Legacy ViewfinderOverlay removed - ViewfinderController + ViewfinderMetadata handles display */}
 
-      {/* Camera readiness indicators */}
-      <div className="absolute top-4 left-4 z-40 space-y-2">
-        <div
-          className={`flex items-center space-x-2 text-sm font-mono ${
-            cameraReady ? 'text-green-400' : 'text-yellow-400'
-          } transition-colors duration-300`}
-        >
-          <div className={`w-2 h-2 rounded-full ${cameraReady ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-          <span>CAMERA {cameraReady ? 'READY' : 'INIT'}</span>
-        </div>
-
-        {cameraReady && (
-          <>
-            <div className={`flex items-center space-x-2 text-sm font-mono ${focusLocked ? 'text-green-400' : 'text-yellow-400'} transition-colors duration-300`}>
-              <div className={`w-2 h-2 rounded-full ${focusLocked ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-              <span>FOCUS {focusLocked ? 'LOCKED' : 'SEEKING'}</span>
-            </div>
-
-            {focusLocked && (
-              <div className={`flex items-center space-x-2 text-sm font-mono ${exposureSet ? 'text-green-400' : 'text-yellow-400'} transition-colors duration-300`}>
-                <div className={`w-2 h-2 rounded-full ${exposureSet ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-                <span>EXPOSURE {exposureSet ? 'SET' : 'AUTO'}</span>
-              </div>
-            )}
-
-            {exposureSet && (
-              <div className={`flex items-center space-x-2 text-sm font-mono ${compositionFramed ? 'text-green-400' : 'text-yellow-400'} transition-colors duration-300`}>
-                <div className={`w-2 h-2 rounded-full ${compositionFramed ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-                <span>FRAME {compositionFramed ? 'READY' : 'COMP'}</span>
-              </div>
-            )}
-          </>
-        )}
-      </div>
+      {/* Camera readiness indicators - Hidden (internal state tracking only) */}
 
       {/* Capture sequence animation overlay */}
       <div
