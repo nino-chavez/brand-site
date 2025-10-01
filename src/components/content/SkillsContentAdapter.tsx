@@ -377,9 +377,8 @@ const SkillCard: React.FC<SkillCardProps> = ({
 
   return (
     <div
-      className={`bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6
-        transition-all duration-300 hover:bg-white/8 hover:border-white/20 group
-        ${useAnimations ? 'transform hover:scale-[1.02]' : ''}
+      className={`card-base hover-lift group p-6
+        ${useAnimations ? '' : 'motion-reduce:transform-none'}
       `}
       data-testid={`skill-category-${category.id}`}
     >
@@ -391,7 +390,7 @@ const SkillCard: React.FC<SkillCardProps> = ({
         <div className="flex items-center space-x-3">
           <span className="text-2xl">{category.icon}</span>
           <div>
-            <h3 className="text-lg font-semibold text-white">{category.name}</h3>
+            <h3 className="text-lg font-semibold text-gradient-violet">{category.name}</h3>
             <p className="text-sm text-white/60">{category.description}</p>
           </div>
         </div>

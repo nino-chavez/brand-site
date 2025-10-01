@@ -500,13 +500,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                     }}>
                         <button
                             onClick={() => onNavigate('work')}
-                            className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-10 py-4 rounded-xl athletic-animate-transition hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30 border border-white/20 backdrop-blur-sm hover:backdrop-blur-md active:scale-95"
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'scale(1) translateY(0px)';
-                            }}
+                            className="btn-primary group"
                         >
                             <span className="flex items-center justify-center space-x-2">
                                 <span className="text-lg tracking-wide">View Work</span>
@@ -517,15 +511,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                         </button>
                         <button
                             onClick={() => onNavigate('contact')}
-                            className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-10 py-4 rounded-xl athletic-animate-transition hover:scale-105 hover:bg-white/20 hover:border-white/60 hover:shadow-xl hover:shadow-white/10 active:scale-95"
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.transform = 'scale(1.05) translateY(-2px)';
-                                e.currentTarget.style.boxShadow = '0 10px 40px rgba(255, 255, 255, 0.15)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.transform = 'scale(1) translateY(0px)';
-                                e.currentTarget.style.boxShadow = '';
-                            }}
+                            className="btn-secondary group"
                         >
                             <span className="flex items-center justify-center space-x-2">
                                 <svg className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">

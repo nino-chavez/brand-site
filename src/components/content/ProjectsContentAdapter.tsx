@@ -777,10 +777,8 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
     return (
       <div
         key={project.id}
-        className={`bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 mb-6
-          transition-all duration-500 hover:bg-white/8 hover:border-white/20 group
-          ${useAnimations ? 'transform hover:scale-[1.02]' : ''}
-          cursor-pointer
+        className={`card-base hover-lift group cursor-pointer p-6 mb-6
+          ${useAnimations ? '' : 'motion-reduce:transform-none'}
         `}
         onClick={() => handleProjectSelect(project.id)}
         data-testid={`project-card-${project.id}`}
@@ -789,7 +787,7 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-xl font-bold text-white">{project.title}</h3>
+              <h3 className="text-xl font-bold text-gradient-violet">{project.title}</h3>
               <span className="text-sm px-2 py-1 bg-green-900/40 text-green-200 rounded-full">
                 {project.calculatedRelevance}% match
               </span>

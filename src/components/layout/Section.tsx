@@ -27,8 +27,8 @@ const Section: React.FC<SectionProps> = ({ id, setRef, className = '', children 
 };
 
 export const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-    <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 lg:mb-16">
-        <span className="text-brand-violet">/</span> {children}
+    <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 lg:mb-16 text-gradient-violet">
+        <span className="text-gradient-orange">/</span> {children}
     </h2>
 );
 
