@@ -10,7 +10,6 @@
  */
 
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
-import Stats from 'stats.js';
 import { useUnifiedPerformance } from '../contexts/UnifiedGameFlowContext';
 import type { CursorTrackingHook, CursorPosition } from '../types/cursor-lens';
 
@@ -33,7 +32,7 @@ function getHighResTimestamp(): number {
  * Features:
  * - 60fps cursor position updates (16ms intervals)
  * - Velocity calculation for predictive positioning
- * - Performance monitoring with stats.js integration
+ * - Performance monitoring with context integration
  * - Automatic degradation detection and optimization
  * - Memory leak prevention with proper cleanup
  *
@@ -65,31 +64,7 @@ export const useCursorTracking = (): CursorTrackingHook => {
     lastFrameTime: 0
   });
 
-  // Initialize performance monitoring
-  const initializeStats = useCallback(() => {
-    if (typeof window !== 'undefined' && !statsRef.current) {
-      try {
-        statsRef.current = new Stats();
-        if (statsRef.current && typeof statsRef.current.showPanel === 'function') {
-          statsRef.current.showPanel(0); // FPS panel
-
-          // Position stats panel (hidden by default, can be shown for debugging)
-          if (process.env.NODE_ENV === 'development' && statsRef.current.dom) {
-            statsRef.current.dom.style.position = 'fixed';
-            statsRef.current.dom.style.top = '0px';
-            statsRef.current.dom.style.right = '0px';
-            statsRef.current.dom.style.left = 'auto';
-            statsRef.current.dom.style.zIndex = '999999';
-            statsRef.current.dom.style.display = 'none'; // Hidden by default
-            document.body.appendChild(statsRef.current.dom);
-          }
-        }
-      } catch (error) {
-        // Stats.js not available in test environment - continue without it
-        statsRef.current = null;
-      }
-    }
-  }, []);
+  // Performance monitoring removed - using context-based tracking instead
 
   // Calculate velocity from position history
   const calculateVelocity = useCallback((positions: CursorPosition[]): { x: number; y: number } => {
@@ -177,11 +152,6 @@ export const useCursorTracking = (): CursorTrackingHook => {
       return;
     }
 
-    // Begin performance monitoring
-    if (statsRef.current && typeof statsRef.current.begin === 'function') {
-      statsRef.current.begin();
-    }
-
     // Create new position with velocity
     const currentPos = currentMousePositionRef.current;
     const newPosition: CursorPosition = {
@@ -206,14 +176,9 @@ export const useCursorTracking = (): CursorTrackingHook => {
     setPosition(newPosition);
     lastUpdateTimeRef.current = now;
 
-    // End performance monitoring
+    // Track performance metrics
     const endTime = getHighResTimestamp();
     const frameTime = endTime - startTime;
-
-    if (statsRef.current && typeof statsRef.current.end === 'function') {
-      statsRef.current.end();
-    }
-
     updatePerformanceMetrics(frameTime);
 
     // Schedule next frame
@@ -274,7 +239,7 @@ export const useCursorTracking = (): CursorTrackingHook => {
     // Start RAF loop
     lastUpdateTimeRef.current = getHighResTimestamp();
     rafIdRef.current = requestAnimationFrame(updatePosition);
-  }, [isTracking, initializeStats, handleMouseMove, handleMouseDown, updatePosition]); // performanceActions via ref
+  }, [isTracking, handleMouseMove, handleMouseDown, updatePosition]); // performanceActions via ref
 
   // Store callbacks in refs to avoid circular dependencies
   const handleMouseMoveRef = useRef(handleMouseMove);
@@ -323,10 +288,7 @@ export const useCursorTracking = (): CursorTrackingHook => {
         window.removeEventListener('mousedown', handleMouseDown);
       }
 
-      // Clean up stats DOM element
-      if (statsRef.current && statsRef.current.dom && statsRef.current.dom.parentNode) {
-        statsRef.current.dom.parentNode.removeChild(statsRef.current.dom);
-      }
+      // Cleanup complete
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty deps - cleanup should only run on unmount, uses refs for current values

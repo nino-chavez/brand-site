@@ -4,7 +4,7 @@ import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
 import { CanvasStateProvider } from './contexts/CanvasStateProvider';
 import Header from './components/layout/Header';
 import BackgroundEffects from './components/effects/BackgroundEffects';
-import CursorLens from './components/canvas/CursorLens';
+import CursorLensV2 from './components/canvas/CursorLensV2';
 import LightboxCanvas from './components/canvas/LightboxCanvas';
 // import CanvasDebugDiagnostic from '../CanvasDebugDiagnostic'; // File not found
 import { AthleticTokenProvider } from '../tokens/simple-provider';
@@ -174,20 +174,19 @@ const App: React.FC = () => {
                                 </div>
                             )}
 
-                            {/* CursorLens - Integrated with Canvas */}
-                            <CursorLens
+                            {/* CursorLensV2 - Integrated with Canvas */}
+                            <CursorLensV2
                                 isEnabled={true}
                                 activationDelay={800}
                                 onSectionSelect={(section) => {
                                     console.log('🎯 CursorLens navigation to:', section);
                                 }}
-                                onActivate={(method) => {
-                                    console.log('🎯 CursorLens activated via:', method);
+                                onActivate={() => {
+                                    console.log('🎯 CursorLens activated');
                                 }}
                                 onDeactivate={() => {
                                     console.log('🎯 CursorLens deactivated');
                                 }}
-                                fallbackMode="keyboard"
                                 className="canvas-cursor-lens"
                             />
                         </div>
@@ -257,22 +256,21 @@ const App: React.FC = () => {
                             </div>
                         )}
 
-                        {/* CursorLens - Radial Navigation System */}
-                        <CursorLens
+                        {/* CursorLensV2 - Minimal Radial Navigation */}
+                        <CursorLensV2
                             isEnabled={true}
                             activationDelay={800}
                             onSectionSelect={(section) => {
                                 console.log('CursorLens navigation to:', section);
                             }}
-                            onActivate={(method) => {
-                                console.log('CursorLens activated via:', method);
+                            onActivate={() => {
+                                console.log('CursorLens activated');
                             }}
                             onDeactivate={() => {
                                 console.log('CursorLens deactivated');
                             }}
-                            fallbackMode="keyboard"
                         />
-                        </div>
+                    </div>
                 </CanvasStateProvider>
             </UnifiedGameFlowProvider>
         </AthleticTokenProvider>
