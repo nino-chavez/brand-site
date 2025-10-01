@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 import Section, { SectionTitle } from './Section';
 import { WORK_PROJECTS } from '../../constants';
 import type { WorkProject } from '../../types';
+import { useStaggeredChildren } from '../../hooks/useScrollAnimation';
 
 interface WorkSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
@@ -66,13 +67,30 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
 };
 
 const WorkSection: React.FC<WorkSectionProps> = ({ setRef }) => {
+    const { containerRef, visibleIndices } = useStaggeredChildren(WORK_PROJECTS.length, 150);
+
     return (
         <Section id="work" setRef={setRef}>
             <div>
                 <SectionTitle>Featured Work</SectionTitle>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    ref={containerRef as React.RefObject<HTMLDivElement>}
+                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
                     {WORK_PROJECTS.map((project, index) => (
-                        <ProjectCard key={index} project={project} />
+                        <div
+                            key={index}
+                            className={`transition-all duration-700 ease-out ${
+                                visibleIndices.has(index)
+                                    ? 'opacity-100 translate-y-0'
+                                    : 'opacity-0 translate-y-8'
+                            }`}
+                            style={{
+                                transitionDelay: `${index * 150}ms`
+                            }}
+                        >
+                            <ProjectCard project={project} />
+                        </div>
                     ))}
                 </div>
             </div>
