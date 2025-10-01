@@ -18,11 +18,14 @@ import SectionAmbientLighting from './components/effects/SectionAmbientLighting'
 import FilmMode from './components/effects/FilmMode';
 import EffectsPanel from './components/effects/EffectsPanel';
 import ViewfinderController from './components/effects/ViewfinderController';
+import LoadingScreen from './components/effects/LoadingScreen';
 import { EffectsProvider } from './contexts/EffectsContext';
 
 const App: React.FC = () => {
     const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas'>('traditional');
     const [debugMode, setDebugMode] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isAppReady, setIsAppReady] = useState(false);
 
     // Check URL parameters for layout mode
     useEffect(() => {
@@ -46,6 +49,41 @@ const App: React.FC = () => {
             if (testParam === 'true') {
                 console.log('🧪 Test mode detected via URL parameter');
             }
+        }
+    }, []);
+
+    // Handle initial loading state
+    useEffect(() => {
+        // Simulate loading resources (fonts, images, etc.)
+        const handleDOMContentLoaded = () => {
+            // Wait for fonts and critical assets
+            if (document.fonts) {
+                document.fonts.ready.then(() => {
+                    // Small delay to ensure smooth transition
+                    setTimeout(() => {
+                        setIsLoading(false);
+                        // Delay app render to allow exit animation
+                        setTimeout(() => {
+                            setIsAppReady(true);
+                        }, 600);
+                    }, 300);
+                });
+            } else {
+                // Fallback for browsers without Font Loading API
+                setTimeout(() => {
+                    setIsLoading(false);
+                    setTimeout(() => {
+                        setIsAppReady(true);
+                    }, 600);
+                }, 1000);
+            }
+        };
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            handleDOMContentLoaded();
+        } else {
+            window.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
+            return () => window.removeEventListener('DOMContentLoaded', handleDOMContentLoaded);
         }
     }, []);
 
@@ -120,6 +158,9 @@ const App: React.FC = () => {
                         performanceMode={performanceMode}
                         enableAnalytics={true}
                     >
+                        {/* Photography-themed loading screen */}
+                        <LoadingScreen isLoading={isLoading || !isAppReady} />
+
                         {/* WOW Factor Components */}
                         <CustomCursor />
                         <ScrollProgress />
@@ -224,6 +265,9 @@ const App: React.FC = () => {
                     performanceMode={performanceMode}
                     enableAnalytics={true}
                 >
+                    {/* Photography-themed loading screen */}
+                    <LoadingScreen isLoading={isLoading || !isAppReady} />
+
                     {/* WOW Factor Components */}
                     <CustomCursor />
                     <ScrollProgress />
