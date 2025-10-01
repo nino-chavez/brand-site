@@ -20,8 +20,8 @@ body.custom-cursor-active * {
   background: rgba(249, 115, 22, 0.8);
   pointer-events: none;
   z-index: 99999;
-  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),
-              background 200ms ease-out;
+  /* No transition on transform for instant response */
+  transition: background 200ms ease-out;
   mix-blend-mode: difference;
 }
 
@@ -43,7 +43,7 @@ body.custom-cursor-active * {
   background: rgba(139, 92, 246, 0.4);
   pointer-events: none;
   z-index: 99998;
-  transition: transform 120ms ease-out;
+  /* No transition - position controlled by JS interpolation */
 }
 
 /* ========================================
