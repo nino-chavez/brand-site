@@ -11,7 +11,7 @@
 
 import React, { useRef, useMemo, useState, useCallback } from 'react';
 import { useCanvasState } from '../../contexts/CanvasStateProvider';
-import { useTouchGestures } from '../../hooks/useTouchGestures';
+import { useCanvasTouchGestures } from '../../hooks/useCanvasTouchGestures';
 import { useKeyboardNav } from '../../hooks/useKeyboardNav';
 import { rafScheduler, RAFPriority } from '../../utils/rafScheduler';
 import type { CanvasPosition } from '../../contexts/CanvasStateProvider';
@@ -102,7 +102,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
 
   // ===== TOUCH GESTURES =====
 
-  const touchHandlers = useTouchGestures({
+  const touchHandlers = useCanvasTouchGestures({
     onPan: (delta) => {
       // Pan sensitivity based on current scale
       const sensitivity = 1.0 / state.position.scale;

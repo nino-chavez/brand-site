@@ -1,5 +1,5 @@
 /**
- * useTouchGestures - Clean Touch Interaction Hook
+ * useCanvasTouchGestures - Clean Touch Interaction Hook for Canvas
  *
  * Simplified touch gesture handling for canvas pan/zoom.
  * Replaces 165 LOC over-engineered touch handling in LightboxCanvas.
@@ -11,21 +11,21 @@
 
 import { useRef, useCallback } from 'react';
 
-interface TouchGestureHandlers {
+interface CanvasTouchGestureHandlers {
   onPan: (delta: { x: number; y: number }) => void;
   onZoom: (scale: number, center: { x: number; y: number }) => void;
 }
 
-interface TouchGestureProps {
+interface CanvasTouchGestureProps {
   onTouchStart: (e: React.TouchEvent) => void;
   onTouchMove: (e: React.TouchEvent) => void;
   onTouchEnd: (e: React.TouchEvent) => void;
 }
 
-export const useTouchGestures = ({
+export const useCanvasTouchGestures = ({
   onPan,
   onZoom
-}: TouchGestureHandlers): TouchGestureProps => {
+}: CanvasTouchGestureHandlers): CanvasTouchGestureProps => {
   // Single finger pan state
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
@@ -120,4 +120,4 @@ export const useTouchGestures = ({
   };
 };
 
-export default useTouchGestures;
+export default useCanvasTouchGestures;
