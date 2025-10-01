@@ -546,8 +546,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                 </div>
             </div>
 
-            {/* Enhanced Technical Profile Sidebar with sophisticated floating animation */}
-            {profileVisible && (
+            {/* Enhanced Technical Profile Sidebar - Development only */}
+            {process.env.NODE_ENV === 'development' && profileVisible && (
                 <ViewfinderOverlay
                     isActive={true}
                     mode="hero"
