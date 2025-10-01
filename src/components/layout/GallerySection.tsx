@@ -9,7 +9,7 @@ interface GallerySectionProps {
 
 const GallerySection: React.FC<GallerySectionProps> = ({ setRef }) => {
     return (
-        <Section id="gallery" setRef={setRef}>
+        <Section id="develop" setRef={setRef}>
             <div>
                 <SectionTitle>Photography Gallery</SectionTitle>
                  <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">

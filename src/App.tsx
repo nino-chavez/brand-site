@@ -230,6 +230,7 @@ const App: React.FC = () => {
                     <ConsoleEasterEgg />
                     <SectionAmbientLighting />
                     <FilmMode />
+                    <ViewfinderController />
 
                     <div className="bg-brand-dark text-brand-light font-sans antialiased">
                         <BackgroundEffects />

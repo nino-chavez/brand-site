@@ -70,7 +70,7 @@ const WorkSection: React.FC<WorkSectionProps> = ({ setRef }) => {
     const { containerRef, visibleIndices } = useStaggeredChildren(WORK_PROJECTS.length, 80); // Faster stagger (was 150ms)
 
     return (
-        <Section id="work" setRef={setRef}>
+        <Section id="frame" setRef={setRef}>
             <div>
                 <SectionTitle>Featured Work</SectionTitle>
                 <div

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { SectionId } from '../types';
+import { SectionId } from '../../types';
 
 interface TechnicalHUDProps {
     activeSection: SectionId;

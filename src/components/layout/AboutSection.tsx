@@ -8,7 +8,7 @@ interface AboutSectionProps {
 
 const AboutSection: React.FC<AboutSectionProps> = ({ setRef }) => {
     return (
-        <Section id="about" setRef={setRef}>
+        <Section id="focus" setRef={setRef}>
             <div className="grid lg:grid-cols-5 gap-12 items-center">
                 <div className="lg:col-span-2">
                     <div className="aspect-square bg-gray-800 rounded-lg overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-105">

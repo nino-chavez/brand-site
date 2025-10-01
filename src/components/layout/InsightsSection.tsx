@@ -30,7 +30,7 @@ const InsightCard: React.FC<{ article: InsightArticle }> = ({ article }) => {
 
 const InsightsSection: React.FC<InsightsSectionProps> = ({ setRef }) => {
     return (
-        <Section id="insights" setRef={setRef}>
+        <Section id="exposure" setRef={setRef}>
             <div>
                 <SectionTitle>Insights & Articles</SectionTitle>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

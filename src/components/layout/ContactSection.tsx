@@ -12,7 +12,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ setRef }) => {
     const emailBtnRef = useMagneticEffect<HTMLAnchorElement>({ strength: 0.4, radius: 100 });
 
     return (
-        <Section id="contact" setRef={setRef}>
+        <Section id="portfolio" setRef={setRef}>
             <div className="text-center max-w-3xl mx-auto">
                 <SectionTitle>Let's Connect</SectionTitle>
                 <p className="text-lg text-gray-300 mb-12">
