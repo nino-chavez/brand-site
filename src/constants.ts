@@ -71,7 +71,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
 ];
 
 // Import gallery metadata from JSON file
-import galleryMetadata from '../public/data/gallery-metadata.json';
+import galleryMetadata from './data/gallery-metadata.json';
 
 // Type for gallery image from metadata
 export interface GalleryImage {
