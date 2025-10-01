@@ -74,7 +74,7 @@ const App: React.FC = () => {
     }, []);
 
     // Collect section elements for scroll spy
-    // Traditional layout uses photography metaphor IDs: focus (about), frame (work), exposure (insights), develop (gallery), portfolio (contact)
+    // Uses unified SectionId photography metaphor IDs
     const sectionElements = useMemo(() => {
         if (typeof window === 'undefined') return [];
 

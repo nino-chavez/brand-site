@@ -30,7 +30,8 @@ export function TechnicalHUD({
     const [hoveredSection, setHoveredSection] = useState<SectionId | null>(null);
 
     // Navigation sections with technical metadata
-    // Maps to actual section IDs: hero -> hero, focus -> about, frame -> work, etc.
+    // Uses unified photography metaphor IDs (SectionId)
+    // Display labels provide user-friendly navigation names
     const hudSections = [
         {
             id: 'hero' as SectionId,

@@ -68,7 +68,7 @@ describe('Athletic Scoreboard Navigation', () => {
             const workButton = screen.getByRole('button', { name: /navigate to projects.*experience/i });
             await user.click(workButton);
 
-            expect(defaultProps.onNavigate).toHaveBeenCalledWith('work');
+            expect(defaultProps.onNavigate).toHaveBeenCalledWith('frame');  // Photography metaphor ID
         });
 
         test('shows tooltips on hover for desktop variants', async () => {

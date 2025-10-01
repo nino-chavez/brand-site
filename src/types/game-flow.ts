@@ -1,17 +1,19 @@
 import React from 'react';
+import type { SectionId } from './site';
 
 /**
  * Game Flow state management types
  * Extracted from monolithic types.ts for better organization
  */
 
-export type GameFlowSection =
-    | 'capture'    // Introduction & readiness (Hero)
-    | 'focus'      // Attention to detail (About)
-    | 'frame'      // Composition & planning (Work)
-    | 'exposure'   // Technical execution (Insights)
-    | 'develop'    // Process & refinement (Gallery)
-    | 'portfolio'; // Results & contact (Contact)
+/**
+ * @deprecated Use SectionId from './site' instead.
+ * GameFlowSection is now an alias to SectionId for backward compatibility.
+ * This type will be removed in a future version.
+ *
+ * Migration: Replace all GameFlowSection imports with SectionId
+ */
+export type GameFlowSection = SectionId;
 
 export type TransitionState =
     | 'idle'

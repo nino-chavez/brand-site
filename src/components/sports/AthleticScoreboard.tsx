@@ -32,7 +32,7 @@ export function AthleticScoreboard({
 }: AthleticScoreboardProps) {
     const [hoveredSection, setHoveredSection] = useState<SectionId | null>(null);
 
-    // Athletic section mapping with clear icons and consistent descriptions
+    // Athletic section mapping with photography metaphor IDs and user-friendly labels
     const athleticSections = [
         {
             id: 'hero' as SectionId,
@@ -41,25 +41,25 @@ export function AthleticScoreboard({
             description: 'Portfolio home'
         },
         {
-            id: 'about' as SectionId,
+            id: 'focus' as SectionId,  // Photography metaphor for About
             label: 'ABOUT',
             icon: '👨‍💻',
             description: 'About Nino'
         },
         {
-            id: 'work' as SectionId,
+            id: 'frame' as SectionId,  // Photography metaphor for Work
             label: 'WORK',
             icon: '🚀',
             description: 'Projects & experience'
         },
         {
-            id: 'insights' as SectionId,
+            id: 'exposure' as SectionId,  // Photography metaphor for Insights
             label: 'INSIGHTS',
             icon: '💡',
             description: 'Technical articles'
         },
         {
-            id: 'gallery' as SectionId,
+            id: 'develop' as SectionId,  // Photography metaphor for Gallery
             label: 'GALLERY',
             icon: '📷',
             description: 'Photography portfolio'
