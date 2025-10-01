@@ -1,7 +1,6 @@
 import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'react';
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
-import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
 
 interface CaptureSectionProps {
   active: boolean;
@@ -260,16 +259,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         </div>
       </div>
 
-      {/* ViewfinderOverlay in clean hero mode - Corner brackets only */}
-      <ViewfinderOverlay
-        isActive={active || isActive}
-        mode="hero-clean"
-        showMetadataHUD={false} // Hide stats overlay for minimalist focus
-        className="z-30"
-        data-testid="viewfinder-overlay"
-        data-mode="hero-clean"
-        data-show-metadata-hud="false"
-      />
+      {/* Legacy ViewfinderOverlay removed - ViewfinderController + ViewfinderMetadata handles display */}
 
       {/* Camera readiness indicators */}
       <div className="absolute top-4 left-4 z-40 space-y-2">

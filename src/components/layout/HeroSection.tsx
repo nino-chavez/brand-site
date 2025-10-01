@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import type { SectionId } from '../types';
-import ViewfinderOverlay from './ViewfinderOverlay';
 import BlurContainer from './BlurContainer';
 import { useAthleticTokens } from '@tokens/providers/AthleticTokenProvider';
 import { useMagneticEffect } from '../../hooks/useMagneticEffect';
@@ -546,42 +545,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                 </div>
             </div>
 
-            {/* Enhanced Technical Profile Sidebar - Development only */}
-            {process.env.NODE_ENV === 'development' && profileVisible && (
-                <ViewfinderOverlay
-                    isActive={true}
-                    mode="hero"
-                    showMetadataHUD={true}
-                    className="z-30"
-                    isMinimized={profileMinimized}
-                    onToggleMinimized={handleProfileToggle}
-                    profileVisible={profileVisible}
-                    onHideProfile={() => setProfileVisible(false)}
-                />
-            )}
-
-            {!profileVisible && (
-                /* Modern floating toggle button with enhanced effects */
-                <button
-                    onClick={() => setProfileVisible(true)}
-                    className="fixed top-36 left-8 z-30 group bg-athletic-brand-violet/20 hover:bg-athletic-brand-violet/40 backdrop-blur-md border border-athletic-brand-violet/40 text-white rounded-full p-4 athletic-animate-sequence hover:scale-125 hover:shadow-xl hover:shadow-purple-500/30 hover:border-athletic-brand-violet/60"
-                    style={{
-                        animation: 'fadeInUp 1.2s ease-out 1.5s both, gentleFloat 4s ease-in-out infinite 2s, breathe 3s ease-in-out infinite 3s',
-                        boxShadow: '0 4px 20px rgba(139, 92, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-                        display: window.scrollY < window.innerHeight * 0.8 ? 'block' : 'none' // Hide when scrolled past hero
-                    }}
-                    title="Show Technical Profile"
-                    aria-label="Show Technical Profile"
-                >
-                    <div className="relative">
-                        <svg className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {/* Subtle inner glow */}
-                        <div className="absolute inset-0 bg-brand-violet/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-                </button>
-            )}
+            {/* Legacy ViewfinderOverlay removed - replaced by ViewfinderController + ViewfinderMetadata system */}
             </section>
         </>
     );
