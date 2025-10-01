@@ -12,6 +12,7 @@ import { AthleticTokenProvider } from '../tokens/simple-provider';
 import CustomCursor from './components/effects/CustomCursor';
 import ScrollProgress from './components/effects/ScrollProgress';
 import ConsoleEasterEgg from './components/effects/ConsoleEasterEgg';
+import SectionAmbientLighting from './components/effects/SectionAmbientLighting';
 
 const App: React.FC = () => {
     const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas'>('traditional');
@@ -93,6 +94,7 @@ const App: React.FC = () => {
                         <CustomCursor />
                         <ScrollProgress />
                         <ConsoleEasterEgg />
+                        <SectionAmbientLighting />
 
                         <div className="bg-brand-dark text-brand-light font-sans antialiased overflow-hidden h-screen">
                             <BackgroundEffects />
@@ -213,6 +215,7 @@ const App: React.FC = () => {
                     <CustomCursor />
                     <ScrollProgress />
                     <ConsoleEasterEgg />
+                    <SectionAmbientLighting />
 
                     <div className="bg-brand-dark text-brand-light font-sans antialiased">
                         <BackgroundEffects />

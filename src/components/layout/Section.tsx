@@ -14,6 +14,15 @@ const Section: React.FC<SectionProps> = ({ id, setRef, className = '', children 
     const isAboutSection = id === 'about';
     const paddingClass = isAboutSection ? 'py-32 lg:py-40' : 'py-20 lg:py-32';
 
+    // Section-specific color classes for ambient lighting
+    const sectionColorMap: Record<string, string> = {
+        'work': 'section-portfolio',
+        'about': 'section-focus',
+        'contact': 'section-develop',
+        'experience': 'section-exposure'
+    };
+    const sectionColorClass = sectionColorMap[id] || '';
+
     // Scroll animation
     const { elementRef, isVisible } = useScrollAnimation({
         threshold: 0.1,
@@ -30,7 +39,7 @@ const Section: React.FC<SectionProps> = ({ id, setRef, className = '', children 
         <section
             id={id}
             ref={combineRefs}
-            className={`min-h-screen w-full flex items-center justify-center ${paddingClass} ${className} ${isAboutSection ? 'bg-gradient-to-b from-brand-dark via-brand-dark to-gray-900' : ''}`}
+            className={`min-h-screen w-full flex items-center justify-center ${paddingClass} ${className} ${sectionColorClass} ${isAboutSection ? 'bg-gradient-to-b from-brand-dark via-brand-dark to-gray-900' : ''}`}
             data-section={id}
         >
             <div className={`container mx-auto px-6 ${getAnimationClasses(isVisible)}`}>
