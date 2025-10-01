@@ -5,6 +5,7 @@ import { INSIGHTS_ARTICLES } from '../../constants';
 import type { InsightArticle } from '../../types';
 import { BlogIcon, LinkedinIcon } from '../ui/Icons';
 import { useStaggeredChildren } from '../../hooks/useScrollAnimation';
+import ProgressiveImage from '../ui/ProgressiveImage';
 
 interface InsightsSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
@@ -15,7 +16,12 @@ const InsightCard: React.FC<{ article: InsightArticle }> = ({ article }) => {
     return (
         <a href={article.link} target="_blank" rel="noopener noreferrer" className="group block bg-gray-900/50 rounded-lg overflow-hidden border border-gray-700/50 transition-all duration-300 hover:border-brand-violet hover:scale-[1.02]">
             <div className="aspect-video overflow-hidden">
-                <img src={article.imageUrl} alt={article.title} className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                <ProgressiveImage
+                    src={article.imageUrl}
+                    alt={article.title}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    placeholderBlur={10}
+                />
             </div>
             <div className="p-6">
                 <div className="flex items-center text-sm text-brand-violet mb-2">

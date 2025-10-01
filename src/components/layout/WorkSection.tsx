@@ -4,6 +4,7 @@ import Section, { SectionTitle } from './Section';
 import { WORK_PROJECTS } from '../../constants';
 import type { WorkProject } from '../../types';
 import { useStaggeredChildren } from '../../hooks/useScrollAnimation';
+import ProgressiveImage from '../ui/ProgressiveImage';
 
 interface WorkSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
@@ -43,10 +44,11 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
                 style={{ transformStyle: 'preserve-3d' }}
             >
                 <div className="aspect-video bg-gray-800 rounded-md overflow-hidden mb-4 transition-all duration-300 group-hover:scale-105">
-                     <img
+                     <ProgressiveImage
                         src={project.imageUrl}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                        placeholderBlur={10}
                     />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2 text-gradient-violet">{project.title}</h3>

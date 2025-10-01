@@ -3,6 +3,7 @@ import React from 'react';
 import Section, { SectionTitle } from './Section';
 import { GALLERY_IMAGES } from '../../constants';
 import { useStaggeredChildren } from '../../hooks/useScrollAnimation';
+import ProgressiveImage from '../ui/ProgressiveImage';
 
 interface GallerySectionProps {
     setRef: (el: HTMLDivElement | null) => void;
@@ -31,11 +32,11 @@ const GallerySection: React.FC<GallerySectionProps> = ({ setRef }) => {
                                 transitionDelay: `${index * 60}ms`
                             }}
                         >
-                            <img
+                            <ProgressiveImage
                                 src={image.src}
                                 alt={image.alt}
-                                loading="lazy"
                                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                                placeholderBlur={12}
                             />
                         </div>
                     ))}
