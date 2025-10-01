@@ -24,6 +24,7 @@ WOW Factor implementation is 70% complete with Phases 1-4 mostly finished. Remai
 
 **Implementation Gaps:**
 - ⬜ Photography metaphor incomplete (hero-only, not section-dynamic)
+- ⬜ Gallery section missing (placeholder images, needs real portfolio with EXIF)
 - ⬜ Phase 4 incomplete (loading messages, blur-up images)
 - ⬜ Phase 5 not started (staggered animations, micro-interactions)
 - ⬜ No accessibility audit
@@ -187,6 +188,94 @@ User sees: "f/8 - Technical Excellence" (About section)
 ---
 
 ## Solution Design
+
+### Phase 0: Gallery Section Implementation (NEW REQUIREMENT)
+
+**Goal:** Replace placeholder gallery images with real portfolio photography + EXIF metadata.
+
+**Current State:**
+```typescript
+// src/constants.ts - PROBLEM: Placeholder images from picsum.photos
+export const GALLERY_IMAGES = [
+  { src: 'https://picsum.photos/seed/gallery1/800/600', alt: 'Volleyball player spiking' },
+  // ... 6 placeholder images
+];
+```
+
+**Existing Infrastructure (CAN REUSE):**
+- ✅ Gallery types with EXIF support (`src/types/gallery.ts`)
+- ✅ GalleryModal component with metadata panel
+- ✅ MetadataPanel component for EXIF display
+- ✅ ContactSheetGrid for thumbnail layout
+- ✅ Image quality configuration (thumbnail/preview/full)
+
+**Implementation Strategy:**
+
+1. **Create Gallery Data**
+   - Select 6-12 best portfolio images
+   - Extract EXIF data (camera, lens, settings)
+   - Write meaningful project context
+   - Organize by category (action sports, portraits, landscapes, etc.)
+
+2. **Update Data Structure**
+   ```typescript
+   // src/constants.ts - NEW STRUCTURE
+   export const GALLERY_IMAGES: GalleryImage[] = [
+     {
+       id: 'portfolio-001',
+       filename: 'volleyball-spike-championship.jpg',
+       alt: 'Championship volleyball spike captured mid-action',
+       categories: ['action-sports', 'volleyball'],
+       urls: {
+         thumbnail: '/images/gallery/portfolio-001-thumb.webp',
+         preview: '/images/gallery/portfolio-001-preview.webp',
+         full: '/images/gallery/portfolio-001-full.webp',
+         fallback: '/images/gallery/portfolio-001-full.jpg',
+       },
+       metadata: {
+         camera: 'Canon EOS R5',
+         lens: 'RF 70-200mm f/2.8 L IS USM',
+         iso: 1600,
+         aperture: 'f/2.8',
+         shutterSpeed: '1/2000',
+         focalLength: '135mm',
+         dateTaken: '2024-08-15T14:30:00Z',
+         location: 'Olympic Training Center, Colorado',
+         projectContext: 'Captured the decisive moment of a championship spike...',
+         tags: ['volleyball', 'action', 'sports', 'championship'],
+       },
+     },
+     // ... more images
+   ];
+   ```
+
+3. **Integrate with GallerySection**
+   ```typescript
+   // src/components/layout/GallerySection.tsx
+   import { GalleryModal } from '../gallery/GalleryModal';
+   import { ContactSheetGrid } from '../gallery/ContactSheetGrid';
+
+   // Use existing components with real data
+   <ContactSheetGrid
+     images={GALLERY_IMAGES}
+     onImageSelect={(image) => openModal(image)}
+     performanceMode="balanced"
+   />
+   ```
+
+4. **Photography-Themed Integration**
+   - Modal shows EXIF in photography-inspired design
+   - Matches ViewfinderMetadata styling
+   - Same camera settings storytelling approach
+
+**Success Criteria:**
+- [ ] Real portfolio images (not placeholders)
+- [ ] Accurate EXIF data for each image
+- [ ] Meaningful project context written
+- [ ] Modal displays metadata beautifully
+- [ ] Consistent with photography metaphor
+
+---
 
 ### Phase 1: Photography Metaphor Completion
 

@@ -1,20 +1,203 @@
 # WOW Factor Completion - Task Breakdown
 
 > **Specification:** `2025-10-01-wow-factor-completion`
-> **Total Tasks:** 13
-> **Estimated Effort:** 1 week (28 hours)
+> **Total Tasks:** 16
+> **Estimated Effort:** 1.5 weeks (36 hours)
 > **Priority:** P1 - High (Production Polish)
-> **Status:** 🟡 IN PROGRESS - 0/13 Tasks Complete
+> **Status:** 🟡 IN PROGRESS - 0/16 Tasks Complete
 
 ## Task Summary
 
 | Phase | Tasks | Hours | Status |
 |-------|-------|-------|--------|
+| Phase 0: Gallery Implementation | 3 | 8h | ⏸️ Not Started |
 | Phase 1: Photography Metaphor | 3 | 8h | ⏸️ Not Started |
 | Phase 2: Polish & Delight | 3 | 6h | ⏸️ Not Started |
 | Phase 3: Accessibility | 3 | 6h | ⏸️ Not Started |
 | Phase 4: Performance & Testing | 4 | 8h | ⏸️ Not Started |
-| **TOTAL** | **13** | **28h** | **0% Complete** |
+| **TOTAL** | **16** | **36h** | **0% Complete** |
+
+---
+
+## Phase 0: Gallery Section Implementation (Day 0-1, 8 hours)
+
+### Task 0.1: Prepare Portfolio Images with EXIF Data
+**Priority:** P1
+**Effort:** 3 hours
+**Dependencies:** None
+**Files:** `/public/images/gallery/*`, `src/constants.ts`
+
+**Subtasks:**
+- [ ] Select 8-12 best portfolio photographs
+  - Action sports (volleyball, surfing, skateboarding)
+  - 2-3 images minimum per category
+  - High resolution originals (min 2000px width)
+- [ ] Extract EXIF data from each image
+  ```bash
+  # Use exiftool to extract metadata
+  exiftool -j image.jpg > metadata.json
+  ```
+- [ ] Generate responsive image sizes
+  ```bash
+  # Install sharp globally
+  npm install -g sharp-cli
+
+  # Generate thumbnail (300x200)
+  sharp -i image.jpg -o image-thumb.webp resize 300 200
+
+  # Generate preview (800x600)
+  sharp -i image.jpg -o image-preview.webp resize 800 600
+
+  # Generate full (1920x1280)
+  sharp -i image.jpg -o image-full.webp resize 1920 1280
+
+  # Generate JPEG fallback
+  sharp -i image.jpg -o image-full.jpg resize 1920 1280 --quality 90
+  ```
+- [ ] Write meaningful project context for each image
+  - Technical challenge
+  - Creative decision
+  - Story behind the shot
+- [ ] Organize images into `/public/images/gallery/` structure
+
+**Acceptance Criteria:**
+- [ ] 8-12 production-quality images selected
+- [ ] All images have EXIF data extracted
+- [ ] 4 sizes generated per image (thumb, preview, full, fallback)
+- [ ] Project context written for each
+- [ ] Images organized in public directory
+
+---
+
+### Task 0.2: Update Gallery Data Structure
+**Priority:** P1
+**Effort:** 2 hours
+**Dependencies:** Task 0.1
+**Files:** `src/constants.ts`
+
+**Subtasks:**
+- [ ] Import `GalleryImage` type
+  ```typescript
+  import type { GalleryImage } from './types/gallery';
+  ```
+- [ ] Replace GALLERY_IMAGES with full data structure
+  ```typescript
+  export const GALLERY_IMAGES: GalleryImage[] = [
+    {
+      id: 'portfolio-001',
+      filename: 'volleyball-spike.jpg',
+      alt: 'Championship volleyball spike mid-action',
+      categories: ['action-sports', 'volleyball'],
+      urls: {
+        thumbnail: '/images/gallery/volleyball-spike-thumb.webp',
+        preview: '/images/gallery/volleyball-spike-preview.webp',
+        full: '/images/gallery/volleyball-spike-full.webp',
+        fallback: '/images/gallery/volleyball-spike-full.jpg',
+      },
+      metadata: {
+        camera: 'Canon EOS R5',
+        lens: 'RF 70-200mm f/2.8 L IS USM',
+        iso: 1600,
+        aperture: 'f/2.8',
+        shutterSpeed: '1/2000',
+        focalLength: '135mm',
+        dateTaken: '2024-08-15T14:30:00Z',
+        location: 'Olympic Training Center, Colorado',
+        projectContext: 'Championship moment captured...',
+        tags: ['volleyball', 'action', 'sports'],
+      },
+      isFeatured: true,
+      displayOrder: 0,
+    },
+    // ... repeat for all images
+  ];
+  ```
+- [ ] Add category definitions
+  ```typescript
+  export const GALLERY_CATEGORIES = [
+    { id: 'action-sports', label: 'Action Sports', icon: '🏐' },
+    { id: 'volleyball', label: 'Volleyball', icon: '🏐' },
+    { id: 'surfing', label: 'Surfing', icon: '🏄' },
+    { id: 'skateboarding', label: 'Skateboarding', icon: '🛹' },
+  ];
+  ```
+- [ ] Verify TypeScript types match
+
+**Acceptance Criteria:**
+- [ ] GALLERY_IMAGES uses GalleryImage type
+- [ ] All fields populated with real data
+- [ ] Categories defined
+- [ ] No TypeScript errors
+
+---
+
+### Task 0.3: Integrate Gallery Components
+**Priority:** P1
+**Effort:** 3 hours
+**Dependencies:** Task 0.2
+**Files:** `src/components/layout/GallerySection.tsx`, App navigation
+
+**Subtasks:**
+- [ ] Update GallerySection to use existing gallery components
+  ```typescript
+  import { useState } from 'react';
+  import { ContactSheetGrid } from '../gallery/ContactSheetGrid';
+  import { GalleryModal } from '../gallery/GalleryModal';
+  import type { GalleryImage } from '../../types/gallery';
+
+  const GallerySection: React.FC<GallerySectionProps> = ({ setRef }) => {
+    const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    return (
+      <Section id="gallery" setRef={setRef}>
+        <SectionTitle>Photography Portfolio</SectionTitle>
+
+        <ContactSheetGrid
+          images={GALLERY_IMAGES}
+          columns={3}
+          onImageSelect={(image, index) => {
+            setSelectedImage(image);
+            setCurrentIndex(index);
+          }}
+          activeCategory={null}
+          layout="uniform"
+          performanceMode="balanced"
+        />
+
+        {selectedImage && (
+          <GalleryModal
+            isOpen={!!selectedImage}
+            currentImage={selectedImage}
+            images={GALLERY_IMAGES}
+            currentIndex={currentIndex}
+            onClose={() => setSelectedImage(null)}
+            onNavigate={(dir) => {
+              const newIndex = dir === 'next'
+                ? (currentIndex + 1) % GALLERY_IMAGES.length
+                : (currentIndex - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length;
+              setCurrentIndex(newIndex);
+              setSelectedImage(GALLERY_IMAGES[newIndex]);
+            }}
+            showMetadata={true}
+            onToggleMetadata={() => {}}
+          />
+        )}
+      </Section>
+    );
+  };
+  ```
+- [ ] Ensure GallerySection is added to App navigation
+- [ ] Test modal open/close
+- [ ] Test image navigation (prev/next)
+- [ ] Test EXIF metadata display
+
+**Acceptance Criteria:**
+- [ ] Contact sheet displays all images
+- [ ] Click opens modal with full image
+- [ ] Navigation works (keyboard + click)
+- [ ] EXIF metadata displays correctly
+- [ ] Modal closes properly
 
 ---
 
