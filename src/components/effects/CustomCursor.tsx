@@ -15,11 +15,17 @@ interface CursorPosition {
   y: number;
 }
 
+const TRAIL_COUNT = 5;
+
 export const CustomCursor: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
+  const trailRefs = useRef<HTMLDivElement[]>([]);
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const positionRef = useRef<CursorPosition>({ x: 0, y: 0 });
+  const trailPositions = useRef<CursorPosition[]>(
+    Array(TRAIL_COUNT).fill({ x: 0, y: 0 })
+  );
   const rafIdRef = useRef<number>();
 
   useEffect(() => {
@@ -37,17 +43,39 @@ export const CustomCursor: React.FC = () => {
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${positionRef.current.x - 10}px, ${positionRef.current.y - 10}px)`;
       }
+
+      // Update trail positions with smooth following
+      for (let i = 0; i < TRAIL_COUNT; i++) {
+        const trail = trailRefs.current[i];
+        if (trail) {
+          // Each trail follows the previous one with delay
+          const target = i === 0 ? positionRef.current : trailPositions.current[i - 1];
+          const current = trailPositions.current[i];
+
+          // Smooth interpolation (ease factor increases with trail index)
+          const easeFactor = 0.15 + (i * 0.05);
+          trailPositions.current[i] = {
+            x: current.x + (target.x - current.x) * easeFactor,
+            y: current.y + (target.y - current.y) * easeFactor
+          };
+
+          trail.style.transform = `translate(${trailPositions.current[i].x - 4}px, ${trailPositions.current[i].y - 4}px)`;
+        }
+      }
     };
 
     const handleMouseMove = (e: MouseEvent) => {
       positionRef.current = { x: e.clientX, y: e.clientY };
-
-      // Use RAF for smooth 60fps cursor
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-      }
-      rafIdRef.current = requestAnimationFrame(updateCursorPosition);
     };
+
+    // Continuous animation loop for smooth trails
+    const animateTrails = () => {
+      updateCursorPosition();
+      rafIdRef.current = requestAnimationFrame(animateTrails);
+    };
+
+    // Start animation loop
+    rafIdRef.current = requestAnimationFrame(animateTrails);
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -90,11 +118,28 @@ export const CustomCursor: React.FC = () => {
   }
 
   return (
-    <div
-      ref={cursorRef}
-      className={`custom-cursor ${isHovering ? 'hovering' : ''} ${isClicking ? 'clicking' : ''}`}
-      aria-hidden="true"
-    />
+    <>
+      {/* Main cursor */}
+      <div
+        ref={cursorRef}
+        className={`custom-cursor ${isHovering ? 'hovering' : ''} ${isClicking ? 'clicking' : ''}`}
+        aria-hidden="true"
+      />
+      {/* Trailing dots */}
+      {Array.from({ length: TRAIL_COUNT }).map((_, i) => (
+        <div
+          key={i}
+          ref={(el) => {
+            if (el) trailRefs.current[i] = el;
+          }}
+          className="custom-cursor-trail"
+          style={{
+            opacity: 1 - (i * 0.15)
+          }}
+          aria-hidden="true"
+        />
+      ))}
+    </>
   );
 };
 

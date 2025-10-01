@@ -39,7 +39,7 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
                 ref={cardRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                className="card-base will-change-transform motion-reduce:transform-none"
+                className="card-base card-glow will-change-transform motion-reduce:transform-none"
                 style={{ transformStyle: 'preserve-3d' }}
             >
                 <div className="aspect-video bg-gray-800 rounded-md overflow-hidden mb-4 transition-all duration-300 group-hover:scale-105">
