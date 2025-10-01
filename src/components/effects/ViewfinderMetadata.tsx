@@ -66,7 +66,7 @@ const SECTION_SETTINGS: Record<string, CameraSettings> = {
 interface ViewfinderMetadataProps {
   currentSection?: string;
   visible?: boolean;
-  position?: 'top-left' | 'bottom-right' | 'floating';
+  position?: 'top-left' | 'bottom-right' | 'bottom-center' | 'floating';
   className?: string;
   style?: React.CSSProperties;
 }
@@ -80,6 +80,22 @@ export const ViewfinderMetadata: React.FC<ViewfinderMetadataProps> = ({
 }) => {
   const [settings, setSettings] = useState<CameraSettings>(SECTION_SETTINGS.hero);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Responsive positioning: bottom-center on mobile, top-left on desktop
+  const [responsivePosition, setResponsivePosition] = useState<string>(position);
+
+  useEffect(() => {
+    const updatePosition = () => {
+      if (typeof window === 'undefined') return;
+
+      const isMobile = window.innerWidth < 768;
+      setResponsivePosition(isMobile ? 'bottom-center' : position);
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    return () => window.removeEventListener('resize', updatePosition);
+  }, [position]);
 
   useEffect(() => {
     const newSettings = SECTION_SETTINGS[currentSection] || SECTION_SETTINGS.hero;
@@ -98,15 +114,16 @@ export const ViewfinderMetadata: React.FC<ViewfinderMetadataProps> = ({
     }
   }, [currentSection, settings]);
 
-  const positionClasses = {
+  const positionClasses: Record<string, string> = {
     'top-left': 'top-24 left-4', // Avoid header nav (was top-4)
     'bottom-right': 'bottom-4 right-4',
+    'bottom-center': 'bottom-4 left-1/2 -translate-x-1/2', // Mobile optimized
     'floating': 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
   };
 
   return (
     <div
-      className={`fixed ${positionClasses[position]} z-40 pointer-events-none ${className}`}
+      className={`fixed ${positionClasses[responsivePosition]} z-40 pointer-events-none ${className}`}
       style={style}
     >
       <div
@@ -114,9 +131,9 @@ export const ViewfinderMetadata: React.FC<ViewfinderMetadataProps> = ({
           visible ? 'opacity-100' : 'opacity-0'
         } ${isTransitioning ? 'opacity-0 blur-sm scale-95' : 'opacity-100 blur-0 scale-100'}`}
       >
-        <div className="bg-black/80 backdrop-blur-md border border-white/20 rounded-lg p-3 space-y-1 font-mono text-xs">
+        <div className="bg-black/80 backdrop-blur-md border border-white/20 rounded-lg p-3 md:p-3 p-2 space-y-1 font-mono text-xs md:text-xs text-[10px]">
           {/* Camera Settings */}
-          <div className="flex items-center gap-3 text-white/90">
+          <div className="flex items-center gap-2 md:gap-3 text-white/90">
             <span className="text-brand-orange font-semibold">{settings.aperture}</span>
             <span className="text-white/60">•</span>
             <span className="text-brand-cyan">{settings.shutter}</span>
@@ -125,13 +142,13 @@ export const ViewfinderMetadata: React.FC<ViewfinderMetadataProps> = ({
           </div>
 
           {/* Focus Area */}
-          <div className="flex items-center gap-2 text-sm">
+          <div className="flex items-center gap-2 text-sm md:text-sm text-xs">
             <span className="text-white/50">Focus:</span>
             <span className="text-brand-orange font-medium">{settings.focus}</span>
           </div>
 
-          {/* Description Tooltip */}
-          <div className="text-white/40 text-[10px] leading-relaxed max-w-[200px] pt-1 border-t border-white/10">
+          {/* Description Tooltip - Hidden on mobile for compactness */}
+          <div className="hidden md:block text-white/40 text-[10px] leading-relaxed max-w-[200px] pt-1 border-t border-white/10">
             {settings.description}
           </div>
         </div>
