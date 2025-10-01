@@ -1189,13 +1189,15 @@ if (isHovered && scrollPercent < 0.3) {
 - [x] Graceful fallback for non-picsum URLs
 
 
-## Phase 3: Accessibility Audit (Day 4, 6 hours)
+## Phase 3: Accessibility Audit (Day 4, 6 hours) ✅ COMPLETE
 
-### Task 7: EffectsPanel Keyboard Navigation
+### Task 7: EffectsPanel Keyboard Navigation ✅
 **Priority:** P0 (Accessibility)
 **Effort:** 2 hours
 **Dependencies:** None
 **Files:** `src/components/effects/EffectsPanel.tsx`
+**Status:** ✅ Complete
+**Commit:** c1d5ba0
 
 **Subtasks:**
 - [ ] Add keyboard event handlers
@@ -1255,11 +1257,13 @@ if (isHovered && scrollPercent < 0.3) {
 
 ---
 
-### Task 8: ARIA Announcements & Screen Reader Support
+### Task 8: ARIA Announcements & Screen Reader Support ✅
 **Priority:** P0 (Accessibility)
 **Effort:** 2 hours
 **Dependencies:** None
-**Files:** `src/components/effects/CustomCursor.tsx`, `src/components/effects/ViewfinderMetadata.tsx`
+**Files:** `src/components/effects/CustomCursor.tsx`, `src/components/effects/ViewfinderMetadata.tsx`, `src/components/effects/EffectsPanel.tsx`
+**Status:** ✅ Complete
+**Commit:** d095250
 
 **Subtasks:**
 - [ ] Add live region for cursor state
@@ -1296,11 +1300,13 @@ if (isHovered && scrollPercent < 0.3) {
 
 ---
 
-### Task 9: Reduced Motion & Accessibility Verification
+### Task 9: Reduced Motion & Accessibility Verification ✅
 **Priority:** P0 (Accessibility)
 **Effort:** 2 hours
 **Dependencies:** None
-**Files:** `src/styles/wow-effects.css`, verify all components
+**Files:** `src/styles/wow-effects.css`, all components verified
+**Status:** ✅ Complete
+**Commit:** a098781
 
 **Subtasks:**
 - [ ] Verify reduced motion CSS working
