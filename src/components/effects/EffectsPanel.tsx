@@ -18,6 +18,7 @@ export const EffectsPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'motion' | 'effects'>('motion');
   const panelRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
+  const [announcement, setAnnouncement] = useState('');
 
   const animationStyles: Array<{ value: AnimationStyle; label: string; icon: string }> = [
     { value: 'fade-up', label: 'Fade Up', icon: '↑' },
@@ -49,11 +50,20 @@ export const EffectsPanel: React.FC = () => {
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );
       firstFocusable?.focus();
+      setAnnouncement('Effects control panel opened');
     } else if (!isOpen && toggleButtonRef.current) {
       // Return focus to toggle button when panel closes
       toggleButtonRef.current.focus();
+      setAnnouncement('Effects control panel closed');
     }
   }, [isOpen]);
+
+  // Announce tab changes
+  useEffect(() => {
+    if (isOpen) {
+      setAnnouncement(`${activeTab === 'motion' ? 'Motion' : 'Effects'} tab selected`);
+    }
+  }, [activeTab, isOpen]);
 
   // Keyboard navigation handler
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -314,6 +324,16 @@ export const EffectsPanel: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Screen reader announcements */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {announcement}
+      </div>
 
       {/* Custom scrollbar styles */}
       <style>{`
