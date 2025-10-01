@@ -3,12 +3,15 @@
  *
  * Implements Intersection Observer for scroll-triggered animations.
  * Provides staggered fade-in effects as sections enter viewport.
+ * Now supports user-customizable animation styles via EffectsContext.
  *
- * @version 1.0.0
- * @since WOW Factor Phase 3
+ * @version 2.0.0
+ * @since WOW Factor Phase 3 (Enhanced)
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { useEffects } from '../contexts/EffectsContext';
+import type { AnimationStyle, TransitionSpeed } from '../contexts/EffectsContext';
 
 interface UseScrollAnimationOptions {
   threshold?: number;
@@ -116,24 +119,72 @@ export const useStaggeredChildren = (
 };
 
 /**
- * Animation class generator helper
+ * Animation class generator helper with user preferences
  */
 export const getAnimationClasses = (
   isVisible: boolean,
-  animation: 'fade-in-up' | 'fade-in' | 'slide-in-left' | 'slide-in-right' = 'fade-in-up'
+  style?: AnimationStyle,
+  speed?: TransitionSpeed
 ) => {
-  const baseClasses = 'transition-all duration-500 ease-out'; // Faster (was 700ms)
+  // Speed to duration mapping
+  const durationMap: Record<TransitionSpeed, string> = {
+    fast: 'duration-300',
+    normal: 'duration-500',
+    slow: 'duration-800',
+    off: 'duration-0',
+  };
 
-  if (isVisible) {
-    return `${baseClasses} animate-${animation}`;
+  const duration = speed ? durationMap[speed] : 'duration-500';
+  const baseClasses = `transition-all ${duration} ease-out`;
+
+  if (speed === 'off') {
+    return 'opacity-100'; // No animation
   }
 
-  return `${baseClasses} opacity-0 transform ${
-    animation === 'fade-in-up' ? 'translate-y-8' :
-    animation === 'slide-in-left' ? '-translate-x-8' :
-    animation === 'slide-in-right' ? 'translate-x-8' :
-    ''
-  }`;
+  if (isVisible) {
+    // Apply animation based on style
+    switch (style) {
+      case 'slide':
+        return `${baseClasses} opacity-100 translate-x-0`;
+      case 'scale':
+        return `${baseClasses} opacity-100 scale-100`;
+      case 'blur-morph':
+        return `${baseClasses} opacity-100 blur-0 scale-100`;
+      case 'clip-reveal':
+        return `${baseClasses} opacity-100`;
+      case 'fade-up':
+      default:
+        return `${baseClasses} opacity-100 translate-y-0`;
+    }
+  }
+
+  // Initial hidden state based on animation style
+  switch (style) {
+    case 'slide':
+      return `${baseClasses} opacity-0 -translate-x-8`;
+    case 'scale':
+      return `${baseClasses} opacity-0 scale-95`;
+    case 'blur-morph':
+      return `${baseClasses} opacity-0 blur-sm scale-95`;
+    case 'clip-reveal':
+      return `${baseClasses} opacity-0 clip-path-0`;
+    case 'fade-up':
+    default:
+      return `${baseClasses} opacity-0 translate-y-8`;
+  }
+};
+
+/**
+ * Hook to use animation with effects context
+ */
+export const useAnimationWithEffects = () => {
+  const { settings } = useEffects();
+  return {
+    animationStyle: settings.animationStyle,
+    transitionSpeed: settings.transitionSpeed,
+    getClasses: (isVisible: boolean) =>
+      getAnimationClasses(isVisible, settings.animationStyle, settings.transitionSpeed),
+  };
 };
 
 export default useScrollAnimation;

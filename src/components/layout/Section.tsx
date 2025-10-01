@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useScrollAnimation, getAnimationClasses } from '../../hooks/useScrollAnimation';
+import { useScrollAnimation, getAnimationClasses, useAnimationWithEffects } from '../../hooks/useScrollAnimation';
 
 interface SectionProps {
     id: string;
@@ -23,9 +23,13 @@ const Section: React.FC<SectionProps> = ({ id, setRef, className = '', children 
     };
     const sectionColorClass = sectionColorMap[id] || '';
 
+    // Get user animation preferences
+    const { getClasses } = useAnimationWithEffects();
+
     // Scroll animation
     const { elementRef, isVisible } = useScrollAnimation({
-        threshold: 0.1,
+        threshold: 0.05,
+        rootMargin: '0px 0px 50px 0px',
         triggerOnce: true
     });
 
@@ -42,7 +46,7 @@ const Section: React.FC<SectionProps> = ({ id, setRef, className = '', children 
             className={`min-h-screen w-full flex items-center justify-center ${paddingClass} ${className} ${sectionColorClass} ${isAboutSection ? 'bg-gradient-to-b from-brand-dark via-brand-dark to-gray-900' : ''}`}
             data-section={id}
         >
-            <div className={`container mx-auto px-6 ${getAnimationClasses(isVisible)}`}>
+            <div className={`container mx-auto px-6 ${getClasses(isVisible)}`}>
                 {children}
             </div>
         </section>
@@ -50,6 +54,7 @@ const Section: React.FC<SectionProps> = ({ id, setRef, className = '', children 
 };
 
 export const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const { getClasses } = useAnimationWithEffects();
     const { elementRef, isVisible } = useScrollAnimation({
         threshold: 0.5,
         triggerOnce: true
@@ -58,7 +63,7 @@ export const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children
     return (
         <h2
             ref={elementRef as React.RefObject<HTMLHeadingElement>}
-            className={`text-4xl md:text-5xl font-bold text-center mb-12 lg:mb-16 text-gradient-violet ${getAnimationClasses(isVisible)}`}
+            className={`text-4xl md:text-5xl font-bold text-center mb-12 lg:mb-16 text-gradient-violet ${getClasses(isVisible)}`}
         >
             <span className="text-gradient-orange">/</span> {children}
         </h2>

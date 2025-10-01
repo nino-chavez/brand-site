@@ -14,6 +14,8 @@ import ScrollProgress from './components/effects/ScrollProgress';
 import ConsoleEasterEgg from './components/effects/ConsoleEasterEgg';
 import SectionAmbientLighting from './components/effects/SectionAmbientLighting';
 import FilmMode from './components/effects/FilmMode';
+import EffectsPanel from './components/effects/EffectsPanel';
+import { EffectsProvider } from './contexts/EffectsContext';
 
 const App: React.FC = () => {
     const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas'>('traditional');
@@ -97,6 +99,7 @@ const App: React.FC = () => {
                         <ConsoleEasterEgg />
                         <SectionAmbientLighting />
                         <FilmMode />
+                        <EffectsPanel />
 
                         <div className="bg-brand-dark text-brand-light font-sans antialiased overflow-hidden h-screen">
                             <BackgroundEffects />
@@ -204,8 +207,9 @@ const App: React.FC = () => {
 
     // Traditional Layout Mode (default)
     return (
-        <AthleticTokenProvider>
-            <UnifiedGameFlowProvider
+        <EffectsProvider>
+            <AthleticTokenProvider>
+                <UnifiedGameFlowProvider
                 initialSection="capture"
                 performanceMode={performanceMode}
                 debugMode={debugMode}
@@ -289,6 +293,7 @@ const App: React.FC = () => {
                 </CanvasStateProvider>
             </UnifiedGameFlowProvider>
         </AthleticTokenProvider>
+        </EffectsProvider>
     );
 };
 
