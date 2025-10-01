@@ -8,7 +8,7 @@
  * @since WOW Factor Enhancement
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useEffects } from '../../contexts/EffectsContext';
 import type { AnimationStyle, TransitionSpeed, ParallaxIntensity } from '../../contexts/EffectsContext';
 
@@ -16,6 +16,8 @@ export const EffectsPanel: React.FC = () => {
   const { settings, updateSetting, resetToDefaults } = useEffects();
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'motion' | 'effects'>('motion');
+  const panelRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   const animationStyles: Array<{ value: AnimationStyle; label: string; icon: string }> = [
     { value: 'fade-up', label: 'Fade Up', icon: '↑' },
@@ -39,13 +41,70 @@ export const EffectsPanel: React.FC = () => {
     { value: 'off', label: 'Off' },
   ];
 
+  // Focus management when panel opens/closes
+  useEffect(() => {
+    if (isOpen && panelRef.current) {
+      // Focus first focusable element in panel
+      const firstFocusable = panelRef.current.querySelector<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      firstFocusable?.focus();
+    } else if (!isOpen && toggleButtonRef.current) {
+      // Return focus to toggle button when panel closes
+      toggleButtonRef.current.focus();
+    }
+  }, [isOpen]);
+
+  // Keyboard navigation handler
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'Escape':
+        setIsOpen(false);
+        break;
+      case 'ArrowLeft':
+        if (activeTab === 'effects') {
+          e.preventDefault();
+          setActiveTab('motion');
+        }
+        break;
+      case 'ArrowRight':
+        if (activeTab === 'motion') {
+          e.preventDefault();
+          setActiveTab('effects');
+        }
+        break;
+    }
+  };
+
+  // Trap focus within panel when open
+  const handleTabKey = (e: React.KeyboardEvent) => {
+    if (!isOpen || !panelRef.current || e.key !== 'Tab') return;
+
+    const focusableElements = panelRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (e.shiftKey && document.activeElement === firstElement) {
+      e.preventDefault();
+      lastElement?.focus();
+    } else if (!e.shiftKey && document.activeElement === lastElement) {
+      e.preventDefault();
+      firstElement?.focus();
+    }
+  };
+
   return (
     <>
       {/* Toggle Button - Camera Icon */}
       <button
+        ref={toggleButtonRef}
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 border-2 border-white/20 hover:border-brand-violet/50 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-110 group"
-        aria-label="Toggle effects panel"
+        aria-label={isOpen ? "Close effects panel" : "Open effects panel"}
+        aria-expanded={isOpen}
+        aria-controls="effects-panel"
       >
         <span className="text-2xl group-hover:scale-110 transition-transform inline-block">
           📷
@@ -55,7 +114,18 @@ export const EffectsPanel: React.FC = () => {
 
       {/* Effects Panel */}
       {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl overflow-hidden animate-slide-in-up">
+        <div
+          id="effects-panel"
+          ref={panelRef}
+          role="dialog"
+          aria-label="Effects Control Panel"
+          aria-modal="true"
+          onKeyDown={(e) => {
+            handleKeyDown(e);
+            handleTabKey(e);
+          }}
+          className="fixed bottom-24 right-6 z-50 w-80 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl overflow-hidden animate-slide-in-up"
+        >
           {/* Panel Header */}
           <div className="bg-gradient-to-r from-gray-800 to-gray-900 border-b border-white/10 p-4">
             <div className="flex items-center justify-between mb-3">
@@ -73,8 +143,11 @@ export const EffectsPanel: React.FC = () => {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-2">
+            <div className="flex gap-2" role="tablist" aria-label="Effects settings categories">
               <button
+                role="tab"
+                aria-selected={activeTab === 'motion'}
+                aria-controls="motion-panel"
                 onClick={() => setActiveTab('motion')}
                 className={`flex-1 px-3 py-2 rounded text-sm font-medium transition-all ${
                   activeTab === 'motion'
@@ -85,6 +158,9 @@ export const EffectsPanel: React.FC = () => {
                 Motion
               </button>
               <button
+                role="tab"
+                aria-selected={activeTab === 'effects'}
+                aria-controls="effects-panel-content"
                 onClick={() => setActiveTab('effects')}
                 className={`flex-1 px-3 py-2 rounded text-sm font-medium transition-all ${
                   activeTab === 'effects'
@@ -100,7 +176,11 @@ export const EffectsPanel: React.FC = () => {
           {/* Panel Content */}
           <div className="p-4 space-y-4 max-h-96 overflow-y-auto custom-scrollbar">
             {activeTab === 'motion' && (
-              <>
+              <div
+                id="motion-panel"
+                role="tabpanel"
+                aria-labelledby="motion-tab"
+              >
                 {/* Animation Style */}
                 <div>
                   <label className="block text-gray-400 text-xs uppercase tracking-wider mb-2">
@@ -167,11 +247,15 @@ export const EffectsPanel: React.FC = () => {
                     ))}
                   </div>
                 </div>
-              </>
+              </div>
             )}
 
             {activeTab === 'effects' && (
-              <>
+              <div
+                id="effects-panel-content"
+                role="tabpanel"
+                aria-labelledby="effects-tab"
+              >
                 {/* Toggle Effects */}
                 <div className="space-y-3">
                   {[
@@ -184,6 +268,9 @@ export const EffectsPanel: React.FC = () => {
                       key={effect.key}
                       onClick={() => updateSetting(effect.key as keyof typeof settings, !settings[effect.key as keyof typeof settings])}
                       className="w-full bg-gray-800 hover:bg-gray-700 rounded p-3 text-left transition-all group"
+                      role="switch"
+                      aria-checked={settings[effect.key as keyof typeof settings] as boolean}
+                      aria-label={`${effect.label}: ${settings[effect.key as keyof typeof settings] ? 'enabled' : 'disabled'}`}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
@@ -212,7 +299,7 @@ export const EffectsPanel: React.FC = () => {
                     </button>
                   ))}
                 </div>
-              </>
+              </div>
             )}
           </div>
 
