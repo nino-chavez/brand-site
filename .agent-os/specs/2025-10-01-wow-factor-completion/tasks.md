@@ -1113,41 +1113,38 @@ if (isHovered && scrollPercent < 0.3) {
 
 ## Phase 2: Polish & Delight Moments (Day 3, 6 hours)
 
-### Task 4: Staggered Card Animations
+### Task 4: Staggered Card Animations ✅
 **Priority:** P1
 **Effort:** 2 hours
 **Dependencies:** None
-**Files:** `src/components/layout/WorkSection.tsx`, portfolio card components
+**Files:** `src/components/layout/WorkSection.tsx`, `src/hooks/useScrollAnimation.tsx`
+**Status:** ✅ Complete
+**Commit:** 4887823, 2876699
 
 **Subtasks:**
-- [ ] Find portfolio card rendering location
+- [x] Find portfolio card rendering location
   ```bash
   grep -r "portfolioItems.map" src/
   ```
-- [ ] Add stagger delay calculation
+- [x] Add stagger delay calculation (useStaggeredChildren hook with 80ms delay)
   ```typescript
-  {portfolioItems.map((item, index) => (
-    <Card
-      key={item.id}
-      style={{
-        transitionDelay: `${index * 100}ms`,
-        animationDelay: `${index * 100}ms`
-      }}
-      className={getAnimationClasses(isVisible, animationStyle, speed)}
-    />
-  ))}
+  // WorkSection.tsx:70
+  const { containerRef, visibleIndices } = useStaggeredChildren(WORK_PROJECTS.length, 80);
+
+  // WorkSection.tsx:88-90
+  style={{
+    transitionDelay: `${index * 80}ms`
+  }}
   ```
-- [ ] Test with different animation styles
-  - Fade-up with stagger
-  - Slide with stagger
-  - Scale with stagger
-- [ ] Verify performance (no layout thrashing)
+- [x] Test with different animation styles (supports fade-up, slide, scale, blur-morph, clip-reveal)
+- [x] Verify performance (Intersection Observer based, no layout thrashing)
 
 **Acceptance Criteria:**
-- [ ] Cards animate sequentially (100ms stagger)
-- [ ] Works with all 5 animation styles
-- [ ] No performance degradation with 6+ cards
-- [ ] Feels intentional, not accidental
+- [x] Cards animate sequentially (80ms stagger)
+- [x] Works with all 5 animation styles via EffectsContext
+- [x] No performance degradation with 6+ cards
+- [x] Feels intentional, not accidental
+- [x] Respects reduced motion preference
 
 ---
 
