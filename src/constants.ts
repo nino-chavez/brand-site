@@ -70,13 +70,48 @@ export const SOCIAL_LINKS: SocialLink[] = [
     { name: 'Email', url: 'mailto:email@example.com', icon: MailIcon },
 ];
 
-export const GALLERY_IMAGES: { src: string; alt: string }[] = [
-    { src: 'https://picsum.photos/seed/gallery1/800/600', alt: 'Volleyball player spiking a ball' },
-    { src: 'https://picsum.photos/seed/gallery2/600/800', alt: 'Athlete celebrating a point' },
-    { src: 'https://picsum.photos/seed/gallery3/800/600', alt: 'A dramatic dive for the ball' },
-    { src: 'https://picsum.photos/seed/gallery4/800/600', alt: 'Team huddle during a timeout' },
-    { src: 'https://picsum.photos/seed/gallery5/600/800', alt: 'Close-up of a volleyball serve' },
-    { src: 'https://picsum.photos/seed/gallery6/800/600', alt: 'Wide shot of a volleyball court in action' },
+// Import gallery metadata from JSON file
+import galleryMetadata from '../public/data/gallery-metadata.json';
+
+// Type for gallery image from metadata
+export interface GalleryImage {
+    id: string;
+    filename: string;
+    alt: string;
+    categories: string[];
+    urls: {
+        thumbnail: string;
+        preview: string;
+        full: string;
+        fallback: string;
+    };
+    metadata: {
+        camera: string;
+        lens: string;
+        iso: number;
+        aperture: string;
+        shutterSpeed: string;
+        focalLength: string;
+        dateTaken: string;
+        location: string;
+        projectContext: string;
+        tags: string[];
+        processingNotes?: string;
+    };
+    displayOrder: number;
+    isFeatured: boolean;
+}
+
+// Export gallery images from metadata
+export const GALLERY_IMAGES: GalleryImage[] = galleryMetadata.images;
+
+// Export gallery categories
+export const GALLERY_CATEGORIES = [
+    { id: 'all', label: 'All', icon: '📷' },
+    { id: 'action-sports', label: 'Action Sports', icon: '🏐' },
+    { id: 'volleyball', label: 'Volleyball', icon: '🏐' },
+    { id: 'surfing', label: 'Surfing', icon: '🏄' },
+    { id: 'skateboarding', label: 'Skateboarding', icon: '🛹' },
 ];
 
 // Hero Viewfinder Configuration
