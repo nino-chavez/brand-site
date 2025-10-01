@@ -34,7 +34,7 @@ export function TechnicalHUD({
     // Display labels provide user-friendly navigation names
     const hudSections = [
         {
-            id: 'hero' as SectionId,
+            id: 'capture' as SectionId,
             label: 'HOME',
             metric: 'Load Time: 0.8s',
             description: 'Portfolio entry point'

@@ -24,69 +24,72 @@ import { useContentTokens } from '../../../tokens/content-utils';
  */
 const ABOUT_CONTENT = {
   [ContentLevel.PREVIEW]: {
-    title: "About Me",
-    summary: "Enterprise Architect & AI Developer",
+    title: "Finding the Signal in the Noise",
+    summary: "Enterprise Architect & Technical Leader",
     paragraphs: [
-      "Building scalable systems and exploring AI frontiers."
+      "Transforming complex business challenges into elegant, scalable solutions serving millions."
     ],
-    skills: ["Architecture", "AI", "Photography"],
+    skills: ["Enterprise Architecture", "Technical Leadership", "Systems Thinking"],
     readingTime: "30 sec"
   },
   [ContentLevel.SUMMARY]: {
-    title: "About Me",
-    summary: "Enterprise Architect, Managing Consultant & AI Developer",
+    title: "Finding the Signal in the Noise",
+    summary: "Enterprise Architect & Technical Leader",
     paragraphs: [
-      "I'm an Enterprise Architect and Managing Consultant with a passion for software engineering. I help businesses navigate complex digital transformations through strategic thinking and hands-on implementation.",
-      "Beyond code, I'm an action sports photographer specializing in volleyball, bringing creative perspective to technical work."
+      "I'm Nino Chavez, an Enterprise Architect who transforms complex business challenges into elegant, scalable solutions serving millions of users daily.",
+      "I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending pattern—I focus on the stage: the entire system of ownership, scope, and second-order effects where ideas must actually live."
     ],
     skills: [
       "Enterprise Architecture",
-      "Digital Transformation",
-      "Generative AI",
-      "Action Sports Photography",
-      "Software Engineering"
+      "Technical Leadership",
+      "Multi-Cloud Platforms",
+      "AI Governance",
+      "Decision Hygiene"
     ],
     readingTime: "1 min"
   },
   [ContentLevel.DETAILED]: {
-    title: "About Me",
-    summary: "Enterprise Architect, Managing Consultant & Generative AI Developer",
+    title: "Finding the Signal in the Noise",
+    summary: "20+ years architecting enterprise systems serving 50M+ users",
     paragraphs: [
-      "I'm an Enterprise Architect and Managing Consultant with a deep-rooted passion for software engineering. My career is a blend of high-level strategic thinking and hands-on technical implementation, helping businesses navigate complex digital transformations. I thrive on architecting scalable, resilient systems that drive innovation.",
-      "Beyond the world of code and cloud, I'm an avid action sports photographer, specializing in volleyball. This creative outlet sharpens my eye for detail and timing, skills that surprisingly translate back to my technical work. Capturing the peak of the action is a challenge I relish.",
-      "Recently, I've dived headfirst into the realm of Generative AI, applying agentic development principles to build smarter, more autonomous software. This website is a testament to that exploration, a launchpad for both my professional and creative endeavors."
+      "I'm Nino Chavez, an Enterprise Architect and Technical Leader who transforms complex business challenges into elegant, scalable solutions that serve millions of users daily.",
+      "I architect resilient systems that enable people and businesses to thrive. From leading 100+ person engineering teams to migrating Fortune 500 legacy infrastructure to multi-cloud platforms, my value lies in providing clarity when the stakes are high and the path forward isn't obvious.",
+      "My specialty is \"reading the road\"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on. I practice rigorous decision hygiene: understanding the full operational context before making a move.",
+      "Leadership, for me, is \"living in the gap\"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but together."
     ],
     skills: [
       "Enterprise Architecture & Strategy",
-      "Cloud-Native System Design",
-      "Digital Transformation Leadership",
-      "Generative AI & Agentic Development",
-      "Software Engineering Excellence",
-      "Action Sports Photography",
-      "Technical Consulting & Management"
+      "Fortune 500 Digital Transformation",
+      "Multi-Cloud Infrastructure Migration",
+      "AI Governance Frameworks",
+      "Technical Leadership (100+ Teams)",
+      "Pattern Recognition & Translation",
+      "Decision Hygiene & Systems Thinking",
+      "Event-Driven Architecture"
     ],
     readingTime: "2 min"
   },
   [ContentLevel.TECHNICAL]: {
-    title: "About Me - Technical Deep Dive",
-    summary: "Enterprise Architect, Managing Consultant & AI Research Developer",
+    title: "Finding the Signal in the Noise - Technical Deep Dive",
+    summary: "Enterprise Architect specializing in resilient, observable systems at scale",
     paragraphs: [
-      "I'm an Enterprise Architect and Managing Consultant with a deep-rooted passion for software engineering. My career spans architecting microservices ecosystems, implementing event-driven architectures, and leading digital transformation initiatives across Fortune 500 companies. I specialize in designing fault-tolerant, observable systems using cloud-native patterns and DevOps methodologies.",
-      "My action sports photography practice, particularly in volleyball, has developed my understanding of motion dynamics, timing precision, and visual composition. This translates directly to my technical work through improved system timing analysis, performance optimization, and user experience design. The discipline required to capture millisecond-perfect moments parallels the precision needed in distributed system design.",
-      "My current focus is on Generative AI and agentic development, where I'm exploring autonomous system architectures, LLM integration patterns, and AI-assisted development workflows. This website showcases advanced prompt engineering, multi-agent systems, and reactive UI patterns. I'm particularly interested in the intersection of traditional enterprise architecture and AI-driven automation.",
-      "Technical specializations include TypeScript/React ecosystems, Python AI/ML pipelines, cloud infrastructure (AWS/Azure), containerization strategies, and modern CI/CD practices. I'm also exploring edge computing, real-time data processing, and the emerging field of AI operations (AIOps)."
+      "I'm Nino Chavez, an Enterprise Architect with 20+ years architecting systems serving 50M+ users daily. I specialize in transforming complex business challenges into fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
+      "Recent engagements: Reduced cloud infrastructure costs 40% while improving performance for a Fortune 500 retailer. Designed AI governance frameworks for regulated industries. Migrated legacy monoliths to event-driven architectures without service interruption.",
+      "My approach focuses on second-order effects and decision hygiene. I don't chase trends—I ask foundational questions: Who checks the foundation? What's the entire stage this idea must live on? How do we build systems that enable people to thrive, not just survive?",
+      "On AI: Infrastructure, not magic. While others debate whether AI will replace developers, I'm building the governance and architecture patterns that make AI reliable in production. The human role has evolved from coder to architect, from syntax to systems.",
+      "My action sports photography practice has honed precision under pressure. Capturing a perfect volleyball spike at 1/2000th of a second requires the same discipline as designing systems that can't fail. Both demand knowing exactly where to focus when milliseconds matter."
     ],
     skills: [
       "Enterprise Architecture & Microservices Design",
-      "Cloud Infrastructure & DevOps (AWS, Azure, Kubernetes)",
-      "Generative AI & Large Language Model Integration",
       "Event-Driven Architecture & Real-Time Systems",
-      "TypeScript/React & Full-Stack Development",
-      "Python AI/ML Pipeline Development",
-      "Digital Transformation & Technology Strategy",
-      "Action Sports Photography & Motion Analysis",
-      "Performance Engineering & System Optimization",
-      "Distributed Systems & Fault Tolerance Design"
+      "Multi-Cloud Infrastructure (AWS, Azure, GCP)",
+      "AI Governance & Production Reliability Patterns",
+      "Fault-Tolerant, Observable Systems Design",
+      "Technical Leadership & Team Transformation",
+      "Cost Optimization at Scale (40%+ reductions)",
+      "Legacy Migration Without Service Interruption",
+      "Strategic Technical Translation for Executives",
+      "Decision Hygiene & Systems Thinking"
     ],
     readingTime: "3 min"
   }

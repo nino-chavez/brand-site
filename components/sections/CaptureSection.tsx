@@ -1,6 +1,7 @@
 import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'react';
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
+import { useMagneticEffect } from '../../src/hooks/useMagneticEffect';
 
 interface CaptureSectionProps {
   active: boolean;
@@ -34,6 +35,10 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   // Mouse tracking for subtle interactions
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Magnetic button effects
+  const viewWorkButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.4, radius: 100 });
+  const contactButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.3, radius: 90 });
 
   // Camera readiness sequence
   useEffect(() => {
@@ -227,8 +232,13 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             data-testid="primary-cta"
           >
             <button
+              ref={viewWorkButtonRef}
               onClick={handleViewWorkCTA}
-              className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-10 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30 border border-white/20 backdrop-blur-sm active:scale-95"
+              className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-10 py-4 rounded-xl border border-white/20 backdrop-blur-sm"
+              style={{
+                transition: 'background-color 300ms, box-shadow 300ms, border-color 300ms',
+                willChange: 'transform'
+              }}
               data-testid="view-work-cta"
             >
               <span className="flex items-center justify-center space-x-2">
@@ -245,8 +255,13 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             </button>
 
             <button
+              ref={contactButtonRef}
               onClick={handlePrimaryCTA}
-              className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-10 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:border-white/60 hover:shadow-xl active:scale-95"
+              className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-10 py-4 rounded-xl hover:bg-white/20 hover:border-white/60"
+              style={{
+                transition: 'background-color 300ms, box-shadow 300ms, border-color 300ms',
+                willChange: 'transform'
+              }}
             >
               <span className="flex items-center justify-center space-x-2">
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">

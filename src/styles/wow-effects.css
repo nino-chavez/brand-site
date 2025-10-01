@@ -51,7 +51,39 @@ body.custom-cursor-active * {
    ======================================== */
 .btn-magnetic {
   position: relative;
-  transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Transform controlled by JavaScript, not CSS */
+  transition: background-color 300ms, box-shadow 300ms, border-color 300ms;
+  will-change: transform;
+}
+
+/* Magnetic button boundary indicator */
+.btn-magnetic::before {
+  content: '';
+  position: absolute;
+  inset: -80px; /* Matches default magnetic radius */
+  border: 2px dashed transparent;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms, border-color 200ms;
+}
+
+/* Show boundary on hover for discoverability */
+.btn-magnetic[data-magnetic-active="true"]::before {
+  border-color: rgba(139, 92, 246, 0.2);
+  opacity: 1;
+  animation: magnetic-pulse 2s infinite;
+}
+
+@keyframes magnetic-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.3;
+  }
 }
 
 /* ========================================

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Magnetic Effect Test</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: system-ui;
+        }
+
+        .test-container {
+            text-align: center;
+        }
+
+        .status {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .test-button {
+            background: #8b5cf6;
+            color: white;
+            padding: 16px 40px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+
+            /* Fixed transition - no transform */
+            transition: background-color 300ms, box-shadow 300ms, border-color 300ms;
+        }
+
+        .test-button:hover {
+            background: #7c3aed;
+        }
+
+        /* Visual magnetic radius indicator */
+        .magnetic-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 2px dashed rgba(139, 92, 246, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 200ms;
+        }
+
+        .magnetic-indicator.active {
+            opacity: 1;
+        }
+
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="status">
+            <p>Move your cursor near the button to test magnetic effect</p>
+            <p>Expected: Button should move toward cursor and scale up</p>
+        </div>
+
+        <button id="testButton" class="test-button">
+            Test Magnetic Button
+            <div class="magnetic-indicator" id="indicator"></div>
+        </button>
+    </div>
+
+    <div class="debug-info" id="debug">
+        Distance: <span id="distance">N/A</span>px<br>
+        Transform: <span id="transform">none</span><br>
+        In Zone: <span id="inZone">false</span>
+    </div>
+
+    <script>
+        const button = document.getElementById('testButton');
+        const indicator = document.getElementById('indicator');
+        const debugDistance = document.getElementById('distance');
+        const debugTransform = document.getElementById('transform');
+        const debugInZone = document.getElementById('inZone');
+
+        const RADIUS = 100;
+        const STRENGTH = 0.4;
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const distanceX = e.clientX - centerX;
+            const distanceY = e.clientY - centerY;
+            const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+
+            // Update debug info
+            debugDistance.textContent = Math.round(distance);
+
+            if (distance < RADIUS) {
+                const pullX = (distanceX / RADIUS) * STRENGTH * 40;
+                const pullY = (distanceY / RADIUS) * STRENGTH * 40;
+                const scale = 1 + (1 - distance / RADIUS) * 0.05;
+
+                const transformValue = `translate(${pullX.toFixed(2)}px, ${pullY.toFixed(2)}px) scale(${scale.toFixed(3)})`;
+                button.style.transform = transformValue;
+
+                // Glow effect
+                const glowIntensity = 0.4 * (1 - distance / RADIUS);
+                button.style.boxShadow = `0 8px 32px rgba(139, 92, 246, ${glowIntensity})`;
+
+                indicator.classList.add('active');
+                debugTransform.textContent = transformValue;
+                debugInZone.textContent = 'true';
+                debugInZone.style.color = '#0f0';
+            } else {
+                button.style.transform = '';
+                button.style.boxShadow = '';
+                indicator.classList.remove('active');
+                debugTransform.textContent = 'none';
+                debugInZone.textContent = 'false';
+                debugInZone.style.color = '#f00';
+            }
+        });
+
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = '';
+            button.style.boxShadow = '';
+            indicator.classList.remove('active');
+            debugTransform.textContent = 'none';
+            debugInZone.textContent = 'false';
+            debugInZone.style.color = '#f00';
+        });
+
+        console.log('Magnetic effect test loaded. Move cursor near button to test.');
+    </script>
+</body>
+</html>

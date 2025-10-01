@@ -235,45 +235,58 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                 contactReady ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
               }`}
             >
-              <h3 className="text-3xl font-bold text-white mb-8">Let's Start Something Great</h3>
+              <div className="mb-8">
+                <h3 className="text-4xl font-bold text-white mb-3 leading-tight">Let's Build<br/>Something Exceptional</h3>
+                <p className="text-lg text-white/70">Serious inquiries receive responses within 48 hours</p>
+              </div>
 
-              <div className="space-y-4 mb-8">
+              <div className="space-y-3 mb-8">
                 {contactMethods.map((method) => (
                   <button
                     key={method.type}
                     onClick={() => handleContactMethodSelect(method.type)}
-                    className={`w-full p-6 text-left bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-xl group ${
-                      method.primary ? 'ring-2 ring-athletic-brand-violet/50' : ''
+                    className={`w-full p-5 text-left bg-gradient-to-r from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl hover:from-white/10 hover:to-white/5 hover:border-athletic-brand-violet/40 transition-all duration-300 hover:translate-x-1 group ${
+                      method.primary ? 'ring-1 ring-athletic-brand-violet/30 shadow-lg shadow-purple-500/10' : ''
                     }`}
                     data-testid={`${method.type}-contact`}
                   >
-                    <div className="flex items-center space-x-4">
-                      <div className="text-3xl">{method.icon}</div>
-                      <div>
-                        <div className="text-lg font-semibold text-white group-hover:text-athletic-brand-violet transition-colors">
-                          {method.label}
-                          {method.primary && (
-                            <span className="ml-2 px-2 py-1 text-xs bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-full">
-                              Recommended
-                            </span>
-                          )}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className="text-2xl group-hover:scale-110 transition-transform">{method.icon}</div>
+                        <div>
+                          <div className="text-base font-semibold text-white group-hover:text-athletic-brand-violet transition-colors flex items-center gap-2">
+                            {method.label}
+                            {method.primary && (
+                              <span className="px-2 py-0.5 text-xs bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-full font-medium">
+                                Preferred
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-sm text-white/50 mt-0.5">{method.value}</div>
                         </div>
-                        <div className="text-white/60">{method.value}</div>
                       </div>
+                      <svg
+                        className="w-5 h-5 text-white/30 group-hover:text-athletic-brand-violet group-hover:translate-x-1 transition-all"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
                     </div>
                   </button>
                 ))}
               </div>
 
-              {/* Quick stats */}
-              <div className="grid grid-cols-2 gap-4 text-center">
-                <div className="p-4 bg-white/5 rounded-xl">
-                  <div className="text-2xl font-bold text-green-400">&lt; 24hrs</div>
-                  <div className="text-sm text-white/60">Response Time</div>
+              {/* Quick stats - More modern card design */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-xl">
+                  <div className="text-2xl font-bold text-green-400 mb-1">&lt; 48hrs</div>
+                  <div className="text-xs text-white/60 uppercase tracking-wide">Response Time</div>
                 </div>
-                <div className="p-4 bg-white/5 rounded-xl">
-                  <div className="text-2xl font-bold text-blue-400">100%</div>
-                  <div className="text-sm text-white/60">Consultation Rate</div>
+                <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-xl">
+                  <div className="text-2xl font-bold text-blue-400 mb-1">99.9%</div>
+                  <div className="text-xs text-white/60 uppercase tracking-wide">Satisfaction</div>
                 </div>
               </div>
             </div>
@@ -284,15 +297,16 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                 contactReady ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
               }`}
             >
-              <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 clean-completion match-end">
-                <form onSubmit={handleQuickContact} className="space-y-6" data-testid="contact-form">
-                  <div>
-                    <h4 className="text-xl font-semibold text-white mb-6">Quick Contact</h4>
+              <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl shadow-black/20">
+                <form onSubmit={handleQuickContact} className="space-y-5" data-testid="contact-form">
+                  <div className="mb-6">
+                    <h4 className="text-2xl font-bold text-white mb-2">Send a Message</h4>
+                    <p className="text-sm text-white/60">All fields are required</p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2">
+                      <label htmlFor="name" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
                         Name
                       </label>
                       <input
@@ -300,12 +314,12 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                         id="name"
                         name="name"
                         required
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-athletic-brand-violet focus:border-transparent"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
                         placeholder="Your name"
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-white/80 mb-2">
+                      <label htmlFor="email" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
                         Email
                       </label>
                       <input
@@ -313,24 +327,25 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                         id="email"
                         name="email"
                         required
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-athletic-brand-violet focus:border-transparent"
-                        placeholder="your.email@company.com"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
+                        placeholder="you@company.com"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="inquiry-type" className="block text-sm font-medium text-white/80 mb-2">
-                      Inquiry Type
+                    <label htmlFor="inquiry-type" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
+                      What are you interested in?
                     </label>
                     <select
                       id="inquiry-type"
                       name="inquiry-type"
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-athletic-brand-violet focus:border-transparent"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
                     >
                       <option value="architecture">Enterprise Architecture</option>
                       <option value="consulting">Technical Consulting</option>
                       <option value="leadership">Engineering Leadership</option>
+                      <option value="ai">AI Strategy & Implementation</option>
                       <option value="photography">Action Sports Photography</option>
                       <option value="speaking">Speaking Engagement</option>
                       <option value="other">Other</option>
@@ -338,36 +353,41 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-white/80 mb-2">
-                      Message
+                    <label htmlFor="message" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
+                      Project Details
                     </label>
                     <textarea
                       id="message"
                       name="message"
-                      rows={4}
+                      rows={5}
                       required
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-athletic-brand-violet focus:border-transparent resize-none"
-                      placeholder="Tell me about your project or opportunity..."
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all resize-none"
+                      placeholder="Tell me about your challenge, timeline, and what you're looking to achieve..."
                     />
                   </div>
 
-                  {/* Clear CTAs for collaboration */}
-                  <div className="space-y-3">
+                  {/* Modern CTAs */}
+                  <div className="space-y-3 pt-2">
                     <button
                       type="submit"
-                      className="w-full bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/30 unambiguous"
+                      className="w-full bg-gradient-to-r from-athletic-brand-violet to-purple-600 hover:from-purple-600 hover:to-athletic-brand-violet text-white font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 active:scale-[0.98] group"
                       data-testid="collaboration-cta"
                     >
-                      Start Collaboration
+                      <span className="flex items-center justify-center gap-2">
+                        <span className="uppercase tracking-wide text-sm">Send Message</span>
+                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </span>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => handleContactMethodSelect('calendar')}
-                      className="w-full bg-white/10 backdrop-blur-sm border-2 border-white/20 text-white font-bold py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:border-white/40"
+                      className="w-full bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-white font-semibold py-3 rounded-lg transition-all duration-300 active:scale-[0.98] text-sm"
                       data-testid="consultation-cta"
                     >
-                      Schedule Consultation
+                      Or schedule a 30-min consultation →
                     </button>
                   </div>
                 </form>

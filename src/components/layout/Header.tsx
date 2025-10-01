@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                 <div className="flex justify-between items-center">
                     {/* Logo - Enhanced with gradient on hover */}
                     <button
-                        onClick={() => onNavigate?.('hero')}
+                        onClick={() => onNavigate?.('capture')}
                         className="
                             text-2xl font-bold tracking-wider
                             transition-all duration-200 ease-out

@@ -195,29 +195,29 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
               <div className="mb-6">
                 <div className="text-sm text-white/60 uppercase tracking-wider mb-2">About</div>
                 <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
-                  Precision in
-                  <span className="block text-athletic-brand-violet">Focus</span>
+                  Finding the Signal
+                  <span className="block text-athletic-brand-violet">in the Noise</span>
                 </h2>
+                <p className="text-lg text-white/70 mt-4 leading-relaxed">
+                  I've architected enterprise systems serving 50M+ users and led 100+ person engineering teams through critical transformations. Excellence comes from knowing where to focus when complexity threatens to overwhelm.
+                </p>
               </div>
 
               <div className="prose prose-lg prose-invert max-w-none">
                 <p className="text-xl text-white/90 leading-relaxed mb-6">
-                  Twenty years of architecting enterprise systems has taught me that excellence
-                  isn't just about the final product—it's about the precision of focus throughout
-                  the entire process.
+                  I'm Nino Chavez, an Enterprise Architect and Technical Leader who transforms complex business challenges into elegant, scalable solutions that serve millions of users daily.
                 </p>
 
                 <p className="text-lg text-white/80 leading-relaxed mb-6">
-                  From leading 100+ person engineering teams to capturing the decisive moment
-                  in action sports, I've learned that success requires the same fundamental skill:
-                  <strong className="text-white font-semibold"> knowing exactly where to focus your attention</strong>.
+                  My approach is simple: I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: <strong className="text-white font-semibold">the entire system of ownership, scope, and second-order effects where ideas must actually live</strong>.
+                </p>
+
+                <p className="text-lg text-white/80 leading-relaxed mb-6">
+                  I architect resilient systems that enable people and businesses to thrive. My specialty is "reading the road"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on.
                 </p>
 
                 <p className="text-lg text-white/80 leading-relaxed">
-                  In software architecture, this means identifying the critical system constraints
-                  before they become problems. In photography, it means anticipating the moment
-                  before it happens. In both worlds,
-                  <strong className="text-athletic-brand-violet"> precision beats perfection</strong>.
+                  Leadership, for me, is "living in the gap"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but <strong className="text-athletic-brand-violet">together</strong>.
                 </p>
               </div>
 

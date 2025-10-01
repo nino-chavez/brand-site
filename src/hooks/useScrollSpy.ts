@@ -99,7 +99,7 @@ const useScrollSpy = (
 
         // Set initial active section on page load
         if (!hasInitialized) {
-            const initialSection = getCurrentSection() || 'hero';
+            const initialSection = getCurrentSection() || 'capture';
             setActiveSection(initialSection);
             setHasInitialized(true);
 

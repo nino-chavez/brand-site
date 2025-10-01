@@ -24,14 +24,39 @@ export const useMagneticEffect = <T extends HTMLElement>(
 
   useEffect(() => {
     const element = elementRef.current;
-    if (!element) return;
+    if (!element) {
+      console.warn('[MagneticEffect] Element ref not attached');
+      return;
+    }
 
     // Check for reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion) {
+      console.info('[MagneticEffect] Disabled due to reduced motion preference');
+      return;
+    }
 
     // Don't apply on touch devices
-    if ('ontouchstart' in window) return;
+    if ('ontouchstart' in window) {
+      console.info('[MagneticEffect] Disabled on touch device');
+      return;
+    }
+
+    // Add data attribute for testing
+    element.setAttribute('data-magnetic', 'true');
+    element.setAttribute('data-magnetic-radius', radius.toString());
+    element.setAttribute('data-magnetic-strength', strength.toString());
+
+    // Store original transition and ensure transform isn't transitioned
+    const originalTransition = element.style.transition;
+
+    // Log for debugging
+    console.info('[MagneticEffect] Initialized on element', {
+      element: element.tagName,
+      testId: element.getAttribute('data-testid'),
+      strength,
+      radius
+    });
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = element.getBoundingClientRect();
@@ -45,14 +70,25 @@ export const useMagneticEffect = <T extends HTMLElement>(
       if (distance < radius) {
         const pullX = (distanceX / radius) * strength * 40;
         const pullY = (distanceY / radius) * strength * 40;
-        element.style.transform = `translate(${pullX}px, ${pullY}px) scale(1.05)`;
+        const scale = 1 + (1 - distance / radius) * 0.05; // Dynamic scale based on proximity
+
+        element.style.transform = `translate(${pullX}px, ${pullY}px) scale(${scale})`;
+        element.setAttribute('data-magnetic-active', 'true');
+
+        // Add progressive glow effect when in magnetic zone
+        const glowIntensity = 0.4 * (1 - distance / radius);
+        element.style.boxShadow = `0 8px 32px rgba(139, 92, 246, ${glowIntensity})`;
       } else {
-        element.style.transform = 'translate(0, 0) scale(1)';
+        element.style.transform = '';
+        element.style.boxShadow = '';
+        element.setAttribute('data-magnetic-active', 'false');
       }
     };
 
     const handleMouseLeave = () => {
-      element.style.transform = 'translate(0, 0) scale(1)';
+      element.style.transform = '';
+      element.style.boxShadow = '';
+      element.setAttribute('data-magnetic-active', 'false');
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -61,6 +97,11 @@ export const useMagneticEffect = <T extends HTMLElement>(
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       element.removeEventListener('mouseleave', handleMouseLeave);
+      element.style.transition = originalTransition; // Restore original transition
+      element.removeAttribute('data-magnetic');
+      element.removeAttribute('data-magnetic-active');
+      element.removeAttribute('data-magnetic-radius');
+      element.removeAttribute('data-magnetic-strength');
     };
   }, [strength, radius]);
 

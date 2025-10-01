@@ -113,10 +113,11 @@ const App: React.FC = () => {
 
     // Collect section elements for scroll spy
     // Uses unified SectionId photography metaphor IDs
+    // Note: CaptureSection uses id="capture", not "hero"
     const sectionElements = useMemo(() => {
         if (typeof window === 'undefined') return [];
 
-        return ['hero', 'focus', 'frame', 'exposure', 'develop', 'portfolio']
+        return ['capture', 'focus', 'frame', 'exposure', 'develop', 'portfolio']
             .map(id => document.getElementById(id))
             .filter((el): el is HTMLElement => el !== null);
     }, [layoutMode]); // Re-collect when layout changes
