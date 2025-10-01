@@ -48,9 +48,11 @@ export const ConsoleEasterEgg: React.FC = () => {
 %c"Portfolio" → Showcase results
 
 %cWant to chat about software architecture, design systems, or action sports photography?
-%c📧 nino@ninochavez.com
-%c🔗 linkedin.com/in/ninochavez
-%c🐙 github.com/ninochavez
+%c📧 hello@nino.photos
+%c💼 linkedin.com/in/nino-chavez
+%c🐙 github.com/chavezabelino
+%c📝 blog.nino.photos
+%c📸 gallery.nino.photos
 
 %cP.S. - Try the Konami code for a surprise: %c↑ ↑ ↓ ↓ ← → ← → B A
     `,
@@ -79,6 +81,8 @@ export const ConsoleEasterEgg: React.FC = () => {
       // Contact header
       'color: #f97316; font-size: 14px; font-weight: bold; margin-top: 12px;',
       // Contact items
+      'color: #8b5cf6; font-size: 13px;',
+      'color: #8b5cf6; font-size: 13px;',
       'color: #8b5cf6; font-size: 13px;',
       'color: #8b5cf6; font-size: 13px;',
       'color: #8b5cf6; font-size: 13px;',

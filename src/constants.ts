@@ -63,11 +63,11 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/nino-chavez/', icon: LinkedinIcon },
-    { name: 'GitHub', url: '#', icon: GithubIcon },
+    { name: 'GitHub', url: 'https://github.com/chavezabelino', icon: GithubIcon },
     { name: 'Photography', url: 'https://gallery.nino.photos', icon: CameraIcon },
     { name: 'Blog', url: 'https://blog.nino.photos', icon: BlogIcon },
-    { name: 'Instagram', url: '#', icon: InstagramIcon },
-    { name: 'Email', url: 'mailto:email@example.com', icon: MailIcon },
+    { name: 'Instagram', url: 'https://www.instagram.com/ninochavezphoto/', icon: InstagramIcon },
+    { name: 'Email', url: 'mailto:hello@nino.photos', icon: MailIcon },
 ];
 
 // Import gallery metadata from JSON file

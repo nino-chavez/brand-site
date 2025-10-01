@@ -101,7 +101,7 @@ export const Light: Story = {
   },
 };
 
-export const Camera: Story = {
+export const CameraTheme: Story = {
   args: {
     theme: 'camera',
   },
