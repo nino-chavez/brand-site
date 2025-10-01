@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "./styles/wow-effects.css";
+
 /* Athletic tokens are now defined inline in Tailwind config */
 
 /* Design System v2.0 - Lens & Lightbox Aesthetic */
