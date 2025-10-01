@@ -1,10 +1,10 @@
 # WOW Factor Completion - Task Breakdown
 
 > **Specification:** `2025-10-01-wow-factor-completion`
-> **Total Tasks:** 29 (12 complete, 17 remaining)
-> **Estimated Effort:** 2.75 weeks (68 hours total, 40 hours remaining)
+> **Total Tasks:** 29 (13 complete, 16 remaining)
+> **Estimated Effort:** 2.75 weeks (68 hours total, 36 hours remaining)
 > **Priority:** P0 - CRITICAL (Architecture Debt) → P1 (Production Polish)
-> **Status:** 🟡 IN PROGRESS - 42% Complete (12/29 tasks)
+> **Status:** 🟡 IN PROGRESS - 45% Complete (13/29 tasks)
 
 ## Task Summary
 
@@ -13,13 +13,13 @@
 | Phase -1: Navigation & CTA Fix (CRITICAL) | 3 | 8h | ✅ Complete |
 | Phase -0.5: Content & Copy Polish (CRITICAL) | 6 | 12h | ✅ Complete |
 | Phase -0.25: Content Integration (CRITICAL) | 3 | 8h | ✅ Complete |
-| Phase -0.125: Section ID Architecture (DEBT) | 1 | 4h | ⏸️ Not Started |
+| Phase -0.125: Section ID Architecture (DEBT) | 1 | 4h | ✅ Complete |
 | Phase 0: Gallery Implementation | 3 | 8h | ⏸️ Not Started |
 | Phase 1: Photography Metaphor | 3 | 8h | ⏸️ Not Started |
 | Phase 2: Polish & Delight | 3 | 6h | ⏸️ Not Started |
 | Phase 3: Accessibility | 3 | 6h | ⏸️ Not Started |
 | Phase 4: Performance & Testing | 4 | 8h | ⏸️ Not Started |
-| **TOTAL** | **29** | **68h** | **42% Complete** |
+| **TOTAL** | **29** | **68h** | **45% Complete** |
 
 ---
 

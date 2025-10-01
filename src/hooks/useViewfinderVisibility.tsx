@@ -2,13 +2,15 @@
  * useViewfinderVisibility - Hover + Scroll-based Viewfinder Control
  *
  * Manages viewfinder metadata visibility based on hover state and scroll position.
- * Hidden by default, shows on hover in hero, fades out on scroll.
+ * Hero: Shows on hover (discovery mechanism)
+ * Other sections: Shows when user enables "Viewfinder Mode" via EffectsPanel
  *
- * @version 2.0.0
- * @since WOW Factor UX Improvements
+ * @version 3.0.0
+ * @since WOW Factor UX Improvements - Phase 1
  */
 
 import { useState, useEffect } from 'react';
+import { useEffects } from '../contexts/EffectsContext';
 
 interface ViewfinderVisibility {
   showMetadata: boolean;
@@ -19,6 +21,9 @@ interface ViewfinderVisibility {
 }
 
 export const useViewfinderVisibility = (): ViewfinderVisibility => {
+  const { settings } = useEffects();
+  const viewfinderEnabled = settings.enableViewfinder;
+
   const [visibility, setVisibility] = useState<ViewfinderVisibility>({
     showMetadata: false, // Hidden by default
     showBrackets: true,
@@ -43,8 +48,8 @@ export const useViewfinderVisibility = (): ViewfinderVisibility => {
       const scrollY = window.scrollY;
       const windowHeight = window.innerHeight;
 
-      // Detect current section
-      const sections = ['hero', 'about', 'work', 'contact'];
+      // Detect current section using photography metaphor IDs
+      const sections = ['hero', 'focus', 'frame', 'exposure', 'develop', 'portfolio'];
       let currentSection = 'hero';
 
       sections.forEach((sectionId) => {
@@ -59,24 +64,32 @@ export const useViewfinderVisibility = (): ViewfinderVisibility => {
       });
 
       // Calculate metadata visibility
-      // Show ONLY on hover in hero (before 30% scroll), fade out after
-      const heroElement = document.getElementById('hero');
       let showMetadata = false;
       let opacity = 0;
 
-      if (heroElement) {
-        const heroHeight = heroElement.offsetHeight;
-        const heroScroll = scrollY;
-        const scrollPercent = heroScroll / heroHeight;
+      if (currentSection === 'hero') {
+        // Hero behavior: Show on hover (discovery mechanism)
+        const heroElement = document.getElementById('hero');
+        if (heroElement) {
+          const heroHeight = heroElement.offsetHeight;
+          const heroScroll = scrollY;
+          const scrollPercent = heroScroll / heroHeight;
 
-        // Only show if hovering AND in upper 30% of hero
-        if (isHovered && scrollPercent < 0.3) {
+          // Only show if hovering AND in upper 30% of hero
+          if (isHovered && scrollPercent < 0.3) {
+            showMetadata = true;
+            opacity = 1;
+          } else if (isHovered && scrollPercent < 0.5) {
+            // Fade out from 30% to 50% scroll
+            showMetadata = true;
+            opacity = 1 - ((scrollPercent - 0.3) / 0.2);
+          }
+        }
+      } else {
+        // Other sections: Show if viewfinder is enabled by user
+        if (viewfinderEnabled) {
           showMetadata = true;
           opacity = 1;
-        } else if (isHovered && scrollPercent < 0.5) {
-          // Fade out from 30% to 50% scroll
-          showMetadata = true;
-          opacity = 1 - ((scrollPercent - 0.3) / 0.2);
         }
       }
 
@@ -132,7 +145,7 @@ export const useViewfinderVisibility = (): ViewfinderVisibility => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [viewfinderEnabled]); // Re-run when viewfinder setting changes
 
   return visibility;
 };
