@@ -15,6 +15,7 @@ import ConsoleEasterEgg from './components/effects/ConsoleEasterEgg';
 import SectionAmbientLighting from './components/effects/SectionAmbientLighting';
 import FilmMode from './components/effects/FilmMode';
 import EffectsPanel from './components/effects/EffectsPanel';
+import ViewfinderController from './components/effects/ViewfinderController';
 import { EffectsProvider } from './contexts/EffectsContext';
 
 const App: React.FC = () => {
@@ -100,6 +101,7 @@ const App: React.FC = () => {
                         <SectionAmbientLighting />
                         <FilmMode />
                         <EffectsPanel />
+                        <ViewfinderController />
 
                         <div className="bg-brand-dark text-brand-light font-sans antialiased overflow-hidden h-screen">
                             <BackgroundEffects />

@@ -175,6 +175,7 @@ export const EffectsPanel: React.FC = () => {
                 {/* Toggle Effects */}
                 <div className="space-y-3">
                   {[
+                    { key: 'enableViewfinder', label: 'Viewfinder Mode', icon: '📷', description: 'Camera metadata & brackets' },
                     { key: 'enableMotionBlur', label: 'Motion Blur', icon: '∿', description: 'Subtle blur during transitions' },
                     { key: 'enableParticles', label: 'Particles', icon: '✦', description: 'Floating light particles' },
                     { key: 'enableGlow', label: 'Glow Effects', icon: '◉', description: 'Card and button glows' },

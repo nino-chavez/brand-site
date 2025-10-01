@@ -21,6 +21,7 @@ interface EffectsSettings {
   enableMotionBlur: boolean;
   enableParticles: boolean;
   enableGlow: boolean;
+  enableViewfinder: boolean;
 }
 
 interface EffectsContextType {
@@ -39,6 +40,7 @@ const DEFAULT_SETTINGS: EffectsSettings = {
   enableMotionBlur: false,
   enableParticles: false,
   enableGlow: true,
+  enableViewfinder: true,
 };
 
 const EffectsContext = createContext<EffectsContextType | undefined>(undefined);
