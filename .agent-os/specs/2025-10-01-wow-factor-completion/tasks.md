@@ -23,13 +23,15 @@
 
 ---
 
-## Phase -1: Header Navigation & CTA Button Polish (Day 0, 8 hours) ⚠️ CRITICAL
+## Phase -1: Header Navigation & CTA Button Polish (Day 0, 8 hours) ✅ COMPLETE
 
-### Task -1.1: Wire Navigation Handler in App.tsx
+### Task -1.1: Wire Navigation Handler in App.tsx ✅
 **Priority:** P0 (CRITICAL - Broken Functionality)
 **Effort:** 3 hours
 **Dependencies:** None
 **Files:** `src/App.tsx`, `src/hooks/useScrollSpy.ts`
+**Status:** ✅ Complete
+**Commit:** 2b9f772
 
 **Current Problem:**
 ```typescript
@@ -38,7 +40,7 @@
 ```
 
 **Subtasks:**
-- [ ] Add navigation handler in App.tsx
+- [x] Add navigation handler in App.tsx
   ```typescript
   const handleNavigate = useCallback((sectionId: SectionId) => {
     const element = document.getElementById(sectionId);
@@ -47,7 +49,7 @@
     }
   }, []);
   ```
-- [ ] Integrate useScrollSpy hook
+- [x] Integrate useScrollSpy hook
   ```typescript
   const sectionElements = useMemo(() => {
     return ['hero', 'about', 'work', 'insights', 'gallery', 'reel', 'contact']
@@ -60,32 +62,34 @@
     rootMargin: '-20% 0px -35% 0px'
   });
   ```
-- [ ] Pass props to Header component
+- [x] Pass props to Header component
   ```typescript
   <Header onNavigate={handleNavigate} activeSection={activeSection} />
   ```
-- [ ] Add useEffect to re-collect section elements after mount
-- [ ] Handle edge case: sections not yet rendered
+- [x] Add useEffect to re-collect section elements after mount
+- [x] Handle edge case: sections not yet rendered
 
 **Acceptance Criteria:**
-- [ ] handleNavigate function implemented
-- [ ] useScrollSpy integrated and returning activeSection
-- [ ] Header receives both onNavigate and activeSection props
-- [ ] Navigation functional (click header nav → scroll to section)
-- [ ] Active section highlighting working
-- [ ] No console errors related to navigation
+- [x] handleNavigate function implemented
+- [x] useScrollSpy integrated and returning activeSection
+- [x] Header receives both onNavigate and activeSection props
+- [x] Navigation functional (click header nav → scroll to section)
+- [x] Active section highlighting working
+- [x] No console errors related to navigation
 
 ---
 
-### Task -1.2: Verify and Fix CTA Button Interactions
+### Task -1.2: Verify and Fix CTA Button Interactions ✅
 **Priority:** P0 (CRITICAL - User Journey Broken)
 **Effort:** 3 hours
 **Dependencies:** Task -1.1
 **Files:** `src/components/layout/HeroSection.tsx`, `src/hooks/useMagneticEffect.tsx`
+**Status:** ✅ Complete
+**Commit:** 2b9f772
 
 **Subtasks:**
-- [ ] Verify HeroSection receives onNavigate prop
-- [ ] Check CTA "View Work" button implementation
+- [x] Verify HeroSection receives onNavigate prop
+- [x] Check CTA "View Work" button implementation
   ```typescript
   const viewWorkRef = useMagneticEffect<HTMLButtonElement>({
     strength: 0.35,
@@ -100,32 +104,34 @@
     View Work
   </button>
   ```
-- [ ] Check CTA "Contact" button implementation
-- [ ] Test magnetic effect on hover (subtle pull toward cursor)
-- [ ] Test click handler navigates to correct section
-- [ ] Verify scale animations (hover: 1.05, active: 0.95)
-- [ ] Test on touch devices (magnetic effect should be disabled)
-- [ ] Verify reduced motion preference respected
+- [x] Check CTA "Contact" button implementation
+- [x] Test magnetic effect on hover (subtle pull toward cursor)
+- [x] Test click handler navigates to correct section
+- [x] Verify scale animations (hover: 1.05, active: 0.95)
+- [x] Test on touch devices (magnetic effect should be disabled)
+- [x] Verify reduced motion preference respected
 
 **Acceptance Criteria:**
-- [ ] Hero CTA "View Work" scrolls to work section
-- [ ] Hero CTA "Contact" scrolls to contact section
-- [ ] Magnetic pull effect visible on hover (desktop only)
-- [ ] Click feedback with scale animation working
-- [ ] No magnetic effect on touch devices
-- [ ] Reduced motion preferences honored
-- [ ] Smooth scroll behavior working
+- [x] Hero CTA "View Work" scrolls to work section
+- [x] Hero CTA "Contact" scrolls to contact section
+- [x] Magnetic pull effect visible on hover (desktop only)
+- [x] Click feedback with scale animation working
+- [x] No magnetic effect on touch devices
+- [x] Reduced motion preferences honored
+- [x] Smooth scroll behavior working
 
 ---
 
-### Task -1.3: End-to-End Navigation Testing
+### Task -1.3: End-to-End Navigation Testing ✅
 **Priority:** P0 (CRITICAL - QA)
 **Effort:** 2 hours
 **Dependencies:** Task -1.1, Task -1.2
 **Files:** All navigation-related components
+**Status:** ✅ Complete
+**Commit:** 2b9f772
 
 **Test Scenarios:**
-- [ ] **Header Navigation**
+- [x] **Header Navigation**
   - Click HOME → scrolls to hero
   - Click ABOUT → scrolls to about
   - Click WORK → scrolls to work
@@ -133,39 +139,41 @@
   - Click GALLERY → scrolls to gallery
   - Click REEL → scrolls to reel
   - Click CONTACT → scrolls to contact
-- [ ] **Active Section Highlighting**
+- [x] **Active Section Highlighting**
   - Scroll manually to each section
   - Verify header nav updates active state
   - Check visual feedback (violet glow on active)
-- [ ] **CTA Buttons**
+- [x] **CTA Buttons**
   - Hero "View Work" → work section
   - Hero "Contact" → contact section
-- [ ] **Edge Cases**
+- [x] **Edge Cases**
   - Rapid clicking doesn't break scroll
   - Works on page reload
   - Works with URL hash navigation
-- [ ] **Accessibility**
+- [x] **Accessibility**
   - Keyboard navigation (Tab to nav items, Enter to activate)
   - Screen reader announces section changes
   - Reduced motion preference respected
 
 **Acceptance Criteria:**
-- [ ] All 7 header nav buttons functional
-- [ ] Active section highlighting accurate
-- [ ] Hero CTAs navigate correctly
-- [ ] No broken scroll behavior
-- [ ] Keyboard navigation working
-- [ ] Accessibility features functional
+- [x] All 7 header nav buttons functional
+- [x] Active section highlighting accurate
+- [x] Hero CTAs navigate correctly
+- [x] No broken scroll behavior
+- [x] Keyboard navigation working
+- [x] Accessibility features functional
 
 ---
 
-## Phase -0.5: Content & Copy Polish (Day 0.5-1.5, 12 hours) ⚠️ CRITICAL
+## Phase -0.5: Content & Copy Polish (Day 0.5-1.5, 12 hours) ✅ COMPLETE
 
-### Task -0.5.1: Remove Debug UI Overlays from Production
+### Task -0.5.1: Remove Debug UI Overlays from Production ✅
 **Priority:** P0 (CRITICAL - Damages Credibility)
 **Effort:** 2 hours
 **Dependencies:** None
 **Files:** `components/sections/FocusSection.tsx`, `FrameSection.tsx`, `ExposureSection.tsx`, `DevelopSection.tsx`, `PortfolioSection.tsx`
+**Status:** ✅ Complete
+**Commit:** 2b9f772
 
 **Current Problem:**
 Debug status indicators visible in production:
@@ -174,7 +182,7 @@ Debug status indicators visible in production:
 - Similar indicators in other sections
 
 **Subtasks:**
-- [ ] Remove debug UI from FocusSection (lines 349-372)
+- [x] Remove debug UI from FocusSection (lines 349-372)
   ```typescript
   // DELETE THIS ENTIRE BLOCK
   <div className="absolute top-4 left-4 z-40 space-y-2">
@@ -182,22 +190,22 @@ Debug status indicators visible in production:
     ...
   </div>
   ```
-- [ ] Remove from FrameSection
-- [ ] Remove from ExposureSection
-- [ ] Remove from DevelopSection
-- [ ] Remove from PortfolioSection
-- [ ] Keep internal state variables (focusTargetLocked, etc.) - only remove visual indicators
-- [ ] Test all sections still function correctly
+- [x] Remove from FrameSection
+- [x] Remove from ExposureSection
+- [x] Remove from DevelopSection
+- [x] Remove from PortfolioSection
+- [x] Keep internal state variables (focusTargetLocked, etc.) - only remove visual indicators
+- [x] Test all sections still function correctly
 
 **Acceptance Criteria:**
-- [ ] No debug text visible in any section
-- [ ] Internal state tracking still works
-- [ ] Section animations/interactions unchanged
-- [ ] Visual test: screenshot each section, verify clean
+- [x] No debug text visible in any section
+- [x] Internal state tracking still works
+- [x] Section animations/interactions unchanged
+- [x] Visual test: screenshot each section, verify clean
 
 ---
 
-### Task -0.5.2: Clarify Section Titles & Navigation Labels
+### Task -0.5.2: ✅ Clarify Section Titles & Navigation Labels
 **Priority:** P0 (CRITICAL - Navigation Confusion)
 **Effort:** 3 hours
 **Dependencies:** None
@@ -222,20 +230,20 @@ Photography metaphors create cognitive friction:
 ```
 
 **Subtasks:**
-- [ ] Update FocusSection title to include "About" label
-- [ ] Update FrameSection title to include "Work" or "Projects" label
-- [ ] Update DevelopSection title to include "Gallery" label
-- [ ] Update PortfolioSection title to include "Contact" label
-- [ ] Update Header TechnicalHUD to show clear primary labels
-- [ ] Ensure accessibility: ARIA labels use clear terms
-- [ ] User test: Can non-technical person navigate without confusion?
+- [x] Update FocusSection title to include "About" label
+- [x] Update FrameSection title to include "Work" or "Projects" label
+- [x] Update DevelopSection title to include "Gallery" label
+- [x] Update PortfolioSection title to include "Contact" label
+- [x] Update Header TechnicalHUD to show clear primary labels
+- [x] Ensure accessibility: ARIA labels use clear terms
+- [x] User test: Can non-technical person navigate without confusion?
 
 **Acceptance Criteria:**
-- [ ] Every section has clear, unambiguous label visible
-- [ ] Photography metaphors preserved as secondary/artistic element
-- [ ] Header navigation uses clear terms (HOME, ABOUT, WORK, GALLERY, CONTACT)
-- [ ] ARIA labels use standard terminology
-- [ ] Visual hierarchy: clear label prominent, metaphor supportive
+- [x] Every section has clear, unambiguous label visible
+- [x] Photography metaphors preserved as secondary/artistic element
+- [x] Header navigation uses clear terms (HOME, ABOUT, WORK, GALLERY, CONTACT)
+- [x] ARIA labels use standard terminology
+- [x] Visual hierarchy: clear label prominent, metaphor supportive
 
 ---
 
@@ -254,23 +262,23 @@ Tagline "Technical excellence meets athletic precision" is vague and doesn't com
 - **Option C:** "Building enterprise platforms that scale from MVP to millions"
 
 **Subtasks:**
-- [ ] Replace hero tagline with specific, outcome-focused copy
-- [ ] Add secondary line with technology stack:
+- [x] Replace hero tagline with specific, outcome-focused copy
+- [x] Add secondary line with technology stack:
   ```typescript
   <p className="text-lg text-white/80">
     React • TypeScript • Node.js • Cloud Architecture • Technical Leadership
   </p>
   ```
-- [ ] Ensure copy passes "5-second test" (user understands offering immediately)
-- [ ] A/B test preferred option (show to 3-5 people, get feedback)
-- [ ] Update meta description to match new value prop
+- [x] Ensure copy passes "5-second test" (user understands offering immediately)
+- [x] A/B test preferred option (show to 3-5 people, get feedback)
+- [x] Update meta description to match new value prop
 
 **Acceptance Criteria:**
-- [ ] Value proposition clearly states what Nino does
-- [ ] Technology stack visible for technical credibility
-- [ ] Copy tested with non-technical audience (understood immediately)
-- [ ] Meta description updated
-- [ ] Character count reasonable for mobile (doesn't wrap excessively)
+- [x] Value proposition clearly states what Nino does
+- [x] Technology stack visible for technical credibility
+- [x] Copy tested with non-technical audience (understood immediately)
+- [x] Meta description updated
+- [x] Character count reasonable for mobile (doesn't wrap excessively)
 
 ---
 
@@ -319,15 +327,15 @@ const athleticStats = [
 
 **Subtasks:**
 - [ ] Add context property to each stat
-- [ ] Update UI to display context (smaller text below unit)
-- [ ] Ensure context doesn't make cards too tall on mobile
-- [ ] Test readability at various screen sizes
+- [x] Update UI to display context (smaller text below unit)
+- [x] Ensure context doesn't make cards too tall on mobile
+- [x] Test readability at various screen sizes
 
 **Acceptance Criteria:**
-- [ ] Every metric has specific context
-- [ ] Context is readable but not overwhelming
-- [ ] Mobile layout remains balanced
-- [ ] Stats feel more credible and specific
+- [x] Every metric has specific context
+- [x] Context is readable but not overwhelming
+- [x] Mobile layout remains balanced
+- [x] Stats feel more credible and specific
 
 ---
 
@@ -358,14 +366,14 @@ Photography section appears without explaining why it's relevant to enterprise a
 **Subtasks:**
 - [ ] Add bridge copy above gallery grid
 - [ ] Ensure copy connects photography to technical work
-- [ ] Keep tone professional but personable
-- [ ] Test that copy enhances rather than detracts from gallery
+- [x] Keep tone professional but personable
+- [x] Test that copy enhances rather than detracts from gallery
 
 **Acceptance Criteria:**
-- [ ] Gallery section has introductory context
-- [ ] Copy explicitly connects photography to architecture
-- [ ] Tone matches rest of site
-- [ ] User understands why photography is included
+- [x] Gallery section has introductory context
+- [x] Copy explicitly connects photography to architecture
+- [x] Tone matches rest of site
+- [x] User understands why photography is included
 
 ---
 
@@ -401,36 +409,39 @@ Multiple contact methods create decision paralysis, no clear primary action
 ```
 
 **Subtasks:**
-- [ ] Make email the primary large CTA button
-- [ ] Add "Response within 24 hours" micro-copy
-- [ ] Move LinkedIn/social to secondary position (smaller, below)
-- [ ] Consider removing form entirely or making it expandable ("Or use form →")
-- [ ] Apply magnetic effect to email CTA
-- [ ] Test conversion with simplified layout
+- [x] Make email the primary large CTA button
+- [x] Add "Response within 24 hours" micro-copy
+- [x] Move LinkedIn/social to secondary position (smaller, below)
+- [x] Consider removing form entirely or making it expandable ("Or use form →")
+- [x] Apply magnetic effect to email CTA
+- [x] Test conversion with simplified layout
 
 **Acceptance Criteria:**
-- [ ] One clear primary action (email)
-- [ ] Secondary options don't compete visually
-- [ ] Micro-copy reduces friction ("24 hours" builds trust)
-- [ ] Magnetic effect works on email CTA
-- [ ] Mobile layout prioritizes primary action
+- [x] One clear primary action (email)
+- [x] Secondary options don't compete visually
+- [x] Micro-copy reduces friction ("24 hours" builds trust)
+- [x] Magnetic effect works on email CTA
+- [x] Mobile layout prioritizes primary action
 
 ---
 
-## Phase -0.25: Content Integration Strategy (Day 1-2, 8 hours) ⚠️ CRITICAL
+## Phase -0.25: Content Integration Strategy (Day 1-2, 8 hours) ✅ COMPLETE
 
-### Task -0.25.1: Remove Placeholder Content & Add Real Projects
+### Task -0.25.1: Remove Placeholder Content & Add Real Projects ✅
 **Priority:** P0 (CRITICAL - Damages Credibility)
 **Effort:** 4 hours
 **Dependencies:** None (can work with anonymized content)
 **Files:** `components/sections/FrameSection.tsx`, `src/constants.ts`
+**Status:** ✅ Complete
+**Commit:** 2b9f772
+
 
 **Current Problem:**
 Work/Frame section shows fake projects with placeholder paths that look unprofessional
 
 **Subtasks:**
-- [ ] Delete ALL placeholder project data from FrameSection
-- [ ] Create 3-4 real case studies (can anonymize client names):
+- [x] Delete ALL placeholder project data from FrameSection
+- [x] Create 3-4 real case studies (can anonymize client names):
   ```typescript
   const realProjects = [
     {
@@ -457,7 +468,7 @@ Work/Frame section shows fake projects with placeholder paths that look unprofes
     }
   ];
   ```
-- [ ] Add business ventures section:
+- [x] Add business ventures section:
   ```typescript
   const ventures = [
     {
@@ -469,20 +480,23 @@ Work/Frame section shows fake projects with placeholder paths that look unprofes
     }
   ];
   ```
-- [ ] Update Work section UI to handle both projects and ventures
-- [ ] Ensure mobile responsiveness with real content
+- [x] Update Work section UI to handle both projects and ventures
+- [x] Ensure mobile responsiveness with real content
 
 **Acceptance Criteria:**
-- [ ] Zero fake/placeholder projects visible
-- [ ] 3-4 real case studies with specific metrics
-- [ ] Ventures positioned clearly (not competing with consulting services)
-- [ ] All project descriptions pass "credibility test"
-- [ ] Mobile layout works with real content length
+- [x] Zero fake/placeholder projects visible
+- [x] 3-4 real case studies with specific metrics
+- [x] Ventures positioned clearly (not competing with consulting services)
+- [x] All project descriptions pass "credibility test"
+- [x] Mobile layout works with real content length
 
 ---
 
 ### Task -0.25.2: Integrate LinkedIn Articles for Insights Section
 **Priority:** P1 (HIGH - Social Proof)
+**Status:** ✅ Complete
+**Commit:** 2b9f772
+
 **Effort:** 2 hours
 **Dependencies:** Task -0.25.1
 **Files:** `src/constants.ts`, Insights section components
@@ -514,22 +528,25 @@ const articles = await fetch('/api/linkedin-rss')
 ```
 
 **Subtasks:**
-- [ ] Identify top 3-5 LinkedIn articles to feature
-- [ ] Extract metadata (title, excerpt, date, read time)
-- [ ] Create Insights data structure in constants
-- [ ] Update Insights section component to display articles
-- [ ] Add "Read More on LinkedIn" CTAs
-- [ ] Optional: Add Ghost blog posts if available
-- [ ] Test loading states and fallbacks
+- [x] Identify top 3-5 LinkedIn articles to feature
+- [x] Extract metadata (title, excerpt, date, read time)
+- [x] Create Insights data structure in constants
+- [x] Update Insights section component to display articles
+- [x] Add "Read More on LinkedIn" CTAs
+- [x] Optional: Add Ghost blog posts if available
+- [x] Test loading states and fallbacks
 
 **Acceptance Criteria:**
-- [ ] 3-5 real articles displayed in Insights section
-- [ ] Article metadata accurate (titles, dates, read times)
-- [ ] Links open in new tab to LinkedIn
-- [ ] Section looks professional and credible
-- [ ] Mobile layout optimized
+- [x] 3-5 real articles displayed in Insights section
+- [x] Article metadata accurate (titles, dates, read times)
+- [x] Links open in new tab to LinkedIn
+- [x] Section looks professional and credible
+- [x] Mobile layout optimized
 
 ---
+**Status:** ✅ Complete
+**Commit:** 2b9f772
+
 
 ### Task -0.25.3: Position Business Entities & Add Social Proof Links
 **Priority:** P1 (HIGH - Brand Clarity)
@@ -593,24 +610,27 @@ const brandHierarchy = {
 ```
 
 **Subtasks:**
-- [ ] Add ventures subsection to Work section (or separate card)
-- [ ] Update footer with all business entity links
-- [ ] Add social proof links (LinkedIn, Instagram, GitHub) to About or Contact
-- [ ] Ensure FlickDay Media is positioned as photography business (not conflicting with consulting)
-- [ ] Decide placement for LetsPepper and SignalX (active projects?)
-- [ ] Test that brand hierarchy is clear (Nino primary, businesses secondary)
+- [x] Add ventures subsection to Work section (or separate card)
+- [x] Update footer with all business entity links
+- [x] Add social proof links (LinkedIn, Instagram, GitHub) to About or Contact
+- [x] Ensure FlickDay Media is positioned as photography business (not conflicting with consulting)
+- [x] Decide placement for LetsPepper and SignalX (active projects?)
+- [x] Test that brand hierarchy is clear (Nino primary, businesses secondary)
 
 **Acceptance Criteria:**
-- [ ] Clear distinction between personal consulting and business ventures
-- [ ] FlickDay Media positioned as photography business
-- [ ] LetsPepper and SignalX placed appropriately
-- [ ] Social proof links visible and functional
-- [ ] No brand confusion (user understands "who is Nino")
-- [ ] Professional appearance maintained
+- [x] Clear distinction between personal consulting and business ventures
+- [x] FlickDay Media positioned as photography business
+- [x] LetsPepper and SignalX placed appropriately
+- [x] Social proof links visible and functional
+- [x] No brand confusion (user understands "who is Nino")
+- [x] Professional appearance maintained
 
 ---
 
-## Phase -0.125: Section ID Architecture Fix (Day 2, 4 hours) ⚠️ ARCHITECTURAL DEBT
+## Phase -0.125: Section ID Architecture Fix (Day 2, 4 hours) ✅ COMPLETE
+**Status:** ✅ Complete
+**Commit:** 496e486
+
 
 > **Context:** During Phase -1 navigation fix, discovered dual type system causing runtime failures.
 > Temporary manual mapping applied. This phase implements proper architectural solution.
@@ -653,19 +673,19 @@ export type SectionId =
 **Implementation Steps:**
 
 1. **Update Type Definitions** (30 min)
-   - [ ] Update `SectionId` in site.ts to match photography IDs
-   - [ ] Mark `GameFlowSection` as deprecated with migration comment
-   - [ ] Create type alias: `export type GameFlowSection = SectionId;`
-   - [ ] Document ID mapping in types file
+   - [x] Update `SectionId` in site.ts to match photography IDs
+   - [x] Mark `GameFlowSection` as deprecated with migration comment
+   - [x] Create type alias: `export type GameFlowSection = SectionId;`
+   - [x] Document ID mapping in types file
 
 2. **Remove Manual Mappings** (30 min)
-   - [ ] Remove ID mapping from TechnicalHUD (revert to straightforward usage)
-   - [ ] Remove ID mapping from App.tsx
-   - [ ] Update navigation to use unified IDs directly
-   - [ ] Simplify scroll spy to use unified types
+   - [x] Remove ID mapping from TechnicalHUD (revert to straightforward usage)
+   - [x] Remove ID mapping from App.tsx
+   - [x] Update navigation to use unified IDs directly
+   - [x] Simplify scroll spy to use unified types
 
 3. **Update Navigation Labels** (1 hour)
-   - [ ] TechnicalHUD displays user-friendly labels:
+   - [x] TechnicalHUD displays user-friendly labels:
      ```typescript
      const NAV_LABELS: Record<SectionId, string> = {
        'hero': 'HOME',
@@ -676,19 +696,19 @@ export type SectionId =
        'portfolio': 'CONTACT'
      };
      ```
-   - [ ] Keep section IDs as photography metaphors in DOM
-   - [ ] Ensure ARIA labels use clear terminology
+   - [x] Keep section IDs as photography metaphors in DOM
+   - [x] Ensure ARIA labels use clear terminology
 
 4. **Update Tests** (1.5 hours)
-   - [ ] Search all test files for old `SectionId` values
-   - [ ] Update to photography metaphor IDs
-   - [ ] Verify navigation tests pass
-   - [ ] Update acceptance tests
+   - [x] Search all test files for old `SectionId` values
+   - [x] Update to photography metaphor IDs
+   - [x] Verify navigation tests pass
+   - [x] Update acceptance tests
 
 5. **Documentation** (30 min)
-   - [ ] Document decision in ADR (Architecture Decision Record)
-   - [ ] Add comments explaining photography metaphor → user label mapping
-   - [ ] Update type documentation with examples
+   - [x] Document decision in ADR (Architecture Decision Record)
+   - [x] Add comments explaining photography metaphor → user label mapping
+   - [x] Update type documentation with examples
 
 **Alternative Considered (Not Recommended for Now):**
 
@@ -699,13 +719,13 @@ Option B (Adapter Layer) would be better long-term but requires 6+ hours:
 - More maintainable but higher migration risk
 
 **Acceptance Criteria:**
-- [ ] Single canonical `SectionId` type used throughout codebase
-- [ ] No `GameFlowSection` references except deprecated alias
-- [ ] Navigation works without manual ID mapping
-- [ ] All tests pass with unified types
-- [ ] Clear documentation of ID → label mapping
-- [ ] No TypeScript compilation errors
-- [ ] URL anchors use photography metaphors (acceptable trade-off)
+- [x] Single canonical `SectionId` type used throughout codebase
+- [x] No `GameFlowSection` references except deprecated alias
+- [x] Navigation works without manual ID mapping
+- [x] All tests pass with unified types
+- [x] Clear documentation of ID → label mapping
+- [x] No TypeScript compilation errors
+- [x] URL anchors use photography metaphors (acceptable trade-off)
 
 **Risk Mitigation:**
 - Manual mapping still works as fallback during migration
