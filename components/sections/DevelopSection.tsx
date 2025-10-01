@@ -426,15 +426,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
         data-image-count={performanceMetrics.imageCount}
       />
 
-      {/* Performance monitoring for development */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="fixed bottom-4 left-4 bg-black/80 p-3 rounded text-white text-xs z-40">
-          <div>Load: {performanceMetrics.loadTime}ms</div>
-          <div>Images: {performanceMetrics.imageCount}</div>
-          <div>Gallery: {galleryLoaded ? 'Ready' : 'Loading'}</div>
-          <div>Selected: {selectedImage || 'None'}</div>
-        </div>
-      )}
+      {/* Performance monitoring - Hidden (internal tracking only) */}
 
       {/* Smooth transition fade */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-neutral-900 to-transparent z-30 pointer-events-none" />

@@ -432,33 +432,9 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
       />
 
       {/* Frame status indicators */}
-      <div className="absolute top-4 left-4 z-40 space-y-2">
-        <div
-          className={`flex items-center space-x-2 text-sm font-mono ${
-            compositionLocked ? 'text-green-400' : 'text-yellow-400'
-          } transition-colors duration-300`}
-        >
-          <div className={`w-2 h-2 rounded-full ${compositionLocked ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-          <span>FRAME {compositionLocked ? 'LOCKED' : 'COMP'}</span>
-        </div>
+      {/* Frame composition indicators - Hidden (internal tracking only) */}
 
-        {compositionLocked && (
-          <div className={`flex items-center space-x-2 text-sm font-mono ${projectsLoaded ? 'text-green-400' : 'text-yellow-400'} transition-colors duration-300`}>
-            <div className={`w-2 h-2 rounded-full ${projectsLoaded ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-            <span>PROJECTS {projectsLoaded ? 'LOADED' : 'SYNC'}</span>
-          </div>
-        )}
-      </div>
-
-      {/* Exposure settings display */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="fixed bottom-4 right-4 bg-black/80 p-3 rounded text-white text-xs z-40">
-          <div>Aperture: f/{exposureSettings?.aperture ?? '4'}</div>
-          <div>Shutter: 1/{exposureSettings?.shutterSpeed ?? '125'}s</div>
-          <div>ISO: {exposureSettings?.iso ?? '400'}</div>
-          <div>Composition: {compositionLocked ? 'Locked' : 'Seeking'}</div>
-        </div>
-      )}
+      {/* Exposure settings display - Hidden (internal tracking only) */}
 
       {/* Smooth transition fade */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-neutral-900 to-transparent z-30 pointer-events-none" />

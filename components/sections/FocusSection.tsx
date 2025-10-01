@@ -371,14 +371,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
         )}
       </div>
 
-      {/* Depth of field controls for development */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="fixed bottom-4 right-4 bg-black/80 p-3 rounded text-white text-xs z-50">
-          <div>DoF: {depthOfField?.toFixed(2) ?? 'N/A'}</div>
-          <div>Progress: {(progress * 100).toFixed(0)}%</div>
-          <div>Focus: {focusTargetLocked ? 'Locked' : 'Seeking'}</div>
-        </div>
-      )}
+      {/* Depth of field controls - Hidden (internal tracking only) */}
 
       {/* Smooth transition fade for seamless section flow */}
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-neutral-900 to-transparent z-30 pointer-events-none" />
