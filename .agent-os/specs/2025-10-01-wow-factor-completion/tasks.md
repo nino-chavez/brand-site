@@ -1,21 +1,158 @@
 # WOW Factor Completion - Task Breakdown
 
 > **Specification:** `2025-10-01-wow-factor-completion`
-> **Total Tasks:** 16
-> **Estimated Effort:** 1.5 weeks (36 hours)
-> **Priority:** P1 - High (Production Polish)
-> **Status:** 🟡 IN PROGRESS - 0/16 Tasks Complete
+> **Total Tasks:** 19
+> **Estimated Effort:** 1.5 weeks (44 hours)
+> **Priority:** P0 - CRITICAL (Navigation Broken) → P1 (Production Polish)
+> **Status:** 🟡 IN PROGRESS - 0/19 Tasks Complete
 
 ## Task Summary
 
 | Phase | Tasks | Hours | Status |
 |-------|-------|-------|--------|
+| Phase -1: Navigation & CTA Fix (CRITICAL) | 3 | 8h | ⏸️ Not Started |
 | Phase 0: Gallery Implementation | 3 | 8h | ⏸️ Not Started |
 | Phase 1: Photography Metaphor | 3 | 8h | ⏸️ Not Started |
 | Phase 2: Polish & Delight | 3 | 6h | ⏸️ Not Started |
 | Phase 3: Accessibility | 3 | 6h | ⏸️ Not Started |
 | Phase 4: Performance & Testing | 4 | 8h | ⏸️ Not Started |
-| **TOTAL** | **16** | **36h** | **0% Complete** |
+| **TOTAL** | **19** | **44h** | **0% Complete** |
+
+---
+
+## Phase -1: Header Navigation & CTA Button Polish (Day 0, 8 hours) ⚠️ CRITICAL
+
+### Task -1.1: Wire Navigation Handler in App.tsx
+**Priority:** P0 (CRITICAL - Broken Functionality)
+**Effort:** 3 hours
+**Dependencies:** None
+**Files:** `src/App.tsx`, `src/hooks/useScrollSpy.ts`
+
+**Current Problem:**
+```typescript
+// App.tsx line 220 - Header not receiving required props
+<Header /> // ❌ Missing onNavigate and activeSection
+```
+
+**Subtasks:**
+- [ ] Add navigation handler in App.tsx
+  ```typescript
+  const handleNavigate = useCallback((sectionId: SectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
+  ```
+- [ ] Integrate useScrollSpy hook
+  ```typescript
+  const sectionElements = useMemo(() => {
+    return ['hero', 'about', 'work', 'insights', 'gallery', 'reel', 'contact']
+      .map(id => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+  }, []);
+
+  const { activeSection } = useScrollSpy(sectionElements, {
+    threshold: 0.3,
+    rootMargin: '-20% 0px -35% 0px'
+  });
+  ```
+- [ ] Pass props to Header component
+  ```typescript
+  <Header onNavigate={handleNavigate} activeSection={activeSection} />
+  ```
+- [ ] Add useEffect to re-collect section elements after mount
+- [ ] Handle edge case: sections not yet rendered
+
+**Acceptance Criteria:**
+- [ ] handleNavigate function implemented
+- [ ] useScrollSpy integrated and returning activeSection
+- [ ] Header receives both onNavigate and activeSection props
+- [ ] Navigation functional (click header nav → scroll to section)
+- [ ] Active section highlighting working
+- [ ] No console errors related to navigation
+
+---
+
+### Task -1.2: Verify and Fix CTA Button Interactions
+**Priority:** P0 (CRITICAL - User Journey Broken)
+**Effort:** 3 hours
+**Dependencies:** Task -1.1
+**Files:** `src/components/layout/HeroSection.tsx`, `src/hooks/useMagneticEffect.tsx`
+
+**Subtasks:**
+- [ ] Verify HeroSection receives onNavigate prop
+- [ ] Check CTA "View Work" button implementation
+  ```typescript
+  const viewWorkRef = useMagneticEffect<HTMLButtonElement>({
+    strength: 0.35,
+    radius: 100
+  });
+
+  <button
+    ref={viewWorkRef}
+    onClick={() => onNavigate('work')}
+    className="btn-magnetic hover:scale-105 active:scale-95 transition-transform"
+  >
+    View Work
+  </button>
+  ```
+- [ ] Check CTA "Contact" button implementation
+- [ ] Test magnetic effect on hover (subtle pull toward cursor)
+- [ ] Test click handler navigates to correct section
+- [ ] Verify scale animations (hover: 1.05, active: 0.95)
+- [ ] Test on touch devices (magnetic effect should be disabled)
+- [ ] Verify reduced motion preference respected
+
+**Acceptance Criteria:**
+- [ ] Hero CTA "View Work" scrolls to work section
+- [ ] Hero CTA "Contact" scrolls to contact section
+- [ ] Magnetic pull effect visible on hover (desktop only)
+- [ ] Click feedback with scale animation working
+- [ ] No magnetic effect on touch devices
+- [ ] Reduced motion preferences honored
+- [ ] Smooth scroll behavior working
+
+---
+
+### Task -1.3: End-to-End Navigation Testing
+**Priority:** P0 (CRITICAL - QA)
+**Effort:** 2 hours
+**Dependencies:** Task -1.1, Task -1.2
+**Files:** All navigation-related components
+
+**Test Scenarios:**
+- [ ] **Header Navigation**
+  - Click HOME → scrolls to hero
+  - Click ABOUT → scrolls to about
+  - Click WORK → scrolls to work
+  - Click INSIGHTS → scrolls to insights
+  - Click GALLERY → scrolls to gallery
+  - Click REEL → scrolls to reel
+  - Click CONTACT → scrolls to contact
+- [ ] **Active Section Highlighting**
+  - Scroll manually to each section
+  - Verify header nav updates active state
+  - Check visual feedback (violet glow on active)
+- [ ] **CTA Buttons**
+  - Hero "View Work" → work section
+  - Hero "Contact" → contact section
+- [ ] **Edge Cases**
+  - Rapid clicking doesn't break scroll
+  - Works on page reload
+  - Works with URL hash navigation
+- [ ] **Accessibility**
+  - Keyboard navigation (Tab to nav items, Enter to activate)
+  - Screen reader announces section changes
+  - Reduced motion preference respected
+
+**Acceptance Criteria:**
+- [ ] All 7 header nav buttons functional
+- [ ] Active section highlighting accurate
+- [ ] Hero CTAs navigate correctly
+- [ ] No broken scroll behavior
+- [ ] Keyboard navigation working
+- [ ] Accessibility features functional
 
 ---
 

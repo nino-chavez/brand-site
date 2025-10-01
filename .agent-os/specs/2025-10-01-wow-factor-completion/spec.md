@@ -1,9 +1,10 @@
 # WOW Factor Completion Specification
 
 > **Created:** 2025-10-01
-> **Status:** 🟡 IN PROGRESS - 70% Complete, 13 Tasks Remaining
+> **Last Updated:** 2025-10-01 (Added Phase -1: Navigation & CTA Polish)
+> **Status:** 🟡 IN PROGRESS - 65% Complete, 19 Tasks Remaining
 > **Priority:** P1 (High - Production Polish)
-> **Effort:** M (1 week)
+> **Effort:** M (1.5 weeks, 44 hours)
 > **Risk:** Low - Polish & Enhancement Layer
 
 ## Executive Summary
@@ -23,6 +24,9 @@ WOW Factor implementation is 70% complete with Phases 1-4 mostly finished. Remai
 - ✅ Photography metaphor foundation (ViewfinderMetadata component)
 
 **Implementation Gaps:**
+- ⬜ **CRITICAL:** Header navigation not wired (onNavigate/activeSection props missing)
+- ⬜ **CRITICAL:** Scroll spy not connected to header (active section not tracked)
+- ⬜ CTA buttons need hover/click behavior verification
 - ⬜ Photography metaphor incomplete (hero-only, not section-dynamic)
 - ⬜ Gallery section missing (placeholder images, needs real portfolio with EXIF)
 - ⬜ Phase 4 incomplete (loading messages, blur-up images)
@@ -188,6 +192,106 @@ User sees: "f/8 - Technical Excellence" (About section)
 ---
 
 ## Solution Design
+
+### Phase -1: Header Navigation & CTA Button Polish (CRITICAL FIX)
+
+**Goal:** Fix broken header navigation and verify CTA button interactions work as intended.
+
+**Current State - Navigation Issues:**
+
+```typescript
+// App.tsx - PROBLEM: Header not receiving props
+<Header /> // ❌ Missing onNavigate and activeSection
+
+// Header.tsx expects these props
+interface HeaderProps {
+    onNavigate?: (id: SectionId) => void;
+    activeSection?: string | null;
+}
+```
+
+**Root Cause:** App.tsx renders Header without wiring navigation callbacks or active section state from scroll spy.
+
+**Impact:**
+- Header nav buttons don't scroll to sections (broken UX)
+- Active section highlighting doesn't work (no visual feedback)
+- Users can't navigate using header (critical usability flaw)
+
+**Files Affected:**
+- `src/App.tsx` (needs navigation handler + scroll spy integration)
+- `src/components/layout/Header.tsx` (needs active section state)
+- `src/hooks/useScrollSpy.ts` (already implemented, needs integration)
+
+**Implementation Strategy:**
+
+1. **Wire Navigation in App.tsx**
+   ```typescript
+   // Add navigation handler
+   const handleNavigate = useCallback((sectionId: SectionId) => {
+     const element = document.getElementById(sectionId);
+     if (element) {
+       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+     }
+   }, []);
+
+   // Pass to Header
+   <Header onNavigate={handleNavigate} activeSection={activeSection} />
+   ```
+
+2. **Integrate useScrollSpy**
+   ```typescript
+   // Collect section refs
+   const sectionElements = useMemo(() => {
+     return ['hero', 'about', 'work', 'insights', 'gallery', 'reel', 'contact']
+       .map(id => document.getElementById(id))
+       .filter((el): el is HTMLElement => el !== null);
+   }, []);
+
+   // Track active section
+   const { activeSection } = useScrollSpy(sectionElements, {
+     threshold: 0.3,
+     rootMargin: '-20% 0px -35% 0px'
+   });
+   ```
+
+3. **Verify CTA Magnetic Effects**
+   ```typescript
+   // HeroSection.tsx - Check magnetic button implementation
+   const ctaRef = useMagneticEffect<HTMLButtonElement>({
+     strength: 0.35,
+     radius: 100
+   });
+
+   // Verify hover states and click handlers
+   <button
+     ref={ctaRef}
+     onClick={() => onNavigate('work')}
+     className="btn-magnetic hover:scale-105 active:scale-95"
+   >
+     View Work
+   </button>
+   ```
+
+4. **Test Click Behaviors**
+   - Hero CTA "View Work" → scrolls to work section
+   - Hero CTA "Contact" → scrolls to contact section
+   - Header nav buttons → scroll to respective sections
+   - Magnetic pull effect active on hover
+   - Click feedback (scale down on active)
+
+**Success Criteria:**
+
+- [ ] Header receives onNavigate and activeSection props
+- [ ] useScrollSpy integrated and tracking active section
+- [ ] Header nav buttons scroll to correct sections
+- [ ] Active section highlighted in header nav
+- [ ] Hero CTA buttons navigate correctly
+- [ ] Magnetic effect visible on CTA hover
+- [ ] Click provides visual feedback (scale animation)
+- [ ] Smooth scroll behavior working
+- [ ] All navigation respects reduced motion preferences
+
+---
 
 ### Phase 0: Gallery Section Implementation (NEW REQUIREMENT)
 
@@ -487,13 +591,23 @@ export const GALLERY_IMAGES = [
 
 ## Implementation Priority
 
-### Week 1: Core Completion
+### Week 1: Critical Fixes & Core Completion
 
-**Day 1-2: Photography Metaphor (8 hours)**
-- Fix useViewfinderVisibility for all sections
-- Add section transition animations
-- Mobile positioning adjustments
-- Test localStorage persistence
+**Day 0: Navigation Fix (CRITICAL - 8 hours)**
+- Wire navigation handler in App.tsx
+- Integrate useScrollSpy for active section tracking
+- Pass props to Header component
+- Verify CTA button magnetic effects
+- Test all navigation flows
+- Ensure reduced motion support
+
+**Day 1-2: Gallery & Photography Metaphor (16 hours)**
+- Gallery: Prepare portfolio images with EXIF (3h)
+- Gallery: Update data structure (2h)
+- Gallery: Integrate components (3h)
+- Photography Metaphor: Fix useViewfinderVisibility (3h)
+- Photography Metaphor: Section transitions (2h)
+- Photography Metaphor: Mobile positioning (3h)
 
 **Day 3: Polish Elements (6 hours)**
 - Staggered card animations
