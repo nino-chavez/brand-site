@@ -117,6 +117,53 @@ This is a professional portfolio launch pad. Every detail enhances credibility o
 
 ---
 
+### 0.4. Section ID Architecture Inconsistency (CRITICAL - Type System Smell)
+
+**Discovery Date:** 2025-10-01 (During navigation bug fix)
+**Severity:** CRITICAL - Architectural Debt
+**Impact:** Navigation failures, tight coupling, future bugs
+
+**Problem Statement:**
+
+The codebase uses **TWO competing type systems** for section identifiers, causing runtime failures that TypeScript cannot catch:
+
+1. **`SectionId`** (site.ts) - User-facing navigation: `'about' | 'work' | 'gallery'`
+2. **`GameFlowSection`** (game-flow.ts) - Photography metaphor: `'focus' | 'frame' | 'develop'`
+
+**Actual Implementation:**
+- DOM elements use `GameFlowSection` IDs: `<section id="focus">`, `<section id="frame">`
+- Navigation expects `SectionId` values: trying to scroll to 'about', 'work'
+- `scrollIntoView` fails (elements don't exist)
+- `useScrollSpy` can't track sections
+
+**Root Causes:**
+
+1. **Incomplete Migration** - Comments in game-flow.ts show mapping intent (`'focus' // Attention to detail (About)`) but no enforcement
+2. **Type System Divergence** - Two separate definitions with no relationship or converter functions
+3. **Leaky Abstraction** - Photography metaphor (internal artistic choice) leaked into DOM IDs (public API)
+4. **Missing Adapter Pattern** - No translation layer between domains
+
+**Architectural Smells Detected:**
+
+| Smell | Severity | Description |
+|-------|----------|-------------|
+| Dual Source of Truth | CRITICAL | Two types for same concept, no canonical definition |
+| Leaky Abstraction | HIGH | Internal metaphor exposed in public API (DOM IDs, URLs) |
+| Tight Coupling | HIGH | Navigation must understand GameFlow implementation |
+| Missing Adapter | MEDIUM | No translation layer at component boundaries |
+| Type Safety Illusion | MEDIUM | TypeScript allows mixing incompatible types |
+
+**Impact Radius:**
+- 6+ core files affected (types, components, navigation)
+- 20+ test files with potential wrong assumptions
+- Manual mapping scattered across TechnicalHUD, App.tsx
+- Future section additions require coordinating 3+ files
+
+**Current State (Temporary Fix Applied):**
+- Manual ID mapping in TechnicalHUD and App.tsx
+- Navigation functional but architecture smell remains
+- Technical debt documented for proper fix
+
 ### 0.5. Content Integration Strategy (CRITICAL - External Sources Available)
 
 **Assessment Date:** 2025-10-01 (content-ux-reviewer agent - content strategy analysis)

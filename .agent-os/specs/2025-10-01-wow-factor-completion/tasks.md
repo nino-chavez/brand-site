@@ -1,24 +1,25 @@
 # WOW Factor Completion - Task Breakdown
 
 > **Specification:** `2025-10-01-wow-factor-completion`
-> **Total Tasks:** 28
-> **Estimated Effort:** 2.5 weeks (64 hours)
-> **Priority:** P0 - CRITICAL (Navigation, Content, & Integration) → P1 (Production Polish)
-> **Status:** 🟡 IN PROGRESS - 0/28 Tasks Complete
+> **Total Tasks:** 29 (12 complete, 17 remaining)
+> **Estimated Effort:** 2.75 weeks (68 hours total, 40 hours remaining)
+> **Priority:** P0 - CRITICAL (Architecture Debt) → P1 (Production Polish)
+> **Status:** 🟡 IN PROGRESS - 42% Complete (12/29 tasks)
 
 ## Task Summary
 
 | Phase | Tasks | Hours | Status |
 |-------|-------|-------|--------|
-| Phase -1: Navigation & CTA Fix (CRITICAL) | 3 | 8h | ⏸️ Not Started |
-| Phase -0.5: Content & Copy Polish (CRITICAL) | 6 | 12h | ⏸️ Not Started |
-| Phase -0.25: Content Integration (CRITICAL) | 3 | 8h | ⏸️ Not Started |
+| Phase -1: Navigation & CTA Fix (CRITICAL) | 3 | 8h | ✅ Complete |
+| Phase -0.5: Content & Copy Polish (CRITICAL) | 6 | 12h | ✅ Complete |
+| Phase -0.25: Content Integration (CRITICAL) | 3 | 8h | ✅ Complete |
+| Phase -0.125: Section ID Architecture (DEBT) | 1 | 4h | ⏸️ Not Started |
 | Phase 0: Gallery Implementation | 3 | 8h | ⏸️ Not Started |
 | Phase 1: Photography Metaphor | 3 | 8h | ⏸️ Not Started |
 | Phase 2: Polish & Delight | 3 | 6h | ⏸️ Not Started |
 | Phase 3: Accessibility | 3 | 6h | ⏸️ Not Started |
 | Phase 4: Performance & Testing | 4 | 8h | ⏸️ Not Started |
-| **TOTAL** | **28** | **64h** | **0% Complete** |
+| **TOTAL** | **29** | **68h** | **42% Complete** |
 
 ---
 
@@ -606,6 +607,110 @@ const brandHierarchy = {
 - [ ] Social proof links visible and functional
 - [ ] No brand confusion (user understands "who is Nino")
 - [ ] Professional appearance maintained
+
+---
+
+## Phase -0.125: Section ID Architecture Fix (Day 2, 4 hours) ⚠️ ARCHITECTURAL DEBT
+
+> **Context:** During Phase -1 navigation fix, discovered dual type system causing runtime failures.
+> Temporary manual mapping applied. This phase implements proper architectural solution.
+
+### Task -0.125.1: Unify Section ID Type System
+**Priority:** P0 (CRITICAL - Architectural Debt)
+**Effort:** 4 hours
+**Dependencies:** Phase -1 complete
+**Files:** `src/types/site.ts`, `src/types/game-flow.ts`, all section components, navigation components
+
+**Problem Analysis:**
+
+Two competing type systems exist:
+1. `SectionId` (site.ts): `'about' | 'work' | 'gallery'` (user-facing)
+2. `GameFlowSection` (game-flow.ts): `'focus' | 'frame' | 'develop'` (photography metaphor)
+
+**Current Temporary Fix:**
+- Manual ID mapping in TechnicalHUD and App.tsx
+- Works but perpetuates architectural smell
+
+**Proper Solution (Option A - Recommended):**
+
+Unify on photography metaphor IDs to maintain artistic vision and minimize changes:
+
+```typescript
+// src/types/site.ts - UPDATE
+export type SectionId =
+    | 'hero'      // Home
+    | 'capture'   // Hero/Introduction
+    | 'focus'     // About
+    | 'frame'     // Work
+    | 'exposure'  // Insights
+    | 'develop'   // Gallery
+    | 'portfolio' // Contact
+    | 'volleyball-demo'; // Special feature
+
+// Remove GameFlowSection entirely - use SectionId everywhere
+```
+
+**Implementation Steps:**
+
+1. **Update Type Definitions** (30 min)
+   - [ ] Update `SectionId` in site.ts to match photography IDs
+   - [ ] Mark `GameFlowSection` as deprecated with migration comment
+   - [ ] Create type alias: `export type GameFlowSection = SectionId;`
+   - [ ] Document ID mapping in types file
+
+2. **Remove Manual Mappings** (30 min)
+   - [ ] Remove ID mapping from TechnicalHUD (revert to straightforward usage)
+   - [ ] Remove ID mapping from App.tsx
+   - [ ] Update navigation to use unified IDs directly
+   - [ ] Simplify scroll spy to use unified types
+
+3. **Update Navigation Labels** (1 hour)
+   - [ ] TechnicalHUD displays user-friendly labels:
+     ```typescript
+     const NAV_LABELS: Record<SectionId, string> = {
+       'hero': 'HOME',
+       'focus': 'ABOUT',
+       'frame': 'WORK',
+       'exposure': 'INSIGHTS',
+       'develop': 'GALLERY',
+       'portfolio': 'CONTACT'
+     };
+     ```
+   - [ ] Keep section IDs as photography metaphors in DOM
+   - [ ] Ensure ARIA labels use clear terminology
+
+4. **Update Tests** (1.5 hours)
+   - [ ] Search all test files for old `SectionId` values
+   - [ ] Update to photography metaphor IDs
+   - [ ] Verify navigation tests pass
+   - [ ] Update acceptance tests
+
+5. **Documentation** (30 min)
+   - [ ] Document decision in ADR (Architecture Decision Record)
+   - [ ] Add comments explaining photography metaphor → user label mapping
+   - [ ] Update type documentation with examples
+
+**Alternative Considered (Not Recommended for Now):**
+
+Option B (Adapter Layer) would be better long-term but requires 6+ hours:
+- Keep both type systems
+- Create bidirectional adapter utilities
+- Update DOM IDs to user-facing (breaking change for URL anchors)
+- More maintainable but higher migration risk
+
+**Acceptance Criteria:**
+- [ ] Single canonical `SectionId` type used throughout codebase
+- [ ] No `GameFlowSection` references except deprecated alias
+- [ ] Navigation works without manual ID mapping
+- [ ] All tests pass with unified types
+- [ ] Clear documentation of ID → label mapping
+- [ ] No TypeScript compilation errors
+- [ ] URL anchors use photography metaphors (acceptable trade-off)
+
+**Risk Mitigation:**
+- Manual mapping still works as fallback during migration
+- Change is additive (deprecation, not deletion)
+- Tests will catch any missed references
 
 ---
 
