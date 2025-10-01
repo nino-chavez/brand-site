@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import SimplifiedGameFlowContainer from './components/sports/SimplifiedGameFlowContainer';
 import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
-import { CanvasStateProviderV2 } from './contexts/CanvasStateProviderV2';
+import { CanvasStateProvider } from './contexts/CanvasStateProvider';
 import Header from './components/layout/Header';
 import BackgroundEffects from './components/effects/BackgroundEffects';
 import CursorLensV2 from './components/canvas/CursorLensV2';
-import LightboxCanvasV2 from './components/canvas/LightboxCanvasV2';
+import LightboxCanvas from './components/canvas/LightboxCanvas';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 
 const App: React.FC = () => {
@@ -79,7 +79,7 @@ const App: React.FC = () => {
                     performanceMode={performanceMode}
                     debugMode={debugMode}
                 >
-                    <CanvasStateProviderV2
+                    <CanvasStateProvider
                         initialPosition={{ x: 0, y: 0, scale: 1.0 }}
                         performanceMode={performanceMode}
                         enableAnalytics={true}
@@ -113,7 +113,7 @@ const App: React.FC = () => {
 
                             {/* Canvas Layout System */}
                             <main id="canvas-content" className="relative z-10 h-screen w-screen overflow-hidden bg-gray-900">
-                                <LightboxCanvasV2
+                                <LightboxCanvas
                                     performanceMode={performanceMode}
                                     debugMode={debugMode}
                                     className="photographer-lightbox-app relative z-10"
@@ -180,7 +180,7 @@ const App: React.FC = () => {
                                 className="canvas-cursor-lens"
                             />
                         </div>
-                    </CanvasStateProviderV2>
+                    </CanvasStateProvider>
                 </UnifiedGameFlowProvider>
             </AthleticTokenProvider>
         );
