@@ -4,6 +4,7 @@ import Section, { SectionTitle } from './Section';
 import { INSIGHTS_ARTICLES } from '../../constants';
 import type { InsightArticle } from '../../types';
 import { BlogIcon, LinkedinIcon } from '../ui/Icons';
+import { useStaggeredChildren } from '../../hooks/useScrollAnimation';
 
 interface InsightsSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
@@ -29,13 +30,30 @@ const InsightCard: React.FC<{ article: InsightArticle }> = ({ article }) => {
 };
 
 const InsightsSection: React.FC<InsightsSectionProps> = ({ setRef }) => {
+    const { containerRef, visibleIndices } = useStaggeredChildren(INSIGHTS_ARTICLES.length, 80);
+
     return (
         <Section id="exposure" setRef={setRef}>
             <div>
                 <SectionTitle>Insights & Articles</SectionTitle>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    ref={containerRef as React.RefObject<HTMLDivElement>}
+                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
                     {INSIGHTS_ARTICLES.map((article, index) => (
-                        <InsightCard key={index} article={article} />
+                        <div
+                            key={index}
+                            className={`transition-all duration-500 ease-out ${
+                                visibleIndices.has(index)
+                                    ? 'opacity-100 translate-y-0'
+                                    : 'opacity-0 translate-y-8'
+                            }`}
+                            style={{
+                                transitionDelay: `${index * 80}ms`
+                            }}
+                        >
+                            <InsightCard article={article} />
+                        </div>
                     ))}
                 </div>
             </div>
