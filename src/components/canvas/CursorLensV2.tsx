@@ -173,13 +173,28 @@ export const CursorLensV2: React.FC<CursorLensV2Props> = ({
       aria-label="Radial navigation menu"
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-md" />
 
-      {/* Center indicator */}
+      {/* Center indicator with enhanced glow */}
       <div
-        className="absolute w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-500 shadow-lg"
-        style={{ left: position.x, top: position.y }}
-      />
+        className="absolute w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          left: position.x,
+          top: position.y,
+          background: 'linear-gradient(135deg, #fb923c 0%, #ea580c 100%)',
+          boxShadow: '0 10px 40px rgba(251, 146, 60, 0.5), 0 0 0 2px rgba(251, 146, 60, 0.3)',
+          zIndex: 9999
+        }}
+      >
+        {/* Pulse effect */}
+        <div
+          className="absolute inset-0 rounded-full animate-ping"
+          style={{
+            background: '#fb923c',
+            opacity: 0.3
+          }}
+        />
+      </div>
 
       {/* Connecting lines */}
       {SECTIONS.map((section, index) => {
@@ -197,9 +212,10 @@ export const CursorLensV2: React.FC<CursorLensV2Props> = ({
               y1={position.y}
               x2={itemPos.x}
               y2={itemPos.y}
-              stroke={isHovered ? '#f97316' : '#ffffff'}
-              strokeWidth={isHovered ? '2' : '1'}
-              strokeOpacity={isHovered ? '0.6' : '0.3'}
+              stroke={isHovered ? '#fb923c' : '#ffffff'}
+              strokeWidth={isHovered ? '3' : '1.5'}
+              strokeOpacity={isHovered ? '0.8' : '0.4'}
+              className="transition-all duration-200"
             />
           </svg>
         );
@@ -215,34 +231,50 @@ export const CursorLensV2: React.FC<CursorLensV2Props> = ({
             key={section.id}
             className={`
               absolute -translate-x-1/2 -translate-y-1/2
-              w-20 h-20 rounded-full
+              w-20 h-20 min-w-[44px] min-h-[44px] rounded-full
               flex flex-col items-center justify-center
-              transition-all duration-200
-              ${isHovered
-                ? 'bg-orange-500 scale-110 shadow-xl'
-                : 'bg-slate-800 hover:bg-slate-700'
-              }
-              border-2 ${isHovered ? 'border-orange-300' : 'border-white/30'}
+              transition-all duration-200 ease-out
+              focus:outline-none
+              active:scale-95
+              touch-manipulation
+              border-2
+              ${isHovered ? 'scale-110' : ''}
             `}
             style={{
               left: itemPos.x,
               top: itemPos.y,
-              zIndex: isHovered ? 3 : 2
+              zIndex: isHovered ? 3 : 2,
+              background: isHovered
+                ? 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)'
+                : 'rgba(15, 23, 42, 0.9)',
+              backdropFilter: 'blur(8px)',
+              borderColor: isHovered ? 'rgba(251, 146, 60, 0.8)' : 'rgba(255, 255, 255, 0.2)',
+              boxShadow: isHovered
+                ? '0 20px 60px rgba(251, 146, 60, 0.4), 0 0 0 2px rgba(251, 146, 60, 0.5)'
+                : '0 4px 12px rgba(0, 0, 0, 0.3)'
             }}
             onClick={() => handleSectionClick(section.id)}
             onMouseEnter={() => setHoveredSection(section.id)}
             onMouseLeave={() => setHoveredSection(null)}
             aria-label={`Navigate to ${section.label}`}
           >
-            <span className="text-2xl mb-1">{section.icon}</span>
-            <span className="text-xs text-white font-medium">{section.label}</span>
+            <span className={`text-2xl mb-1 transition-transform duration-200 ${isHovered ? 'scale-110' : ''}`}>
+              {section.icon}
+            </span>
+            <span className={`text-xs font-medium transition-colors duration-200 ${
+              isHovered ? 'text-white' : 'text-white/80'
+            }`}>
+              {section.label}
+            </span>
           </button>
         );
       })}
 
       {/* Instructions */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 text-center text-white/80 text-sm">
-        Click a section to navigate • Press ESC to close
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 text-center">
+        <div className="bg-slate-900/95 backdrop-blur-sm border border-white/20 text-white/90 px-4 py-2 rounded-lg text-sm shadow-lg">
+          Click a section to navigate • Press <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-xs font-mono">ESC</kbd> to close
+        </div>
       </div>
     </div>
   );

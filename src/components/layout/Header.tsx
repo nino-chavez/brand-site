@@ -37,31 +37,51 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
         <header
             className={`
                 fixed top-0 left-0 right-0 z-30
-                athletic-animate-transition
+                transition-all duration-300 ease-out
                 pointer-events-none
-                ${isScrolled
-                    ? 'bg-brand-dark/90 backdrop-blur-md shadow-2xl'
-                    : 'bg-black/20 backdrop-blur-sm'
-                }
             `}
-            style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)' }}
+            style={{
+                background: isScrolled
+                    ? 'rgba(15, 23, 42, 0.95)'
+                    : 'rgba(0, 0, 0, 0.2)',
+                backdropFilter: isScrolled ? 'blur(12px)' : 'blur(4px)',
+                borderBottom: isScrolled
+                    ? '1px solid rgba(139, 92, 246, 0.2)'
+                    : '1px solid transparent',
+                boxShadow: isScrolled
+                    ? '0 4px 16px rgba(139, 92, 246, 0.2)'
+                    : 'none',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)'
+            }}
         >
             <div className="container mx-auto px-6 py-4 pointer-events-auto">
                 {/* Header content with logo and volleyball navigation */}
                 <div className="flex justify-between items-center">
-                    {/* Logo - preserved from original */}
+                    {/* Logo - Enhanced with gradient on hover */}
                     <button
                         onClick={() => onNavigate?.('hero')}
                         className="
-                            text-2xl font-bold tracking-wider text-white
-                            athletic-animate-transition
-                            hover:text-athletic-brand-violet hover:scale-105
+                            text-2xl font-bold tracking-wider
+                            transition-all duration-200 ease-out
+                            group relative
                         "
                         style={{
-                            textShadow: '0 2px 8px rgba(0, 0, 0, 0.9), 0 1px 3px rgba(0, 0, 0, 0.8)'
+                            background: 'linear-gradient(135deg, #ffffff 0%, #8b5cf6 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                            textShadow: '0 2px 8px rgba(139, 92, 246, 0.3)'
                         }}
                     >
-                        NINO CHAVEZ
+                        <span className="group-hover:scale-105 inline-block transition-transform duration-200">
+                            NINO CHAVEZ
+                        </span>
+                        <div
+                            className="absolute -bottom-1 left-0 h-0.5 w-0 group-hover:w-full transition-all duration-300"
+                            style={{
+                                background: 'linear-gradient(90deg, #f97316 0%, #8b5cf6 100%)'
+                            }}
+                        />
                     </button>
 
                     {/* Technical HUD Navigation */}
@@ -83,13 +103,24 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                     <button
                         onClick={() => setShowScoreboardNav(!showScoreboardNav)}
                         className="
-                            text-white/60 hover:text-white/90
-                            transition-all duration-200
+                            text-white/80 hover:text-white
+                            transition-all duration-200 ease-out
                             text-xs font-mono tracking-wider
-                            px-4 py-2 rounded
-                            bg-white/5 hover:bg-white/10
-                            border border-white/10 hover:border-white/20
+                            px-4 py-2 rounded-lg
+                            border-2
                         "
+                        style={{
+                            background: showScoreboardNav
+                                ? 'rgba(139, 92, 246, 0.15)'
+                                : 'rgba(15, 23, 42, 0.9)',
+                            backdropFilter: 'blur(8px)',
+                            borderColor: showScoreboardNav
+                                ? 'rgba(139, 92, 246, 0.4)'
+                                : 'rgba(255, 255, 255, 0.2)',
+                            boxShadow: showScoreboardNav
+                                ? '0 0 0 2px rgba(139, 92, 246, 0.3)'
+                                : 'none'
+                        }}
                     >
                         {showScoreboardNav ? '▲ HIDE NAV' : '▼ SHOW NAV'}
                     </button>

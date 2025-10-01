@@ -8,6 +8,11 @@ import CursorLensV2 from './components/canvas/CursorLensV2';
 import LightboxCanvas from './components/canvas/LightboxCanvas';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 
+// WOW Factor Components
+import CustomCursor from './components/effects/CustomCursor';
+import ScrollProgress from './components/effects/ScrollProgress';
+import ConsoleEasterEgg from './components/effects/ConsoleEasterEgg';
+
 const App: React.FC = () => {
     const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas'>('traditional');
     const [debugMode, setDebugMode] = useState(false);
@@ -84,6 +89,11 @@ const App: React.FC = () => {
                         performanceMode={performanceMode}
                         enableAnalytics={true}
                     >
+                        {/* WOW Factor Components */}
+                        <CustomCursor />
+                        <ScrollProgress />
+                        <ConsoleEasterEgg />
+
                         <div className="bg-brand-dark text-brand-light font-sans antialiased overflow-hidden h-screen">
                             <BackgroundEffects />
 
@@ -199,6 +209,11 @@ const App: React.FC = () => {
                     performanceMode={performanceMode}
                     enableAnalytics={true}
                 >
+                    {/* WOW Factor Components */}
+                    <CustomCursor />
+                    <ScrollProgress />
+                    <ConsoleEasterEgg />
+
                     <div className="bg-brand-dark text-brand-light font-sans antialiased">
                         <BackgroundEffects />
 

@@ -209,9 +209,9 @@ export default function SimplifiedGameFlowContainer({
         onError={handlePortfolioSectionError}
       />
 
-      {/* Debug controls (simplified) */}
-      {debugMode && (
-        <div className="fixed bottom-4 left-4 space-x-2 z-50">
+      {/* Debug controls only in development with explicit flag */}
+      {import.meta.env.DEV && debugMode && (
+        <div className="fixed bottom-4 left-4 space-x-2 z-50 opacity-20 hover:opacity-100 transition-opacity">
           <button
             onClick={() => handleNavigationTest('focus')}
             data-testid="navigate-to-focus"
@@ -226,18 +226,6 @@ export default function SimplifiedGameFlowContainer({
           >
             Test Error
           </button>
-          <button
-            onClick={() => handleCameraInteraction('shutter_click')}
-            data-testid="shutter-trigger"
-            className="px-2 py-1 bg-green-600 text-white text-xs rounded hover:bg-green-500"
-          >
-            📸 Shutter
-          </button>
-
-          {/* Performance info */}
-          <div className="inline-block bg-gray-900 text-white text-xs px-2 py-1 rounded">
-            FPS: {state.performance.currentFps} | Section: {state.currentSection}
-          </div>
         </div>
       )}
 
