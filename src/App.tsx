@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import SimplifiedGameFlowContainer from './components/sports/SimplifiedGameFlowContainer';
 import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
-import { CanvasStateProvider } from './contexts/CanvasStateProvider';
+import { CanvasStateProviderV2 } from './contexts/CanvasStateProviderV2';
 import Header from './components/layout/Header';
 import BackgroundEffects from './components/effects/BackgroundEffects';
 import CursorLensV2 from './components/canvas/CursorLensV2';
-import LightboxCanvas from './components/canvas/LightboxCanvas';
-// import CanvasDebugDiagnostic from '../CanvasDebugDiagnostic'; // File not found
+import LightboxCanvasV2 from './components/canvas/LightboxCanvasV2';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 
 const App: React.FC = () => {
@@ -80,7 +79,7 @@ const App: React.FC = () => {
                     performanceMode={performanceMode}
                     debugMode={debugMode}
                 >
-                    <CanvasStateProvider
+                    <CanvasStateProviderV2
                         initialPosition={{ x: 0, y: 0, scale: 1.0 }}
                         performanceMode={performanceMode}
                         enableAnalytics={true}
@@ -114,16 +113,7 @@ const App: React.FC = () => {
 
                             {/* Canvas Layout System */}
                             <main id="canvas-content" className="relative z-10 h-screen w-screen overflow-hidden bg-gray-900">
-                                {/* Fallback content while canvas loads */}
-                                <div className="absolute inset-0 flex items-center justify-center text-white z-1">
-                                    <div className="text-center">
-                                        <div className="text-4xl mb-4">🚀</div>
-                                        <div className="text-xl font-semibold mb-2">Canvas Loading...</div>
-                                        <div className="text-gray-400">Initializing photographer's lightbox</div>
-                                    </div>
-                                </div>
-
-                                <LightboxCanvas
+                                <LightboxCanvasV2
                                     performanceMode={performanceMode}
                                     debugMode={debugMode}
                                     className="photographer-lightbox-app relative z-10"
@@ -190,7 +180,7 @@ const App: React.FC = () => {
                                 className="canvas-cursor-lens"
                             />
                         </div>
-                    </CanvasStateProvider>
+                    </CanvasStateProviderV2>
                 </UnifiedGameFlowProvider>
             </AthleticTokenProvider>
         );
