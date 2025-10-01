@@ -194,7 +194,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
 
   const debugOverlay = debugMode ? (
     <div className="absolute top-4 left-4 bg-black/90 text-white p-3 rounded text-xs font-mono z-50 max-w-xs pointer-events-none">
-      <div className="text-orange-400 font-semibold mb-2">CANVAS DEBUG V2</div>
+      <div className="text-orange-400 font-semibold mb-2">CANVAS DEBUG</div>
       <div>Position: ({state.position.x.toFixed(1)}, {state.position.y.toFixed(1)})</div>
       <div>Scale: {state.position.scale.toFixed(2)}</div>
       <div>Section: {state.activeSection}</div>
@@ -236,7 +236,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         <div className="absolute inset-0 flex items-center justify-center text-white/70 pointer-events-none">
           <div className="text-center max-w-md px-4">
             <div className="text-6xl mb-4">📸</div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">Canvas Mode V2</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-white">Canvas Mode</h2>
             <p className="text-lg mb-4">Click and hold anywhere to activate spatial navigation</p>
             <div className="text-sm text-white/50 space-y-1">
               <p>Desktop: Click + hold for 800ms</p>
@@ -283,7 +283,7 @@ export const LightboxCanvasStyles = `
   }
 
   /* Hardware acceleration */
-  .lightbox-canvas-v2 * {
+  .lightbox-canvas * {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
