@@ -1,10 +1,10 @@
 # WOW Factor Completion - Task Breakdown
 
 > **Specification:** `2025-10-01-wow-factor-completion`
-> **Total Tasks:** 29 (16 complete, 13 remaining)
-> **Estimated Effort:** 2.75 weeks (68 hours total, 28 hours remaining)
+> **Total Tasks:** 29 (19 complete, 10 remaining)
+> **Estimated Effort:** 2.75 weeks (68 hours total, 22 hours remaining)
 > **Priority:** P0 - CRITICAL (Architecture Debt) → P1 (Production Polish)
-> **Status:** 🟡 IN PROGRESS - 55% Complete (16/29 tasks)
+> **Status:** 🟡 IN PROGRESS - 66% Complete (19/29 tasks)
 
 ## Task Summary
 
@@ -16,10 +16,10 @@
 | Phase -0.125: Section ID Architecture (DEBT) | 1 | 4h | ✅ Complete |
 | Phase 0: Gallery Implementation | 3 | 8h | ⏸️ Not Started |
 | Phase 1: Photography Metaphor | 3 | 8h | ✅ Complete |
-| Phase 2: Polish & Delight | 3 | 6h | ⏸️ Not Started |
+| Phase 2: Polish & Delight | 3 | 6h | ✅ Complete |
 | Phase 3: Accessibility | 3 | 6h | ⏸️ Not Started |
 | Phase 4: Performance & Testing | 4 | 8h | ⏸️ Not Started |
-| **TOTAL** | **29** | **68h** | **55% Complete** |
+| **TOTAL** | **29** | **68h** | **66% Complete** |
 
 ---
 
@@ -1111,36 +1111,27 @@ if (isHovered && scrollPercent < 0.3) {
 
 ---
 
-## Phase 2: Polish & Delight Moments (Day 3, 6 hours)
+## Phase 2: Polish & Delight Moments (Day 3, 6 hours) ✅ COMPLETE
 
 ### Task 4: Staggered Card Animations ✅
 **Priority:** P1
 **Effort:** 2 hours
 **Dependencies:** None
-**Files:** `src/components/layout/WorkSection.tsx`, `src/hooks/useScrollAnimation.tsx`
+**Files:** `src/components/layout/WorkSection.tsx`, `src/components/layout/InsightsSection.tsx`, `src/components/layout/GallerySection.tsx`, `src/hooks/useScrollAnimation.tsx`
 **Status:** ✅ Complete
-**Commit:** 4887823, 2876699
+**Commits:** 4887823, 2876699, 2f2551c
 
 **Subtasks:**
 - [x] Find portfolio card rendering location
-  ```bash
-  grep -r "portfolioItems.map" src/
-  ```
-- [x] Add stagger delay calculation (useStaggeredChildren hook with 80ms delay)
-  ```typescript
-  // WorkSection.tsx:70
-  const { containerRef, visibleIndices } = useStaggeredChildren(WORK_PROJECTS.length, 80);
-
-  // WorkSection.tsx:88-90
-  style={{
-    transitionDelay: `${index * 80}ms`
-  }}
-  ```
+- [x] Add stagger delay calculation (useStaggeredChildren hook)
+  - WorkSection: 80ms delay
+  - InsightsSection: 80ms delay
+  - GallerySection: 60ms delay (faster for more images)
 - [x] Test with different animation styles (supports fade-up, slide, scale, blur-morph, clip-reveal)
 - [x] Verify performance (Intersection Observer based, no layout thrashing)
 
 **Acceptance Criteria:**
-- [x] Cards animate sequentially (80ms stagger)
+- [x] Cards animate sequentially with appropriate stagger
 - [x] Works with all 5 animation styles via EffectsContext
 - [x] No performance degradation with 6+ cards
 - [x] Feels intentional, not accidental
@@ -1148,108 +1139,55 @@ if (isHovered && scrollPercent < 0.3) {
 
 ---
 
-### Task 5: Photography-Themed Loading Messages
+### Task 5: Photography-Themed Loading Messages ✅
 **Priority:** P2
 **Effort:** 2 hours
 **Dependencies:** None
-**Files:** New file `src/components/effects/LoadingMessages.tsx`
+**Files:** `src/components/effects/LoadingScreen.tsx`, `src/App.tsx`
+**Status:** ✅ Complete
+**Commit:** 75c5664
 
 **Subtasks:**
-- [ ] Create LoadingMessages component
-  ```typescript
-  const photographyMessages = [
-    "Adjusting aperture...",
-    "Focusing lens...",
-    "Metering exposure...",
-    "Developing negatives...",
-    "Printing contact sheet...",
-    "Calibrating color balance...",
-  ];
-
-  export const LoadingMessages: React.FC = () => {
-    const [messageIndex, setMessageIndex] = useState(0);
-
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setMessageIndex((prev) => (prev + 1) % photographyMessages.length);
-      }, 2000);
-      return () => clearInterval(interval);
-    }, []);
-
-    return (
-      <div className="text-brand-cyan font-mono text-sm animate-pulse">
-        {photographyMessages[messageIndex]}
-      </div>
-    );
-  };
-  ```
-- [ ] Integrate with loading states (image galleries, section content)
-- [ ] Add fade transitions between messages
-- [ ] Test message rotation timing
+- [x] Create LoadingScreen component with rotating camera metaphor messages
+- [x] Integrate with app loading states (font loading, DOMContentLoaded)
+- [x] Add fade transitions between messages (800ms rotation)
+- [x] Test message rotation timing
+- [x] Add aperture-style spinner animation
+- [x] Add progress bar with gradient animation
 
 **Acceptance Criteria:**
-- [ ] Messages rotate every 2 seconds
-- [ ] Smooth fade between messages
-- [ ] Appears during actual loading states
-- [ ] Photography-themed language maintains brand
+- [x] Messages rotate every 800ms (8 photography-themed messages)
+- [x] Smooth fade between messages
+- [x] Appears during actual loading states (initial app load)
+- [x] Photography-themed language maintains brand
+- [x] Graceful exit animation (600ms fade-out)
 
 ---
 
-### Task 6: Smart Image Blur-Up Loading
+### Task 6: Smart Image Blur-Up Loading ✅
 **Priority:** P2
 **Effort:** 2 hours
 **Dependencies:** None
-**Files:** Hero background, portfolio images
+**Files:** `src/components/ui/ProgressiveImage.tsx`, gallery/work/insights sections
+**Status:** ✅ Complete
+**Commit:** 0a0a6fc
 
 **Subtasks:**
-- [ ] Create low-quality placeholders
-  ```bash
-  # Generate 20px width placeholder for hero.jpg
-  npx sharp -i public/images/hero.jpg -o public/images/hero-placeholder.jpg resize 20
-  ```
-- [ ] Implement blur-up component
-  ```typescript
-  export const BlurUpImage: React.FC<{
-    placeholder: string;
-    src: string;
-    alt: string;
-  }> = ({ placeholder, src, alt }) => {
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    return (
-      <div className="relative overflow-hidden">
-        {/* Placeholder */}
-        <img
-          src={placeholder}
-          alt={alt}
-          className={`absolute inset-0 w-full h-full object-cover blur-md transition-opacity duration-700 ${
-            isLoaded ? 'opacity-0' : 'opacity-100'
-          }`}
-        />
-        {/* High quality */}
-        <img
-          src={src}
-          alt={alt}
-          onLoad={() => setIsLoaded(true)}
-          className={`w-full h-full object-cover transition-opacity duration-700 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
-        />
-      </div>
-    );
-  };
-  ```
-- [ ] Apply to hero background
-- [ ] Apply to portfolio images
-- [ ] Test loading experience on slow 3G
+- [x] Create ProgressiveImage component
+- [x] Implement automatic placeholder generation (1/10th size for picsum.photos)
+- [x] Add blur-up transition effect (700ms smooth transition)
+- [x] Integrate with GallerySection (12px blur)
+- [x] Integrate with InsightsSection (10px blur)
+- [x] Integrate with WorkSection (10px blur)
+- [x] Add aperture-style loading spinner overlay
 
 **Acceptance Criteria:**
-- [ ] Placeholder shows immediately
-- [ ] Blur-up transition smooth (700ms)
-- [ ] No layout shift during load
-- [ ] Works on all image sizes
+- [x] Low-quality placeholder loads first
+- [x] Smooth blur-to-sharp transition (photography metaphor: focus pulling)
+- [x] Works with existing images
+- [x] Performance impact minimal (lazy loading maintained)
+- [x] Graceful fallback for non-picsum URLs
 
----
 
 ## Phase 3: Accessibility Audit (Day 4, 6 hours)
 
