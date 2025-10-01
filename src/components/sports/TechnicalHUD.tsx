@@ -30,6 +30,7 @@ export function TechnicalHUD({
     const [hoveredSection, setHoveredSection] = useState<SectionId | null>(null);
 
     // Navigation sections with technical metadata
+    // Maps to actual section IDs: hero -> hero, focus -> about, frame -> work, etc.
     const hudSections = [
         {
             id: 'hero' as SectionId,
@@ -38,37 +39,31 @@ export function TechnicalHUD({
             description: 'Portfolio entry point'
         },
         {
-            id: 'about' as SectionId,
+            id: 'focus' as SectionId,
             label: 'ABOUT',
             metric: 'Experience: 20+ Years',
             description: 'Professional background'
         },
         {
-            id: 'work' as SectionId,
+            id: 'frame' as SectionId,
             label: 'WORK',
             metric: 'Scale: Enterprise',
             description: 'Project portfolio'
         },
         {
-            id: 'insights' as SectionId,
+            id: 'exposure' as SectionId,
             label: 'INSIGHTS',
             metric: 'Focus: Technical',
             description: 'Articles & thoughts'
         },
         {
-            id: 'gallery' as SectionId,
+            id: 'develop' as SectionId,
             label: 'GALLERY',
             metric: 'Format: Professional',
             description: 'Photography portfolio'
         },
         {
-            id: 'reel' as SectionId,
-            label: 'REEL',
-            metric: 'Content: Video',
-            description: 'Motion content'
-        },
-        {
-            id: 'contact' as SectionId,
+            id: 'portfolio' as SectionId,
             label: 'CONTACT',
             metric: 'Status: Available',
             description: 'Get in touch'

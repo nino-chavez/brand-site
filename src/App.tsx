@@ -74,10 +74,11 @@ const App: React.FC = () => {
     }, []);
 
     // Collect section elements for scroll spy
+    // Traditional layout uses photography metaphor IDs: focus (about), frame (work), exposure (insights), develop (gallery), portfolio (contact)
     const sectionElements = useMemo(() => {
         if (typeof window === 'undefined') return [];
 
-        return ['hero', 'about', 'work', 'insights', 'gallery', 'reel', 'contact']
+        return ['hero', 'focus', 'frame', 'exposure', 'develop', 'portfolio']
             .map(id => document.getElementById(id))
             .filter((el): el is HTMLElement => el !== null);
     }, [layoutMode]); // Re-collect when layout changes
