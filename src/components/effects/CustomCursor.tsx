@@ -39,11 +39,7 @@ export const CustomCursor: React.FC = () => {
     // Enable custom cursor mode
     document.body.classList.add('custom-cursor-active');
 
-    const updateCursorPosition = () => {
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate(${positionRef.current.x - 10}px, ${positionRef.current.y - 10}px)`;
-      }
-
+    const updateTrailPositions = () => {
       // Update trail positions with smooth following
       for (let i = 0; i < TRAIL_COUNT; i++) {
         const trail = trailRefs.current[i];
@@ -66,11 +62,16 @@ export const CustomCursor: React.FC = () => {
 
     const handleMouseMove = (e: MouseEvent) => {
       positionRef.current = { x: e.clientX, y: e.clientY };
+
+      // Update main cursor instantly for zero latency
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+      }
     };
 
-    // Continuous animation loop for smooth trails
+    // Continuous animation loop for smooth trails only
     const animateTrails = () => {
-      updateCursorPosition();
+      updateTrailPositions();
       rafIdRef.current = requestAnimationFrame(animateTrails);
     };
 
