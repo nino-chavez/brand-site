@@ -195,10 +195,13 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
               }`}
               data-testid="journey-complete"
             >
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-                The Shot is
-                <span className="block text-athletic-brand-violet">Complete</span>
-              </h2>
+              <div className="mb-6">
+                <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Contact</div>
+                <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
+                  The Shot is
+                  <span className="block text-athletic-brand-violet">Complete</span>
+                </h2>
+              </div>
 
               <div
                 className="max-w-3xl mx-auto space-y-6 mb-12"

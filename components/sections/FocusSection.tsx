@@ -106,10 +106,10 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
 
   // Athletic stats data
   const athleticStats = [
-    { label: 'Experience', value: '20+', unit: 'years', icon: '🏆' },
-    { label: 'Team Scale', value: '100+', unit: 'resources', icon: '👥' },
-    { label: 'Architecture', value: '15+', unit: 'systems', icon: '🏗️' },
-    { label: 'Performance', value: '99.9%', unit: 'uptime', icon: '⚡' }
+    { label: 'Experience', value: '20+', unit: 'years', context: 'building enterprise systems', icon: '🏆' },
+    { label: 'Team Scale', value: '100+', unit: 'engineers', context: 'led across 5 continents', icon: '👥' },
+    { label: 'Architecture', value: '15+', unit: 'systems', context: 'serving millions of users', icon: '🏗️' },
+    { label: 'Performance', value: '99.9%', unit: 'uptime', context: 'SLA maintained in production', icon: '⚡' }
   ];
 
   // Technical stack organized by focus areas
@@ -192,10 +192,13 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
               }`}
               data-testid="about-narrative"
             >
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-                Precision in
-                <span className="block text-athletic-brand-violet">Focus</span>
-              </h2>
+              <div className="mb-6">
+                <div className="text-sm text-white/60 uppercase tracking-wider mb-2">About</div>
+                <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
+                  Precision in
+                  <span className="block text-athletic-brand-violet">Focus</span>
+                </h2>
+              </div>
 
               <div className="prose prose-lg prose-invert max-w-none">
                 <p className="text-xl text-white/90 leading-relaxed mb-6">
@@ -282,6 +285,9 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                       <div className="text-xs text-white/50 mt-1">
                         {stat.label}
                       </div>
+                      <div className="text-xs text-white/40 mt-1 leading-tight">
+                        {stat.context}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -344,32 +350,6 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
         data-mode="focus"
         data-focus-locked={focusTargetLocked}
       />
-
-      {/* Focus status indicators */}
-      <div className="absolute top-4 left-4 z-40 space-y-2">
-        <div
-          className={`flex items-center space-x-2 text-sm font-mono ${
-            focusTargetLocked ? 'text-green-400' : 'text-yellow-400'
-          } transition-colors duration-300`}
-        >
-          <div className={`w-2 h-2 rounded-full ${focusTargetLocked ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-          <span>FOCUS {focusTargetLocked ? 'LOCKED' : 'SEEKING'}</span>
-        </div>
-
-        {focusTargetLocked && (
-          <div className={`flex items-center space-x-2 text-sm font-mono ${profileRevealed ? 'text-green-400' : 'text-yellow-400'} transition-colors duration-300`}>
-            <div className={`w-2 h-2 rounded-full ${profileRevealed ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-            <span>PROFILE {profileRevealed ? 'REVEALED' : 'LOADING'}</span>
-          </div>
-        )}
-
-        {profileRevealed && (
-          <div className={`flex items-center space-x-2 text-sm font-mono ${statsAnimated ? 'text-green-400' : 'text-yellow-400'} transition-colors duration-300`}>
-            <div className={`w-2 h-2 rounded-full ${statsAnimated ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
-            <span>STATS {statsAnimated ? 'ACTIVE' : 'CALC'}</span>
-          </div>
-        )}
-      </div>
 
       {/* Depth of field controls - Hidden (internal tracking only) */}
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import SimplifiedGameFlowContainer from './components/sports/SimplifiedGameFlowContainer';
 import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
 import { CanvasStateProvider } from './contexts/CanvasStateProvider';
@@ -7,6 +7,8 @@ import BackgroundEffects from './components/effects/BackgroundEffects';
 import CursorLensV2 from './components/canvas/CursorLensV2';
 import LightboxCanvas from './components/canvas/LightboxCanvas';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
+import useScrollSpy from './hooks/useScrollSpy';
+import type { SectionId } from './types';
 
 // WOW Factor Components
 import CustomCursor from './components/effects/CustomCursor';
@@ -63,6 +65,29 @@ const App: React.FC = () => {
         return 'balanced' as const;
     })();
 
+    // Navigation handler for smooth scrolling to sections
+    const handleNavigate = useCallback((sectionId: SectionId) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, []);
+
+    // Collect section elements for scroll spy
+    const sectionElements = useMemo(() => {
+        if (typeof window === 'undefined') return [];
+
+        return ['hero', 'about', 'work', 'insights', 'gallery', 'reel', 'contact']
+            .map(id => document.getElementById(id))
+            .filter((el): el is HTMLElement => el !== null);
+    }, [layoutMode]); // Re-collect when layout changes
+
+    // Track active section with scroll spy
+    const { activeSection } = useScrollSpy(sectionElements, {
+        threshold: 0.3,
+        rootMargin: '-20% 0px -35% 0px'
+    });
+
     // Canvas Layout Mode
     if (layoutMode === 'canvas') {
         // Check if we need diagnostic mode
@@ -115,7 +140,7 @@ const App: React.FC = () => {
                             </a>
 
                             {/* Header */}
-                            <Header />
+                            <Header onNavigate={handleNavigate} activeSection={activeSection} />
 
                             {/* Debug Info */}
                             {debugMode && (
@@ -217,7 +242,7 @@ const App: React.FC = () => {
                         </a>
 
                         {/* Simplified header - Game Flow Container handles most navigation */}
-                        <Header />
+                        <Header onNavigate={handleNavigate} activeSection={activeSection} />
 
                         {/* Main Game Flow experience */}
                         <main id="main-content" className="relative z-10">

@@ -24,7 +24,7 @@ interface Project {
   title: string;
   subtitle: string;
   description: string;
-  image: string;
+  image?: string;
   technologies: string[];
   architecture: string[];
   challenges: string[];
@@ -62,14 +62,13 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Project portfolio data
+  // Project portfolio data - Real anonymized case studies
   const projects: Project[] = [
     {
       id: 'enterprise-platform',
       title: 'Enterprise Analytics Platform',
-      subtitle: 'Real-time data processing at scale',
+      subtitle: 'Fortune 500 Retail Company',
       description: 'Led architecture and development of a distributed analytics platform processing 10TB+ daily across 15 microservices, serving 50,000+ concurrent users with sub-200ms response times.',
-      image: '/images/project-enterprise.jpg',
       technologies: ['React', 'Node.js', 'Kafka', 'Redis', 'PostgreSQL', 'Kubernetes'],
       architecture: ['Microservices', 'Event Streaming', 'CQRS Pattern', 'Circuit Breaker', 'Auto-scaling'],
       challenges: ['Real-time processing', 'Data consistency', 'High availability', 'Performance optimization'],
@@ -83,9 +82,8 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
     {
       id: 'mobile-fintech',
       title: 'Mobile Financial Platform',
-      subtitle: 'Secure payment processing',
+      subtitle: 'FinTech Startup',
       description: 'Architected secure mobile payment system handling $2M+ daily transactions with PCI DSS compliance, fraud detection, and seamless user experience.',
-      image: '/images/project-fintech.jpg',
       technologies: ['React Native', 'Python', 'PostgreSQL', 'Redis', 'AWS Lambda'],
       architecture: ['Event-driven', 'Serverless', 'Encryption at rest', 'API Gateway', 'CDN'],
       challenges: ['PCI compliance', 'Fraud prevention', 'Real-time processing', 'Mobile optimization'],
@@ -99,9 +97,8 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
     {
       id: 'iot-monitoring',
       title: 'IoT Monitoring System',
-      subtitle: 'Industrial sensor network',
+      subtitle: 'Industrial Manufacturing',
       description: 'Built distributed IoT platform monitoring 10,000+ sensors across manufacturing facilities, providing real-time alerts and predictive maintenance insights.',
-      image: '/images/project-iot.jpg',
       technologies: ['Python', 'InfluxDB', 'MQTT', 'Docker', 'Grafana', 'TensorFlow'],
       architecture: ['Time-series DB', 'Message queuing', 'Edge computing', 'ML pipeline', 'Container orchestration'],
       challenges: ['Time-series data', 'Edge processing', 'Network reliability', 'Predictive modeling'],
@@ -209,6 +206,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
             {/* Section header */}
             <div className="text-center mb-16">
+              <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Work</div>
               <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
                 Perfect
                 <span className="block text-athletic-brand-violet">Composition</span>

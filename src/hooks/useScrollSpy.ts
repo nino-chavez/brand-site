@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { SectionId, VolleyballPosition } from '../types';
-import { getPositionBySection, VOLLEYBALL_POSITION_MAPPING } from '../config/volleyball-positions';
+import { getPositionBySection, VOLLEYBALL_POSITION_MAPPING } from '../../config/volleyball-positions';
 
 /**
  * Enhanced useScrollSpy hook with volleyball navigation support

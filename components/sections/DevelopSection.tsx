@@ -223,14 +223,22 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
             {/* Section header */}
             <div className="text-center mb-16">
+              <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Gallery</div>
               <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
                 Perfect
                 <span className="block text-athletic-brand-violet">Development</span>
               </h2>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed mb-8">
-                Where technical precision meets artistic vision. Each frame represents the intersection
-                of preparation, timing, and flawless execution.
-              </p>
+              <div className="text-center max-w-3xl mx-auto mb-8">
+                <p className="text-base text-athletic-brand-cyan mb-4 font-medium">
+                  The Art of Technical Precision
+                </p>
+                <p className="text-lg text-white/80 leading-relaxed">
+                  My approach to action sports photography mirrors my enterprise architecture philosophy:
+                  anticipate the critical moment, focus on what matters, execute with precision.
+                  Whether capturing a championship spike or designing a distributed system,
+                  excellence requires the same fundamental skills.
+                </p>
+              </div>
 
               {/* Performance metrics display */}
               <div className="flex justify-center space-x-8 text-sm text-white/60 mb-8">
