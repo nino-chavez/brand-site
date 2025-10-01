@@ -1,10 +1,10 @@
 # WOW Factor Completion - Task Breakdown
 
 > **Specification:** `2025-10-01-wow-factor-completion`
-> **Total Tasks:** 29 (13 complete, 16 remaining)
-> **Estimated Effort:** 2.75 weeks (68 hours total, 36 hours remaining)
+> **Total Tasks:** 29 (16 complete, 13 remaining)
+> **Estimated Effort:** 2.75 weeks (68 hours total, 28 hours remaining)
 > **Priority:** P0 - CRITICAL (Architecture Debt) → P1 (Production Polish)
-> **Status:** 🟡 IN PROGRESS - 45% Complete (13/29 tasks)
+> **Status:** 🟡 IN PROGRESS - 55% Complete (16/29 tasks)
 
 ## Task Summary
 
@@ -15,11 +15,11 @@
 | Phase -0.25: Content Integration (CRITICAL) | 3 | 8h | ✅ Complete |
 | Phase -0.125: Section ID Architecture (DEBT) | 1 | 4h | ✅ Complete |
 | Phase 0: Gallery Implementation | 3 | 8h | ⏸️ Not Started |
-| Phase 1: Photography Metaphor | 3 | 8h | ⏸️ Not Started |
+| Phase 1: Photography Metaphor | 3 | 8h | ✅ Complete |
 | Phase 2: Polish & Delight | 3 | 6h | ⏸️ Not Started |
 | Phase 3: Accessibility | 3 | 6h | ⏸️ Not Started |
 | Phase 4: Performance & Testing | 4 | 8h | ⏸️ Not Started |
-| **TOTAL** | **29** | **68h** | **45% Complete** |
+| **TOTAL** | **29** | **68h** | **55% Complete** |
 
 ---
 
@@ -896,13 +896,15 @@ Option B (Adapter Layer) would be better long-term but requires 6+ hours:
 
 ---
 
-## Phase 1: Photography Metaphor Completion (Day 1-2, 8 hours)
+## Phase 1: Photography Metaphor Completion (Day 1-2, 8 hours) ✅ COMPLETE
 
-### Task 1: Fix useViewfinderVisibility for All Sections
+### Task 1: Fix useViewfinderVisibility for All Sections ✅
 **Priority:** P0
 **Effort:** 3 hours
 **Dependencies:** None
 **Files:** `src/hooks/useViewfinderVisibility.tsx`
+**Status:** ✅ Complete
+**Commit:** ecd9391
 
 **Current State:**
 ```typescript
@@ -913,8 +915,8 @@ if (isHovered && scrollPercent < 0.3) {
 ```
 
 **Subtasks:**
-- [ ] Read current `useViewfinderVisibility.tsx` implementation
-- [ ] Add `EffectsContext` integration for `enableViewfinder` setting
+- [x] Read current `useViewfinderVisibility.tsx` implementation
+- [x] Add `EffectsContext` integration for `enableViewfinder` setting
   ```typescript
   import { useEffects } from '../contexts/EffectsContext';
 
@@ -922,7 +924,7 @@ if (isHovered && scrollPercent < 0.3) {
     const { settings } = useEffects();
     const viewfinderEnabled = settings.enableViewfinder;
   ```
-- [ ] Update visibility logic for all sections
+- [x] Update visibility logic for all sections
   ```typescript
   // NEW LOGIC:
   // 1. Hero: Show on hover (discovery)
@@ -945,7 +947,7 @@ if (isHovered && scrollPercent < 0.3) {
     }
   }
   ```
-- [ ] Add section change detection
+- [x] Add section change detection
   ```typescript
   const [previousSection, setPreviousSection] = useState('hero');
 
@@ -956,17 +958,17 @@ if (isHovered && scrollPercent < 0.3) {
     }
   }, [currentSection]);
   ```
-- [ ] Test with EffectsPanel toggle
+- [x] Test with EffectsPanel toggle
   - Enable "Viewfinder Mode"
   - Scroll through sections
   - Verify metadata appears in each section
 
 **Acceptance Criteria:**
-- [ ] Metadata shows on hero hover (first discovery)
-- [ ] Metadata shows in all sections when `enableViewfinder` is true
-- [ ] Metadata hides in all sections when `enableViewfinder` is false
-- [ ] Section detection working correctly
-- [ ] No console errors during section transitions
+- [x] Metadata shows on hero hover (first discovery)
+- [x] Metadata shows in all sections when `enableViewfinder` is true
+- [x] Metadata hides in all sections when `enableViewfinder` is false
+- [x] Section detection working correctly
+- [x] No console errors during section transitions
 
 **Validation:**
 ```bash
@@ -982,15 +984,17 @@ if (isHovered && scrollPercent < 0.3) {
 
 ---
 
-### Task 2: Add Section Transition Animations
+### Task 2: Add Section Transition Animations ✅
 **Priority:** P1
 **Effort:** 3 hours
 **Dependencies:** Task 1
 **Files:** `src/components/effects/ViewfinderMetadata.tsx`
+**Status:** ✅ Complete
+**Commit:** 6185f4d (section-specific metadata + transitions)
 
 **Subtasks:**
-- [ ] Read current `ViewfinderMetadata.tsx` implementation
-- [ ] Add transition state management
+- [x] Read current `ViewfinderMetadata.tsx` implementation
+- [x] Add transition state management
   ```typescript
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -1010,32 +1014,34 @@ if (isHovered && scrollPercent < 0.3) {
     }
   }, [currentSection, settings]);
   ```
-- [ ] Add transition CSS classes
+- [x] Add transition CSS classes
   ```typescript
   className={`... ${isTransitioning ? 'opacity-0 blur-sm' : 'opacity-100 blur-0'}`}
   ```
-- [ ] Test smooth transitions between sections
+- [x] Test smooth transitions between sections
   - Verify 400ms total transition time
   - Check for visual smoothness
   - Ensure no flash of incorrect content
 
 **Acceptance Criteria:**
-- [ ] Settings fade out before changing (200ms)
-- [ ] Settings fade in after changing (200ms)
-- [ ] No visual glitches during transition
-- [ ] Blur effect applied during transition
-- [ ] Total transition feels smooth and intentional
+- [x] Settings fade out before changing (200ms)
+- [x] Settings fade in after changing (200ms)
+- [x] No visual glitches during transition
+- [x] Blur effect applied during transition
+- [x] Total transition feels smooth and intentional
 
 ---
 
-### Task 3: Mobile Positioning Optimization
+### Task 3: Mobile Positioning Optimization ✅
 **Priority:** P1
 **Effort:** 2 hours
 **Dependencies:** Task 1, Task 2
 **Files:** `src/components/effects/ViewfinderMetadata.tsx`
+**Status:** ✅ Complete
+**Commit:** 4e23387 (mobile positioning)
 
 **Subtasks:**
-- [ ] Add responsive positioning logic
+- [x] Add responsive positioning logic
   ```typescript
   const getResponsivePosition = () => {
     if (typeof window === 'undefined') return 'top-left';
@@ -1052,7 +1058,7 @@ if (isHovered && scrollPercent < 0.3) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   ```
-- [ ] Update position classes for mobile
+- [x] Update position classes for mobile
   ```typescript
   const positionClasses = {
     'top-left': 'top-24 left-4',
@@ -1061,7 +1067,7 @@ if (isHovered && scrollPercent < 0.3) {
     'floating': 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
   };
   ```
-- [ ] Add mobile-specific styling
+- [x] Add mobile-specific styling
   ```typescript
   // Smaller text on mobile
   <div className={`
@@ -1070,18 +1076,18 @@ if (isHovered && scrollPercent < 0.3) {
     text-xs md:text-sm  // Responsive text size
   `}>
   ```
-- [ ] Test on multiple viewport sizes
+- [x] Test on multiple viewport sizes
   - 320px (iPhone SE)
   - 375px (iPhone standard)
   - 768px (iPad)
   - 1024px (Desktop)
 
 **Acceptance Criteria:**
-- [ ] Desktop: top-24 left-4 (below header)
-- [ ] Mobile: bottom-4 center (doesn't block content)
-- [ ] Text readable on smallest screens
-- [ ] Doesn't overflow viewport
-- [ ] Touch-friendly spacing on mobile
+- [x] Desktop: top-24 left-4 (below header)
+- [x] Mobile: bottom-4 center (doesn't block content)
+- [x] Text readable on smallest screens
+- [x] Doesn't overflow viewport
+- [x] Touch-friendly spacing on mobile
 
 ---
 
