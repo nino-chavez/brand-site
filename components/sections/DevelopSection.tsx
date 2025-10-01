@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'rea
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
+import { GALLERY_IMAGES, type GalleryImage as ImportedGalleryImage } from '../../src/constants';
 
 interface DevelopSectionProps {
   active: boolean;
@@ -11,87 +12,21 @@ interface DevelopSectionProps {
   className?: string;
 }
 
-interface GalleryImage {
-  id: string;
-  src: string;
-  alt: string;
-  title: string;
-  category: string;
-  location?: string;
-  equipment?: string;
-  settings?: string;
-  story?: string;
-}
-
-// Gallery data - high-speed optimized (moved outside component to prevent recreation)
-const GALLERY_IMAGES: GalleryImage[] = [
-  {
-    id: 'volleyball-spike-1',
-    src: '/images/gallery/volleyball-spike-perfect-timing.jpg',
-    alt: 'Professional volleyball player mid-spike with perfect form',
-    title: 'Perfect Timing',
-    category: 'Volleyball',
-    location: 'Olympic Training Center',
-    equipment: 'Canon R5, 70-200mm f/2.8',
-    settings: '1/2000s, f/2.8, ISO 1600',
-    story: 'Captured the decisive moment of a championship spike. The precision required mirrors system architecture - everything must align perfectly.'
-  },
-  {
-    id: 'surfing-barrel-1',
-    src: '/images/gallery/surfing-barrel-tunnel.jpg',
-    alt: 'Surfer riding through a perfect barrel wave',
-    title: 'Inside the Pipeline',
-    category: 'Surfing',
-    location: 'Pipeline, Hawaii',
-    equipment: 'Sony A7R IV, 16-35mm f/2.8',
-    settings: '1/1000s, f/4, ISO 800',
-    story: 'Technical mastery meets natural power. Like scaling systems - you need both preparation and adaptability.'
-  },
-  {
-    id: 'climbing-dynamic-1',
-    src: '/images/gallery/rock-climbing-dynamic-move.jpg',
-    alt: 'Rock climber executing a dynamic move on overhanging rock',
-    title: 'Dynamic Problem Solving',
-    category: 'Climbing',
-    location: 'Yosemite Valley',
-    equipment: 'Nikon D850, 24-70mm f/2.8',
-    settings: '1/1250s, f/3.5, ISO 1000',
-    story: 'Every move is calculated, every hold tested. Software architecture requires the same methodical approach.'
-  },
-  {
-    id: 'skiing-powder-1',
-    src: '/images/gallery/skiing-powder-spray.jpg',
-    alt: 'Skier carving through deep powder snow',
-    title: 'Flow State',
-    category: 'Skiing',
-    location: 'Whistler Backcountry',
-    equipment: 'Canon R6, 100-400mm f/4.5-5.6',
-    settings: '1/1600s, f/5.6, ISO 1200',
-    story: 'Pure flow - when technique becomes instinct. The goal of every well-architected system.'
-  },
-  {
-    id: 'basketball-dunk-1',
-    src: '/images/gallery/basketball-slam-dunk.jpg',
-    alt: 'Basketball player dunking with explosive power',
-    title: 'Peak Performance',
-    category: 'Basketball',
-    location: 'Madison Square Garden',
-    equipment: 'Sony A9, 85mm f/1.4',
-    settings: '1/2500s, f/1.8, ISO 3200',
-    story: 'Athletes and systems both require peak performance when it matters most. No second chances.'
-  },
-  {
-    id: 'cycling-sprint-1',
-    src: '/images/gallery/cycling-sprint-finish.jpg',
-    alt: 'Cyclists in tight formation during sprint finish',
-    title: 'Precision Under Pressure',
-    category: 'Cycling',
-    location: 'Tour de France',
-    equipment: 'Canon R3, 400mm f/2.8',
-    settings: '1/3200s, f/2.8, ISO 1600',
-    story: 'Split-second decisions at 70kph. Like production deployments - precision is everything.'
-  }
-];
+// Adapt imported gallery images to component format
+const adaptGalleryImages = () => {
+  return GALLERY_IMAGES.slice(0, 12).map((img: ImportedGalleryImage) => ({
+    id: img.id,
+    src: img.urls.preview, // Use preview size for gallery grid
+    fullSrc: img.urls.full, // Use full size for modal
+    alt: img.alt,
+    title: `${img.metadata.camera} - ${img.metadata.lens}`,
+    category: img.categories[0] || 'action-sports',
+    location: img.metadata.location,
+    equipment: `${img.metadata.camera}, ${img.metadata.lens}`,
+    settings: `${img.metadata.shutterSpeed}, ${img.metadata.aperture}, ISO ${img.metadata.iso}`,
+    story: img.metadata.projectContext
+  }));
+};
 
 const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
   active,
@@ -122,6 +57,9 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
   const sectionRef = useRef<HTMLElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
 
+  // Adapted gallery images from real data
+  const adaptedGalleryImages = React.useMemo(() => adaptGalleryImages(), []);
+
   // Development sequence
   useEffect(() => {
     if (active || isActive) {
@@ -135,7 +73,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
           setDevelopmentComplete(true);
 
           // High-speed gallery loading
-          const loadPromises = GALLERY_IMAGES.map((image, index) =>
+          const loadPromises = adaptedGalleryImages.map((image, index) =>
             new Promise(resolve => {
               const img = new Image();
               img.onload = resolve;
@@ -156,8 +94,8 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
           const loadTime = endTime - loadStartTime;
           setPerformanceMetrics({
             loadTime: Math.round(loadTime),
-            imageCount: GALLERY_IMAGES.length,
-            totalSize: GALLERY_IMAGES.length * 0.5 // Simulated total size in MB
+            imageCount: adaptedGalleryImages.length,
+            totalSize: adaptedGalleryImages.length * 0.25 // Simulated total size in MB (smaller due to optimization)
           });
 
           gameFlowDebugger.endBenchmark('develop-section-ready');
@@ -173,7 +111,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
       developSequence();
     }
-  }, [active, isActive]);
+  }, [active, isActive, adaptedGalleryImages]);
 
   // Image selection handler with instant response
   const handleImageSelect = useCallback((imageId: string) => {
@@ -194,7 +132,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
     setSelectedImage(null);
   }, []);
 
-  const selectedImageData = selectedImage ? GALLERY_IMAGES.find(img => img.id === selectedImage) : null;
+  const selectedImageData = selectedImage ? adaptedGalleryImages.find(img => img.id === selectedImage) : null;
 
   return (
     <section
@@ -266,7 +204,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
               data-testid="optimized-gallery"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {GALLERY_IMAGES.map((image, index) => (
+                {adaptedGalleryImages.map((image, index) => (
                   <div
                     key={image.id}
                     className="group cursor-pointer"
@@ -277,15 +215,14 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
                   >
                     <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20">
 
-                      {/* Optimized image placeholder */}
-                      <div className="aspect-[4/3] bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center relative">
-                        <div
-                          className={`text-6xl opacity-20 transition-all duration-300 ${
-                            selectedImage === image.id ? 'scale-110 opacity-40' : ''
-                          }`}
-                        >
-                          📷
-                        </div>
+                      {/* Gallery image */}
+                      <div className="aspect-[4/3] bg-gradient-to-br from-purple-900/20 to-blue-900/20 relative overflow-hidden">
+                        <img
+                          src={image.src}
+                          alt={image.alt}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          loading="lazy"
+                        />
 
                         {/* Optimized loading indicator */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -351,8 +288,12 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
             <div className="grid grid-cols-1 lg:grid-cols-2">
               {/* Image display */}
-              <div className="aspect-[4/3] bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center p-8">
-                <div className="text-8xl opacity-30">📷</div>
+              <div className="aspect-[4/3] bg-gradient-to-br from-purple-900/20 to-blue-900/20 relative overflow-hidden">
+                <img
+                  src={(selectedImageData as any)?.fullSrc || selectedImageData?.src}
+                  alt={selectedImageData?.alt || ''}
+                  className="w-full h-full object-contain"
+                />
               </div>
 
               {/* Technical details */}
