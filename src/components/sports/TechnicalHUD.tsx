@@ -130,11 +130,13 @@ export function TechnicalHUD({
                                     border rounded
 
                                     ${isActive ? (
-                                        // Active state - clear visual indication
-                                        `text-brand-violet bg-brand-violet/10 border-brand-violet/30 shadow-sm`
+                                        // Active state with violet glow
+                                        `text-white bg-brand-violet/20 border-brand-violet/50
+                                         shadow-[0_0_20px_rgba(139,92,246,0.4),0_0_0_2px_rgba(139,92,246,0.3)]`
                                     ) : isHovered ? (
-                                        // Hovered state - clear feedback
-                                        `text-white bg-white/8 border-white/30 shadow-sm`
+                                        // Hovered state with cyan preview
+                                        `text-white bg-cyan-500/10 border-cyan-400/40
+                                         shadow-[0_0_16px_rgba(6,182,212,0.3),0_0_0_1px_rgba(6,182,212,0.2)]`
                                     ) : (
                                         // Default state with hover effects
                                         `text-white/70 bg-transparent border-transparent
@@ -163,37 +165,37 @@ export function TechnicalHUD({
                                 )}
                             </button>
 
-                            {/* Technical hover overlay - positioned below */}
+                            {/* Technical hover overlay - positioned below with enhanced styling */}
                             {isHovered && variant !== 'mobile' && (
                                 <div
                                     className="
                                         absolute top-full mt-2 left-1/2 transform -translate-x-1/2
-                                        bg-brand-dark/95 backdrop-blur-md
-                                        border border-white/20
-                                        rounded-md px-3 py-2
+                                        glass-dark
+                                        border border-cyan-400/30
+                                        rounded-lg px-3 py-2
                                         pointer-events-none
-                                        shadow-xl
                                         z-[60]
                                         min-w-max
                                         whitespace-nowrap
+                                        animate-fade-in-up
                                     "
                                     role="tooltip"
                                     style={{
                                         backdropFilter: 'blur(12px)',
-                                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
+                                        boxShadow: '0 8px 32px rgba(6, 182, 212, 0.3), 0 0 0 1px rgba(6, 182, 212, 0.2)'
                                     }}
                                 >
                                     {/* Tooltip arrow pointing up */}
                                     <div
                                         className="
                                             absolute -top-1 left-1/2 transform -translate-x-1/2
-                                            w-2 h-2 bg-brand-dark/95 border-l border-t border-white/20
+                                            w-2 h-2 bg-brand-dark/95 border-l border-t border-cyan-400/30
                                             rotate-45
                                         "
                                         aria-hidden="true"
                                     />
 
-                                    <div className="text-xs font-mono text-brand-violet font-medium">
+                                    <div className="text-xs font-mono text-gradient-orange font-medium">
                                         {section.metric}
                                     </div>
                                     <div className="text-xs text-white/70 mt-1">
