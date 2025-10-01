@@ -26,21 +26,35 @@ const SECTION_SETTINGS: Record<string, CameraSettings> = {
     focus: 'Enterprise Architecture',
     description: 'Wide aperture for big picture thinking, fast execution, clean solutions'
   },
-  about: {
+  focus: {  // About section - attention to detail
     aperture: 'f/8',
     shutter: '1/125s',
     iso: 'ISO 200',
     focus: 'Technical Excellence',
     description: 'Balanced depth for comprehensive understanding'
   },
-  work: {
+  frame: {  // Work section - composition & planning
     aperture: 'f/2.8',
     shutter: '1/1000s',
     iso: 'ISO 400',
     focus: 'Results Driven',
     description: 'Fast capture of impactful moments'
   },
-  contact: {
+  exposure: {  // Insights section - technical execution
+    aperture: 'f/5.6',
+    shutter: '1/250s',
+    iso: 'ISO 320',
+    focus: 'Technical Depth',
+    description: 'Precise exposure for detailed insights'
+  },
+  develop: {  // Gallery section - process & refinement
+    aperture: 'f/11',
+    shutter: '1/60s',
+    iso: 'ISO 100',
+    focus: 'Artistic Process',
+    description: 'Patient development for refined results'
+  },
+  portfolio: {  // Contact section - results & showcase
     aperture: 'f/4',
     shutter: '1/60s',
     iso: 'ISO 100',
@@ -71,10 +85,15 @@ export const ViewfinderMetadata: React.FC<ViewfinderMetadataProps> = ({
     const newSettings = SECTION_SETTINGS[currentSection] || SECTION_SETTINGS.hero;
 
     if (newSettings !== settings) {
+      // Start transition: fade out with blur (200ms)
       setIsTransitioning(true);
+
       setTimeout(() => {
+        // Update settings at midpoint
         setSettings(newSettings);
-        setTimeout(() => setIsTransitioning(false), 100);
+
+        // Fade in and remove blur (200ms)
+        setTimeout(() => setIsTransitioning(false), 200);
       }, 200);
     }
   }, [currentSection, settings]);
@@ -87,30 +106,34 @@ export const ViewfinderMetadata: React.FC<ViewfinderMetadataProps> = ({
 
   return (
     <div
-      className={`fixed ${positionClasses[position]} z-40 pointer-events-none transition-all duration-500 ${
-        visible ? 'opacity-100' : 'opacity-0'
-      } ${isTransitioning ? 'blur-sm' : 'blur-0'} ${className}`}
+      className={`fixed ${positionClasses[position]} z-40 pointer-events-none ${className}`}
       style={style}
     >
-      <div className="bg-black/80 backdrop-blur-md border border-white/20 rounded-lg p-3 space-y-1 font-mono text-xs">
-        {/* Camera Settings */}
-        <div className="flex items-center gap-3 text-white/90">
-          <span className="text-brand-orange font-semibold">{settings.aperture}</span>
-          <span className="text-white/60">•</span>
-          <span className="text-brand-cyan">{settings.shutter}</span>
-          <span className="text-white/60">•</span>
-          <span className="text-brand-violet">{settings.iso}</span>
-        </div>
+      <div
+        className={`transition-all duration-200 ${
+          visible ? 'opacity-100' : 'opacity-0'
+        } ${isTransitioning ? 'opacity-0 blur-sm scale-95' : 'opacity-100 blur-0 scale-100'}`}
+      >
+        <div className="bg-black/80 backdrop-blur-md border border-white/20 rounded-lg p-3 space-y-1 font-mono text-xs">
+          {/* Camera Settings */}
+          <div className="flex items-center gap-3 text-white/90">
+            <span className="text-brand-orange font-semibold">{settings.aperture}</span>
+            <span className="text-white/60">•</span>
+            <span className="text-brand-cyan">{settings.shutter}</span>
+            <span className="text-white/60">•</span>
+            <span className="text-brand-violet">{settings.iso}</span>
+          </div>
 
-        {/* Focus Area */}
-        <div className="flex items-center gap-2 text-sm">
-          <span className="text-white/50">Focus:</span>
-          <span className="text-brand-orange font-medium">{settings.focus}</span>
-        </div>
+          {/* Focus Area */}
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-white/50">Focus:</span>
+            <span className="text-brand-orange font-medium">{settings.focus}</span>
+          </div>
 
-        {/* Description Tooltip */}
-        <div className="text-white/40 text-[10px] leading-relaxed max-w-[200px] pt-1 border-t border-white/10">
-          {settings.description}
+          {/* Description Tooltip */}
+          <div className="text-white/40 text-[10px] leading-relaxed max-w-[200px] pt-1 border-t border-white/10">
+            {settings.description}
+          </div>
         </div>
       </div>
     </div>
