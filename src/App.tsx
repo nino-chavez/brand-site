@@ -9,6 +9,7 @@ import LightboxCanvas from './components/canvas/LightboxCanvas';
 import CanvasPortfolioLayout from './components/canvas/CanvasPortfolioLayout';
 import CanvasOnboarding from './components/canvas/CanvasOnboarding';
 import PersistentCTABar from './components/canvas/PersistentCTABar';
+import CanvasMinimap from './components/canvas/CanvasMinimap';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 import useScrollSpy from './hooks/useScrollSpy';
 import type { SectionId } from './types';
@@ -255,6 +256,9 @@ const App: React.FC = () => {
                             )}
 
                             {/* Layout switcher hidden - use ?layout=canvas URL param to switch modes */}
+
+                            {/* Canvas Minimap - Spatial orientation */}
+                            <CanvasMinimap />
 
                             {/* Persistent CTA Bar - Conversion optimization */}
                             <PersistentCTABar onNavigate={handleNavigate} />
