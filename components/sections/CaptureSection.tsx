@@ -122,11 +122,11 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
     const interval = setInterval(() => {
       setNextImageIndex((current) => (current + 1) % heroImages.length);
 
-      // Crossfade timing
+      // Crossfade timing - reduced to 800ms for snappier feel
       setTimeout(() => {
         setCurrentImageIndex((current) => (current + 1) % heroImages.length);
-      }, 1000); // 1s crossfade duration
-    }, 8000); // Change image every 8 seconds
+      }, 800); // 800ms crossfade duration (was 1000ms)
+    }, 6000); // Change image every 6 seconds (was 8s) for more dynamic feel
 
     return () => clearInterval(interval);
   }, [settings.animationStyle, settings.transitionSpeed, heroImages.length]);
@@ -205,7 +205,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           height: '120%',
           top: '-10%',
           transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
-          animation: settings.animationStyle !== 'reduced' ? 'kenBurns 16s ease-out infinite' : 'none',
+          animation: settings.animationStyle !== 'reduced' ? 'kenBurns 12s ease-out infinite' : 'none',
           opacity: 1
         }}
         data-parallax-intensity={settings.parallaxIntensity}
@@ -221,7 +221,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           height: '120%',
           top: '-10%',
           transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
-          animation: settings.animationStyle !== 'reduced' ? 'kenBurnsReverse 16s ease-out infinite' : 'none',
+          animation: settings.animationStyle !== 'reduced' ? 'kenBurnsReverse 12s ease-out infinite' : 'none',
           opacity: 0
         }}
         data-parallax-intensity={settings.parallaxIntensity}
@@ -257,7 +257,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-green-500/20 border border-green-400/40 backdrop-blur-sm rounded-full">
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-sm font-medium text-green-100">
-              Available for Select Projects • Q1 2025
+              Available for Select Projects • Starting February 2025
             </span>
           </div>
 
@@ -290,132 +290,110 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             className={`mb-8 ${getClasses(roleVisible)}`}
             data-testid="hero-role"
           >
-            <p className="text-xl md:text-3xl lg:text-4xl font-semibold tracking-wide mb-2">
-              Enterprise Architect & Technical Leader
+            <p className="text-xl md:text-3xl lg:text-4xl font-semibold tracking-wide mb-4">
+              Scaling Systems Architect
             </p>
-            <div className="flex items-center justify-center space-x-3 text-lg md:text-xl text-white/90 font-medium">
-              <span>Software Engineering</span>
-              <div className="w-1 h-1 rounded-full bg-white/60" />
-              <span>Visual Storytelling</span>
-            </div>
+            <p className="text-lg md:text-xl text-white/80 font-medium">
+              From 10K to 10M Users Without Breaking a Sweat
+            </p>
           </div>
 
           {/* Value proposition */}
           <p
             ref={taglineRef}
-            className={`text-xl md:text-2xl text-white/85 mb-4 font-normal leading-relaxed tracking-wide ${getClasses(taglineVisible)}`}
+            className={`text-lg md:text-xl text-white/75 mb-6 font-normal leading-relaxed ${getClasses(taglineVisible)}`}
             style={{
               textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)'
             }}
           >
-            Building resilient systems that scale from thousands to millions of users
+            I've scaled 15+ systems from startup to IPO without a single architecture rewrite
           </p>
 
-          {/* Trust signals */}
-          <p className="text-sm md:text-base text-white/60 mb-6">
-            Trusted by Fortune 500 companies • 20+ years enterprise experience
+          {/* Trust signals with specific companies */}
+          <p className="text-sm md:text-base text-white/70 mb-4 font-medium">
+            Microsoft • Oracle • Adobe
+          </p>
+          <p className="text-xs md:text-sm text-white/50 mb-6">
+            20 years scaling mission-critical systems
           </p>
 
-          {/* Enhanced tech stack */}
-          <p className="text-base md:text-lg text-white/70 mb-12">
-            React 19 • TypeScript • AWS/Azure • Microservices • Leading 50+ Engineers
-          </p>
-
-          {/* Tiered Conversion CTAs */}
+          {/* Consolidated 2-CTA Approach */}
           <div
             ref={ctaRef}
             className={`${getClasses(ctaVisible)}`}
             data-testid="primary-cta"
           >
-            {/* Primary & Secondary CTAs */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-6">
+            {/* Primary & Secondary CTAs Only - No Tertiary */}
+            <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 mb-8">
               {/* High Commitment: View Portfolio */}
               <button
                 ref={viewWorkButtonRef}
                 onClick={handleViewWorkCTA}
-                className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-12 py-5 text-xl rounded-xl border border-white/20 backdrop-blur-sm shadow-lg hover:shadow-xl"
+                className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-14 py-6 text-xl rounded-xl border border-white/20 backdrop-blur-sm shadow-lg hover:shadow-2xl"
                 style={{
-                  transition: 'background-color 300ms, box-shadow 300ms, border-color 300ms',
+                  transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
                   willChange: 'transform'
                 }}
                 data-testid="view-work-cta"
-                aria-label="View case studies and portfolio"
+                aria-label="Explore portfolio and case studies"
               >
                 <span className="flex items-center justify-center space-x-2">
-                  <span className="tracking-wide">View Case Studies</span>
+                  <span className="tracking-wide">Explore My Work</span>
                   <svg
-                    className="w-6 h-6 transition-transform duration-300 group-hover:translate-x-1"
+                    className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </span>
               </button>
 
-              {/* Medium Commitment: Direct Contact */}
+              {/* Medium Commitment: Architecture Review */}
               <button
                 ref={contactButtonRef}
                 onClick={handlePrimaryCTA}
-                className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-10 py-4 rounded-xl hover:bg-white/20 hover:border-white/60"
+                className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-12 py-6 text-xl rounded-xl hover:bg-white/20 hover:border-white/60 shadow-md hover:shadow-lg"
                 style={{
-                  transition: 'background-color 300ms, box-shadow 300ms, border-color 300ms',
+                  transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
                   willChange: 'transform'
                 }}
-                aria-label="Contact for project discussion"
+                aria-label="Schedule architecture discussion"
               >
                 <span className="flex items-center justify-center space-x-2">
                   <svg className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-lg tracking-wide">Let's Connect</span>
+                  <span className="tracking-wide">Schedule Review</span>
                 </span>
               </button>
             </div>
 
-            {/* Low Commitment: Learn More Options */}
-            <div className="flex flex-wrap justify-center gap-4 text-sm">
+            {/* Social Proof Links - Moved to Subtle Footer Row */}
+            <div className="flex justify-center gap-6 text-sm text-white/50">
               <a
                 href="https://github.com/ninoai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+                className="hover:text-white/80 transition-colors inline-flex items-center gap-1.5"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                 </svg>
-                <span>GitHub</span>
-                <svg className="w-3 h-3 opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
+                GitHub
               </a>
               <a
                 href="https://linkedin.com/in/ninochavez"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors"
+                className="hover:text-white/80 transition-colors inline-flex items-center gap-1.5"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
                 </svg>
-                <span>LinkedIn</span>
-                <svg className="w-3 h-3 opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                </svg>
+                LinkedIn
               </a>
-              <button
-                onClick={handleViewWorkCTA}
-                className="group inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>Learn More</span>
-                <svg className="w-3 h-3 transition-transform group-hover:translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
             </div>
           </div>
         </div>
@@ -517,19 +495,19 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           }
         }
 
-        /* Ken Burns effect - slow zoom + pan */
+        /* Ken Burns effect - optimized timing for engagement */
         @keyframes kenBurns {
           0% {
             transform: scale(1) translate(0, 0);
           }
           100% {
-            transform: scale(1.1) translate(-2%, -1%);
+            transform: scale(1.08) translate(-1.5%, -1%);
           }
         }
 
         @keyframes kenBurnsReverse {
           0% {
-            transform: scale(1.1) translate(2%, 1%);
+            transform: scale(1.08) translate(1.5%, 1%);
           }
           100% {
             transform: scale(1) translate(0, 0);

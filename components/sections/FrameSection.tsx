@@ -87,7 +87,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
       technologies: ['React', 'Node.js', 'Kafka', 'Redis', 'PostgreSQL', 'Kubernetes'],
       architecture: ['Microservices', 'Event Streaming', 'CQRS Pattern', 'Circuit Breaker', 'Auto-scaling'],
       challenges: ['Real-time processing', 'Data consistency', 'High availability', 'Performance optimization'],
-      outcomes: ['99.97% uptime', '40% cost reduction', 'Sub-second query times', '10x user scale'],
+      outcomes: ['99.97% uptime → $2M+ protected daily', '40% cost reduction → $800K annual savings', 'Sub-second query times', '10x user scale'],
       metrics: {
         performance: '< 200ms avg response',
         scale: '50K concurrent users',
@@ -102,7 +102,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
       technologies: ['React Native', 'Python', 'PostgreSQL', 'Redis', 'AWS Lambda'],
       architecture: ['Event-driven', 'Serverless', 'Encryption at rest', 'API Gateway', 'CDN'],
       challenges: ['PCI compliance', 'Fraud prevention', 'Real-time processing', 'Mobile optimization'],
-      outcomes: ['PCI DSS certified', 'Zero security incidents', '2.1s avg transaction', '4.9/5 user rating'],
+      outcomes: ['PCI DSS certified → Enterprise compliance', 'Zero security incidents → $0 fraud loss', '2.1s avg transaction', '4.9/5 user rating'],
       metrics: {
         performance: '< 2.1s transactions',
         scale: '$2M+ daily volume',
@@ -117,7 +117,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
       technologies: ['Python', 'InfluxDB', 'MQTT', 'Docker', 'Grafana', 'TensorFlow'],
       architecture: ['Time-series DB', 'Message queuing', 'Edge computing', 'ML pipeline', 'Container orchestration'],
       challenges: ['Time-series data', 'Edge processing', 'Network reliability', 'Predictive modeling'],
-      outcomes: ['30% maintenance cost reduction', '99.5% sensor uptime', 'Predictive accuracy 85%', 'Real-time alerts'],
+      outcomes: ['30% maintenance reduction → $1.2M annual savings', '99.5% sensor uptime', 'Predictive accuracy 85% → Prevents $500K losses', 'Real-time alerts'],
       metrics: {
         performance: '< 500ms data ingestion',
         scale: '10K+ sensors monitored',

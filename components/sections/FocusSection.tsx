@@ -226,14 +226,17 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 <div className="text-center">
                   <div className="text-3xl font-bold text-athletic-brand-violet mb-2">100+ Engineers</div>
                   <p className="text-sm text-white/70">Led across Microsoft, Oracle, and Adobe teams</p>
+                  <p className="text-xs text-white/50 mt-1">→ $500M+ in delivered value</p>
                 </div>
                 <div className="text-center border-l border-r border-white/10 px-4">
                   <div className="text-3xl font-bold text-cyan-400 mb-2">$10M+ Daily</div>
                   <p className="text-sm text-white/70">Transaction platforms with zero downtime</p>
+                  <p className="text-xs text-white/50 mt-1">→ $2M+ protected from outages</p>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-orange-400 mb-2">10K → 10M Users</div>
                   <p className="text-sm text-white/70">Scaled systems 1000x without infrastructure rebuild</p>
+                  <p className="text-xs text-white/50 mt-1">→ $15M saved on rewrites</p>
                 </div>
               </div>
 
