@@ -87,19 +87,34 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
     const section = SPATIAL_SECTION_MAP[sectionId];
     if (!section) return;
 
-    // Calculate centered position
+    // Calculate centered position (FIXED - matching CanvasPortfolioLayout)
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const targetX = -(CANVAS_WORLD.centerX + section.coordinates.x) + viewportWidth / 2 - section.dimensions.width / 2;
-    const targetY = -(CANVAS_WORLD.centerY + section.coordinates.y) + viewportHeight / 2 - section.dimensions.height / 2;
+
+    // Section's absolute position in canvas space
+    const sectionAbsoluteX = CANVAS_WORLD.centerX + section.coordinates.x;
+    const sectionAbsoluteY = CANVAS_WORLD.centerY + section.coordinates.y;
+
+    // Center point of the section
+    const sectionCenterX = sectionAbsoluteX + section.dimensions.width / 2;
+    const sectionCenterY = sectionAbsoluteY + section.dimensions.height / 2;
+
+    // Target position: move canvas so section center aligns with viewport center
+    const targetX = sectionCenterX - viewportWidth / 2;
+    const targetY = sectionCenterY - viewportHeight / 2;
 
     actions.updatePosition({
       x: targetX,
       y: targetY,
-      scale: 1.2
+      scale: 1.0 // Consistent zoom level
     });
     actions.setActiveSection(sectionId);
-    console.log(`🗺️ Minimap: Navigating to ${sectionId}`);
+    console.log(`🗺️ Minimap: Navigating to ${sectionId}`, {
+      sectionId,
+      sectionAbsolute: { x: sectionAbsoluteX, y: sectionAbsoluteY },
+      sectionCenter: { x: sectionCenterX, y: sectionCenterY },
+      targetPosition: { x: targetX, y: targetY }
+    });
   };
 
   // Section display names

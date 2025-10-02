@@ -154,11 +154,12 @@ export const useCanvasTouchGestures = ({
       return;
     }
 
-    // CRITICAL: Only start drag if click originated on canvas container
+    // CRITICAL: Only start drag if click originated on canvas or canvas content
     // This prevents "jump to blank area" bug when clicking outside canvas
-    const isCanvasElement = target.closest('.lightbox-canvas');
-    if (!isCanvasElement) {
-      console.log('🎯 Click outside canvas - pan mode blocked');
+    // Allow both .lightbox-canvas and .canvas-content for more flexible dragging
+    const isCanvasArea = target.closest('.lightbox-canvas, .canvas-content, .canvas-portfolio-layout');
+    if (!isCanvasArea) {
+      console.log('🎯 Click outside canvas area - pan mode blocked');
       return;
     }
 
