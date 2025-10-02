@@ -161,7 +161,15 @@ export const useCanvasTouchGestures = ({
     // Check if we've exceeded the drag threshold
     if (!hasExceededThreshold.current) {
       if (distance >= DRAG_THRESHOLD) {
-        // NOW start dragging - threshold exceeded
+        // Check if user is actively selecting text (critical check!)
+        const selection = window.getSelection();
+        if (selection && selection.toString().length > 0) {
+          // User has selected text - do NOT activate pan mode
+          console.log('🎯 Text selection detected - pan mode blocked');
+          return;
+        }
+
+        // NOW start dragging - threshold exceeded and no text selected
         hasExceededThreshold.current = true;
         isDragging.current = true;
 
@@ -196,6 +204,9 @@ export const useCanvasTouchGestures = ({
   }, [onPan, DRAG_THRESHOLD]);
 
   const handleMouseUp = useCallback(() => {
+    // Check if user was selecting text (don't log deactivation if we never activated)
+    const wasInPanMode = isDragging.current;
+
     isDragging.current = false;
     hasExceededThreshold.current = false;
     mouseStart.current = null;
@@ -206,7 +217,9 @@ export const useCanvasTouchGestures = ({
     document.body.style.webkitUserSelect = '';
     document.body.style.cursor = '';
 
-    console.log('🎯 Pan mode deactivated - text selection restored');
+    if (wasInPanMode) {
+      console.log('🎯 Pan mode deactivated - text selection restored');
+    }
   }, []);
 
   // Global mouse event listeners (for drag beyond canvas bounds)
