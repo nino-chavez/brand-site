@@ -251,8 +251,8 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       />
 
       {/* Minimalist content - focus on title, role, and primary CTA only */}
-      <div className="absolute inset-0 flex items-center justify-center z-20">
-        <div className="text-center text-white max-w-4xl mx-auto px-4">
+      <div className="absolute inset-0 flex items-center justify-center z-20 p-8">
+        <div className="text-center text-white max-w-4xl mx-auto px-8">
           {/* Availability Badge - Urgency Indicator */}
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-green-500/20 border border-green-400/40 backdrop-blur-sm rounded-full">
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
@@ -329,18 +329,18 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
               <button
                 ref={viewWorkButtonRef}
                 onClick={handleViewWorkCTA}
-                className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-14 py-6 text-xl rounded-xl border border-white/20 backdrop-blur-sm shadow-lg hover:shadow-2xl"
+                className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-16 py-7 text-2xl rounded-xl border border-white/20 backdrop-blur-sm shadow-lg hover:shadow-2xl animate-pulse-subtle"
                 style={{
                   transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
                   willChange: 'transform'
                 }}
                 data-testid="view-work-cta"
-                aria-label="Explore portfolio and case studies"
+                aria-label="View case studies and portfolio"
               >
                 <span className="flex items-center justify-center space-x-2">
-                  <span className="tracking-wide">Explore My Work</span>
+                  <span className="tracking-wide">View Case Studies</span>
                   <svg
-                    className="w-5 h-5 transition-transform duration-300 group-hover:translate-y-1"
+                    className="w-6 h-6 transition-transform duration-300 group-hover:translate-y-1"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
