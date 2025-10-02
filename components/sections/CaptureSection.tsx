@@ -38,6 +38,17 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const sectionRef = useRef<HTMLElement>(null);
 
+  // Dynamic background showcase with Ken Burns effect
+  const heroImages = [
+    '/images/gallery/portfolio-00.jpg',
+    '/images/gallery/portfolio-05.jpg',
+    '/images/gallery/portfolio-10.jpg',
+    '/images/gallery/portfolio-15.jpg',
+    '/images/gallery/portfolio-20.jpg',
+  ];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [nextImageIndex, setNextImageIndex] = useState(1);
+
   // Magnetic button effects
   const viewWorkButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.4, radius: 100 });
   const contactButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.3, radius: 90 });
@@ -100,6 +111,25 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       readinessSequence();
     }
   }, [active, isActive, onSectionReady, onError, gameFlowDebugger]);
+
+  // Dynamic background rotation (only if motion not reduced)
+  useEffect(() => {
+    // Respect user's motion preference
+    if (settings.animationStyle === 'reduced' || settings.transitionSpeed === 'none') {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setNextImageIndex((current) => (current + 1) % heroImages.length);
+
+      // Crossfade timing
+      setTimeout(() => {
+        setCurrentImageIndex((current) => (current + 1) % heroImages.length);
+      }, 1000); // 1s crossfade duration
+    }, 8000); // Change image every 8 seconds
+
+    return () => clearInterval(interval);
+  }, [settings.animationStyle, settings.transitionSpeed, heroImages.length]);
 
   // Mouse movement handler for subtle interactions
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -165,15 +195,34 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       onMouseMove={handleMouseMove}
       aria-label="Capture section - Introduction and technical readiness"
     >
-      {/* Background with enhanced parallax */}
+      {/* Dynamic Ken Burns Background Showcase */}
+      {/* Current image layer with Ken Burns effect */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
         style={{
-          backgroundImage: 'url(/images/hero.jpg)',
-          willChange: 'transform',
+          backgroundImage: `url(${heroImages[currentImageIndex]})`,
+          willChange: 'transform, opacity',
           height: '120%',
           top: '-10%',
-          transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)` // Parallax based on section progress + user settings
+          transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
+          animation: settings.animationStyle !== 'reduced' ? 'kenBurns 16s ease-out infinite' : 'none',
+          opacity: 1
+        }}
+        data-parallax-intensity={settings.parallaxIntensity}
+        data-ken-burns-active={settings.animationStyle !== 'reduced'}
+      />
+
+      {/* Next image layer for crossfade (pre-loading) */}
+      <div
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+        style={{
+          backgroundImage: `url(${heroImages[nextImageIndex]})`,
+          willChange: 'transform, opacity',
+          height: '120%',
+          top: '-10%',
+          transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
+          animation: settings.animationStyle !== 'reduced' ? 'kenBurnsReverse 16s ease-out infinite' : 'none',
+          opacity: 0
         }}
         data-parallax-intensity={settings.parallaxIntensity}
       />
@@ -409,8 +458,36 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           }
         }
 
+        /* Ken Burns effect - slow zoom + pan */
+        @keyframes kenBurns {
+          0% {
+            transform: scale(1) translate(0, 0);
+          }
+          100% {
+            transform: scale(1.1) translate(-2%, -1%);
+          }
+        }
+
+        @keyframes kenBurnsReverse {
+          0% {
+            transform: scale(1.1) translate(2%, 1%);
+          }
+          100% {
+            transform: scale(1) translate(0, 0);
+          }
+        }
+
         .shutter-active {
           animation: flash 0.8s ease-out;
+        }
+
+        /* Respect reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
         }
       `}</style>
     </section>
