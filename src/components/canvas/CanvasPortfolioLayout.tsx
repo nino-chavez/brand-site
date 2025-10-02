@@ -335,62 +335,87 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         />
       </div>
 
-      {/* Navigation hints (visible at default scale) */}
-      {currentScale < 1.2 && (
+      {/* Enhanced Navigation Hints - Visible at all zoom levels */}
+      {/* Audit feedback: Increase visibility, add background, remove scale restriction */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left: '2000px',
+          top: '1300px',
+          transform: 'translate(-50%, -50%)'
+        }}
+      >
         <div
-          className="absolute text-white/30 text-xs font-mono pointer-events-none"
+          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-3 py-2 rounded-full"
           style={{
-            left: '2000px',
-            top: '1400px',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center'
+            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
           }}
         >
-          <div className="mb-2">↑ Skills</div>
+          <div className="text-white/90 text-sm font-medium text-center">
+            ↑ <span className="text-athletic-brand-violet">Skills</span>
+          </div>
         </div>
-      )}
+      </div>
 
-      {currentScale < 1.2 && (
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left: '700px',
+          top: '1500px',
+          transform: 'translate(-50%, -50%)'
+        }}
+      >
         <div
-          className="absolute text-white/30 text-xs font-mono pointer-events-none"
+          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-3 py-2 rounded-full"
           style={{
-            left: '800px',
-            top: '1500px',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center'
+            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
           }}
         >
-          <div>← About</div>
+          <div className="text-white/90 text-sm font-medium text-center">
+            ← <span className="text-athletic-brand-violet">About Me</span>
+          </div>
         </div>
-      )}
+      </div>
 
-      {currentScale < 1.2 && (
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left: '3300px',
+          top: '1500px',
+          transform: 'translate(-50%, -50%)'
+        }}
+      >
         <div
-          className="absolute text-white/30 text-xs font-mono pointer-events-none"
+          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-3 py-2 rounded-full"
           style={{
-            left: '3200px',
-            top: '1500px',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center'
+            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
           }}
         >
-          <div>Projects →</div>
+          <div className="text-white/90 text-sm font-medium text-center">
+            <span className="text-athletic-brand-violet">Projects</span> →
+          </div>
         </div>
-      )}
+      </div>
 
-      {currentScale < 1.2 && (
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left: '2000px',
+          top: '2600px',
+          transform: 'translate(-50%, -50%)'
+        }}
+      >
         <div
-          className="absolute text-white/30 text-xs font-mono pointer-events-none"
+          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-3 py-2 rounded-full"
           style={{
-            left: '2000px',
-            top: '2500px',
-            transform: 'translate(-50%, -50%)',
-            textAlign: 'center'
+            boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
           }}
         >
-          <div className="mb-2">↓ Gallery</div>
+          <div className="text-white/90 text-sm font-medium text-center">
+            ↓ <span className="text-athletic-brand-violet">Gallery</span>
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

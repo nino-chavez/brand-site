@@ -7,6 +7,7 @@ import BackgroundEffects from './components/effects/BackgroundEffects';
 import CursorLensV2 from './components/canvas/CursorLensV2';
 import LightboxCanvas from './components/canvas/LightboxCanvas';
 import CanvasPortfolioLayout from './components/canvas/CanvasPortfolioLayout';
+import CanvasOnboarding from './components/canvas/CanvasOnboarding';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 import useScrollSpy from './hooks/useScrollSpy';
 import type { SectionId } from './types';
@@ -180,6 +181,9 @@ const App: React.FC = () => {
                         <EffectsProvider>
                             {/* Photography-themed loading screen */}
                             <LoadingScreen isLoading={isLoading || !isAppReady} />
+
+                            {/* Canvas Onboarding - First visit guidance */}
+                            <CanvasOnboarding />
 
                             {/* WOW Factor Components */}
                             <CustomCursor />
