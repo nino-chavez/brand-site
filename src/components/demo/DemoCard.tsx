@@ -117,7 +117,7 @@ export const DemoCard: React.FC<DemoCardProps> = ({
                 onClick={handleCopyCode}
                 className="absolute top-2 right-2 px-3 py-1 rounded bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 text-xs transition-colors"
               >
-                {copied ? '✓ Copied' : 'Copy'}
+                {copied ? 'Copied!' : 'Copy'}
               </button>
             </div>
           )}

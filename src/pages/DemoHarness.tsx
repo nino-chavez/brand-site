@@ -126,7 +126,7 @@ export const DemoHarness: React.FC = () => {
   // Passive states
   const loadingSpinner = useDemoState('loading-spinner', { variant: 'spin', size: 'md', color: 'primary' });
   const skeletonScreen = useDemoState('skeleton-screen', { layout: 'card', animationSpeed: 'normal' });
-  const pulseAnimation = useDemoState('pulse-animation', { speed: 'normal', intensity: 0.8 });
+  const pulseAnimation = useDemoState('pulse-animation', { speed: 'normal', intensity: 'medium' });
   const statusIndicator = useDemoState('status-indicator', { type: 'badge', status: 'success' });
 
   // Filter demos based on search and category
@@ -223,26 +223,41 @@ export const DemoHarness: React.FC = () => {
           <div className="max-w-[1400px] mx-auto p-8 space-y-8">
             {/* Introduction */}
             <div className="bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-lg p-6">
-              <h2 className="text-2xl font-bold text-white mb-2">Welcome to the Demo Harness</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">Production UI Pattern Library</h2>
               <p className="text-white/60 mb-4">
-                This is a comprehensive testing and showcase environment for all UI/UX components,
-                animations, and effects. Use the controls to experiment with different settings and
-                observe how components behave.
+                Explore battle-tested interface components from enterprise applications.
+                Each pattern is optimized for performance, accessibility, and developer experience.
+                Customize parameters in real-time to match your design system.
               </p>
-              <div className="flex gap-4 text-sm">
+
+              {/* Technical Context Badges */}
+              <div className="flex gap-3 mb-4 flex-wrap">
+                <div className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-white/70">
+                  React 19.1 + TypeScript
+                </div>
+                <div className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-white/70">
+                  WCAG 2.2 AA Compliant
+                </div>
+                <div className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-white/70">
+                  60 FPS Optimized
+                </div>
+              </div>
+
+              {/* Stats */}
+              <div className="flex gap-4 text-sm flex-wrap">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
                   <span className="text-white/60">
-                    {filteredDemos.length} Components Available
+                    {filteredDemos.length} Components
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                  <span className="text-white/60">119+ Motion Test Scenarios</span>
+                  <span className="text-white/60">8 Categories</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-violet-500"></div>
-                  <span className="text-white/60">Full Keyboard Accessible</span>
+                  <span className="text-white/60">Full Keyboard Support</span>
                 </div>
               </div>
             </div>
@@ -1391,12 +1406,10 @@ onTouchEnd={() => clearTimeout(timer)}`}
                           onChange: (value) => pulseAnimation.updateState('speed', value),
                         },
                         {
-                          type: 'slider',
+                          type: 'select',
                           label: 'Intensity',
                           value: pulseAnimation.state.intensity,
-                          min: 0.5,
-                          max: 1.0,
-                          step: 0.1,
+                          options: ['low', 'medium', 'high'],
                           onChange: (value) => pulseAnimation.updateState('intensity', value),
                         },
                       ]}
