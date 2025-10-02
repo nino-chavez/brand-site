@@ -41,6 +41,41 @@ import {
   StaggeredContentDemo,
 } from '../components/demo/demos/SectionDemos';
 
+// Hover state demos
+import {
+  ButtonHoverDemo,
+  CardHoverDemo,
+  ImageZoomDemo,
+  IconHoverDemo,
+  LinkHoverDemo,
+  GroupHoverDemo,
+} from '../components/demo/demos/HoverStateDemos';
+
+// Click state demos
+import {
+  ButtonPressDemo,
+  FormFocusDemo,
+  ToggleSwitchDemo,
+  AccordionDemo,
+  ModalDemo,
+} from '../components/demo/demos/ClickStateDemos';
+
+// Mobile touch demos
+import {
+  TapFeedbackDemo,
+  SwipeGestureDemo,
+  LongPressDemo,
+  TouchButtonDemo,
+} from '../components/demo/demos/MobileTouchDemos';
+
+// Passive state demos
+import {
+  LoadingSpinnerDemo,
+  SkeletonScreenDemo,
+  PulseAnimationDemo,
+  StatusIndicatorDemo,
+} from '../components/demo/demos/PassiveStateDemos';
+
 import { DEMO_CATEGORIES, demoComponents, getDemosByCategory } from '../config/demoComponents';
 import { useDemoState } from '../hooks/useDemoState';
 
@@ -66,6 +101,33 @@ export const DemoHarness: React.FC = () => {
   const sectionFade = useDemoState('section-fade', { distance: 24, duration: 700 });
   const sectionBorder = useDemoState('section-border', { color: 'violet', style: 'gradient' });
   const staggered = useDemoState('staggered', { baseDelay: 150, elementCount: 4 });
+
+  // Hover states
+  const buttonHover = useDemoState('button-hover', { variant: 'primary', glowIntensity: 0.5 });
+  const cardHover = useDemoState('card-hover', { liftHeight: 8, shadowIntensity: 'lg' });
+  const imageZoom = useDemoState('image-zoom', { zoomScale: 1.1, overlayOpacity: 0.3 });
+  const iconHover = useDemoState('icon-hover', { animation: 'rotate', speed: 'normal' });
+  const linkHover = useDemoState('link-hover', { style: 'slide', thickness: 2 });
+  const groupHover = useDemoState('group-hover', { staggerDelay: 100, itemCount: 5 });
+
+  // Click states
+  const buttonPress = useDemoState('button-press', { rippleEnabled: true, feedbackStrength: 'normal' });
+  const formFocus = useDemoState('form-focus', { borderColor: 'violet', glowEnabled: true });
+  const toggleSwitch = useDemoState('toggle-switch', { size: 'md', color: 'violet' });
+  const accordion = useDemoState('accordion', { itemCount: 3, expandSpeed: 'normal' });
+  const modal = useDemoState('modal', { animation: 'scale', backdropBlur: true });
+
+  // Mobile touch
+  const tapFeedback = useDemoState('tap-feedback', { rippleColor: 'primary', duration: 600 });
+  const swipeGesture = useDemoState('swipe-gesture', { threshold: 50, enabledDirections: 'all' });
+  const longPress = useDemoState('long-press', { duration: 800, showProgress: true });
+  const touchButton = useDemoState('touch-button', { size: 'comfortable', spacing: 16 });
+
+  // Passive states
+  const loadingSpinner = useDemoState('loading-spinner', { variant: 'spin', size: 'md', color: 'primary' });
+  const skeletonScreen = useDemoState('skeleton-screen', { layout: 'card', animationSpeed: 'normal' });
+  const pulseAnimation = useDemoState('pulse-animation', { speed: 'normal', intensity: 0.8 });
+  const statusIndicator = useDemoState('status-indicator', { type: 'badge', status: 'success' });
 
   // Filter demos based on search and category
   const filteredDemos = useMemo(() => {
@@ -118,6 +180,25 @@ export const DemoHarness: React.FC = () => {
     sectionFade.resetState();
     sectionBorder.resetState();
     staggered.resetState();
+    buttonHover.resetState();
+    cardHover.resetState();
+    imageZoom.resetState();
+    iconHover.resetState();
+    linkHover.resetState();
+    groupHover.resetState();
+    buttonPress.resetState();
+    formFocus.resetState();
+    toggleSwitch.resetState();
+    accordion.resetState();
+    modal.resetState();
+    tapFeedback.resetState();
+    swipeGesture.resetState();
+    longPress.resetState();
+    touchButton.resetState();
+    loadingSpinner.resetState();
+    skeletonScreen.resetState();
+    pulseAnimation.resetState();
+    statusIndicator.resetState();
   };
 
   return (
@@ -652,6 +733,712 @@ export const DemoHarness: React.FC = () => {
                     baseDelay={staggered.state.baseDelay}
                     elementCount={staggered.state.elementCount}
                   />
+                </DemoCard>
+              </ComponentCategory>
+            </div>
+
+            {/* HOVER STATES CATEGORY */}
+            <div id="category-hoverStates">
+              <ComponentCategory
+                title={DEMO_CATEGORIES.hoverStates.title}
+                description={DEMO_CATEGORIES.hoverStates.description}
+                icon={DEMO_CATEGORIES.hoverStates.icon}
+                defaultExpanded={!activeCategory || activeCategory === 'hoverStates'}
+              >
+                {/* Button Hover */}
+                <DemoCard
+                  title="Button Hover"
+                  description="Button hover with scale and glow"
+                  category="hoverStates"
+                  testId="demo-button-hover"
+                  codeSnippet={`className="transition-all hover:scale-105 hover:shadow-lg"`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Variant',
+                          value: buttonHover.state.variant,
+                          options: ['primary', 'secondary', 'ghost'],
+                          onChange: (value) => buttonHover.updateState('variant', value),
+                        },
+                        {
+                          type: 'slider',
+                          label: 'Glow Intensity',
+                          value: buttonHover.state.glowIntensity,
+                          min: 0,
+                          max: 1,
+                          step: 0.1,
+                          onChange: (value) => buttonHover.updateState('glowIntensity', value),
+                        },
+                      ]}
+                      onReset={buttonHover.resetState}
+                    />
+                  }
+                >
+                  <ButtonHoverDemo variant={buttonHover.state.variant} showGlow={buttonHover.state.glowIntensity > 0} />
+                </DemoCard>
+
+                {/* Card Hover */}
+                <DemoCard
+                  title="Card Hover"
+                  description="Card lift with shadow enhancement"
+                  category="hoverStates"
+                  testId="demo-card-hover"
+                  codeSnippet={`className="transition-all hover:-translate-y-2 hover:shadow-xl"`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Lift Height (px)',
+                          value: cardHover.state.liftHeight,
+                          min: 2,
+                          max: 16,
+                          step: 2,
+                          onChange: (value) => cardHover.updateState('liftHeight', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Shadow Intensity',
+                          value: cardHover.state.shadowIntensity,
+                          options: ['sm', 'md', 'lg', 'xl'],
+                          onChange: (value) => cardHover.updateState('shadowIntensity', value),
+                        },
+                      ]}
+                      onReset={cardHover.resetState}
+                    />
+                  }
+                >
+                  <CardHoverDemo liftHeight={cardHover.state.liftHeight} shadowIntensity={cardHover.state.shadowIntensity} />
+                </DemoCard>
+
+                {/* Image Zoom */}
+                <DemoCard
+                  title="Image Zoom"
+                  description="Image zoom on hover with overlay"
+                  category="hoverStates"
+                  testId="demo-image-zoom"
+                  codeSnippet={`className="overflow-hidden">
+  <img className="transition-transform duration-500 hover:scale-110"`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Zoom Scale',
+                          value: imageZoom.state.zoomScale,
+                          min: 1.05,
+                          max: 1.3,
+                          step: 0.05,
+                          onChange: (value) => imageZoom.updateState('zoomScale', value),
+                        },
+                        {
+                          type: 'slider',
+                          label: 'Overlay Opacity',
+                          value: imageZoom.state.overlayOpacity,
+                          min: 0,
+                          max: 0.8,
+                          step: 0.1,
+                          onChange: (value) => imageZoom.updateState('overlayOpacity', value),
+                        },
+                      ]}
+                      onReset={imageZoom.resetState}
+                    />
+                  }
+                >
+                  <ImageZoomDemo zoomScale={imageZoom.state.zoomScale} overlayOpacity={imageZoom.state.overlayOpacity} />
+                </DemoCard>
+
+                {/* Icon Hover */}
+                <DemoCard
+                  title="Icon Hover"
+                  description="Icon animations (rotate/scale/bounce/spin)"
+                  category="hoverStates"
+                  testId="demo-icon-hover"
+                  codeSnippet={`className="transition-transform hover:rotate-12"`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Animation',
+                          value: iconHover.state.animation,
+                          options: ['rotate', 'scale', 'bounce', 'spin'],
+                          onChange: (value) => iconHover.updateState('animation', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Speed',
+                          value: iconHover.state.speed,
+                          options: ['fast', 'normal', 'slow'],
+                          onChange: (value) => iconHover.updateState('speed', value),
+                        },
+                      ]}
+                      onReset={iconHover.resetState}
+                    />
+                  }
+                >
+                  <IconHoverDemo animation={iconHover.state.animation} speed={iconHover.state.speed} />
+                </DemoCard>
+
+                {/* Link Hover */}
+                <DemoCard
+                  title="Link Hover"
+                  description="Link underline animations (fade/slide/grow)"
+                  category="hoverStates"
+                  testId="demo-link-hover"
+                  codeSnippet={`className="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-current after:transition-all hover:after:w-full"`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Style',
+                          value: linkHover.state.style,
+                          options: ['fade', 'slide', 'grow'],
+                          onChange: (value) => linkHover.updateState('style', value),
+                        },
+                        {
+                          type: 'slider',
+                          label: 'Thickness (px)',
+                          value: linkHover.state.thickness,
+                          min: 1,
+                          max: 4,
+                          step: 1,
+                          onChange: (value) => linkHover.updateState('thickness', value),
+                        },
+                      ]}
+                      onReset={linkHover.resetState}
+                    />
+                  }
+                >
+                  <LinkHoverDemo style={linkHover.state.style} thickness={linkHover.state.thickness} />
+                </DemoCard>
+
+                {/* Group Hover */}
+                <DemoCard
+                  title="Group Hover"
+                  description="Group hover cascade with stagger"
+                  category="hoverStates"
+                  testId="demo-group-hover"
+                  codeSnippet={`className="group">
+  <div className="transition-all group-hover:translate-x-2 delay-[0ms]">
+  <div className="transition-all group-hover:translate-x-2 delay-[100ms]">`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Stagger Delay (ms)',
+                          value: groupHover.state.staggerDelay,
+                          min: 50,
+                          max: 300,
+                          step: 50,
+                          onChange: (value) => groupHover.updateState('staggerDelay', value),
+                        },
+                        {
+                          type: 'slider',
+                          label: 'Items',
+                          value: groupHover.state.itemCount,
+                          min: 3,
+                          max: 8,
+                          step: 1,
+                          onChange: (value) => groupHover.updateState('itemCount', value),
+                        },
+                      ]}
+                      onReset={groupHover.resetState}
+                    />
+                  }
+                >
+                  <GroupHoverDemo staggerDelay={groupHover.state.staggerDelay} itemCount={groupHover.state.itemCount} />
+                </DemoCard>
+              </ComponentCategory>
+            </div>
+
+            {/* CLICK STATES CATEGORY */}
+            <div id="category-clickStates">
+              <ComponentCategory
+                title={DEMO_CATEGORIES.clickStates.title}
+                description={DEMO_CATEGORIES.clickStates.description}
+                icon={DEMO_CATEGORIES.clickStates.icon}
+                defaultExpanded={!activeCategory || activeCategory === 'clickStates'}
+              >
+                {/* Button Press */}
+                <DemoCard
+                  title="Button Press"
+                  description="Button press with scale-98 and ripple"
+                  category="clickStates"
+                  testId="demo-button-press"
+                  codeSnippet={`className="active:scale-98 transition-transform"
+onMouseDown={() => setPressed(true)}`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'toggle',
+                          label: 'Ripple Effect',
+                          value: buttonPress.state.rippleEnabled,
+                          onChange: (value) => buttonPress.updateState('rippleEnabled', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Feedback',
+                          value: buttonPress.state.feedbackStrength,
+                          options: ['subtle', 'normal', 'strong'],
+                          onChange: (value) => buttonPress.updateState('feedbackStrength', value),
+                        },
+                      ]}
+                      onReset={buttonPress.resetState}
+                    />
+                  }
+                >
+                  <ButtonPressDemo rippleEnabled={buttonPress.state.rippleEnabled} feedbackStrength={buttonPress.state.feedbackStrength} />
+                </DemoCard>
+
+                {/* Form Focus */}
+                <DemoCard
+                  title="Form Focus"
+                  description="Input focus with border and shadow"
+                  category="clickStates"
+                  testId="demo-form-focus"
+                  codeSnippet={`className="border-2 border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Border Color',
+                          value: formFocus.state.borderColor,
+                          options: ['blue', 'violet', 'green'],
+                          onChange: (value) => formFocus.updateState('borderColor', value),
+                        },
+                        {
+                          type: 'toggle',
+                          label: 'Glow Effect',
+                          value: formFocus.state.glowEnabled,
+                          onChange: (value) => formFocus.updateState('glowEnabled', value),
+                        },
+                      ]}
+                      onReset={formFocus.resetState}
+                    />
+                  }
+                >
+                  <FormFocusDemo borderColor={formFocus.state.borderColor} glowEnabled={formFocus.state.glowEnabled} />
+                </DemoCard>
+
+                {/* Toggle Switch */}
+                <DemoCard
+                  title="Toggle Switch"
+                  description="Animated toggle on/off"
+                  category="clickStates"
+                  testId="demo-toggle-switch"
+                  codeSnippet={`const [enabled, setEnabled] = useState(false);
+className={\`relative inline-flex h-6 w-11 items-center rounded-full transition-colors \${enabled ? 'bg-violet-500' : 'bg-gray-300'}\`}`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Size',
+                          value: toggleSwitch.state.size,
+                          options: ['sm', 'md', 'lg'],
+                          onChange: (value) => toggleSwitch.updateState('size', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Color',
+                          value: toggleSwitch.state.color,
+                          options: ['blue', 'violet', 'green'],
+                          onChange: (value) => toggleSwitch.updateState('color', value),
+                        },
+                      ]}
+                      onReset={toggleSwitch.resetState}
+                    />
+                  }
+                >
+                  <ToggleSwitchDemo size={toggleSwitch.state.size} color={toggleSwitch.state.color} />
+                </DemoCard>
+
+                {/* Accordion */}
+                <DemoCard
+                  title="Accordion"
+                  description="Expandable accordion items"
+                  category="clickStates"
+                  testId="demo-accordion"
+                  codeSnippet={`<div className="overflow-hidden transition-all duration-300" style={{ maxHeight: isOpen ? '500px' : '0' }}>`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Items',
+                          value: accordion.state.itemCount,
+                          min: 2,
+                          max: 5,
+                          step: 1,
+                          onChange: (value) => accordion.updateState('itemCount', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Speed',
+                          value: accordion.state.expandSpeed,
+                          options: ['fast', 'normal', 'slow'],
+                          onChange: (value) => accordion.updateState('expandSpeed', value),
+                        },
+                      ]}
+                      onReset={accordion.resetState}
+                    />
+                  }
+                >
+                  <AccordionDemo itemCount={accordion.state.itemCount} expandSpeed={accordion.state.expandSpeed} />
+                </DemoCard>
+
+                {/* Modal */}
+                <DemoCard
+                  title="Modal Dialog"
+                  description="Modal open/close with backdrop"
+                  category="clickStates"
+                  testId="demo-modal"
+                  codeSnippet={`{isOpen && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm">
+    <div className="scale-95 opacity-0 animate-modal-enter">`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Animation',
+                          value: modal.state.animation,
+                          options: ['fade', 'slide', 'scale'],
+                          onChange: (value) => modal.updateState('animation', value),
+                        },
+                        {
+                          type: 'toggle',
+                          label: 'Backdrop Blur',
+                          value: modal.state.backdropBlur,
+                          onChange: (value) => modal.updateState('backdropBlur', value),
+                        },
+                      ]}
+                      onReset={modal.resetState}
+                    />
+                  }
+                >
+                  <ModalDemo animation={modal.state.animation} backdropBlur={modal.state.backdropBlur} />
+                </DemoCard>
+              </ComponentCategory>
+            </div>
+
+            {/* MOBILE TOUCH CATEGORY */}
+            <div id="category-mobileTouch">
+              <ComponentCategory
+                title={DEMO_CATEGORIES.mobileTouch.title}
+                description={DEMO_CATEGORIES.mobileTouch.description}
+                icon={DEMO_CATEGORIES.mobileTouch.icon}
+                defaultExpanded={!activeCategory || activeCategory === 'mobileTouch'}
+              >
+                {/* Tap Feedback */}
+                <DemoCard
+                  title="Tap Feedback"
+                  description="Tap ripple feedback"
+                  category="mobileTouch"
+                  testId="demo-tap-feedback"
+                  codeSnippet={`onTouchStart={(e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = e.touches[0].clientX - rect.left;
+  const y = e.touches[0].clientY - rect.top;
+  showRipple(x, y);
+}}`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Ripple Color',
+                          value: tapFeedback.state.rippleColor,
+                          options: ['light', 'dark', 'primary'],
+                          onChange: (value) => tapFeedback.updateState('rippleColor', value),
+                        },
+                        {
+                          type: 'slider',
+                          label: 'Duration (ms)',
+                          value: tapFeedback.state.duration,
+                          min: 300,
+                          max: 1000,
+                          step: 100,
+                          onChange: (value) => tapFeedback.updateState('duration', value),
+                        },
+                      ]}
+                      onReset={tapFeedback.resetState}
+                    />
+                  }
+                >
+                  <TapFeedbackDemo rippleColor={tapFeedback.state.rippleColor} duration={tapFeedback.state.duration} />
+                </DemoCard>
+
+                {/* Swipe Gesture */}
+                <DemoCard
+                  title="Swipe Gesture"
+                  description="Swipe detection (left/right/up/down)"
+                  category="mobileTouch"
+                  testId="demo-swipe-gesture"
+                  codeSnippet={`const handleTouchMove = (e: TouchEvent) => {
+  const deltaX = e.touches[0].clientX - startX;
+  const deltaY = e.touches[0].clientY - startY;
+  if (Math.abs(deltaX) > threshold) {
+    onSwipe(deltaX > 0 ? 'right' : 'left');
+  }
+}`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Threshold (px)',
+                          value: swipeGesture.state.threshold,
+                          min: 30,
+                          max: 150,
+                          step: 10,
+                          onChange: (value) => swipeGesture.updateState('threshold', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Directions',
+                          value: swipeGesture.state.enabledDirections,
+                          options: ['all', 'horizontal', 'vertical'],
+                          onChange: (value) => swipeGesture.updateState('enabledDirections', value),
+                        },
+                      ]}
+                      onReset={swipeGesture.resetState}
+                    />
+                  }
+                >
+                  <SwipeGestureDemo threshold={swipeGesture.state.threshold} enabledDirections={swipeGesture.state.enabledDirections} />
+                </DemoCard>
+
+                {/* Long Press */}
+                <DemoCard
+                  title="Long Press"
+                  description="Long press activation with progress"
+                  category="mobileTouch"
+                  testId="demo-long-press"
+                  codeSnippet={`const timer = setTimeout(() => {
+  onLongPress();
+}, 800);
+
+onTouchEnd={() => clearTimeout(timer)}`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Duration (ms)',
+                          value: longPress.state.duration,
+                          min: 500,
+                          max: 2000,
+                          step: 100,
+                          onChange: (value) => longPress.updateState('duration', value),
+                        },
+                        {
+                          type: 'toggle',
+                          label: 'Show Progress',
+                          value: longPress.state.showProgress,
+                          onChange: (value) => longPress.updateState('showProgress', value),
+                        },
+                      ]}
+                      onReset={longPress.resetState}
+                    />
+                  }
+                >
+                  <LongPressDemo duration={longPress.state.duration} showProgress={longPress.state.showProgress} />
+                </DemoCard>
+
+                {/* Touch Button */}
+                <DemoCard
+                  title="Touch Button"
+                  description="Touch-optimized button sizes"
+                  category="mobileTouch"
+                  testId="demo-touch-button"
+                  codeSnippet={`className="min-h-[44px] min-w-[44px] px-6 py-3"
+// WCAG 2.1: Touch targets should be at least 44x44px`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Size',
+                          value: touchButton.state.size,
+                          options: ['standard', 'comfortable', 'large'],
+                          onChange: (value) => touchButton.updateState('size', value),
+                        },
+                        {
+                          type: 'slider',
+                          label: 'Spacing (px)',
+                          value: touchButton.state.spacing,
+                          min: 8,
+                          max: 24,
+                          step: 4,
+                          onChange: (value) => touchButton.updateState('spacing', value),
+                        },
+                      ]}
+                      onReset={touchButton.resetState}
+                    />
+                  }
+                >
+                  <TouchButtonDemo size={touchButton.state.size} spacing={touchButton.state.spacing} />
+                </DemoCard>
+              </ComponentCategory>
+            </div>
+
+            {/* PASSIVE STATES CATEGORY */}
+            <div id="category-passiveStates">
+              <ComponentCategory
+                title={DEMO_CATEGORIES.passiveStates.title}
+                description={DEMO_CATEGORIES.passiveStates.description}
+                icon={DEMO_CATEGORIES.passiveStates.icon}
+                defaultExpanded={!activeCategory || activeCategory === 'passiveStates'}
+              >
+                {/* Loading Spinner */}
+                <DemoCard
+                  title="Loading Spinner"
+                  description="Spinner variants (spin/pulse/dots/bars)"
+                  category="passiveStates"
+                  testId="demo-loading-spinner"
+                  codeSnippet={`<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-500"></div>`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Variant',
+                          value: loadingSpinner.state.variant,
+                          options: ['spin', 'pulse', 'dots', 'bars'],
+                          onChange: (value) => loadingSpinner.updateState('variant', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Size',
+                          value: loadingSpinner.state.size,
+                          options: ['sm', 'md', 'lg'],
+                          onChange: (value) => loadingSpinner.updateState('size', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Color',
+                          value: loadingSpinner.state.color,
+                          options: ['primary', 'secondary', 'white'],
+                          onChange: (value) => loadingSpinner.updateState('color', value),
+                        },
+                      ]}
+                      onReset={loadingSpinner.resetState}
+                    />
+                  }
+                >
+                  <LoadingSpinnerDemo variant={loadingSpinner.state.variant} size={loadingSpinner.state.size} color={loadingSpinner.state.color} />
+                </DemoCard>
+
+                {/* Skeleton Screen */}
+                <DemoCard
+                  title="Skeleton Screen"
+                  description="Skeleton loading placeholder"
+                  category="passiveStates"
+                  testId="demo-skeleton-screen"
+                  codeSnippet={`<div className="animate-pulse">
+  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+</div>`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Layout',
+                          value: skeletonScreen.state.layout,
+                          options: ['card', 'list', 'profile'],
+                          onChange: (value) => skeletonScreen.updateState('layout', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Animation',
+                          value: skeletonScreen.state.animationSpeed,
+                          options: ['slow', 'normal', 'fast'],
+                          onChange: (value) => skeletonScreen.updateState('animationSpeed', value),
+                        },
+                      ]}
+                      onReset={skeletonScreen.resetState}
+                    />
+                  }
+                >
+                  <SkeletonScreenDemo layout={skeletonScreen.state.layout} animationSpeed={skeletonScreen.state.animationSpeed} />
+                </DemoCard>
+
+                {/* Pulse Animation */}
+                <DemoCard
+                  title="Pulse Animation"
+                  description="Pulsing elements with speed/intensity controls"
+                  category="passiveStates"
+                  testId="demo-pulse-animation"
+                  codeSnippet={`className="animate-pulse"
+// Custom: @keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.5 } }`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Speed',
+                          value: pulseAnimation.state.speed,
+                          options: ['slow', 'normal', 'fast'],
+                          onChange: (value) => pulseAnimation.updateState('speed', value),
+                        },
+                        {
+                          type: 'slider',
+                          label: 'Intensity',
+                          value: pulseAnimation.state.intensity,
+                          min: 0.5,
+                          max: 1.0,
+                          step: 0.1,
+                          onChange: (value) => pulseAnimation.updateState('intensity', value),
+                        },
+                      ]}
+                      onReset={pulseAnimation.resetState}
+                    />
+                  }
+                >
+                  <PulseAnimationDemo speed={pulseAnimation.state.speed} intensity={pulseAnimation.state.intensity} />
+                </DemoCard>
+
+                {/* Status Indicator */}
+                <DemoCard
+                  title="Status Indicator"
+                  description="Status badges and progress bars"
+                  category="passiveStates"
+                  testId="demo-status-indicator"
+                  codeSnippet={`<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+  Active
+</span>`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Type',
+                          value: statusIndicator.state.type,
+                          options: ['badge', 'progress', 'dot'],
+                          onChange: (value) => statusIndicator.updateState('type', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Status',
+                          value: statusIndicator.state.status,
+                          options: ['success', 'warning', 'error', 'info'],
+                          onChange: (value) => statusIndicator.updateState('status', value),
+                        },
+                      ]}
+                      onReset={statusIndicator.resetState}
+                    />
+                  }
+                >
+                  <StatusIndicatorDemo type={statusIndicator.state.type} status={statusIndicator.state.status} />
                 </DemoCard>
               </ComponentCategory>
             </div>

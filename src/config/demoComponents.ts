@@ -50,6 +50,30 @@ export const DEMO_CATEGORIES = {
     icon: '📄',
     description: 'Section-level animations and transitions',
   },
+  hoverStates: {
+    id: 'hoverStates',
+    title: 'Hover States',
+    icon: '🎨',
+    description: 'Hover effects and transitions',
+  },
+  clickStates: {
+    id: 'clickStates',
+    title: 'Click/Active States',
+    icon: '🖱️',
+    description: 'Click, press, and active state interactions',
+  },
+  mobileTouch: {
+    id: 'mobileTouch',
+    title: 'Mobile Touch',
+    icon: '📱',
+    description: 'Touch gestures and mobile interactions',
+  },
+  passiveStates: {
+    id: 'passiveStates',
+    title: 'Passive States',
+    icon: '⏳',
+    description: 'Loading, skeleton, and ambient states',
+  },
 };
 
 export const demoComponents: DemoComponentConfig[] = [
@@ -361,6 +385,489 @@ export const demoComponents: DemoComponentConfig[] = [
       },
     },
     states: ['idle', 'staggering', 'complete'],
+  },
+
+  // HOVER STATES
+  {
+    id: 'button-hover',
+    title: 'Button Hover',
+    description: 'Button hover with scale and glow',
+    category: 'hoverStates',
+    controls: {
+      variant: {
+        type: 'select',
+        label: 'Variant',
+        options: ['primary', 'secondary', 'outline'],
+        defaultValue: 'primary',
+      },
+      glowIntensity: {
+        type: 'slider',
+        label: 'Glow Intensity',
+        min: 0,
+        max: 1,
+        step: 0.1,
+        defaultValue: 0.5,
+      },
+    },
+    states: ['idle', 'hover', 'active'],
+    codeSnippet: `className="transition-all hover:scale-105 hover:shadow-lg"`,
+  },
+  {
+    id: 'card-hover',
+    title: 'Card Hover',
+    description: 'Card lift with shadow enhancement',
+    category: 'hoverStates',
+    controls: {
+      liftHeight: {
+        type: 'slider',
+        label: 'Lift Height (px)',
+        min: 2,
+        max: 16,
+        step: 2,
+        defaultValue: 8,
+      },
+      shadowIntensity: {
+        type: 'select',
+        label: 'Shadow Intensity',
+        options: ['sm', 'md', 'lg', 'xl'],
+        defaultValue: 'lg',
+      },
+    },
+    states: ['idle', 'hover'],
+    codeSnippet: `className="transition-all hover:-translate-y-2 hover:shadow-xl"`,
+  },
+  {
+    id: 'image-zoom',
+    title: 'Image Zoom',
+    description: 'Image zoom on hover with overlay',
+    category: 'hoverStates',
+    controls: {
+      zoomScale: {
+        type: 'slider',
+        label: 'Zoom Scale',
+        min: 1.05,
+        max: 1.3,
+        step: 0.05,
+        defaultValue: 1.1,
+      },
+      overlayOpacity: {
+        type: 'slider',
+        label: 'Overlay Opacity',
+        min: 0,
+        max: 0.8,
+        step: 0.1,
+        defaultValue: 0.3,
+      },
+    },
+    states: ['idle', 'hover'],
+    codeSnippet: `className="overflow-hidden">
+  <img className="transition-transform duration-500 hover:scale-110"`,
+  },
+  {
+    id: 'icon-hover',
+    title: 'Icon Hover',
+    description: 'Icon animations (rotate/scale/bounce/spin)',
+    category: 'hoverStates',
+    controls: {
+      animation: {
+        type: 'select',
+        label: 'Animation',
+        options: ['rotate', 'scale', 'bounce', 'spin'],
+        defaultValue: 'rotate',
+      },
+      speed: {
+        type: 'select',
+        label: 'Speed',
+        options: ['fast', 'normal', 'slow'],
+        defaultValue: 'normal',
+      },
+    },
+    states: ['idle', 'hover'],
+    codeSnippet: `className="transition-transform hover:rotate-12"`,
+  },
+  {
+    id: 'link-hover',
+    title: 'Link Hover',
+    description: 'Link underline animations (fade/slide/grow)',
+    category: 'hoverStates',
+    controls: {
+      style: {
+        type: 'select',
+        label: 'Style',
+        options: ['fade', 'slide', 'grow'],
+        defaultValue: 'slide',
+      },
+      thickness: {
+        type: 'slider',
+        label: 'Thickness (px)',
+        min: 1,
+        max: 4,
+        step: 1,
+        defaultValue: 2,
+      },
+    },
+    states: ['idle', 'hover'],
+    codeSnippet: `className="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-current after:transition-all hover:after:w-full"`,
+  },
+  {
+    id: 'group-hover',
+    title: 'Group Hover',
+    description: 'Group hover cascade with stagger',
+    category: 'hoverStates',
+    controls: {
+      staggerDelay: {
+        type: 'slider',
+        label: 'Stagger Delay (ms)',
+        min: 50,
+        max: 300,
+        step: 50,
+        defaultValue: 100,
+      },
+      itemCount: {
+        type: 'slider',
+        label: 'Items',
+        min: 3,
+        max: 8,
+        step: 1,
+        defaultValue: 5,
+      },
+    },
+    states: ['idle', 'group-hover'],
+    codeSnippet: `className="group">
+  <div className="transition-all group-hover:translate-x-2 delay-[0ms]">
+  <div className="transition-all group-hover:translate-x-2 delay-[100ms]">`,
+  },
+
+  // CLICK STATES
+  {
+    id: 'button-press',
+    title: 'Button Press',
+    description: 'Button press with scale-98 and ripple',
+    category: 'clickStates',
+    controls: {
+      rippleEnabled: {
+        type: 'toggle',
+        label: 'Ripple Effect',
+        defaultValue: true,
+      },
+      feedbackStrength: {
+        type: 'select',
+        label: 'Feedback',
+        options: ['subtle', 'normal', 'strong'],
+        defaultValue: 'normal',
+      },
+    },
+    states: ['idle', 'pressed', 'released'],
+    codeSnippet: `className="active:scale-98 transition-transform"
+onMouseDown={() => setPressed(true)}`,
+  },
+  {
+    id: 'form-focus',
+    title: 'Form Focus',
+    description: 'Input focus with border and shadow',
+    category: 'clickStates',
+    controls: {
+      borderColor: {
+        type: 'select',
+        label: 'Border Color',
+        options: ['blue', 'violet', 'green'],
+        defaultValue: 'violet',
+      },
+      glowEnabled: {
+        type: 'toggle',
+        label: 'Glow Effect',
+        defaultValue: true,
+      },
+    },
+    states: ['idle', 'focused', 'filled'],
+    codeSnippet: `className="border-2 border-gray-300 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"`,
+  },
+  {
+    id: 'toggle-switch',
+    title: 'Toggle Switch',
+    description: 'Animated toggle on/off',
+    category: 'clickStates',
+    controls: {
+      size: {
+        type: 'select',
+        label: 'Size',
+        options: ['sm', 'md', 'lg'],
+        defaultValue: 'md',
+      },
+      color: {
+        type: 'select',
+        label: 'Color',
+        options: ['blue', 'violet', 'green'],
+        defaultValue: 'violet',
+      },
+    },
+    states: ['off', 'on', 'transitioning'],
+    codeSnippet: `const [enabled, setEnabled] = useState(false);
+className={\`relative inline-flex h-6 w-11 items-center rounded-full transition-colors \${enabled ? 'bg-violet-500' : 'bg-gray-300'}\`}`,
+  },
+  {
+    id: 'accordion',
+    title: 'Accordion',
+    description: 'Expandable accordion items',
+    category: 'clickStates',
+    controls: {
+      itemCount: {
+        type: 'slider',
+        label: 'Items',
+        min: 2,
+        max: 5,
+        step: 1,
+        defaultValue: 3,
+      },
+      expandSpeed: {
+        type: 'select',
+        label: 'Speed',
+        options: ['fast', 'normal', 'slow'],
+        defaultValue: 'normal',
+      },
+    },
+    states: ['collapsed', 'expanding', 'expanded', 'collapsing'],
+    codeSnippet: `<div className="overflow-hidden transition-all duration-300" style={{ maxHeight: isOpen ? '500px' : '0' }}>`,
+  },
+  {
+    id: 'modal-dialog',
+    title: 'Modal Dialog',
+    description: 'Modal open/close with backdrop',
+    category: 'clickStates',
+    controls: {
+      animation: {
+        type: 'select',
+        label: 'Animation',
+        options: ['fade', 'slide', 'scale'],
+        defaultValue: 'scale',
+      },
+      backdropBlur: {
+        type: 'toggle',
+        label: 'Backdrop Blur',
+        defaultValue: true,
+      },
+    },
+    states: ['closed', 'opening', 'open', 'closing'],
+    codeSnippet: `{isOpen && (
+  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm">
+    <div className="scale-95 opacity-0 animate-modal-enter">`,
+  },
+
+  // MOBILE TOUCH
+  {
+    id: 'tap-feedback',
+    title: 'Tap Feedback',
+    description: 'Tap ripple feedback',
+    category: 'mobileTouch',
+    controls: {
+      rippleColor: {
+        type: 'select',
+        label: 'Ripple Color',
+        options: ['light', 'dark', 'primary'],
+        defaultValue: 'primary',
+      },
+      duration: {
+        type: 'slider',
+        label: 'Duration (ms)',
+        min: 300,
+        max: 1000,
+        step: 100,
+        defaultValue: 600,
+      },
+    },
+    states: ['idle', 'tapped', 'rippling'],
+    codeSnippet: `onTouchStart={(e) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = e.touches[0].clientX - rect.left;
+  const y = e.touches[0].clientY - rect.top;
+  showRipple(x, y);
+}}`,
+  },
+  {
+    id: 'swipe-gesture',
+    title: 'Swipe Gesture',
+    description: 'Swipe detection (left/right/up/down)',
+    category: 'mobileTouch',
+    controls: {
+      threshold: {
+        type: 'slider',
+        label: 'Threshold (px)',
+        min: 30,
+        max: 150,
+        step: 10,
+        defaultValue: 50,
+      },
+      enabledDirections: {
+        type: 'select',
+        label: 'Directions',
+        options: ['all', 'horizontal', 'vertical'],
+        defaultValue: 'all',
+      },
+    },
+    states: ['idle', 'swiping', 'detected'],
+    codeSnippet: `const handleTouchMove = (e: TouchEvent) => {
+  const deltaX = e.touches[0].clientX - startX;
+  const deltaY = e.touches[0].clientY - startY;
+  if (Math.abs(deltaX) > threshold) {
+    onSwipe(deltaX > 0 ? 'right' : 'left');
+  }
+}`,
+  },
+  {
+    id: 'long-press',
+    title: 'Long Press',
+    description: 'Long press activation with progress',
+    category: 'mobileTouch',
+    controls: {
+      duration: {
+        type: 'slider',
+        label: 'Duration (ms)',
+        min: 500,
+        max: 2000,
+        step: 100,
+        defaultValue: 800,
+      },
+      showProgress: {
+        type: 'toggle',
+        label: 'Show Progress',
+        defaultValue: true,
+      },
+    },
+    states: ['idle', 'pressing', 'activated', 'cancelled'],
+    codeSnippet: `const timer = setTimeout(() => {
+  onLongPress();
+}, 800);
+
+onTouchEnd={() => clearTimeout(timer)}`,
+  },
+  {
+    id: 'touch-button',
+    title: 'Touch Button',
+    description: 'Touch-optimized button sizes',
+    category: 'mobileTouch',
+    controls: {
+      size: {
+        type: 'select',
+        label: 'Size',
+        options: ['standard', 'comfortable', 'large'],
+        defaultValue: 'comfortable',
+      },
+      spacing: {
+        type: 'slider',
+        label: 'Spacing (px)',
+        min: 8,
+        max: 24,
+        step: 4,
+        defaultValue: 16,
+      },
+    },
+    states: ['idle', 'touch', 'active'],
+    codeSnippet: `className="min-h-[44px] min-w-[44px] px-6 py-3"
+// WCAG 2.1: Touch targets should be at least 44x44px`,
+  },
+
+  // PASSIVE STATES
+  {
+    id: 'loading-spinner',
+    title: 'Loading Spinner',
+    description: 'Spinner variants (spin/pulse/dots/bars)',
+    category: 'passiveStates',
+    controls: {
+      variant: {
+        type: 'select',
+        label: 'Variant',
+        options: ['spin', 'pulse', 'dots', 'bars'],
+        defaultValue: 'spin',
+      },
+      size: {
+        type: 'select',
+        label: 'Size',
+        options: ['sm', 'md', 'lg'],
+        defaultValue: 'md',
+      },
+      color: {
+        type: 'select',
+        label: 'Color',
+        options: ['primary', 'secondary', 'white'],
+        defaultValue: 'primary',
+      },
+    },
+    states: ['loading'],
+    codeSnippet: `<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-500"></div>`,
+  },
+  {
+    id: 'skeleton-screen',
+    title: 'Skeleton Screen',
+    description: 'Skeleton loading placeholder',
+    category: 'passiveStates',
+    controls: {
+      layout: {
+        type: 'select',
+        label: 'Layout',
+        options: ['card', 'list', 'profile'],
+        defaultValue: 'card',
+      },
+      animationSpeed: {
+        type: 'select',
+        label: 'Animation',
+        options: ['slow', 'normal', 'fast'],
+        defaultValue: 'normal',
+      },
+    },
+    states: ['loading', 'loaded'],
+    codeSnippet: `<div className="animate-pulse">
+  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+</div>`,
+  },
+  {
+    id: 'pulse-animation',
+    title: 'Pulse Animation',
+    description: 'Pulsing elements with speed/intensity controls',
+    category: 'passiveStates',
+    controls: {
+      speed: {
+        type: 'select',
+        label: 'Speed',
+        options: ['slow', 'normal', 'fast'],
+        defaultValue: 'normal',
+      },
+      intensity: {
+        type: 'slider',
+        label: 'Intensity',
+        min: 0.5,
+        max: 1.0,
+        step: 0.1,
+        defaultValue: 0.8,
+      },
+    },
+    states: ['pulsing'],
+    codeSnippet: `className="animate-pulse"
+// Custom: @keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0.5 } }`,
+  },
+  {
+    id: 'status-indicator',
+    title: 'Status Indicator',
+    description: 'Status badges and progress bars',
+    category: 'passiveStates',
+    controls: {
+      type: {
+        type: 'select',
+        label: 'Type',
+        options: ['badge', 'progress', 'dot'],
+        defaultValue: 'badge',
+      },
+      status: {
+        type: 'select',
+        label: 'Status',
+        options: ['success', 'warning', 'error', 'info'],
+        defaultValue: 'success',
+      },
+    },
+    states: ['idle', 'updating'],
+    codeSnippet: `<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+  Active
+</span>`,
   },
 ];
 
