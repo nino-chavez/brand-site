@@ -241,6 +241,7 @@ export const GroupHoverDemo: React.FC<{
               style={{
                 transitionDelay: `${index * staggerDelay}ms`
               }}
+              data-testid={`hover-item-${index}`}
               data-item-index={index}
               data-hover-state={hoveredIndex === index}
             >

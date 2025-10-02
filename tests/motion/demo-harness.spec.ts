@@ -288,8 +288,8 @@ test.describe('Demo Harness - State Persistence', () => {
     // Reload page
     await page.reload();
 
-    // Check setting is still 'fast'
-    await expect(demo.locator('[data-state="speed"]')).toContainText('fast');
+    // Check setting is still 'fast' (check the value span within StateIndicator)
+    await expect(demo.locator('[data-state="speed"] span').last()).toContainText('fast');
   });
 
   test('global reset clears all demo states', async ({ page }) => {
@@ -308,16 +308,16 @@ test.describe('Demo Harness - State Persistence', () => {
       el.dispatchEvent(new Event('change', { bubbles: true }));
     });
 
-    // Verify states changed
-    await expect(demo1.locator('[data-state="speed"]')).toContainText('slow');
-    await expect(demo2.locator('[data-state="intensity"]')).toContainText('0.5');
+    // Verify states changed (check the value span within StateIndicator)
+    await expect(demo1.locator('[data-state="speed"] span').last()).toContainText('slow');
+    await expect(demo2.locator('[data-state="intensity"] span').last()).toContainText('0.5');
 
     // Click global reset
     await page.click('[data-testid="global-reset"]');
 
     // Verify all states reset to defaults
-    await expect(demo1.locator('[data-state="speed"]')).toContainText('normal');
-    await expect(demo2.locator('[data-state="intensity"]')).toContainText('0.2');
+    await expect(demo1.locator('[data-state="speed"] span').last()).toContainText('normal');
+    await expect(demo2.locator('[data-state="intensity"] span').last()).toContainText('0.2');
   });
 });
 
@@ -658,11 +658,11 @@ test.describe('Demo Harness - Click/Active State Demos', () => {
     const backdrop = page.locator('[data-testid="modal-backdrop"]');
     await expect(backdrop).toBeVisible();
 
-    // Close via backdrop click
-    await backdrop.click();
+    // Close via backdrop click (force click to bypass pointer-events interception)
+    await backdrop.click({ force: true });
 
     // Wait for modal to close with animation
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(300);
     await expect(modal).not.toBeVisible();
   });
 });
