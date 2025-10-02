@@ -21,7 +21,7 @@ pnpm-debug.log*
 
 # Test coverage and reports
 coverage/
-playwright-report/
+playwright-report*
 test-results/
 .vitest/
 

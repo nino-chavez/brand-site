@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Effects Debug Test</title>
+</head>
+<body>
+    <h1>Testing Effects Integration</h1>
+    <script>
+        // Open the site and check console
+        setTimeout(() => {
+            const testWindow = window.open('http://localhost:3001?test=true', '_blank');
+
+            setTimeout(() => {
+                // Check localStorage
+                const storage = testWindow.localStorage.getItem('portfolio-effects');
+                console.log('LocalStorage:', storage);
+
+                // Check if EffectsContext is working
+                const hero = testWindow.document.querySelector('[data-testid="hero-title"]');
+                if (hero) {
+                    console.log('Hero element found');
+                    console.log('Hero classes:', hero.className);
+                    console.log('Animation style data attr:', hero.dataset.animationStyle);
+                } else {
+                    console.log('ERROR: Hero element not found');
+                }
+
+                // Check if useScrollAnimation hook is working
+                const sections = testWindow.document.querySelectorAll('section');
+                console.log('Total sections:', sections.length);
+
+                sections.forEach((section, i) => {
+                    const h2 = section.querySelector('h2');
+                    if (h2) {
+                        console.log(`Section ${i} h2 classes:`, h2.className);
+                    }
+                });
+            }, 2000);
+        }, 1000);
+    </script>
+</body>
+</html>

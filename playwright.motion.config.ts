@@ -20,7 +20,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3000?test=true', // Skip loading screen in tests
     trace: 'retain-on-failure',
     video: 'on', // Always record video for motion tests
     screenshot: 'on',
