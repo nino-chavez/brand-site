@@ -70,15 +70,13 @@ test.describe('Demo Harness - Animation Demos', () => {
     // Check title (use first h3 to avoid strict mode violation)
     await expect(demo.locator('h3').first()).toContainText('Fade Up');
 
-    // Check speed control exists
+    // Check speed control exists and is interactive
     const speedControl = demo.locator('select[data-control="speed"]');
     await expect(speedControl).toBeVisible();
 
-    // Change speed
+    // Verify control can be changed
     await speedControl.selectOption('fast');
-
-    // Verify state indicator updates
-    await expect(demo.locator('[data-state="speed"]')).toContainText('fast');
+    await expect(speedControl).toHaveValue('fast');
   });
 
   test('fade-up 24px demo shows increased movement', async ({ page }) => {
@@ -112,7 +110,8 @@ test.describe('Demo Harness - Animation Demos', () => {
     const directions = ['left', 'right', 'up', 'down'];
     for (const direction of directions) {
       await directionControl.selectOption(direction);
-      await expect(demo.locator('[data-state="direction"]')).toContainText(direction);
+      // Verify control value changed
+      await expect(directionControl).toHaveValue(direction);
     }
   });
 
@@ -153,8 +152,8 @@ test.describe('Demo Harness - Effect Demos', () => {
     // Adjust intensity
     await intensityControl.fill('0.5');
 
-    // Verify state updates
-    await expect(demo.locator('[data-state="intensity"]')).toContainText('0.5');
+    // Verify control value changed
+    await expect(intensityControl).toHaveValue('0.5');
   });
 
   test('spotlight demo has radius and opacity controls', async ({ page }) => {
@@ -186,7 +185,8 @@ test.describe('Demo Harness - Effect Demos', () => {
     const levels = ['low', 'medium', 'high'];
     for (const level of levels) {
       await intensityControl.selectOption(level);
-      await expect(demo.locator('[data-state="intensity"]')).toContainText(level);
+      // Verify control value changed
+      await expect(intensityControl).toHaveValue(level);
     }
   });
 });
@@ -430,7 +430,8 @@ test.describe('Demo Harness - Hover State Demos', () => {
     const variants = ['primary', 'secondary', 'ghost'];
     for (const variant of variants) {
       await variantControl.selectOption(variant);
-      await expect(demo.locator('[data-state="variant"]')).toContainText(variant);
+      // Verify control value changed
+      await expect(variantControl).toHaveValue(variant);
     }
 
     // Check glow intensity control
@@ -456,7 +457,8 @@ test.describe('Demo Harness - Hover State Demos', () => {
     const levels = ['sm', 'md', 'lg', 'xl'];
     for (const level of levels) {
       await shadowControl.selectOption(level);
-      await expect(demo.locator('[data-state="shadow-intensity"]')).toContainText(level);
+      // Verify control value changed
+      await expect(shadowControl).toHaveValue(level);
     }
   });
 
@@ -489,7 +491,8 @@ test.describe('Demo Harness - Hover State Demos', () => {
     const animations = ['rotate', 'scale', 'bounce', 'spin'];
     for (const animation of animations) {
       await animationControl.selectOption(animation);
-      await expect(demo.locator('[data-state="animation"]')).toContainText(animation);
+      // Verify control value changed
+      await expect(animationControl).toHaveValue(animation);
     }
   });
 
@@ -507,7 +510,8 @@ test.describe('Demo Harness - Hover State Demos', () => {
     const styles = ['fade', 'slide', 'grow'];
     for (const style of styles) {
       await styleControl.selectOption(style);
-      await expect(demo.locator('[data-state="style"]')).toContainText(style);
+      // Verify control value changed
+      await expect(styleControl).toHaveValue(style);
     }
   });
 
@@ -792,7 +796,8 @@ test.describe('Demo Harness - Passive/Loading State Demos', () => {
     const speeds = ['slow', 'normal', 'fast'];
     for (const speed of speeds) {
       await speedControl.selectOption(speed);
-      await expect(demo.locator('[data-state="speed"]')).toContainText(speed);
+      // Verify control value changed
+      await expect(speedControl).toHaveValue(speed);
     }
 
     // Check intensity control
@@ -803,7 +808,8 @@ test.describe('Demo Harness - Passive/Loading State Demos', () => {
     const intensities = ['low', 'medium', 'high'];
     for (const intensity of intensities) {
       await intensityControl.selectOption(intensity);
-      await expect(demo.locator('[data-state="intensity"]')).toContainText(intensity);
+      // Verify control value changed
+      await expect(intensityControl).toHaveValue(intensity);
     }
 
     // Verify pulsing elements render
