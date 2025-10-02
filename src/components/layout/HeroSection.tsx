@@ -327,21 +327,21 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                         <p className="text-xl md:text-3xl lg:text-4xl text-white font-semibold tracking-wide" style={{
                             textShadow: '0 3px 8px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.7)'
                         }}>
-                            Enterprise Architect
+                            Enterprise Architect & Technical Leader
                         </p>
                         <div className="flex items-center justify-center space-x-3 text-lg md:text-xl text-white/90 font-medium" style={{
                             textShadow: '0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.7)'
                         }}>
-                            <span>Software Engineer</span>
+                            <span>Software Engineering</span>
                             <div className="w-1 h-1 rounded-full bg-white/60"></div>
-                            <span>Action Photographer</span>
+                            <span>Visual Storytelling</span>
                         </div>
                     </div>
                     <p className="text-xl md:text-2xl text-white/85 mb-4 font-normal max-w-3xl mx-auto leading-relaxed tracking-wide" style={{
                         textShadow: '0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.7)',
                         animation: 'fadeInUp 1s ease-out 0.6s both'
                     }}>
-                        20+ years architecting systems that scale from MVP to millions
+                        Building resilient systems that scale from thousands to millions of users
                     </p>
                     <p className="text-base md:text-lg text-white/70 mb-10 max-w-2xl mx-auto" style={{
                         textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)',
