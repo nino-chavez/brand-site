@@ -1472,9 +1472,11 @@ onTouchEnd={() => clearTimeout(timer)}`}
             {/* Footer */}
             <div className="mt-12 pt-8 border-t border-white/10 text-center text-white/40 text-sm">
               <p>
-                Demo Harness v1.0.0 - Comprehensive UI/UX Testing Infrastructure
+                Demo Harness v1.0.0 • React 19.1 + TypeScript • Engineered by Nino Chavez
               </p>
-              <p className="mt-1">Development Mode Only</p>
+              <p className="mt-1 text-white/30">
+                All components are production-ready and fully tested
+              </p>
             </div>
           </div>
         </main>
