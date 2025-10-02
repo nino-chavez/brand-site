@@ -256,11 +256,14 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                       animationDelay: `${index * 200}ms`
                     }}
                   >
-                    <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20">
+                    <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+
+                      {/* Gradient overlay on hover - Phase 1 enhancement */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-violet-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
 
                       {/* Project preview */}
-                      <div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center">
-                        <div className="text-6xl opacity-20">📊</div>
+                      <div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center overflow-hidden">
+                        <div className="text-6xl opacity-20 transition-transform duration-500 group-hover:scale-110">📊</div>
                       </div>
 
                       {/* Project summary */}
@@ -307,9 +310,13 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                           </div>
                         )}
 
-                        <div className="mt-4 text-right">
-                          <span className="text-xs text-white/40 group-hover:text-white/60 transition-colors">
-                            View Full Details →
+                        {/* Slide-in CTA - Phase 1 enhancement */}
+                        <div className="mt-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                          <span className="inline-flex items-center text-athletic-brand-violet text-sm font-semibold">
+                            View Full Details
+                            <svg className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
                           </span>
                         </div>
                       </div>

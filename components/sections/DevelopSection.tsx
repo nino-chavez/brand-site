@@ -240,10 +240,11 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
                       {/* Gallery image */}
                       <div className="aspect-[4/3] bg-gradient-to-br from-purple-900/20 to-blue-900/20 relative overflow-hidden">
+                        {/* Enhanced Phase 1 zoom - scale-125 with 700ms duration */}
                         <img
                           src={image.src}
                           alt={image.alt}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-125"
                           loading="lazy"
                         />
 
@@ -259,6 +260,12 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
                         {/* Performance indicator */}
                         <div className={`absolute bottom-3 right-3 w-3 h-3 rounded-full ${galleryLoaded ? 'bg-green-400' : 'bg-yellow-400'} animate-pulse`} />
+
+                        {/* Phase 1 enhancement: Metadata overlay slide-up */}
+                        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                          <p className="text-white font-semibold text-sm mb-1">{image.title}</p>
+                          <p className="text-white/70 text-xs font-mono">{image.settings}</p>
+                        </div>
                       </div>
 
                       {/* Image metadata */}
