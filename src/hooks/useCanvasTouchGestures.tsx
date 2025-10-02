@@ -5,9 +5,10 @@
  * Replaces 165 LOC over-engineered touch handling in LightboxCanvas.
  *
  * @fileoverview Minimal gesture detection (touch + mouse drag)
- * @version 2.1.0
+ * @version 2.2.0
  * @since Phase 4 - Canvas Rebuild
- * @updated Quick Win #3 - Added mouse drag panning
+ * @updated Phase 1 - Drag threshold + selective text selection
+ * @updated Phase 2 - Momentum/inertia panning (Figma/Miro-style)
  */
 
 import { useRef, useCallback, useEffect } from 'react';
@@ -127,9 +128,20 @@ export const useCanvasTouchGestures = ({
   const isDragging = useRef(false);
   const hasExceededThreshold = useRef(false); // Track if movement exceeded threshold
 
+  // Phase 2: Momentum/Inertia tracking
+  const lastMousePosition = useRef<{ x: number; y: number; timestamp: number } | null>(null);
+  const velocity = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const momentumAnimationId = useRef<number | null>(null);
+
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     // Only handle left mouse button
     if (e.button !== 0) return;
+
+    // Cancel any ongoing momentum animation
+    if (momentumAnimationId.current !== null) {
+      cancelAnimationFrame(momentumAnimationId.current);
+      momentumAnimationId.current = null;
+    }
 
     // Don't start drag if clicking on interactive elements
     const target = e.target as HTMLElement;
@@ -142,6 +154,10 @@ export const useCanvasTouchGestures = ({
     const position = { x: e.clientX, y: e.clientY };
     mouseStart.current = position;
     mouseInitialStart.current = position;
+
+    // Reset velocity tracking
+    lastMousePosition.current = null;
+    velocity.current = { x: 0, y: 0 };
 
     // Don't set isDragging yet - wait for threshold
     hasExceededThreshold.current = false;
@@ -196,6 +212,20 @@ export const useCanvasTouchGestures = ({
 
     onPan(delta);
 
+    // Track velocity for momentum (Phase 2)
+    const now = performance.now();
+    if (lastMousePosition.current) {
+      const dt = now - lastMousePosition.current.timestamp;
+      if (dt > 0) {
+        // Normalize velocity to 60fps (16ms per frame)
+        velocity.current = {
+          x: (e.clientX - lastMousePosition.current.x) / dt * 16,
+          y: (e.clientY - lastMousePosition.current.y) / dt * 16
+        };
+      }
+    }
+    lastMousePosition.current = { x: e.clientX, y: e.clientY, timestamp: now };
+
     // Update start position for next move
     mouseStart.current = {
       x: e.clientX,
@@ -203,9 +233,45 @@ export const useCanvasTouchGestures = ({
     };
   }, [onPan, DRAG_THRESHOLD]);
 
+  // Momentum animation (Phase 2)
+  const startMomentumAnimation = useCallback(() => {
+    const DECAY_COEFFICIENT = 0.95; // Exponential decay (industry standard)
+    const MIN_VELOCITY = 0.5; // Stop when velocity < 0.5 px/frame
+
+    const animate = () => {
+      const vx = velocity.current.x;
+      const vy = velocity.current.y;
+
+      // Stop if velocity below threshold
+      if (Math.abs(vx) < MIN_VELOCITY && Math.abs(vy) < MIN_VELOCITY) {
+        momentumAnimationId.current = null;
+        console.log('🎯 Momentum animation stopped');
+        return;
+      }
+
+      // Apply momentum pan (inverted delta to match drag direction)
+      onPan({ x: -vx, y: -vy });
+
+      // Decay velocity
+      velocity.current.x *= DECAY_COEFFICIENT;
+      velocity.current.y *= DECAY_COEFFICIENT;
+
+      // Continue animation
+      momentumAnimationId.current = requestAnimationFrame(animate);
+    };
+
+    momentumAnimationId.current = requestAnimationFrame(animate);
+    console.log('🎯 Momentum animation started', { vx: velocity.current.x, vy: velocity.current.y });
+  }, [onPan]);
+
   const handleMouseUp = useCallback(() => {
     // Check if user was selecting text (don't log deactivation if we never activated)
     const wasInPanMode = isDragging.current;
+
+    // Start momentum if velocity is significant
+    if (wasInPanMode && (Math.abs(velocity.current.x) > 0.5 || Math.abs(velocity.current.y) > 0.5)) {
+      startMomentumAnimation();
+    }
 
     isDragging.current = false;
     hasExceededThreshold.current = false;
@@ -220,7 +286,7 @@ export const useCanvasTouchGestures = ({
     if (wasInPanMode) {
       console.log('🎯 Pan mode deactivated - text selection restored');
     }
-  }, []);
+  }, [startMomentumAnimation]);
 
   // Global mouse event listeners (for drag beyond canvas bounds)
   // Always listen, but check isDragging inside handlers
@@ -231,6 +297,11 @@ export const useCanvasTouchGestures = ({
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+
+      // Cancel momentum animation on unmount
+      if (momentumAnimationId.current !== null) {
+        cancelAnimationFrame(momentumAnimationId.current);
+      }
     };
   }, [handleMouseMove, handleMouseUp]);
 
