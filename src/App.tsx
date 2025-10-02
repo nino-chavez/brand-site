@@ -6,6 +6,7 @@ import Header from './components/layout/Header';
 import BackgroundEffects from './components/effects/BackgroundEffects';
 import CursorLensV2 from './components/canvas/CursorLensV2';
 import LightboxCanvas from './components/canvas/LightboxCanvas';
+import CanvasPortfolioLayout from './components/canvas/CanvasPortfolioLayout';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 import useScrollSpy from './hooks/useScrollSpy';
 import type { SectionId } from './types';
@@ -222,7 +223,9 @@ const App: React.FC = () => {
                                     performanceMode={performanceMode}
                                     debugMode={debugMode}
                                     className="photographer-lightbox-app relative z-10"
-                                />
+                                >
+                                    <CanvasPortfolioLayout />
+                                </LightboxCanvas>
                             </main>
 
                             {/* Canvas Mode Indicator - Development only */}
