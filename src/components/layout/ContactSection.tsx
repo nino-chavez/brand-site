@@ -3,6 +3,7 @@ import React from 'react';
 import Section, { SectionTitle } from './Section';
 import { SOCIAL_LINKS } from '../../constants';
 import { useMagneticEffect } from '../../hooks/useMagneticEffect';
+import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 
 interface ContactSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
@@ -10,10 +11,16 @@ interface ContactSectionProps {
 
 const ContactSection: React.FC<ContactSectionProps> = ({ setRef }) => {
     const emailBtnRef = useMagneticEffect<HTMLAnchorElement>({ strength: 0.4, radius: 100 });
+    const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
     return (
         <Section id="portfolio" setRef={setRef}>
-            <div className="text-center max-w-3xl mx-auto">
+            <div
+                ref={elementRef as React.RefObject<HTMLDivElement>}
+                className={`text-center max-w-3xl mx-auto transition-all duration-700 ease-out ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'
+                }`}
+            >
                 <SectionTitle>Let's Connect</SectionTitle>
                 <p className="text-lg text-gray-300 mb-12">
                     I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Whether you're interested in my technical expertise or my creative work, feel free to reach out.

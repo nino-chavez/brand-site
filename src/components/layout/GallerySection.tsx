@@ -42,7 +42,7 @@ const GallerySection: React.FC<GallerySectionProps> = ({ setRef }) => {
                     {GALLERY_IMAGES.map((image, index) => (
                         <div
                             key={image.id}
-                            className={`overflow-hidden rounded-lg shadow-lg group transition-all duration-500 ease-out cursor-pointer ${
+                            className={`relative overflow-hidden rounded-lg shadow-lg group transition-all duration-500 ease-out cursor-pointer hover:shadow-2xl ${
                                 visibleIndices.has(index)
                                     ? 'opacity-100 translate-y-0'
                                     : 'opacity-0 translate-y-8'
@@ -55,9 +55,17 @@ const GallerySection: React.FC<GallerySectionProps> = ({ setRef }) => {
                             <ProgressiveImage
                                 src={image.urls.preview}
                                 alt={image.alt}
-                                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                                className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-125"
                                 placeholderBlur={12}
                             />
+
+                            {/* Metadata overlay slide-up on hover */}
+                            <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/90 to-transparent translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                <p className="text-white text-xs font-semibold">{image.alt}</p>
+                                <p className="text-white/70 text-xs mt-1">
+                                    {image.metadata.camera} • {image.metadata.focalLength}
+                                </p>
+                            </div>
                         </div>
                     ))}
                 </div>
