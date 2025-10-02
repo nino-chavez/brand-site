@@ -201,41 +201,55 @@ export const DemoHarness: React.FC = () => {
           <div className="max-w-[1400px] mx-auto p-8 space-y-8">
             {/* Introduction */}
             <div className="bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-xl p-6">
-              <h2 className="text-[28px] font-bold text-white mb-3">Enterprise Component Architecture Reference</h2>
-              <p className="text-white/80 mb-4 text-[16px] leading-relaxed">
-                Production-grade UI patterns with complete test coverage and accessibility compliance.
-                Every component is battle-tested, performance-optimized, and ready for enterprise deployment.
-                Use this as your golden reference for implementing consistent, accessible interfaces.
+              <div className="flex items-start justify-between gap-6 mb-4">
+                <div className="flex-1">
+                  <h2 className="text-[28px] font-bold text-white mb-4">Enterprise Component Architecture Reference</h2>
+
+                  {/* Key Benefits - Scannable Format */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                    <div className="flex items-start gap-2">
+                      <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-white/90 text-sm">{totalComponents} Production Components</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-white/90 text-sm">Complete Test Coverage</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-white/90 text-sm">WCAG 2.2 AA Compliant</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-white/90 text-sm">60 FPS Performance</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-white/90 text-sm">React 19.1 + TypeScript</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-white/90 text-sm">Full Keyboard Navigation</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-white/70 text-sm">
+                Battle-tested patterns ready for enterprise deployment. Use as your golden reference for consistent, accessible interfaces.
               </p>
-
-              {/* Technical Context Badges */}
-              <div className="flex gap-3 mb-4 flex-wrap">
-                <div className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-white/70">
-                  React 19.1 + TypeScript
-                </div>
-                <div className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-white/70">
-                  WCAG 2.2 AA Compliant
-                </div>
-                <div className="px-3 py-1.5 rounded-md bg-white/5 border border-white/10 text-xs text-white/70">
-                  60 FPS Optimized
-                </div>
-              </div>
-
-              {/* Stats */}
-              <div className="flex gap-4 text-sm flex-wrap">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <span className="text-white/80">{totalComponents} Components</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                  <span className="text-white/80">8 Categories</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-violet-500"></div>
-                  <span className="text-white/80">Full Keyboard Support</span>
-                </div>
-              </div>
             </div>
 
             {/* ANIMATIONS CATEGORY */}
@@ -244,6 +258,7 @@ export const DemoHarness: React.FC = () => {
                 title={DEMO_CATEGORIES.animations.title}
                 description={DEMO_CATEGORIES.animations.description}
                 icon={DEMO_CATEGORIES.animations.icon}
+                accentColor="violet"
                 defaultExpanded={!activeCategory || activeCategory === 'animations'}
               >
                 {/* Fade Up 8px */}
@@ -393,6 +408,7 @@ export const DemoHarness: React.FC = () => {
                 title={DEMO_CATEGORIES.effects.title}
                 description={DEMO_CATEGORIES.effects.description}
                 icon={DEMO_CATEGORIES.effects.icon}
+                accentColor="blue"
                 defaultExpanded={!activeCategory || activeCategory === 'effects'}
               >
                 {/* Parallax */}
@@ -522,6 +538,7 @@ export const DemoHarness: React.FC = () => {
                 title={DEMO_CATEGORIES.interactive.title}
                 description={DEMO_CATEGORIES.interactive.description}
                 icon={DEMO_CATEGORIES.interactive.icon}
+                accentColor="cyan"
                 defaultExpanded={!activeCategory || activeCategory === 'interactive'}
               >
                 {/* Magnetic Button */}
@@ -629,6 +646,7 @@ export const DemoHarness: React.FC = () => {
                 title={DEMO_CATEGORIES.sections.title}
                 description={DEMO_CATEGORIES.sections.description}
                 icon={DEMO_CATEGORIES.sections.icon}
+                accentColor="purple"
                 defaultExpanded={!activeCategory || activeCategory === 'sections'}
               >
                 {/* Section Fade + Slide */}
@@ -749,6 +767,7 @@ export const DemoHarness: React.FC = () => {
                 title={DEMO_CATEGORIES.hoverStates.title}
                 description={DEMO_CATEGORIES.hoverStates.description}
                 icon={DEMO_CATEGORIES.hoverStates.icon}
+                accentColor="pink"
                 defaultExpanded={!activeCategory || activeCategory === 'hoverStates'}
               >
                 {/* Button Hover */}
@@ -968,6 +987,7 @@ export const DemoHarness: React.FC = () => {
                 title={DEMO_CATEGORIES.clickStates.title}
                 description={DEMO_CATEGORIES.clickStates.description}
                 icon={DEMO_CATEGORIES.clickStates.icon}
+                accentColor="amber"
                 defaultExpanded={!activeCategory || activeCategory === 'clickStates'}
               >
                 {/* Button Press */}
@@ -1141,6 +1161,7 @@ className={\`relative inline-flex h-6 w-11 items-center rounded-full transition-
                 title={DEMO_CATEGORIES.mobileTouch.title}
                 description={DEMO_CATEGORIES.mobileTouch.description}
                 icon={DEMO_CATEGORIES.mobileTouch.icon}
+                accentColor="emerald"
                 defaultExpanded={!activeCategory || activeCategory === 'mobileTouch'}
               >
                 {/* Tap Feedback */}
@@ -1302,6 +1323,7 @@ onTouchEnd={() => clearTimeout(timer)}`}
                 title={DEMO_CATEGORIES.passiveStates.title}
                 description={DEMO_CATEGORIES.passiveStates.description}
                 icon={DEMO_CATEGORIES.passiveStates.icon}
+                accentColor="slate"
                 defaultExpanded={!activeCategory || activeCategory === 'passiveStates'}
               >
                 {/* Loading Spinner */}

@@ -19,7 +19,7 @@ export const DemoHeader: React.FC<DemoHeaderProps> = ({ onReset }) => {
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-white">UI/UX Component Demo</h1>
             <p className="text-sm text-white/60 mt-1">
-              Golden reference implementation - Battle-tested interface patterns with full test coverage
+              Engineered by <span className="text-violet-400 font-medium">Nino Chavez</span> • Enterprise Software Engineer
             </p>
           </div>
 
@@ -41,10 +41,17 @@ export const DemoHeader: React.FC<DemoHeaderProps> = ({ onReset }) => {
               </button>
             )}
             <a
+              href="/#contact"
+              className="px-4 py-2 rounded-lg bg-green-500/10 hover:bg-green-500/20 text-green-300 hover:text-green-200 text-sm font-medium transition-all border border-green-500/20 hover:border-green-500/40"
+              title="Implement these patterns in your application"
+            >
+              Work Together
+            </a>
+            <a
               href="/"
               className="px-4 py-2 rounded-lg bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 hover:text-violet-200 text-sm font-medium transition-all border border-violet-500/20 hover:border-violet-500/40"
             >
-              Back to Site
+              View Portfolio
             </a>
           </div>
         </div>

@@ -32,8 +32,8 @@ export const DemoSidebar: React.FC<DemoSidebarProps> = ({
               onClick={() => onCategoryClick?.(category.id)}
               className={`relative w-full px-3 py-2 rounded-lg text-left flex items-center justify-between gap-2 transition-all ${
                 activeCategory === category.id
-                  ? 'bg-violet-500/20 text-violet-300 border-l-2 border-violet-400 pl-2.5'
-                  : 'text-white/60 hover:bg-white/5 hover:text-white/80 border-l-2 border-transparent'
+                  ? 'bg-violet-500/30 text-violet-300 border-l-4 border-violet-400 pl-2'
+                  : 'text-white/60 hover:bg-white/5 hover:text-white/80 border-l-4 border-transparent'
               }`}
               data-testid={`sidebar-${category.id}`}
               data-active={activeCategory === category.id}
@@ -46,23 +46,6 @@ export const DemoSidebar: React.FC<DemoSidebarProps> = ({
             </button>
           ))}
         </nav>
-
-        <div className="mt-6 pt-6 border-t border-white/10">
-          <h3 className="text-sm font-semibold text-white/40 uppercase tracking-wide mb-3">
-            Quick Actions
-          </h3>
-          <div className="space-y-2 text-sm">
-            <button className="w-full px-3 py-2 rounded-lg text-left text-white/60 hover:bg-white/5 hover:text-white/80 transition-colors">
-              Export Test Data
-            </button>
-            <button className="w-full px-3 py-2 rounded-lg text-left text-white/60 hover:bg-white/5 hover:text-white/80 transition-colors">
-              Capture Screenshots
-            </button>
-            <button className="w-full px-3 py-2 rounded-lg text-left text-white/60 hover:bg-white/5 hover:text-white/80 transition-colors">
-              Performance Monitor
-            </button>
-          </div>
-        </div>
       </div>
     </aside>
   );
