@@ -128,13 +128,13 @@ export const getAnimationClasses = (
 ) => {
   // Speed to duration mapping
   const durationMap: Record<TransitionSpeed, string> = {
-    fast: 'duration-300',
-    normal: 'duration-500',
-    slow: 'duration-800',
+    fast: 'duration-500',
+    normal: 'duration-700',
+    slow: 'duration-1000',
     off: 'duration-0',
   };
 
-  const duration = speed ? durationMap[speed] : 'duration-500';
+  const duration = speed ? durationMap[speed] : 'duration-700';
   const baseClasses = `transition-all ${duration} ease-out`;
 
   if (speed === 'off') {
@@ -161,16 +161,16 @@ export const getAnimationClasses = (
   // Initial hidden state based on animation style
   switch (style) {
     case 'slide':
-      return `${baseClasses} opacity-0 -translate-x-8`;
+      return `${baseClasses} opacity-0 -translate-x-24`;
     case 'scale':
-      return `${baseClasses} opacity-0 scale-95`;
+      return `${baseClasses} opacity-0 scale-90`;
     case 'blur-morph':
-      return `${baseClasses} opacity-0 blur-sm scale-95`;
+      return `${baseClasses} opacity-0 blur-md scale-90`;
     case 'clip-reveal':
       return `${baseClasses} opacity-0 clip-path-0`;
     case 'fade-up':
     default:
-      return `${baseClasses} opacity-0 translate-y-8`;
+      return `${baseClasses} opacity-0 translate-y-24`;
   }
 };
 
