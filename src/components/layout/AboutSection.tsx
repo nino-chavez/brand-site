@@ -24,10 +24,26 @@ const AboutSection: React.FC<AboutSectionProps> = ({ setRef }) => {
                     </div>
                 </div>
                 <div className="lg:col-span-3">
-                    <SectionTitle>Finding the Signal in the Noise</SectionTitle>
+                    <SectionTitle>From Startup to Enterprise Scale</SectionTitle>
                     <p className="text-xl text-gray-400 mb-8">
-                        I've architected enterprise systems serving 50M+ users and led 100+ person engineering teams through critical transformations. Excellence comes from knowing where to focus when complexity threatens to overwhelm.
+                        20 years building systems that don't break under pressure—from early-stage products to Fortune 500 platforms serving millions.
                     </p>
+
+                    {/* Achievement Highlights */}
+                    <div className="grid md:grid-cols-3 gap-6 mb-10 p-6 bg-gradient-to-r from-brand-violet/10 to-brand-cyan/10 rounded-lg border border-brand-violet/20">
+                        <div className="text-center">
+                            <div className="text-3xl font-bold text-gradient-violet mb-2">100+ Engineers</div>
+                            <p className="text-sm text-gray-400">Led across Microsoft, Oracle, and Adobe teams</p>
+                        </div>
+                        <div className="text-center border-l border-r border-white/10 px-4">
+                            <div className="text-3xl font-bold text-gradient-cyan mb-2">$10M+ Daily</div>
+                            <p className="text-sm text-gray-400">Transaction platforms with zero downtime</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="text-3xl font-bold text-gradient-orange mb-2">10K → 10M Users</div>
+                            <p className="text-sm text-gray-400">Scaled systems 1000x without infrastructure rebuild</p>
+                        </div>
+                    </div>
 
                     <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
                         <p>

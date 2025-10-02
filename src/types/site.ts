@@ -38,6 +38,7 @@ export interface WorkProject {
     tags: string[];
     imageUrl: string;
     link: string;
+    outcome?: string; // Optional measurable outcomes summary
 }
 
 export interface InsightArticle {

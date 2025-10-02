@@ -56,6 +56,15 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2 text-gradient-violet">{project.title}</h3>
                 <p className="text-gray-300 mb-4 text-sm leading-relaxed">{project.description}</p>
+
+                {/* Outcome metrics badge */}
+                {project.outcome && (
+                    <div className="mb-4 p-3 bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-lg border border-green-500/20">
+                        <p className="text-xs font-semibold text-green-400 uppercase tracking-wider mb-1">Impact</p>
+                        <p className="text-sm text-white/90 font-medium">{project.outcome}</p>
+                    </div>
+                )}
+
                 <div className="flex flex-wrap gap-2">
                     {project.tags.map(tag => (
                         <span
