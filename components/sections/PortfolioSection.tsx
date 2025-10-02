@@ -201,7 +201,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
 
       {/* Main content - clean completion interface */}
       <div className="relative z-20 min-h-screen flex flex-col justify-center">
-        <div className="max-w-6xl mx-auto px-4 py-16">
+        <div className="max-w-6xl mx-auto px-8 py-16">
 
           {/* Journey completion narrative */}
           <div className="text-center mb-16">

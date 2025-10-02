@@ -173,7 +173,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
       {/* High-speed optimized gallery */}
       <div className="relative z-20 min-h-screen flex flex-col">
         <div className="flex-1 flex flex-col justify-center py-16">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-7xl mx-auto px-8 py-8">
 
             {/* Section header */}
             <div className="text-center mb-16">
