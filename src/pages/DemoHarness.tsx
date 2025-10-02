@@ -523,7 +523,7 @@ export const DemoHarness: React.FC = () => {
                   title="Magnetic"
                   description="Button responds to cursor proximity with transform and glow"
                   category="interactive"
-                  testId="demo-magnetic"
+                  testId="demo-magnetic-button"
                   codeSnippet={`const { ref, transform } = useMagneticEffect({
   strength: 0.2,
   radius: 100
@@ -596,7 +596,7 @@ export const DemoHarness: React.FC = () => {
                   title="Keyboard Nav"
                   description="Full keyboard support with Tab, Enter, Space, Escape"
                   category="interactive"
-                  testId="demo-keyboard"
+                  testId="demo-keyboard-nav"
                   controls={
                     <DemoControls
                       controls={[
@@ -630,7 +630,7 @@ export const DemoHarness: React.FC = () => {
                   title="Fade + Slide"
                   description="Entire section fades and slides into view"
                   category="sections"
-                  testId="demo-section-fade"
+                  testId="demo-section-fade-slide"
                   controls={
                     <DemoControls
                       controls={[
@@ -702,7 +702,7 @@ export const DemoHarness: React.FC = () => {
                   title="Staggered Content"
                   description="Content elements animate in sequence with delays"
                   category="sections"
-                  testId="demo-staggered"
+                  testId="demo-staggered-content"
                   controls={
                     <DemoControls
                       controls={[
