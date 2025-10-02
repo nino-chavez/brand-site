@@ -248,7 +248,7 @@ export const DemoHarness: React.FC = () => {
               </div>
 
               <p className="text-white/70 text-sm">
-                Battle-tested patterns ready for enterprise deployment. Use as your golden reference for consistent, accessible interfaces.
+                Accelerate your development with proven patterns from 3+ years of enterprise deployments. Copy, customize, and ship with confidence.
               </p>
             </div>
 

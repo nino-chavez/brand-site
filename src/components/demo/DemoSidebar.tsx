@@ -30,10 +30,10 @@ export const DemoSidebar: React.FC<DemoSidebarProps> = ({
             <button
               key={category.id}
               onClick={() => onCategoryClick?.(category.id)}
-              className={`relative w-full px-3 py-2 rounded-lg text-left flex items-center justify-between gap-2 transition-all ${
+              className={`relative w-full px-3 py-2 rounded-lg text-left flex items-center justify-between gap-2 transition-all duration-200 ${
                 activeCategory === category.id
                   ? 'bg-violet-500/30 text-violet-300 border-l-4 border-violet-400 pl-2'
-                  : 'text-white/60 hover:bg-white/5 hover:text-white/80 border-l-4 border-transparent'
+                  : 'text-white/60 hover:bg-white/5 hover:text-white/80 hover:translate-x-0.5 border-l-4 border-transparent'
               }`}
               data-testid={`sidebar-${category.id}`}
               data-active={activeCategory === category.id}

@@ -17,9 +17,9 @@ export const DemoHeader: React.FC<DemoHeaderProps> = ({ onReset }) => {
         <div className="flex items-center justify-between gap-6">
           {/* Logo & Title */}
           <div className="flex-1">
-            <h1 className="text-2xl font-bold text-white">UI/UX Component Demo</h1>
+            <h1 className="text-2xl font-bold text-white">Enterprise UI Pattern Library</h1>
             <p className="text-sm text-white/60 mt-1">
-              Engineered by <span className="text-violet-400 font-medium">Nino Chavez</span> • Enterprise Software Engineer
+              Engineered by <span className="text-violet-400 font-medium">Nino Chavez</span> • Enterprise Software Engineer • Trusted patterns from 3+ years of enterprise deployments
             </p>
           </div>
 
@@ -45,7 +45,7 @@ export const DemoHeader: React.FC<DemoHeaderProps> = ({ onReset }) => {
               className="px-4 py-2 rounded-lg bg-green-500/10 hover:bg-green-500/20 text-green-300 hover:text-green-200 text-sm font-medium transition-all border border-green-500/20 hover:border-green-500/40"
               title="Implement these patterns in your application"
             >
-              Work Together
+              Implement These Patterns →
             </a>
             <a
               href="/"
