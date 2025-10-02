@@ -35,19 +35,22 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
     };
 
     return (
-        <a href={project.link} target="_blank" rel="noopener noreferrer" className="block hover-lift">
+        <a href={project.link} target="_blank" rel="noopener noreferrer" className="block group">
             <div
                 ref={cardRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                className="card-base card-glow will-change-transform motion-reduce:transform-none"
+                className="card-base card-glow will-change-transform motion-reduce:transform-none relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
                 style={{ transformStyle: 'preserve-3d' }}
             >
-                <div className="aspect-video bg-gray-800 rounded-md overflow-hidden mb-4 transition-all duration-300 group-hover:scale-105">
+                {/* Gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-violet-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
+
+                <div className="aspect-video bg-gray-800 rounded-md overflow-hidden mb-4">
                      <ProgressiveImage
                         src={project.imageUrl}
                         alt={project.title}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                         placeholderBlur={10}
                     />
                 </div>
@@ -62,6 +65,16 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
                             {tag}
                         </span>
                     ))}
+                </div>
+
+                {/* View Project button slides in from bottom */}
+                <div className="mt-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    <span className="inline-flex items-center text-violet-400 text-sm font-semibold">
+                        View Project
+                        <svg className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </span>
                 </div>
             </div>
         </a>

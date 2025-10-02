@@ -130,13 +130,14 @@ export function TechnicalHUD({
                                         `text-white bg-brand-violet/20 border-brand-violet/50
                                          shadow-[0_0_20px_rgba(139,92,246,0.4),0_0_0_2px_rgba(139,92,246,0.3)]`
                                     ) : isHovered ? (
-                                        // Hovered state with cyan preview
+                                        // Hovered state with cyan preview + subtle forward motion
                                         `text-white bg-cyan-500/10 border-cyan-400/40
-                                         shadow-[0_0_16px_rgba(6,182,212,0.3),0_0_0_1px_rgba(6,182,212,0.2)]`
+                                         shadow-[0_0_16px_rgba(6,182,212,0.3),0_0_0_1px_rgba(6,182,212,0.2)]
+                                         translate-x-0.5`
                                     ) : (
                                         // Default state with hover effects
                                         `text-white/70 bg-transparent border-transparent
-                                         hover:text-white hover:bg-white/5 hover:border-white/20`
+                                         hover:text-white hover:bg-white/5 hover:border-white/20 hover:translate-x-0.5`
                                     )}
 
                                     active:scale-95 active:bg-white/10

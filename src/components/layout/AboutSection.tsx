@@ -1,15 +1,23 @@
 
 import React from 'react';
 import Section, { SectionTitle } from './Section';
+import { useScrollAnimation } from '../../hooks/useScrollAnimation';
 
 interface AboutSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
 }
 
 const AboutSection: React.FC<AboutSectionProps> = ({ setRef }) => {
+    const { elementRef, isVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+
     return (
         <Section id="focus" setRef={setRef}>
-            <div className="grid lg:grid-cols-5 gap-12 items-center">
+            <div
+                ref={elementRef as React.RefObject<HTMLDivElement>}
+                className={`grid lg:grid-cols-5 gap-12 items-center transition-all duration-700 ease-out ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'
+                }`}
+            >
                 <div className="lg:col-span-2">
                     <div className="aspect-square bg-gray-800 rounded-lg overflow-hidden shadow-2xl transition-transform duration-500 hover:scale-105">
                          <img src="https://picsum.photos/seed/profile/800/800" alt="Nino Chavez" className="w-full h-full object-cover"/>
