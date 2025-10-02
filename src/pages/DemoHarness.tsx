@@ -255,18 +255,24 @@ export const DemoHarness: React.FC = () => {
                   codeSnippet={`className="opacity-0 translate-y-8 transition-all duration-500"
 // Becomes: opacity-100 translate-y-0`}
                   controls={
-                    <DemoControls
-                      controls={[
-                        {
-                          type: 'select',
-                          label: 'Speed',
-                          value: fadeUp8.state.speed,
-                          options: ['fast', 'normal', 'slow', 'off'],
-                          onChange: (value) => fadeUp8.updateState('speed', value),
-                        },
-                      ]}
-                      onReset={fadeUp8.resetState}
-                    />
+                    <>
+                      <DemoControls
+                        controls={[
+                          {
+                            type: 'select',
+                            label: 'Speed',
+                            value: fadeUp8.state.speed,
+                            options: ['fast', 'normal', 'slow', 'off'],
+                            onChange: (value) => fadeUp8.updateState('speed', value),
+                          },
+                        ]}
+                        onReset={fadeUp8.resetState}
+                      />
+                      <StateIndicator
+                        states={[{ label: 'Speed', value: fadeUp8.state.speed }]}
+                        className="mt-2"
+                      />
+                    </>
                   }
                 >
                   <FadeUpDemo distance={8} speed={fadeUp8.state.speed} />
@@ -396,26 +402,35 @@ export const DemoHarness: React.FC = () => {
                   category="effects"
                   testId="demo-parallax"
                   controls={
-                    <DemoControls
-                      controls={[
-                        {
-                          type: 'slider',
-                          label: 'Intensity',
-                          value: parallax.state.intensity,
-                          min: 0.1,
-                          max: 0.5,
-                          step: 0.1,
-                          onChange: (value) => parallax.updateState('intensity', value),
-                        },
-                        {
-                          type: 'toggle',
-                          label: 'Enabled',
-                          value: parallax.state.enabled,
-                          onChange: (value) => parallax.updateState('enabled', value),
-                        },
-                      ]}
-                      onReset={parallax.resetState}
-                    />
+                    <>
+                      <DemoControls
+                        controls={[
+                          {
+                            type: 'slider',
+                            label: 'Intensity',
+                            value: parallax.state.intensity,
+                            min: 0.1,
+                            max: 0.5,
+                            step: 0.1,
+                            onChange: (value) => parallax.updateState('intensity', value),
+                          },
+                          {
+                            type: 'toggle',
+                            label: 'Enabled',
+                            value: parallax.state.enabled,
+                            onChange: (value) => parallax.updateState('enabled', value),
+                          },
+                        ]}
+                        onReset={parallax.resetState}
+                      />
+                      <StateIndicator
+                        states={[
+                          { label: 'Intensity', value: parallax.state.intensity },
+                          { label: 'Enabled', value: parallax.state.enabled, type: 'boolean' },
+                        ]}
+                        className="mt-2"
+                      />
+                    </>
                   }
                 >
                   <ParallaxDemo
