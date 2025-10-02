@@ -176,7 +176,15 @@ const App: React.FC = () => {
                     debugMode={debugMode}
                 >
                     <CanvasStateProvider
-                        initialPosition={{ x: 0, y: 0, scale: 1.0 }}
+                        initialPosition={{
+                            x: typeof window !== 'undefined'
+                                ? -(2000 + 0) + window.innerWidth / 2 - 500  // Center capture section (at x:0, width:1000)
+                                : -1500,
+                            y: typeof window !== 'undefined'
+                                ? -(1500 + 0) + window.innerHeight / 2 - 350  // Center capture section (at y:0, height:700)
+                                : -1150,
+                            scale: 1.0
+                        }}
                         performanceMode={performanceMode}
                         enableAnalytics={true}
                     >
