@@ -16,6 +16,8 @@ import { useRef, useCallback, useEffect } from 'react';
 interface CanvasTouchGestureHandlers {
   onPan: (delta: { x: number; y: number }) => void;
   onZoom: (scale: number, center: { x: number; y: number }) => void;
+  onDragStart?: () => void; // Phase 3: Performance optimization
+  onDragEnd?: () => void;   // Phase 3: Performance optimization
 }
 
 interface CanvasTouchGestureProps {
@@ -27,7 +29,9 @@ interface CanvasTouchGestureProps {
 
 export const useCanvasTouchGestures = ({
   onPan,
-  onZoom
+  onZoom,
+  onDragStart,
+  onDragEnd
 }: CanvasTouchGestureHandlers): CanvasTouchGestureProps => {
   // Single finger pan state
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -194,6 +198,9 @@ export const useCanvasTouchGestures = ({
         document.body.style.webkitUserSelect = 'none';
         document.body.style.cursor = 'grabbing';
 
+        // Phase 3: Notify canvas for performance optimization
+        onDragStart?.();
+
         console.log('🎯 Drag threshold exceeded - pan mode activated');
       } else {
         // Still below threshold - don't pan yet
@@ -283,10 +290,12 @@ export const useCanvasTouchGestures = ({
     document.body.style.webkitUserSelect = '';
     document.body.style.cursor = '';
 
+    // Phase 3: Notify canvas for performance optimization
     if (wasInPanMode) {
+      onDragEnd?.();
       console.log('🎯 Pan mode deactivated - text selection restored');
     }
-  }, [startMomentumAnimation]);
+  }, [startMomentumAnimation, onDragEnd]);
 
   // Global mouse event listeners (for drag beyond canvas bounds)
   // Always listen, but check isDragging inside handlers

@@ -5,8 +5,9 @@
  * Eliminates circular dependencies, performance monitor refs, and over-engineering.
  *
  * @fileoverview Minimal canvas with pan/zoom/keyboard/touch
- * @version 2.0.0
+ * @version 2.3.0
  * @since Phase 4 - Canvas Rebuild
+ * @updated Phase 3 - Performance optimization (translate3d, will-change hints, 60fps)
  */
 
 import React, { useRef, useMemo, useState, useCallback } from 'react';
@@ -46,20 +47,25 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
   // Local transitioning state
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Phase 3: Track active drag for performance hints
+  const [isDragging, setIsDragging] = useState(false);
+
   // ===== MEMOIZED TRANSFORM =====
 
   const canvasTransform = useMemo(() => {
     const { x, y, scale } = state.position;
 
+    // Phase 3: GPU acceleration via translate3d instead of translate
+    // willChange hint during both transitions AND active drag for smooth 60fps
     return {
-      transform: `translate(${-x}px, ${-y}px) scale(${scale})`,
+      transform: `translate3d(${-x}px, ${-y}px, 0) scale(${scale})`,
       transformOrigin: 'center center',
-      willChange: isTransitioning ? 'transform' : 'auto',
+      willChange: (isTransitioning || isDragging) ? 'transform' : 'auto',
       transition: isTransitioning ? 'transform 300ms ease-out' : 'none',
       backfaceVisibility: 'hidden' as const,
       perspective: '1000px'
     };
-  }, [state.position.x, state.position.y, state.position.scale, isTransitioning]);
+  }, [state.position.x, state.position.y, state.position.scale, isTransitioning, isDragging]);
 
   // ===== CAMERA MOVEMENT (RAF SCHEDULER) =====
 
@@ -123,7 +129,10 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         ...state.position,
         scale: newScale
       });
-    }
+    },
+    // Phase 3: Performance optimization callbacks
+    onDragStart: () => setIsDragging(true),
+    onDragEnd: () => setIsDragging(false)
   });
 
   // ===== KEYBOARD NAVIGATION =====
@@ -183,12 +192,17 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       classes.push('canvas-transitioning');
     }
 
+    // Phase 3: Add drag state class for performance hints
+    if (isDragging) {
+      classes.push('canvas-dragging');
+    }
+
     if (className) {
       classes.push(className);
     }
 
     return classes.join(' ');
-  }, [performanceMode, isTransitioning, className]);
+  }, [performanceMode, isTransitioning, isDragging, className]);
 
   // ===== DEBUG OVERLAY =====
 
