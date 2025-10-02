@@ -178,11 +178,11 @@ const App: React.FC = () => {
                     <CanvasStateProvider
                         initialPosition={{
                             x: typeof window !== 'undefined'
-                                ? -(2000 + 0) + window.innerWidth / 2 - 550  // Center capture section (at x:0, width:1100)
-                                : -1550,
+                                ? (2000 + 0) - window.innerWidth / 2 + 550  // Center capture section (at x:0, width:1100)
+                                : 1550,
                             y: typeof window !== 'undefined'
-                                ? -(1500 + 0) + window.innerHeight / 2 - 375  // Center capture section (at y:0, height:750)
-                                : -1175,
+                                ? (1500 + 0) - window.innerHeight / 2 + 375  // Center capture section (at y:0, height:750)
+                                : 1175,
                             scale: 1.0
                         }}
                         performanceMode={performanceMode}

@@ -232,17 +232,22 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         {children}
       </div>
 
-      {/* Instruction overlay when no content */}
-      {!children && (
-        <div className="absolute inset-0 flex items-center justify-center text-white/70 pointer-events-none">
-          <div className="text-center max-w-md px-4">
-            <div className="text-6xl mb-4">📸</div>
-            <h2 className="text-2xl font-semibold mb-4 text-white">Canvas Mode</h2>
-            <p className="text-lg mb-4">Click and hold anywhere to activate spatial navigation</p>
-            <div className="text-sm text-white/50 space-y-1">
-              <p>Desktop: Click + hold for 800ms</p>
-              <p>Mobile: Long press</p>
-              <p>Keyboard: Arrow keys to pan, +/- to zoom</p>
+      {/* Drag hint overlay - shows on initial load */}
+      {children && !isTransitioning && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div
+            className="text-center max-w-md px-6 py-4 bg-black/80 backdrop-blur-sm rounded-xl border border-white/20"
+            style={{
+              animation: 'fadeInOut 4s ease-in-out',
+              animationDelay: '1s',
+              animationFillMode: 'both'
+            }}
+          >
+            <div className="text-white/90 text-lg font-medium mb-2">
+              💡 Click and drag anywhere to pan
+            </div>
+            <div className="text-white/60 text-sm">
+              Or use arrow keys • Click sections to focus
             </div>
           </div>
         </div>
@@ -294,6 +299,14 @@ export const LightboxCanvasStyles = `
     -webkit-touch-callout: none;
     -webkit-user-drag: none;
     -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Drag hint animation */
+  @keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(10px); }
+    15% { opacity: 1; transform: translateY(0); }
+    85% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
   }
 `;
 

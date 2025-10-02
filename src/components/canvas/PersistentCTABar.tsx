@@ -77,10 +77,11 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
     };
 
     // Calculate centered position
+    // Note: Transform uses translate(${-x}px), so we need positive values here
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const targetX = -(2000 + portfolioSection.coordinates.x) + viewportWidth / 2 - portfolioSection.dimensions.width / 2;
-    const targetY = -(1500 + portfolioSection.coordinates.y) + viewportHeight / 2 - portfolioSection.dimensions.height / 2;
+    const targetX = (2000 + portfolioSection.coordinates.x) - viewportWidth / 2 + portfolioSection.dimensions.width / 2;
+    const targetY = (1500 + portfolioSection.coordinates.y) - viewportHeight / 2 + portfolioSection.dimensions.height / 2;
 
     actions.updatePosition({
       x: targetX,
@@ -101,10 +102,11 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
     };
 
     // Calculate centered position
+    // Note: Transform uses translate(${-x}px), so we need positive values here
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-    const targetX = -(2000 + frameSection.coordinates.x) + viewportWidth / 2 - frameSection.dimensions.width / 2;
-    const targetY = -(1500 + frameSection.coordinates.y) + viewportHeight / 2 - frameSection.dimensions.height / 2;
+    const targetX = (2000 + frameSection.coordinates.x) - viewportWidth / 2 + frameSection.dimensions.width / 2;
+    const targetY = (1500 + frameSection.coordinates.y) - viewportHeight / 2 + frameSection.dimensions.height / 2;
 
     actions.updatePosition({
       x: targetX,

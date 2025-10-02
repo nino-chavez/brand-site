@@ -170,16 +170,15 @@ export const useCanvasTouchGestures = ({
   }, []);
 
   // Global mouse event listeners (for drag beyond canvas bounds)
+  // Always listen, but check isDragging inside handlers
   useEffect(() => {
-    if (isDragging.current) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
 
-      return () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
   }, [handleMouseMove, handleMouseUp]);
 
   return {
