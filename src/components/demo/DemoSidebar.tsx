@@ -30,17 +30,19 @@ export const DemoSidebar: React.FC<DemoSidebarProps> = ({
             <button
               key={category.id}
               onClick={() => onCategoryClick?.(category.id)}
-              className={`w-full px-3 py-2 rounded-lg text-left flex items-center justify-between gap-2 transition-colors ${
+              className={`relative w-full px-3 py-2 rounded-lg text-left flex items-center justify-between gap-2 transition-all ${
                 activeCategory === category.id
-                  ? 'bg-violet-500/20 text-violet-300'
-                  : 'text-white/60 hover:bg-white/5 hover:text-white/80'
+                  ? 'bg-violet-500/20 text-violet-300 border-l-2 border-violet-400 pl-2.5'
+                  : 'text-white/60 hover:bg-white/5 hover:text-white/80 border-l-2 border-transparent'
               }`}
+              data-testid={`sidebar-${category.id}`}
+              data-active={activeCategory === category.id}
             >
               <div className="flex items-center gap-2">
                 <span className="text-lg">{category.icon}</span>
                 <span className="text-sm font-medium">{category.title}</span>
               </div>
-              <span className="text-xs text-white/40 font-mono">{category.count}</span>
+              <span className={`text-xs font-mono ${activeCategory === category.id ? 'text-violet-300/80' : 'text-white/40'}`}>{category.count}</span>
             </button>
           ))}
         </nav>
