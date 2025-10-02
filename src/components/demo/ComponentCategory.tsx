@@ -25,7 +25,7 @@ export const ComponentCategory: React.FC<ComponentCategoryProps> = ({
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   return (
-    <div className="border border-white/10 rounded-lg overflow-hidden bg-neutral-900/30 backdrop-blur-sm">
+    <div className="border border-white/10 rounded-xl overflow-hidden bg-neutral-900/50 backdrop-blur-sm">
       {/* Category Header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
@@ -34,8 +34,8 @@ export const ComponentCategory: React.FC<ComponentCategoryProps> = ({
         <div className="flex items-center gap-3">
           {icon && <span className="text-2xl">{icon}</span>}
           <div>
-            <h2 className="text-xl font-bold text-white">{title}</h2>
-            {description && <p className="text-sm text-white/60 mt-1">{description}</p>}
+            <h2 className="text-[22px] font-bold text-white">{title}</h2>
+            {description && <p className="text-sm text-white/80 mt-1">{description}</p>}
           </div>
         </div>
 

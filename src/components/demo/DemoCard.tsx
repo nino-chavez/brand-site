@@ -43,7 +43,7 @@ export const DemoCard: React.FC<DemoCardProps> = ({
 
   return (
     <div
-      className="border border-white/20 rounded-xl overflow-hidden bg-neutral-800/50 backdrop-blur-sm shadow-lg hover:border-white/30 transition-colors"
+      className="border border-white/20 rounded-xl overflow-hidden bg-white/10 backdrop-blur-sm shadow-lg hover:border-white/30 transition-colors"
       data-testid={testId}
       data-demo-category={category}
     >
@@ -52,7 +52,7 @@ export const DemoCard: React.FC<DemoCardProps> = ({
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-white mb-1">{title}</h3>
-            <p className="text-sm text-white/70">{description}</p>
+            <p className="text-sm text-white/80">{description}</p>
           </div>
 
           {/* State Indicators */}

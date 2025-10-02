@@ -200,12 +200,12 @@ export const DemoHarness: React.FC = () => {
         <main className="flex-1 overflow-y-auto">
           <div className="max-w-[1400px] mx-auto p-8 space-y-8">
             {/* Introduction */}
-            <div className="bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-lg p-6">
-              <h2 className="text-2xl font-bold text-white mb-2">Production UI Pattern Library</h2>
-              <p className="text-white/60 mb-4">
-                Explore battle-tested interface components from enterprise applications.
-                Each pattern is optimized for performance, accessibility, and developer experience.
-                Customize parameters in real-time to match your design system.
+            <div className="bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-xl p-6">
+              <h2 className="text-[28px] font-bold text-white mb-3">Enterprise Component Architecture Reference</h2>
+              <p className="text-white/80 mb-4 text-[16px] leading-relaxed">
+                Production-grade UI patterns with complete test coverage and accessibility compliance.
+                Every component is battle-tested, performance-optimized, and ready for enterprise deployment.
+                Use this as your golden reference for implementing consistent, accessible interfaces.
               </p>
 
               {/* Technical Context Badges */}
@@ -225,15 +225,15 @@ export const DemoHarness: React.FC = () => {
               <div className="flex gap-4 text-sm flex-wrap">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <span className="text-white/60">{totalComponents} Components</span>
+                  <span className="text-white/80">{totalComponents} Components</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                  <span className="text-white/60">8 Categories</span>
+                  <span className="text-white/80">8 Categories</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-violet-500"></div>
-                  <span className="text-white/60">Full Keyboard Support</span>
+                  <span className="text-white/80">Full Keyboard Support</span>
                 </div>
               </div>
             </div>

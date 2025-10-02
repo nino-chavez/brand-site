@@ -30,6 +30,9 @@ Internal documentation covering project structure, development standards, deploy
 **Contents:**
 - Project structure and organization
 - Code quality standards
+- **Design Standards** - Typography, colors, spacing, animations (NEW)
+- **Implementation Standards** - Component patterns, test IDs, state management (NEW)
+- **Testing Strategy** - Playwright patterns, selectors, common pitfalls (NEW)
 - Deployment guides and checklists
 - Performance optimization techniques
 - Accessibility implementation patterns
@@ -46,6 +49,7 @@ Component-level documentation serving both end users (showcasing implementation 
 **Contents:**
 - Viewfinder hero interface system
 - Athletic design token system
+- Design system specifications
 - Canvas utilities API
 - Lightbox canvas API
 - Photography metaphor design language
@@ -63,8 +67,12 @@ Documents from completed development phases that provide historical context but 
 - Original project specification
 - Development phase documentation
 - Phase 2 transition guardrails
-- Historical project status assessments
+- Phase 5 planning documents (2025-10-01)
+- Demo harness session documentation (2025-10-02)
+- Historical project status assessments (2025-09)
+- Completed architectural specifications
 - Legacy deployment guides
+- Consolidated documentation archives
 
 ---
 
@@ -82,13 +90,24 @@ Prompt templates used for maintaining documentation consistency and quality thro
 - [Project Structure](./developer/project-structure.md) - Understand the codebase organization
 - [Code Quality Standards](./developer/code-quality.md) - Development best practices
 
+### Development Standards (NEW)
+- **[Design Standards](./developer/DESIGN_STANDARDS.md)** - Typography, colors, spacing, animations
+- **[Implementation Standards](./developer/IMPLEMENTATION_STANDARDS.md)** - Component architecture, test IDs, state management
+- **[Testing Strategy](./developer/TESTING_STRATEGY.md)** - Playwright patterns, selectors, common pitfalls
+
 ### Deployment
 - [Deployment Checklist](./developer/deployment/deployment-checklist-rollback.md)
 - [Production Build Guide](./developer/deployment/production-build-guide.md)
 
+### Testing
+- [UI/UX Testing Master Guide](./developer/testing/UI_UX_TESTING_MASTER_GUIDE.md)
+- [Stories Automation](./developer/testing/STORIES_AUTOMATION.md)
+- [Runtime Error Detection](./developer/testing/runtime-error-detection.md)
+
 ### Component APIs
 - [Viewfinder System](./components/viewfinder-system.md)
 - [Athletic Design Tokens](./components/athletic-tokens.md)
+- [Design System](./components/design-language/design-system.md)
 - [Lightbox Canvas API](./components/api/lightbox-canvas-api.md)
 
 ### AI Development Showcase
