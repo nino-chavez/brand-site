@@ -212,8 +212,9 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       ref={canvasRef}
       className={canvasClasses}
       {...touchHandlers}
+      style={{ cursor: 'grab' }}
       role="application"
-      aria-label="Spatial navigation canvas"
+      aria-label="Spatial navigation canvas - drag to pan, scroll to zoom"
     >
       {/* Canvas content with transforms */}
       <div

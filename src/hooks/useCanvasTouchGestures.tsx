@@ -1,15 +1,16 @@
 /**
- * useCanvasTouchGestures - Clean Touch Interaction Hook for Canvas
+ * useCanvasTouchGestures - Clean Touch & Mouse Interaction Hook for Canvas
  *
- * Simplified touch gesture handling for canvas pan/zoom.
+ * Simplified gesture handling for canvas pan/zoom with both touch and mouse support.
  * Replaces 165 LOC over-engineered touch handling in LightboxCanvas.
  *
- * @fileoverview Minimal touch gesture detection (1 & 2 finger)
- * @version 2.0.0
+ * @fileoverview Minimal gesture detection (touch + mouse drag)
+ * @version 2.1.0
  * @since Phase 4 - Canvas Rebuild
+ * @updated Quick Win #3 - Added mouse drag panning
  */
 
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 
 interface CanvasTouchGestureHandlers {
   onPan: (delta: { x: number; y: number }) => void;
@@ -20,6 +21,7 @@ interface CanvasTouchGestureProps {
   onTouchStart: (e: React.TouchEvent) => void;
   onTouchMove: (e: React.TouchEvent) => void;
   onTouchEnd: (e: React.TouchEvent) => void;
+  onMouseDown: (e: React.MouseEvent) => void;
 }
 
 export const useCanvasTouchGestures = ({
@@ -113,10 +115,71 @@ export const useCanvasTouchGestures = ({
     pinchStart.current = null;
   }, []);
 
+  // ===== MOUSE DRAG PANNING =====
+  // Quick Win #3: Essential for desktop users (primary audience)
+
+  const mouseStart = useRef<{ x: number; y: number } | null>(null);
+  const isDragging = useRef(false);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    // Only handle left mouse button
+    if (e.button !== 0) return;
+
+    mouseStart.current = {
+      x: e.clientX,
+      y: e.clientY
+    };
+    isDragging.current = true;
+
+    // Change cursor to grabbing
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.style.cursor = 'grabbing';
+    }
+  }, []);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!isDragging.current || !mouseStart.current) return;
+
+    const delta = {
+      x: e.clientX - mouseStart.current.x,
+      y: e.clientY - mouseStart.current.y
+    };
+
+    onPan(delta);
+
+    // Update start position for next move
+    mouseStart.current = {
+      x: e.clientX,
+      y: e.clientY
+    };
+  }, [onPan]);
+
+  const handleMouseUp = useCallback(() => {
+    isDragging.current = false;
+    mouseStart.current = null;
+
+    // Reset cursor
+    document.body.style.cursor = '';
+  }, []);
+
+  // Global mouse event listeners (for drag beyond canvas bounds)
+  useEffect(() => {
+    if (isDragging.current) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+      };
+    }
+  }, [handleMouseMove, handleMouseUp]);
+
   return {
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
-    onTouchEnd: handleTouchEnd
+    onTouchEnd: handleTouchEnd,
+    onMouseDown: handleMouseDown
   };
 };
 
