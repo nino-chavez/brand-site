@@ -80,7 +80,6 @@ import { DEMO_CATEGORIES, demoComponents, getDemosByCategory } from '../config/d
 import { useDemoState } from '../hooks/useDemoState';
 
 export const DemoHarness: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   // Demo-specific states
@@ -129,25 +128,8 @@ export const DemoHarness: React.FC = () => {
   const pulseAnimation = useDemoState('pulse-animation', { speed: 'normal', intensity: 'medium' });
   const statusIndicator = useDemoState('status-indicator', { type: 'badge', status: 'success' });
 
-  // Filter demos based on search and category
-  const filteredDemos = useMemo(() => {
-    let demos = demoComponents;
-
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      demos = demos.filter(
-        (demo) =>
-          demo.title.toLowerCase().includes(query) ||
-          demo.description.toLowerCase().includes(query)
-      );
-    }
-
-    if (activeCategory) {
-      demos = demos.filter((demo) => demo.category === activeCategory);
-    }
-
-    return demos;
-  }, [searchQuery, activeCategory]);
+  // Total component count for stats
+  const totalComponents = demoComponents.length;
 
   // Category statistics
   const categories = Object.values(DEMO_CATEGORIES).map((cat) => ({
@@ -204,11 +186,7 @@ export const DemoHarness: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-white">
       {/* Header */}
-      <DemoHeader
-        onReset={handleResetAll}
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-      />
+      <DemoHeader onReset={handleResetAll} />
 
       <div className="flex h-[calc(100vh-80px)]">
         {/* Sidebar */}
@@ -247,9 +225,7 @@ export const DemoHarness: React.FC = () => {
               <div className="flex gap-4 text-sm flex-wrap">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <span className="text-white/60">
-                    {filteredDemos.length} Components
-                  </span>
+                  <span className="text-white/60">{totalComponents} Components</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-blue-500"></div>
