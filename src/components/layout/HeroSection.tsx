@@ -343,11 +343,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                     }}>
                         Building resilient systems that scale from thousands to millions of users
                     </p>
+
+                    {/* Trust signals */}
+                    <p className="text-sm md:text-base text-white/60 mb-6 max-w-2xl mx-auto" style={{
+                        textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)',
+                        animation: 'fadeInUp 1s ease-out 0.65s both'
+                    }}>
+                        Trusted by Fortune 500 companies • 20+ years enterprise experience
+                    </p>
+
                     <p className="text-base md:text-lg text-white/70 mb-10 max-w-2xl mx-auto" style={{
                         textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)',
                         animation: 'fadeInUp 1s ease-out 0.7s both'
                     }}>
-                        React • TypeScript • Node.js • Cloud Architecture • Technical Leadership
+                        React 19 • TypeScript • AWS/Azure • Microservices • Leading 50+ Engineers
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6" style={{
                         animation: 'fadeInUp 1s ease-out 0.8s both'
@@ -355,11 +364,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                         <button
                             ref={viewWorkBtnRef}
                             onClick={() => onNavigate('work')}
-                            className="btn-primary group btn-magnetic"
+                            className="btn-primary group btn-magnetic text-xl px-10 py-5"
                         >
                             <span className="flex items-center justify-center space-x-2">
-                                <span className="text-lg tracking-wide">View Work</span>
-                                <svg className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <span className="tracking-wide">View Case Studies</span>
+                                <svg className="w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                 </svg>
                             </span>
