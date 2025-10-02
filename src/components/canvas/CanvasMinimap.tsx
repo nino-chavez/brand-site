@@ -13,14 +13,14 @@ import React, { useMemo, useState } from 'react';
 import { useCanvasState } from '../../contexts/CanvasStateProvider';
 import type { SectionId } from '../../types';
 
-// Import spatial section map for coordinates
+// Import spatial section map for coordinates (must match CanvasPortfolioLayout)
 const SPATIAL_SECTION_MAP = {
-  capture: { coordinates: { x: 0, y: 0 }, dimensions: { width: 1000, height: 700 } },
-  focus: { coordinates: { x: -1200, y: 0 }, dimensions: { width: 900, height: 650 } },
-  frame: { coordinates: { x: 1200, y: 0 }, dimensions: { width: 900, height: 650 } },
-  exposure: { coordinates: { x: 0, y: -800 }, dimensions: { width: 800, height: 500 } },
-  develop: { coordinates: { x: 0, y: 900 }, dimensions: { width: 1000, height: 700 } },
-  portfolio: { coordinates: { x: 1400, y: 900 }, dimensions: { width: 700, height: 550 } }
+  capture: { coordinates: { x: 0, y: 0 }, dimensions: { width: 1100, height: 750 } },
+  focus: { coordinates: { x: -1300, y: 0 }, dimensions: { width: 1000, height: 750 } },
+  frame: { coordinates: { x: 1300, y: 0 }, dimensions: { width: 1000, height: 850 } },
+  exposure: { coordinates: { x: 0, y: -900 }, dimensions: { width: 900, height: 600 } },
+  develop: { coordinates: { x: 0, y: 1000 }, dimensions: { width: 1100, height: 800 } },
+  portfolio: { coordinates: { x: 1500, y: 1000 }, dimensions: { width: 800, height: 650 } }
 } as const;
 
 // Canvas world dimensions

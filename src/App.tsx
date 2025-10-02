@@ -178,11 +178,11 @@ const App: React.FC = () => {
                     <CanvasStateProvider
                         initialPosition={{
                             x: typeof window !== 'undefined'
-                                ? -(2000 + 0) + window.innerWidth / 2 - 500  // Center capture section (at x:0, width:1000)
-                                : -1500,
+                                ? -(2000 + 0) + window.innerWidth / 2 - 550  // Center capture section (at x:0, width:1100)
+                                : -1550,
                             y: typeof window !== 'undefined'
-                                ? -(1500 + 0) + window.innerHeight / 2 - 350  // Center capture section (at y:0, height:700)
-                                : -1150,
+                                ? -(1500 + 0) + window.innerHeight / 2 - 375  // Center capture section (at y:0, height:750)
+                                : -1175,
                             scale: 1.0
                         }}
                         performanceMode={performanceMode}
@@ -271,21 +271,23 @@ const App: React.FC = () => {
                             {/* Persistent CTA Bar - Conversion optimization */}
                             <PersistentCTABar onNavigate={handleNavigate} />
 
-                            {/* CursorLensV2 - Integrated with Canvas */}
-                            <CursorLensV2
-                                isEnabled={true}
-                                activationDelay={800}
-                                onSectionSelect={(section) => {
-                                    console.log('🎯 CursorLens navigation to:', section);
-                                }}
-                                onActivate={() => {
-                                    console.log('🎯 CursorLens activated');
-                                }}
-                                onDeactivate={() => {
-                                    console.log('🎯 CursorLens deactivated');
-                                }}
-                                className="canvas-cursor-lens"
-                            />
+                            {/* CursorLensV2 - Disabled in canvas mode (conflicts with mouse drag panning) */}
+                            {process.env.NODE_ENV === 'development' && false && (
+                                <CursorLensV2
+                                    isEnabled={false}
+                                    activationDelay={800}
+                                    onSectionSelect={(section) => {
+                                        console.log('🎯 CursorLens navigation to:', section);
+                                    }}
+                                    onActivate={() => {
+                                        console.log('🎯 CursorLens activated');
+                                    }}
+                                    onDeactivate={() => {
+                                        console.log('🎯 CursorLens deactivated');
+                                    }}
+                                    className="canvas-cursor-lens"
+                                />
+                            )}
                         </div>
                         </EffectsProvider>
                     </CanvasStateProvider>

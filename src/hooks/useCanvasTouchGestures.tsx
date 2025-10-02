@@ -125,6 +125,13 @@ export const useCanvasTouchGestures = ({
     // Only handle left mouse button
     if (e.button !== 0) return;
 
+    // Don't start drag if clicking on interactive elements
+    const target = e.target as HTMLElement;
+    const isInteractive = target.closest('button, a, input, textarea, select, [role="button"]');
+    if (isInteractive) {
+      return;
+    }
+
     mouseStart.current = {
       x: e.clientX,
       y: e.clientY

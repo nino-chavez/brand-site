@@ -72,8 +72,8 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
     // Navigate to Portfolio section using canvas navigation
     const portfolioSection = {
       id: 'portfolio' as SectionId,
-      coordinates: { x: 1400, y: 900 },
-      dimensions: { width: 700, height: 550 }
+      coordinates: { x: 1500, y: 1000 },
+      dimensions: { width: 800, height: 650 }
     };
 
     // Calculate centered position
@@ -96,8 +96,8 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
     // Navigate to Frame section using canvas navigation
     const frameSection = {
       id: 'frame' as SectionId,
-      coordinates: { x: 1200, y: 0 },
-      dimensions: { width: 900, height: 650 }
+      coordinates: { x: 1300, y: 0 },
+      dimensions: { width: 1000, height: 850 }
     };
 
     // Calculate centered position

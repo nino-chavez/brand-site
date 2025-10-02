@@ -38,42 +38,42 @@ export const SPATIAL_SECTION_MAP = {
   capture: {
     id: 'capture' as SectionId,
     coordinates: { x: 0, y: 0 },
-    dimensions: { width: 1000, height: 700 },
+    dimensions: { width: 1100, height: 750 },  // Increased from 1000x700
     zIndex: 10,
     description: 'Hero section - Enterprise architect introduction'
   },
   focus: {
     id: 'focus' as SectionId,
-    coordinates: { x: -1200, y: 0 },
-    dimensions: { width: 900, height: 650 },
+    coordinates: { x: -1300, y: 0 },  // Adjusted spacing
+    dimensions: { width: 1000, height: 750 },  // Increased from 900x650
     zIndex: 5,
     description: 'About section - Professional background and expertise'
   },
   frame: {
     id: 'frame' as SectionId,
-    coordinates: { x: 1200, y: 0 },
-    dimensions: { width: 900, height: 650 },
+    coordinates: { x: 1300, y: 0 },  // Adjusted spacing
+    dimensions: { width: 1000, height: 850 },  // Increased from 900x650 (projects need more height)
     zIndex: 5,
     description: 'Projects section - Technical case studies'
   },
   exposure: {
     id: 'exposure' as SectionId,
-    coordinates: { x: 0, y: -800 },
-    dimensions: { width: 800, height: 500 },
+    coordinates: { x: 0, y: -900 },  // Adjusted spacing
+    dimensions: { width: 900, height: 600 },  // Increased from 800x500
     zIndex: 3,
     description: 'Skills section - Technical stack and expertise'
   },
   develop: {
     id: 'develop' as SectionId,
-    coordinates: { x: 0, y: 900 },
-    dimensions: { width: 1000, height: 700 },
+    coordinates: { x: 0, y: 1000 },  // Adjusted spacing
+    dimensions: { width: 1100, height: 800 },  // Increased from 1000x700
     zIndex: 5,
     description: 'Gallery section - Visual portfolio'
   },
   portfolio: {
     id: 'portfolio' as SectionId,
-    coordinates: { x: 1400, y: 900 },
-    dimensions: { width: 700, height: 550 },
+    coordinates: { x: 1500, y: 1000 },  // Adjusted spacing
+    dimensions: { width: 800, height: 650 },  // Increased from 700x550
     zIndex: 3,
     description: 'Contact section - Get in touch'
   }
