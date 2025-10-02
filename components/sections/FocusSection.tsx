@@ -213,12 +213,28 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                   ref={headingRef}
                   className={`text-4xl md:text-6xl font-black text-white leading-tight ${getClasses(headingVisible)}`}
                 >
-                  Finding the Signal
-                  <span className="block text-athletic-brand-violet">in the Noise</span>
+                  From Startup to
+                  <span className="block text-athletic-brand-violet">Enterprise Scale</span>
                 </h2>
                 <p className="text-lg text-white/70 mt-4 leading-relaxed">
-                  I've architected enterprise systems serving 50M+ users and led 100+ person engineering teams through critical transformations. Excellence comes from knowing where to focus when complexity threatens to overwhelm.
+                  20 years building systems that don't break under pressure—from early-stage products to Fortune 500 platforms serving millions.
                 </p>
+              </div>
+
+              {/* Achievement Highlights Grid */}
+              <div className="grid md:grid-cols-3 gap-6 mb-8 p-6 bg-gradient-to-r from-athletic-brand-violet/10 to-cyan-500/10 rounded-lg border border-athletic-brand-violet/20">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-athletic-brand-violet mb-2">100+ Engineers</div>
+                  <p className="text-sm text-white/70">Led across Microsoft, Oracle, and Adobe teams</p>
+                </div>
+                <div className="text-center border-l border-r border-white/10 px-4">
+                  <div className="text-3xl font-bold text-cyan-400 mb-2">$10M+ Daily</div>
+                  <p className="text-sm text-white/70">Transaction platforms with zero downtime</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-orange-400 mb-2">10K → 10M Users</div>
+                  <p className="text-sm text-white/70">Scaled systems 1000x without infrastructure rebuild</p>
+                </div>
               </div>
 
               <div

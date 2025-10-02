@@ -287,18 +287,29 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                           )}
                         </div>
 
-                        {/* Key metric */}
-                        {project.metrics && (
-                          <div className="text-sm text-white/70">
-                            <span className="font-semibold text-green-400">
-                              {project.metrics.performance}
-                            </span>
+                        {/* Key outcomes summary */}
+                        {project.outcomes && project.outcomes.length > 0 && (
+                          <div className="space-y-2 mb-4">
+                            <div className="text-xs text-white/50 uppercase tracking-wide font-semibold mb-1">Key Outcomes</div>
+                            <div className="grid grid-cols-2 gap-2">
+                              {project.outcomes.slice(0, 2).map((outcome, idx) => (
+                                <div key={idx} className="flex items-start space-x-1">
+                                  <span className="text-green-400 mt-0.5">✓</span>
+                                  <span className="text-xs text-white/70 leading-tight">{outcome}</span>
+                                </div>
+                              ))}
+                            </div>
+                            {project.outcomes.length > 2 && (
+                              <div className="text-xs text-white/40">
+                                +{project.outcomes.length - 2} more outcomes
+                              </div>
+                            )}
                           </div>
                         )}
 
                         <div className="mt-4 text-right">
                           <span className="text-xs text-white/40 group-hover:text-white/60 transition-colors">
-                            View Details →
+                            View Full Details →
                           </span>
                         </div>
                       </div>

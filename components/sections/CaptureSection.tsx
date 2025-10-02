@@ -234,24 +234,34 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             data-testid="hero-role"
           >
             <p className="text-xl md:text-3xl lg:text-4xl font-semibold tracking-wide mb-2">
-              Enterprise Architect
+              Enterprise Architect & Technical Leader
             </p>
             <div className="flex items-center justify-center space-x-3 text-lg md:text-xl text-white/90 font-medium">
-              <span>Software Engineer</span>
+              <span>Software Engineering</span>
               <div className="w-1 h-1 rounded-full bg-white/60" />
-              <span>Action Photographer</span>
+              <span>Visual Storytelling</span>
             </div>
           </div>
 
-          {/* Simplified tagline */}
+          {/* Value proposition */}
           <p
             ref={taglineRef}
-            className={`text-xl md:text-2xl text-white/85 mb-12 font-normal leading-relaxed tracking-wide ${getClasses(taglineVisible)}`}
+            className={`text-xl md:text-2xl text-white/85 mb-4 font-normal leading-relaxed tracking-wide ${getClasses(taglineVisible)}`}
             style={{
               textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)'
             }}
           >
-            Technical excellence meets athletic precision
+            Building resilient systems that scale from thousands to millions of users
+          </p>
+
+          {/* Trust signals */}
+          <p className="text-sm md:text-base text-white/60 mb-6">
+            Trusted by Fortune 500 companies • 20+ years enterprise experience
+          </p>
+
+          {/* Enhanced tech stack */}
+          <p className="text-base md:text-lg text-white/70 mb-12">
+            React 19 • TypeScript • AWS/Azure • Microservices • Leading 50+ Engineers
           </p>
 
           {/* Primary CTA - "View Work" to initiate scroll journey */}
@@ -263,7 +273,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             <button
               ref={viewWorkButtonRef}
               onClick={handleViewWorkCTA}
-              className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-10 py-4 rounded-xl border border-white/20 backdrop-blur-sm"
+              className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-12 py-5 text-xl rounded-xl border border-white/20 backdrop-blur-sm"
               style={{
                 transition: 'background-color 300ms, box-shadow 300ms, border-color 300ms',
                 willChange: 'transform'
@@ -271,9 +281,9 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
               data-testid="view-work-cta"
             >
               <span className="flex items-center justify-center space-x-2">
-                <span className="text-lg tracking-wide">View Work</span>
+                <span className="tracking-wide">View Case Studies</span>
                 <svg
-                  className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+                  className="w-6 h-6 transition-transform duration-300 group-hover:translate-x-1"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
