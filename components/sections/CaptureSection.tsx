@@ -46,7 +46,13 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   const { settings } = useEffects();
   const { getClasses } = useAnimationWithEffects();
 
-  // Animation hooks for each element
+  // Section-level animation (whole section entrance)
+  const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
+    threshold: 0.15,
+    triggerOnce: true
+  });
+
+  // Content-level animation hooks for each element (staggered after section)
   const { elementRef: titleRef, isVisible: titleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: roleRef, isVisible: roleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: taglineRef, isVisible: taglineVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
@@ -141,6 +147,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
     <section
       ref={(el) => {
         sectionRef.current = el;
+        sectionAnimRef.current = el;
         if (typeof ref === 'function') {
           ref(el);
         } else if (ref) {
@@ -148,7 +155,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         }
       }}
       id="capture"
-      className={`min-h-screen relative overflow-hidden ${className}`}
+      className={`min-h-screen relative overflow-hidden ${getClasses(sectionVisible)} ${className}`}
       data-testid="capture-section"
       data-active={active || isActive}
       data-progress={progress}

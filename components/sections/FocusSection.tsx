@@ -41,6 +41,14 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
 
   // Effects context for user-controlled animations
   const { getClasses } = useAnimationWithEffects();
+
+  // Section-level animation (whole section entrance)
+  const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
+    threshold: 0.15,
+    triggerOnce: true
+  });
+
+  // Content-level animations (staggered after section)
   const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: bodyRef, isVisible: bodyVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
@@ -144,6 +152,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
     <section
       ref={(el) => {
         sectionRef.current = el;
+        sectionAnimRef.current = el;
         if (typeof ref === 'function') {
           ref(el);
         } else if (ref) {
@@ -151,7 +160,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
         }
       }}
       id="focus"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 ${className}`}
+      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
       data-testid="focus-section"
       data-active={active || isActive}
       data-progress={progress}

@@ -65,6 +65,14 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
   // Effects context for user-controlled animations
   const { getClasses } = useAnimationWithEffects();
+
+  // Section-level animation (whole section entrance)
+  const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
+    threshold: 0.15,
+    triggerOnce: true
+  });
+
+  // Content-level animations (staggered after section)
   const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: projectsRef, isVisible: projectsVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
@@ -181,6 +189,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
     <section
       ref={(el) => {
         sectionRef.current = el;
+        sectionAnimRef.current = el;
         if (typeof ref === 'function') {
           ref(el);
         } else if (ref) {
@@ -188,7 +197,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
         }
       }}
       id="frame"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-slate-800 to-neutral-900 ${className}`}
+      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-slate-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
       data-testid="frame-section"
       data-active={active || isActive}
       data-progress={progress}

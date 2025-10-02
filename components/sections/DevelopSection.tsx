@@ -60,6 +60,14 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
   // Effects context for user-controlled animations
   const { getClasses } = useAnimationWithEffects();
+
+  // Section-level animation (whole section entrance)
+  const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
+    threshold: 0.15,
+    triggerOnce: true
+  });
+
+  // Content-level animations (staggered after section)
   const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: galleryGridRef, isVisible: galleryGridVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
@@ -145,6 +153,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
     <section
       ref={(el) => {
         sectionRef.current = el;
+        sectionAnimRef.current = el;
         if (typeof ref === 'function') {
           ref(el);
         } else if (ref) {
@@ -152,7 +161,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
         }
       }}
       id="develop"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-gray-800 to-neutral-900 ${className}`}
+      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-gray-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
       data-testid="develop-section"
       data-active={active || isActive}
       data-progress={progress}

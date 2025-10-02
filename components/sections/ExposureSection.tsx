@@ -58,6 +58,14 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
 
   // Effects context for user-controlled animations
   const { getClasses } = useAnimationWithEffects();
+
+  // Section-level animation (whole section entrance)
+  const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
+    threshold: 0.15,
+    triggerOnce: true
+  });
+
+  // Content-level animations (staggered after section)
   const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: articleRef, isVisible: articleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
@@ -210,6 +218,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
     <section
       ref={(el) => {
         sectionRef.current = el;
+        sectionAnimRef.current = el;
         if (typeof ref === 'function') {
           ref(el);
         } else if (ref) {
@@ -217,7 +226,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
         }
       }}
       id="exposure"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 ${className}`}
+      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 ${getClasses(sectionVisible)} ${className}`}
       data-testid="exposure-section"
       data-active={active || isActive}
       data-progress={progress}
