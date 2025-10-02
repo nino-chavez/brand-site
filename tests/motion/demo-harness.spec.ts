@@ -33,11 +33,15 @@ test.describe('Demo Harness - Core Functionality', () => {
   test('sidebar category navigation works', async ({ page }) => {
     await page.goto(DEMO_URL);
 
-    // Check all categories are present
-    const categories = ['Animations', 'Effects', 'Interactive', 'Section Transitions'];
+    // Check sidebar exists
+    const sidebar = page.locator('[data-testid="demo-sidebar"]');
+    await expect(sidebar).toBeVisible();
+
+    // Check all category buttons in sidebar are present
+    const categories = ['Animations', 'Effects', 'Interactive', 'Section Transitions', 'Hover States', 'Click/Active States', 'Mobile Touch', 'Passive States'];
 
     for (const category of categories) {
-      await expect(page.locator(`text=${category}`)).toBeVisible();
+      await expect(sidebar.locator('button', { hasText: category })).toBeVisible();
     }
   });
 
@@ -63,8 +67,8 @@ test.describe('Demo Harness - Animation Demos', () => {
     const demo = page.locator('[data-testid="demo-fade-up-8px"]');
     await expect(demo).toBeVisible();
 
-    // Check title
-    await expect(demo.locator('h3')).toContainText('Fade Up');
+    // Check title (use first h3 to avoid strict mode violation)
+    await expect(demo.locator('h3').first()).toContainText('Fade Up');
 
     // Check speed control exists
     const speedControl = demo.locator('select[data-control="speed"]');
@@ -119,7 +123,7 @@ test.describe('Demo Harness - Animation Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check scale slider/select
-    const scaleControl = demo.locator('[data-control="scale"]');
+    const scaleControl = demo.locator('[data-control="start-scale"]');
     await expect(scaleControl).toBeVisible();
   });
 
@@ -130,7 +134,7 @@ test.describe('Demo Harness - Animation Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check blur control
-    const blurControl = demo.locator('[data-control="blur"]');
+    const blurControl = demo.locator('[data-control="blur-amount"]');
     await expect(blurControl).toBeVisible();
   });
 });
@@ -225,7 +229,7 @@ test.describe('Demo Harness - Interactive Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check show focus toggle
-    const focusToggle = demo.locator('[data-control="showFocus"]');
+    const focusToggle = demo.locator('[data-control="show-focus"]');
     await expect(focusToggle).toBeVisible();
   });
 });
@@ -242,7 +246,7 @@ test.describe('Demo Harness - Section Transition Demos', () => {
     await expect(distanceControl).toBeVisible();
 
     // Check duration control
-    const durationControl = demo.locator('[data-control="duration"]');
+    const durationControl = demo.locator('[data-control="duration-(ms)"]');
     await expect(durationControl).toBeVisible();
   });
 
@@ -268,11 +272,11 @@ test.describe('Demo Harness - Section Transition Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check delay control
-    const delayControl = demo.locator('[data-control="delay"]');
+    const delayControl = demo.locator('[data-control="base-delay-(ms)"]');
     await expect(delayControl).toBeVisible();
 
     // Check count control
-    const countControl = demo.locator('[data-control="count"]');
+    const countControl = demo.locator('[data-control="elements"]');
     await expect(countControl).toBeVisible();
   });
 });
@@ -430,7 +434,7 @@ test.describe('Demo Harness - Hover State Demos', () => {
     }
 
     // Check glow intensity control
-    const glowControl = demo.locator('[data-control="glowIntensity"]');
+    const glowControl = demo.locator('[data-control="glow-intensity"]');
     await expect(glowControl).toBeVisible();
   });
 
@@ -441,18 +445,18 @@ test.describe('Demo Harness - Hover State Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check lift amount control
-    const liftControl = demo.locator('[data-control="liftHeight"]');
+    const liftControl = demo.locator('[data-control="lift-height-(px)"]');
     await expect(liftControl).toBeVisible();
 
     // Check shadow intensity
-    const shadowControl = demo.locator('select[data-control="shadowIntensity"]');
+    const shadowControl = demo.locator('select[data-control="shadow-intensity"]');
     await expect(shadowControl).toBeVisible();
 
     // Test shadow levels
     const levels = ['sm', 'md', 'lg', 'xl'];
     for (const level of levels) {
       await shadowControl.selectOption(level);
-      await expect(demo.locator('[data-state="shadowIntensity"]')).toContainText(level);
+      await expect(demo.locator('[data-state="shadow-intensity"]')).toContainText(level);
     }
   });
 
@@ -463,11 +467,11 @@ test.describe('Demo Harness - Hover State Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check zoom level control
-    const zoomControl = demo.locator('[data-control="zoomLevel"]');
+    const zoomControl = demo.locator('[data-control="zoom-scale"]');
     await expect(zoomControl).toBeVisible();
 
     // Check overlay toggle
-    const overlayToggle = demo.locator('[data-control="showOverlay"]');
+    const overlayToggle = demo.locator('[data-control="overlay-opacity"]');
     await expect(overlayToggle).toBeVisible();
   });
 
@@ -496,14 +500,14 @@ test.describe('Demo Harness - Hover State Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check underline style select
-    const styleControl = demo.locator('select[data-control="underlineStyle"]');
+    const styleControl = demo.locator('select[data-control="style"]');
     await expect(styleControl).toBeVisible();
 
     // Test all underline styles
     const styles = ['fade', 'slide', 'grow'];
     for (const style of styles) {
       await styleControl.selectOption(style);
-      await expect(demo.locator('[data-state="underlineStyle"]')).toContainText(style);
+      await expect(demo.locator('[data-state="style"]')).toContainText(style);
     }
   });
 
@@ -514,7 +518,7 @@ test.describe('Demo Harness - Hover State Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check stagger delay control
-    const staggerControl = demo.locator('[data-control="staggerDelay"]');
+    const staggerControl = demo.locator('[data-control="stagger-delay-(ms)"]');
     await expect(staggerControl).toBeVisible();
 
     // Check item count
@@ -531,11 +535,11 @@ test.describe('Demo Harness - Click/Active State Demos', () => {
     await expect(demo).toBeVisible();
 
     // Check press scale control
-    const scaleControl = demo.locator('[data-control="pressScale"]');
+    const scaleControl = demo.locator('[data-control="ripple-effect"]');
     await expect(scaleControl).toBeVisible();
 
     // Check ripple toggle
-    const rippleToggle = demo.locator('[data-control="showRipple"]');
+    const rippleToggle = demo.locator('[data-control="feedback"]');
     await expect(rippleToggle).toBeVisible();
 
     // Click button and verify state
