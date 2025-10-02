@@ -10,7 +10,7 @@ import { defineConfig, devices } from '@playwright/test';
  * - Visual regression testing
  */
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: './tests',
   outputDir: './test-results/',
 
   /* Run tests in files in parallel */

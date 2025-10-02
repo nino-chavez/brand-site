@@ -43,16 +43,16 @@ export const DemoCard: React.FC<DemoCardProps> = ({
 
   return (
     <div
-      className="border border-white/10 rounded-lg overflow-hidden bg-neutral-900/50 backdrop-blur-sm"
+      className="border border-white/20 rounded-xl overflow-hidden bg-neutral-800/50 backdrop-blur-sm shadow-lg hover:border-white/30 transition-colors"
       data-testid={testId}
       data-demo-category={category}
     >
       {/* Header */}
-      <div className="p-4 border-b border-white/10 bg-neutral-800/30">
+      <div className="p-6 border-b border-white/10 bg-gradient-to-r from-neutral-800/40 to-neutral-900/40">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <h3 className="text-lg font-semibold text-white mb-1">{title}</h3>
-            <p className="text-sm text-white/60">{description}</p>
+            <p className="text-sm text-white/70">{description}</p>
           </div>
 
           {/* State Indicators */}
@@ -68,7 +68,7 @@ export const DemoCard: React.FC<DemoCardProps> = ({
 
         {/* Category Tag */}
         {category && (
-          <div className="mt-2">
+          <div className="mt-3">
             <span className="inline-block px-2 py-1 rounded text-xs font-medium bg-blue-500/20 text-blue-300">
               {category}
             </span>
@@ -77,14 +77,13 @@ export const DemoCard: React.FC<DemoCardProps> = ({
       </div>
 
       {/* Demo Content */}
-      <div className="p-6 min-h-[200px] bg-neutral-900/30">
+      <div className="p-8 min-h-[200px] bg-neutral-900/40">
         {children}
       </div>
 
       {/* Controls Panel */}
       {controls && (
-        <div className="p-4 border-t border-white/10 bg-neutral-800/20">
-          <div className="text-xs text-white/40 mb-2 uppercase tracking-wide">Controls</div>
+        <div className="bg-neutral-800/30">
           {controls}
         </div>
       )}

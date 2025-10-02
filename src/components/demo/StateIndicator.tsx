@@ -31,12 +31,15 @@ export const StateIndicator: React.FC<StateIndicatorProps> = ({ states, classNam
     return String(value);
   };
 
+  const getStateId = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
+
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
       {states.map((state, index) => (
         <div
           key={index}
           className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/5 border border-white/10"
+          data-state={getStateId(state.label)}
         >
           <span className="text-xs text-white/40">{state.label}:</span>
           <span

@@ -19,7 +19,7 @@ export const DemoSidebar: React.FC<DemoSidebarProps> = ({
   onCategoryClick,
 }) => {
   return (
-    <aside className="w-64 border-r border-white/10 bg-neutral-900/50 backdrop-blur-sm overflow-y-auto">
+    <aside className="w-64 border-r border-white/10 bg-neutral-900/50 backdrop-blur-sm overflow-y-auto" data-testid="demo-sidebar">
       <div className="p-4">
         <h2 className="text-sm font-semibold text-white/40 uppercase tracking-wide mb-3">
           Categories

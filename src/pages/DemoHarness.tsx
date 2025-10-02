@@ -257,7 +257,7 @@ export const DemoHarness: React.FC = () => {
               >
                 {/* Fade Up 8px */}
                 <DemoCard
-                  title="Fade Up Animation (8px)"
+                  title="Fade Up"
                   description="Element fades in while translating up 8 pixels"
                   category="animations"
                   testId="demo-fade-up-8px"
@@ -283,7 +283,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Fade Up 24px */}
                 <DemoCard
-                  title="Fade Up Animation (24px)"
+                  title="Fade Up (Dramatic)"
                   description="Element fades in while translating up 24 pixels (more dramatic)"
                   category="animations"
                   testId="demo-fade-up-24px"
@@ -307,7 +307,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Slide Animation */}
                 <DemoCard
-                  title="Slide Animation"
+                  title="Slide"
                   description="Element slides in from the side"
                   category="animations"
                   testId="demo-slide"
@@ -340,7 +340,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Scale Animation */}
                 <DemoCard
-                  title="Scale Animation"
+                  title="Scale"
                   description="Element scales up from smaller size"
                   category="animations"
                   testId="demo-scale"
@@ -365,7 +365,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Blur Morph */}
                 <DemoCard
-                  title="Blur Morph Animation"
+                  title="Blur Morph"
                   description="Element fades in from blurred state"
                   category="animations"
                   testId="demo-blur-morph"
@@ -400,7 +400,7 @@ export const DemoHarness: React.FC = () => {
               >
                 {/* Parallax */}
                 <DemoCard
-                  title="Parallax Effect"
+                  title="Parallax"
                   description="Background moves at different speed during scroll"
                   category="effects"
                   testId="demo-parallax"
@@ -435,7 +435,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Spotlight Cursor */}
                 <DemoCard
-                  title="Spotlight Cursor"
+                  title="Spotlight"
                   description="Custom cursor with spotlight effect"
                   category="effects"
                   testId="demo-spotlight"
@@ -480,7 +480,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Glow Effects */}
                 <DemoCard
-                  title="Glow Effects"
+                  title="Glow"
                   description="Progressive glow on interactive elements"
                   category="effects"
                   testId="demo-glow"
@@ -520,7 +520,7 @@ export const DemoHarness: React.FC = () => {
               >
                 {/* Magnetic Button */}
                 <DemoCard
-                  title="Magnetic Button"
+                  title="Magnetic"
                   description="Button responds to cursor proximity with transform and glow"
                   category="interactive"
                   testId="demo-magnetic"
@@ -569,7 +569,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Effects Panel */}
                 <DemoCard
-                  title="Effects Panel HUD"
+                  title="Effects Panel"
                   description="Camera-themed settings panel for customizing animations"
                   category="interactive"
                   testId="demo-effects-panel"
@@ -593,7 +593,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Keyboard Navigation */}
                 <DemoCard
-                  title="Keyboard Navigation"
+                  title="Keyboard Nav"
                   description="Full keyboard support with Tab, Enter, Space, Escape"
                   category="interactive"
                   testId="demo-keyboard"
@@ -627,7 +627,7 @@ export const DemoHarness: React.FC = () => {
               >
                 {/* Section Fade + Slide */}
                 <DemoCard
-                  title="Section Fade + Slide"
+                  title="Fade + Slide"
                   description="Entire section fades and slides into view"
                   category="sections"
                   testId="demo-section-fade"
@@ -665,7 +665,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Section Border */}
                 <DemoCard
-                  title="Section Border Animation"
+                  title="Border"
                   description="Animated border appears at section boundary"
                   category="sections"
                   testId="demo-section-border"
@@ -699,7 +699,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Staggered Content */}
                 <DemoCard
-                  title="Staggered Content Animation"
+                  title="Staggered Content"
                   description="Content elements animate in sequence with delays"
                   category="sections"
                   testId="demo-staggered"
@@ -747,7 +747,7 @@ export const DemoHarness: React.FC = () => {
               >
                 {/* Button Hover */}
                 <DemoCard
-                  title="Button Hover"
+                  title="Button"
                   description="Button hover with scale and glow"
                   category="hoverStates"
                   testId="demo-button-hover"
@@ -781,7 +781,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Card Hover */}
                 <DemoCard
-                  title="Card Hover"
+                  title="Card"
                   description="Card lift with shadow enhancement"
                   category="hoverStates"
                   testId="demo-card-hover"
@@ -815,7 +815,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Image Zoom */}
                 <DemoCard
-                  title="Image Zoom"
+                  title="Image"
                   description="Image zoom on hover with overlay"
                   category="hoverStates"
                   testId="demo-image-zoom"
@@ -852,7 +852,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Icon Hover */}
                 <DemoCard
-                  title="Icon Hover"
+                  title="Icon"
                   description="Icon animations (rotate/scale/bounce/spin)"
                   category="hoverStates"
                   testId="demo-icon-hover"
@@ -884,7 +884,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Link Hover */}
                 <DemoCard
-                  title="Link Hover"
+                  title="Link"
                   description="Link underline animations (fade/slide/grow)"
                   category="hoverStates"
                   testId="demo-link-hover"
@@ -918,7 +918,7 @@ export const DemoHarness: React.FC = () => {
 
                 {/* Group Hover */}
                 <DemoCard
-                  title="Group Hover"
+                  title="Group"
                   description="Group hover cascade with stagger"
                   category="hoverStates"
                   testId="demo-group-hover"
@@ -966,7 +966,7 @@ export const DemoHarness: React.FC = () => {
               >
                 {/* Button Press */}
                 <DemoCard
-                  title="Button Press"
+                  title="Button"
                   description="Button press with scale-98 and ripple"
                   category="clickStates"
                   testId="demo-button-press"
@@ -998,7 +998,7 @@ onMouseDown={() => setPressed(true)}`}
 
                 {/* Form Focus */}
                 <DemoCard
-                  title="Form Focus"
+                  title="Form"
                   description="Input focus with border and shadow"
                   category="clickStates"
                   testId="demo-form-focus"
@@ -1029,7 +1029,7 @@ onMouseDown={() => setPressed(true)}`}
 
                 {/* Toggle Switch */}
                 <DemoCard
-                  title="Toggle Switch"
+                  title="Toggle"
                   description="Animated toggle on/off"
                   category="clickStates"
                   testId="demo-toggle-switch"
@@ -1096,7 +1096,7 @@ className={\`relative inline-flex h-6 w-11 items-center rounded-full transition-
 
                 {/* Modal */}
                 <DemoCard
-                  title="Modal Dialog"
+                  title="Modal"
                   description="Modal open/close with backdrop"
                   category="clickStates"
                   testId="demo-modal"
@@ -1139,7 +1139,7 @@ className={\`relative inline-flex h-6 w-11 items-center rounded-full transition-
               >
                 {/* Tap Feedback */}
                 <DemoCard
-                  title="Tap Feedback"
+                  title="Tap"
                   description="Tap ripple feedback"
                   category="mobileTouch"
                   testId="demo-tap-feedback"
@@ -1178,7 +1178,7 @@ className={\`relative inline-flex h-6 w-11 items-center rounded-full transition-
 
                 {/* Swipe Gesture */}
                 <DemoCard
-                  title="Swipe Gesture"
+                  title="Swipe"
                   description="Swipe detection (left/right/up/down)"
                   category="mobileTouch"
                   testId="demo-swipe-gesture"
@@ -1219,7 +1219,7 @@ className={\`relative inline-flex h-6 w-11 items-center rounded-full transition-
                 {/* Long Press */}
                 <DemoCard
                   title="Long Press"
-                  description="Long press activation with progress"
+                  description="Long press activation with progress indicator"
                   category="mobileTouch"
                   testId="demo-long-press"
                   codeSnippet={`const timer = setTimeout(() => {
@@ -1255,7 +1255,7 @@ onTouchEnd={() => clearTimeout(timer)}`}
 
                 {/* Touch Button */}
                 <DemoCard
-                  title="Touch Button"
+                  title="Touch Targets"
                   description="Touch-optimized button sizes"
                   category="mobileTouch"
                   testId="demo-touch-button"
@@ -1300,7 +1300,7 @@ onTouchEnd={() => clearTimeout(timer)}`}
               >
                 {/* Loading Spinner */}
                 <DemoCard
-                  title="Loading Spinner"
+                  title="Loading"
                   description="Spinner variants (spin/pulse/dots/bars)"
                   category="passiveStates"
                   testId="demo-loading-spinner"
@@ -1339,7 +1339,7 @@ onTouchEnd={() => clearTimeout(timer)}`}
 
                 {/* Skeleton Screen */}
                 <DemoCard
-                  title="Skeleton Screen"
+                  title="Skeleton"
                   description="Skeleton loading placeholder"
                   category="passiveStates"
                   testId="demo-skeleton-screen"
@@ -1374,7 +1374,7 @@ onTouchEnd={() => clearTimeout(timer)}`}
 
                 {/* Pulse Animation */}
                 <DemoCard
-                  title="Pulse Animation"
+                  title="Pulse"
                   description="Pulsing elements with speed/intensity controls"
                   category="passiveStates"
                   testId="demo-pulse-animation"
@@ -1409,7 +1409,7 @@ onTouchEnd={() => clearTimeout(timer)}`}
 
                 {/* Status Indicator */}
                 <DemoCard
-                  title="Status Indicator"
+                  title="Status"
                   description="Status badges and progress bars"
                   category="passiveStates"
                   testId="demo-status-indicator"
