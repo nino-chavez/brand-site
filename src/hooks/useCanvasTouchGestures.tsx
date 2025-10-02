@@ -117,9 +117,15 @@ export const useCanvasTouchGestures = ({
 
   // ===== MOUSE DRAG PANNING =====
   // Quick Win #3: Essential for desktop users (primary audience)
+  // Phase 1 Enhancement: Drag threshold + selective text selection
+
+  // Figma/Miro-style drag threshold to prevent conflict with text selection
+  const DRAG_THRESHOLD = 5; // pixels - industry standard
 
   const mouseStart = useRef<{ x: number; y: number } | null>(null);
+  const mouseInitialStart = useRef<{ x: number; y: number } | null>(null); // Track where mousedown occurred
   const isDragging = useRef(false);
+  const hasExceededThreshold = useRef(false); // Track if movement exceeded threshold
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     // Only handle left mouse button
@@ -132,20 +138,48 @@ export const useCanvasTouchGestures = ({
       return;
     }
 
-    mouseStart.current = {
-      x: e.clientX,
-      y: e.clientY
-    };
-    isDragging.current = true;
+    // Store both current position (for delta calc) and initial position (for threshold check)
+    const position = { x: e.clientX, y: e.clientY };
+    mouseStart.current = position;
+    mouseInitialStart.current = position;
 
-    // Change cursor to grabbing
-    if (e.currentTarget instanceof HTMLElement) {
-      e.currentTarget.style.cursor = 'grabbing';
-    }
+    // Don't set isDragging yet - wait for threshold
+    hasExceededThreshold.current = false;
+
+    // Don't change cursor yet - wait for drag threshold
+    // This allows text selection and clicking to work normally
   }, []);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging.current || !mouseStart.current) return;
+    if (!mouseStart.current || !mouseInitialStart.current) return;
+
+    // Calculate distance from initial mousedown point
+    const dx = e.clientX - mouseInitialStart.current.x;
+    const dy = e.clientY - mouseInitialStart.current.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Check if we've exceeded the drag threshold
+    if (!hasExceededThreshold.current) {
+      if (distance >= DRAG_THRESHOLD) {
+        // NOW start dragging - threshold exceeded
+        hasExceededThreshold.current = true;
+        isDragging.current = true;
+
+        // Disable text selection globally (only during drag)
+        document.body.style.userSelect = 'none';
+        document.body.style.webkitUserSelect = 'none';
+        document.body.style.cursor = 'grabbing';
+
+        console.log('🎯 Drag threshold exceeded - pan mode activated');
+      } else {
+        // Still below threshold - don't pan yet
+        // This allows text selection and small movements
+        return;
+      }
+    }
+
+    // Normal panning logic (only runs after threshold)
+    if (!isDragging.current) return;
 
     const delta = {
       x: e.clientX - mouseStart.current.x,
@@ -159,14 +193,20 @@ export const useCanvasTouchGestures = ({
       x: e.clientX,
       y: e.clientY
     };
-  }, [onPan]);
+  }, [onPan, DRAG_THRESHOLD]);
 
   const handleMouseUp = useCallback(() => {
     isDragging.current = false;
+    hasExceededThreshold.current = false;
     mouseStart.current = null;
+    mouseInitialStart.current = null;
 
-    // Reset cursor
+    // RESTORE text selection (critical for Figma/Miro-style UX)
+    document.body.style.userSelect = '';
+    document.body.style.webkitUserSelect = '';
     document.body.style.cursor = '';
+
+    console.log('🎯 Pan mode deactivated - text selection restored');
   }, []);
 
   // Global mouse event listeners (for drag beyond canvas bounds)

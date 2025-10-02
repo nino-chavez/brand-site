@@ -270,8 +270,8 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
 
 export const LightboxCanvasStyles = `
   .lightbox-canvas {
-    user-select: none;
-    -webkit-user-select: none;
+    /* Phase 1: Removed global user-select: none - now controlled dynamically during drag */
+    /* Text selection enabled by default for Figma/Miro-style UX */
     touch-action: none;
   }
 
