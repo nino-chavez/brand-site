@@ -105,14 +105,23 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
     const section = SPATIAL_SECTION_MAP[sectionId];
     if (!section) return;
 
-    // Calculate centered position (offset by viewport center - section center)
+    // Calculate centered position
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Target position to center the section
-    const targetX = -(2000 + section.coordinates.x) + viewportWidth / 2 - section.dimensions.width / 2;
-    const targetY = -(1500 + section.coordinates.y) + viewportHeight / 2 - section.dimensions.height / 2;
-    const targetScale = 1.2; // Zoom in slightly for focus
+    // Section's absolute position in canvas space (with 2000, 1500 offset)
+    const sectionAbsoluteX = 2000 + section.coordinates.x;
+    const sectionAbsoluteY = 1500 + section.coordinates.y;
+
+    // Center point of the section
+    const sectionCenterX = sectionAbsoluteX + section.dimensions.width / 2;
+    const sectionCenterY = sectionAbsoluteY + section.dimensions.height / 2;
+
+    // Target position: move canvas so section center aligns with viewport center
+    // Canvas position is the negative offset (moving canvas left = positive x)
+    const targetX = sectionCenterX - viewportWidth / 2;
+    const targetY = sectionCenterY - viewportHeight / 2;
+    const targetScale = 1.0; // Keep at 1.0 for consistent view
 
     // Update canvas position with smooth animation (handled by LightboxCanvas)
     actions.updatePosition({
@@ -124,7 +133,13 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
     // Set active section
     actions.setActiveSection(sectionId);
 
-    console.log(`🎯 Navigating to ${sectionId} section`, { targetX, targetY, targetScale });
+    console.log(`🎯 Navigating to ${sectionId} section`, {
+      sectionId,
+      sectionAbsolute: { x: sectionAbsoluteX, y: sectionAbsoluteY },
+      sectionCenter: { x: sectionCenterX, y: sectionCenterY },
+      viewport: { width: viewportWidth, height: viewportHeight },
+      targetPosition: { x: targetX, y: targetY, scale: targetScale }
+    });
   }, [actions]);
 
   /**

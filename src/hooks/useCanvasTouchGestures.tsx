@@ -154,6 +154,14 @@ export const useCanvasTouchGestures = ({
       return;
     }
 
+    // CRITICAL: Only start drag if click originated on canvas container
+    // This prevents "jump to blank area" bug when clicking outside canvas
+    const isCanvasElement = target.closest('.lightbox-canvas');
+    if (!isCanvasElement) {
+      console.log('🎯 Click outside canvas - pan mode blocked');
+      return;
+    }
+
     // Store both current position (for delta calc) and initial position (for threshold check)
     const position = { x: e.clientX, y: e.clientY };
     mouseStart.current = position;
@@ -256,8 +264,8 @@ export const useCanvasTouchGestures = ({
         return;
       }
 
-      // Apply momentum pan (inverted delta to match drag direction)
-      onPan({ x: -vx, y: -vy });
+      // Apply momentum pan (velocity is already directional)
+      onPan({ x: vx, y: vy });
 
       // Decay velocity
       velocity.current.x *= DECAY_COEFFICIENT;

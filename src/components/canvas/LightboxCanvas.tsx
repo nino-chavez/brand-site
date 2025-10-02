@@ -57,11 +57,12 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
 
     // Phase 3: GPU acceleration via translate3d instead of translate
     // willChange hint during both transitions AND active drag for smooth 60fps
+    // IMPORTANT: No transition during drag to prevent jitter
     return {
       transform: `translate3d(${-x}px, ${-y}px, 0) scale(${scale})`,
       transformOrigin: 'center center',
       willChange: (isTransitioning || isDragging) ? 'transform' : 'auto',
-      transition: isTransitioning ? 'transform 300ms ease-out' : 'none',
+      transition: (isTransitioning && !isDragging) ? 'transform 300ms ease-out' : 'none',
       backfaceVisibility: 'hidden' as const,
       perspective: '1000px'
     };
