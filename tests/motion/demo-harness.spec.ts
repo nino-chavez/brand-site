@@ -14,7 +14,7 @@
 
 import { test, expect, type Page } from '@playwright/test';
 
-const DEMO_URL = process.env.DEMO_URL || 'http://localhost:3001/demo';
+const DEMO_URL = process.env.DEMO_URL || 'http://localhost:3000/demo';
 
 test.describe('Demo Harness - Core Functionality', () => {
   test('demo harness page loads successfully', async ({ page }) => {
