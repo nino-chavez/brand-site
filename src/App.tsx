@@ -54,28 +54,45 @@ const App: React.FC = () => {
 
     // Handle initial loading state
     useEffect(() => {
-        // Simulate loading resources (fonts, images, etc.)
+        // Check for test mode - skip loading screen entirely
+        const urlParams = new URLSearchParams(window.location.search);
+        const isTestMode = urlParams.get('test') === 'true' || process.env.NODE_ENV === 'test';
+
+        if (isTestMode) {
+            console.log('🧪 Test mode: Skipping loading screen');
+            setIsLoading(false);
+            setIsAppReady(true);
+            return;
+        }
+
+        // Check if user has already seen loading this session
+        const hasSeenLoading = sessionStorage.getItem('hasSeenLoading');
+        if (hasSeenLoading) {
+            console.log('⚡ Session storage: Skipping loading screen');
+            setIsLoading(false);
+            setIsAppReady(true);
+            return;
+        }
+
+        // Mark as seen for this session
+        sessionStorage.setItem('hasSeenLoading', 'true');
+
+        // Wait for fonts only (no artificial delays)
         const handleDOMContentLoaded = () => {
-            // Wait for fonts and critical assets
             if (document.fonts) {
                 document.fonts.ready.then(() => {
-                    // Small delay to ensure smooth transition
+                    // Minimal delay for smooth transition
                     setTimeout(() => {
                         setIsLoading(false);
-                        // Delay app render to allow exit animation
-                        setTimeout(() => {
-                            setIsAppReady(true);
-                        }, 600);
-                    }, 300);
+                        setIsAppReady(true);
+                    }, 300); // Reduced from 900ms to 300ms
                 });
             } else {
                 // Fallback for browsers without Font Loading API
                 setTimeout(() => {
                     setIsLoading(false);
-                    setTimeout(() => {
-                        setIsAppReady(true);
-                    }, 600);
-                }, 1000);
+                    setIsAppReady(true);
+                }, 300); // Reduced from 1000ms to 300ms
             }
         };
 
@@ -276,6 +293,7 @@ const App: React.FC = () => {
                     <SectionAmbientLighting />
                     <FilmMode />
                     <ViewfinderController />
+                    <EffectsPanel />
 
                     <div className="bg-brand-dark text-brand-light font-sans antialiased">
                         <BackgroundEffects />

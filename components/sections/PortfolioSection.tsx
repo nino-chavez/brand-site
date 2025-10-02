@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'rea
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
+import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
 
 interface PortfolioSectionProps {
   active: boolean;
@@ -46,6 +47,12 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
   });
 
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Effects context for user-controlled animations
+  const { getClasses } = useAnimationWithEffects();
+  const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: narrativeRef, isVisible: narrativeVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: contactRef, isVisible: contactVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
   // Contact methods
   const contactMethods: ContactMethod[] = [
@@ -189,22 +196,21 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
 
           {/* Journey completion narrative */}
           <div className="text-center mb-16">
-            <div
-              className={`transition-all duration-1000 ${
-                narrativeComplete ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
-              }`}
-              data-testid="journey-complete"
-            >
+            <div data-testid="journey-complete">
               <div className="mb-6">
                 <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Contact</div>
-                <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
+                <h2
+                  ref={headingRef}
+                  className={`text-4xl md:text-6xl font-black text-white leading-tight ${getClasses(headingVisible)}`}
+                >
                   The Shot is
                   <span className="block text-athletic-brand-violet">Complete</span>
                 </h2>
               </div>
 
               <div
-                className="max-w-3xl mx-auto space-y-6 mb-12"
+                ref={narrativeRef}
+                className={`max-w-3xl mx-auto space-y-6 mb-12 ${getClasses(narrativeVisible)}`}
                 data-testid="narrative-conclusion"
               >
                 <p className="text-xl text-white/90 leading-relaxed">
@@ -231,9 +237,8 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
 
             {/* Contact methods - left column */}
             <div
-              className={`transition-all duration-1000 delay-300 ${
-                contactReady ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
-              }`}
+              ref={contactRef}
+              className={getClasses(contactVisible)}
             >
               <div className="mb-8">
                 <h3 className="text-4xl font-bold text-white mb-3 leading-tight">Let's Build<br/>Something Exceptional</h3>

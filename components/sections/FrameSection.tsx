@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'rea
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
+import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
 
 interface ExposureSettings {
   aperture: number;
@@ -61,6 +62,12 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
 
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Effects context for user-controlled animations
+  const { getClasses } = useAnimationWithEffects();
+  const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: projectsRef, isVisible: projectsVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
   // Project portfolio data - Real anonymized case studies
   const projects: Project[] = [
@@ -207,11 +214,17 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
             {/* Section header */}
             <div className="text-center mb-16">
               <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Work</div>
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+              <h2
+                ref={headingRef}
+                className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
+              >
                 Perfect
                 <span className="block text-athletic-brand-violet">Composition</span>
               </h2>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
+              <p
+                ref={subtitleRef}
+                className={`text-xl text-white/80 max-w-3xl mx-auto leading-relaxed ${getClasses(subtitleVisible)}`}
+              >
                 Each project represents a carefully framed solution—balancing technical excellence
                 with business impact, composed for optimal results.
               </p>
@@ -219,9 +232,8 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
             {/* Project sequence - high fidelity grid */}
             <div
-              className={`transition-all duration-1000 delay-300 ${
-                projectsLoaded ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
-              } high-fidelity`}
+              ref={projectsRef}
+              className={`${getClasses(projectsVisible)} high-fidelity`}
               data-testid="project-sequence"
             >
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -3,6 +3,7 @@ import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
 import { GALLERY_IMAGES, type GalleryImage as ImportedGalleryImage } from '../../src/constants';
+import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
 
 interface DevelopSectionProps {
   active: boolean;
@@ -56,6 +57,12 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
   const sectionRef = useRef<HTMLElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
+
+  // Effects context for user-controlled animations
+  const { getClasses } = useAnimationWithEffects();
+  const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: galleryGridRef, isVisible: galleryGridVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
   // Adapted gallery images from real data
   const adaptedGalleryImages = React.useMemo(() => adaptGalleryImages(), []);
@@ -162,11 +169,17 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
             {/* Section header */}
             <div className="text-center mb-16">
               <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Gallery</div>
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+              <h2
+                ref={headingRef}
+                className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
+              >
                 Perfect
                 <span className="block text-athletic-brand-violet">Development</span>
               </h2>
-              <div className="text-center max-w-3xl mx-auto mb-8">
+              <div
+                ref={subtitleRef}
+                className={`text-center max-w-3xl mx-auto mb-8 ${getClasses(subtitleVisible)}`}
+              >
                 <p className="text-base text-athletic-brand-cyan mb-4 font-medium">
                   The Art of Technical Precision
                 </p>
@@ -197,10 +210,11 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
             {/* Gallery grid */}
             <div
-              ref={galleryRef}
-              className={`transition-all duration-1000 delay-300 high-speed-loading optimized ${
-                galleryLoaded ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
-              }`}
+              ref={(el) => {
+                galleryRef.current = el;
+                galleryGridRef.current = el;
+              }}
+              className={`${getClasses(galleryGridVisible)} high-speed-loading optimized`}
               data-testid="optimized-gallery"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

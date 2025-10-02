@@ -2,6 +2,8 @@ import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'rea
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import { useMagneticEffect } from '../../src/hooks/useMagneticEffect';
+import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
+import { useEffects } from '../../src/contexts/EffectsContext';
 
 interface CaptureSectionProps {
   active: boolean;
@@ -39,6 +41,24 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   // Magnetic button effects
   const viewWorkButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.4, radius: 100 });
   const contactButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.3, radius: 90 });
+
+  // Effects context for user-controlled animations
+  const { settings } = useEffects();
+  const { getClasses } = useAnimationWithEffects();
+
+  // Animation hooks for each element
+  const { elementRef: titleRef, isVisible: titleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: roleRef, isVisible: roleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: taglineRef, isVisible: taglineVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: ctaRef, isVisible: ctaVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+
+  // Parallax multiplier based on user settings
+  const parallaxMultiplier = {
+    subtle: 0.3,
+    normal: 0.5,
+    intense: 0.8,
+    off: 0
+  }[settings.parallaxIntensity];
 
   // Camera readiness sequence
   useEffect(() => {
@@ -146,8 +166,9 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           willChange: 'transform',
           height: '120%',
           top: '-10%',
-          transform: `translate3d(0, ${progress * 20}px, 0)` // Parallax based on section progress
+          transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)` // Parallax based on section progress + user settings
         }}
+        data-parallax-intensity={settings.parallaxIntensity}
       />
 
       {/* Interactive spotlight effect following mouse */}
@@ -178,12 +199,13 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         <div className="text-center text-white max-w-4xl mx-auto px-4">
           {/* Title with clean, impactful presentation */}
           <h1
-            className="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-6 leading-none"
+            ref={titleRef}
+            className={`text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-6 leading-none ${getClasses(titleVisible)}`}
             style={{
-              textShadow: '0 4px 12px rgba(0, 0, 0, 0.9)',
-              animation: 'fadeInUp 1s ease-out 0.2s both'
+              textShadow: '0 4px 12px rgba(0, 0, 0, 0.9)'
             }}
             data-testid="hero-title"
+            data-animation-style={settings.animationStyle}
           >
             <span className="relative inline-block group">
               <span className="relative z-10">Nino Chavez</span>
@@ -200,8 +222,8 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 
           {/* Role with professional focus */}
           <div
-            className="mb-8"
-            style={{ animation: 'fadeInUp 1s ease-out 0.4s both' }}
+            ref={roleRef}
+            className={`mb-8 ${getClasses(roleVisible)}`}
             data-testid="hero-role"
           >
             <p className="text-xl md:text-3xl lg:text-4xl font-semibold tracking-wide mb-2">
@@ -216,10 +238,10 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 
           {/* Simplified tagline */}
           <p
-            className="text-xl md:text-2xl text-white/85 mb-12 font-normal leading-relaxed tracking-wide"
+            ref={taglineRef}
+            className={`text-xl md:text-2xl text-white/85 mb-12 font-normal leading-relaxed tracking-wide ${getClasses(taglineVisible)}`}
             style={{
-              textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)',
-              animation: 'fadeInUp 1s ease-out 0.6s both'
+              textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)'
             }}
           >
             Technical excellence meets athletic precision
@@ -227,8 +249,8 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 
           {/* Primary CTA - "View Work" to initiate scroll journey */}
           <div
-            className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
-            style={{ animation: 'fadeInUp 1s ease-out 0.8s both' }}
+            ref={ctaRef}
+            className={`flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 ${getClasses(ctaVisible)}`}
             data-testid="primary-cta"
           >
             <button

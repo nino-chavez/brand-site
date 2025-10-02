@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'rea
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
+import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
 
 interface ExposureSettings {
   aperture: number;
@@ -54,6 +55,12 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
   const [shutterTransitionActive, setShutterTransitionActive] = useState(false);
 
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Effects context for user-controlled animations
+  const { getClasses } = useAnimationWithEffects();
+  const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: articleRef, isVisible: articleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
   // Articles/insights data - styled as athletic training log
   const articles: Article[] = [
@@ -250,11 +257,17 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
 
             {/* Section header */}
             <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+              <h2
+                ref={headingRef}
+                className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
+              >
                 Perfect
                 <span className="block text-athletic-brand-violet">Exposure</span>
               </h2>
-              <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
+              <p
+                ref={subtitleRef}
+                className={`text-xl text-white/80 max-w-3xl mx-auto leading-relaxed ${getClasses(subtitleVisible)}`}
+              >
                 Technical insights captured through years of building systems under pressure.
                 Each article represents lessons learned in the field.
               </p>
@@ -293,9 +306,8 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
 
             {/* Current article display */}
             <div
-              className={`transition-all duration-1000 delay-300 ${
-                articlesLoaded ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
-              }`}
+              ref={articleRef}
+              className={getClasses(articleVisible)}
             >
               <div
                 className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 scannable-typography high-readability"

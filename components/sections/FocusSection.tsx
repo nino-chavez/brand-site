@@ -2,6 +2,7 @@ import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'rea
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
+import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
 
 interface FocusSectionProps {
   active: boolean;
@@ -37,6 +38,11 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const [focusPoint, setFocusPoint] = useState({ x: 50, y: 50 });
   const sectionRef = useRef<HTMLElement>(null);
+
+  // Effects context for user-controlled animations
+  const { getClasses } = useAnimationWithEffects();
+  const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  const { elementRef: bodyRef, isVisible: bodyVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
   // Focus readiness sequence
   useEffect(() => {
@@ -194,7 +200,10 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
             >
               <div className="mb-6">
                 <div className="text-sm text-white/60 uppercase tracking-wider mb-2">About</div>
-                <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
+                <h2
+                  ref={headingRef}
+                  className={`text-4xl md:text-6xl font-black text-white leading-tight ${getClasses(headingVisible)}`}
+                >
                   Finding the Signal
                   <span className="block text-athletic-brand-violet">in the Noise</span>
                 </h2>
@@ -203,7 +212,10 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 </p>
               </div>
 
-              <div className="prose prose-lg prose-invert max-w-none">
+              <div
+                ref={bodyRef}
+                className={`prose prose-lg prose-invert max-w-none ${getClasses(bodyVisible)}`}
+              >
                 <p className="text-xl text-white/90 leading-relaxed mb-6">
                   I'm Nino Chavez, an Enterprise Architect and Technical Leader who transforms complex business challenges into elegant, scalable solutions that serve millions of users daily.
                 </p>

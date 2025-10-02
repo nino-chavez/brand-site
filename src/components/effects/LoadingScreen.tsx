@@ -21,6 +21,15 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onLoadComplete
     const [messageIndex, setMessageIndex] = useState(0);
     const [progress, setProgress] = useState(0);
     const [isExiting, setIsExiting] = useState(false);
+    const [canSkip, setCanSkip] = useState(false);
+
+    // Enable skip button after 500ms
+    useEffect(() => {
+        if (!isLoading) return;
+
+        const timer = setTimeout(() => setCanSkip(true), 500);
+        return () => clearTimeout(timer);
+    }, [isLoading]);
 
     // Rotate messages every 800ms
     useEffect(() => {
@@ -74,8 +83,29 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onLoadComplete
 
     const currentMessage = LOADING_MESSAGES[messageIndex];
 
+    const handleSkip = () => {
+        setIsExiting(true);
+        setTimeout(() => {
+            onLoadComplete?.();
+        }, 300);
+    };
+
     return (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
+            {/* Skip button */}
+            {canSkip && (
+                <button
+                    onClick={handleSkip}
+                    className="absolute top-6 right-6 px-4 py-2 bg-white/10 hover:bg-white/20
+                               rounded-lg text-white text-sm transition-all border border-white/20
+                               font-medium"
+                    aria-label="Skip loading animation"
+                    data-testid="skip-loading"
+                >
+                    Skip intro →
+                </button>
+            )}
+
             <div className="max-w-md w-full px-8">
                 {/* Animated aperture-style spinner */}
                 <div className="relative w-24 h-24 mx-auto mb-8">
