@@ -63,14 +63,14 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
     const viewportWidth = window.innerWidth / state.position.scale;
     const viewportHeight = window.innerHeight / state.position.scale;
 
-    // Convert canvas position to world coordinates
-    // Note: position values are negative when panning right/down, so we invert
-    const worldX = -state.position.x / state.position.scale;
-    const worldY = -state.position.y / state.position.scale;
+    // FIXED: position.x/y are now world coordinates (not inverted)
+    // The viewport shows content from (position.x, position.y) in world space
+    const worldX = state.position.x;
+    const worldY = state.position.y;
 
-    // Convert to minimap coordinates (relative to canvas center)
-    const minimapX = (worldX + CANVAS_WORLD.centerX) * MINIMAP.scale;
-    const minimapY = (worldY + CANVAS_WORLD.centerY) * MINIMAP.scale;
+    // Convert to minimap pixel coordinates
+    const minimapX = worldX * MINIMAP.scale;
+    const minimapY = worldY * MINIMAP.scale;
     const minimapWidth = viewportWidth * MINIMAP.scale;
     const minimapHeight = viewportHeight * MINIMAP.scale;
 
