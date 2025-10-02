@@ -176,17 +176,18 @@ const App: React.FC = () => {
                         performanceMode={performanceMode}
                         enableAnalytics={true}
                     >
-                        {/* Photography-themed loading screen */}
-                        <LoadingScreen isLoading={isLoading || !isAppReady} />
+                        <EffectsProvider>
+                            {/* Photography-themed loading screen */}
+                            <LoadingScreen isLoading={isLoading || !isAppReady} />
 
-                        {/* WOW Factor Components */}
-                        <CustomCursor />
-                        <ScrollProgress />
-                        <ConsoleEasterEgg />
-                        <SectionAmbientLighting />
-                        <FilmMode />
-                        <EffectsPanel />
-                        <ViewfinderController />
+                            {/* WOW Factor Components */}
+                            <CustomCursor />
+                            <ScrollProgress />
+                            <ConsoleEasterEgg />
+                            <SectionAmbientLighting />
+                            <FilmMode />
+                            <EffectsPanel />
+                            <ViewfinderController />
 
                         <div className="bg-brand-dark text-brand-light font-sans antialiased overflow-hidden h-screen">
                             <BackgroundEffects />
@@ -263,6 +264,7 @@ const App: React.FC = () => {
                                 className="canvas-cursor-lens"
                             />
                         </div>
+                        </EffectsProvider>
                     </CanvasStateProvider>
                 </UnifiedGameFlowProvider>
             </AthleticTokenProvider>
