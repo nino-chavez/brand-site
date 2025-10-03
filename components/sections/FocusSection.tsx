@@ -42,23 +42,23 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
   // Effects context for user-controlled animations
   const { getClasses } = useAnimationWithEffects();
 
-  // Section-level animation (whole section entrance) - trigger well before entering viewport
+  // Section-level animation (whole section entrance) - trigger at section border
   const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
-    threshold: 0,
+    threshold: 0.1, // Trigger when 10% of section is visible
     triggerOnce: true,
-    rootMargin: '0px 0px 300px 0px' // Trigger 300px before section enters viewport (bottom margin)
+    rootMargin: '0px 0px -10% 0px' // Trigger when section is just entering viewport
   });
 
-  // Content-level animations (staggered after section) - aggressive early trigger
+  // Content-level animations (staggered after section) - slight delay for polish
   const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({
-    threshold: 0,
+    threshold: 0.15,
     triggerOnce: true,
-    rootMargin: '0px 0px 250px 0px' // Trigger 250px before entering viewport
+    rootMargin: '0px 0px 0px 0px' // Trigger when heading enters viewport
   });
   const { elementRef: bodyRef, isVisible: bodyVisible } = useScrollAnimation({
-    threshold: 0,
+    threshold: 0.15,
     triggerOnce: true,
-    rootMargin: '0px 0px 250px 0px' // Trigger 250px before entering viewport
+    rootMargin: '0px 0px 0px 0px' // Trigger when body enters viewport
   });
 
   // Focus readiness sequence
