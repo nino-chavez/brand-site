@@ -246,11 +246,13 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         data-parallax-intensity={settings.parallaxIntensity}
       />
 
-      {/* Interactive spotlight effect following mouse */}
+      {/* Interactive purple spotlight with pulse effect following mouse */}
       <div
-        className="absolute inset-0 opacity-0 hover:opacity-20 transition-opacity duration-500 pointer-events-none z-10"
+        className="absolute inset-0 transition-opacity duration-300 pointer-events-none z-10"
         style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(139, 92, 246, 0.15), transparent 60%)`,
+          background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(139, 92, 246, 0.3), rgba(139, 92, 246, 0.1) 40%, transparent 70%)`,
+          animation: 'purplePulse 3s ease-in-out infinite',
+          opacity: 1
         }}
       />
 
@@ -534,6 +536,16 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           }
           100% {
             transform: scale(1.1) translate(-2%, -1.5%);
+          }
+        }
+
+        /* Purple spotlight pulse effect */
+        @keyframes purplePulse {
+          0%, 100% {
+            opacity: 0.4;
+          }
+          50% {
+            opacity: 0.7;
           }
         }
 
