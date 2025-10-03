@@ -70,70 +70,70 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
   const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: articleRef, isVisible: articleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
-  // Articles/insights data - styled as athletic training log
+  // Articles/insights data - Field notes from Signal Dispatch
   const articles: Article[] = [
     {
-      id: 'microservices-at-scale',
-      title: 'Microservices at Scale',
-      subtitle: 'Lessons from managing 100+ services',
-      excerpt: 'After architecting systems serving millions of users, here are the patterns that actually work when scaling microservices beyond the textbook examples.',
-      readTime: '8 min read',
+      id: 'commerce-integration-reality',
+      title: 'When "Simple Integration" Isn\'t',
+      subtitle: 'Commerce platform field notes',
+      excerpt: 'Connecting SAP Commerce to warehouse systems sounds straightforward in the architecture deck. Then you meet the legacy ERP that thinks it\'s 1997, inventory data that updates "eventually," and business rules that exist only in someone\'s head.',
+      readTime: '7 min read',
       date: '2024-09-15',
-      category: 'Architecture',
-      tags: ['Microservices', 'Scale', 'DevOps', 'Performance'],
+      category: 'Field Notes',
+      tags: ['Commerce', 'Integration', 'Reality Check', 'Legacy Systems'],
       insights: [
-        'Service mesh complexity grows exponentially after 50 services',
-        'Database per service is ideal; shared databases kill scalability',
-        'Circuit breakers prevent cascading failures but need fine-tuning',
-        'Observability costs can exceed infrastructure costs'
+        'Documentation describes the system they wish they had, not the one that exists',
+        'Every integration has an "undocumented behavior" that breaks everything',
+        'The phrase "it should be straightforward" is a warning sign',
+        'Success is measured in fires that don\'t start, not features shipped'
       ]
     },
     {
-      id: 'performance-optimization',
-      title: 'The Performance Mindset',
-      subtitle: 'Why 200ms matters more than perfect code',
-      excerpt: 'Performance isn\'t just about optimization—it\'s about user psychology, business metrics, and technical sustainability. Here\'s how to think like a performance engineer.',
+      id: 'reading-the-road',
+      title: 'Reading the Road',
+      subtitle: 'Pattern recognition in systems and surfing',
+      excerpt: 'Surfers don\'t predict waves—they read conditions, position themselves, and respond to what shows up. Enterprise architecture works the same way. You can\'t predict the future, but you can learn to read the signals.',
       readTime: '6 min read',
       date: '2024-08-22',
-      category: 'Performance',
-      tags: ['Optimization', 'UX', 'Metrics', 'Psychology'],
+      category: 'Systems Thinking',
+      tags: ['Strategy', 'Pattern Recognition', 'Surfing', 'Architecture'],
       insights: [
-        '100ms delay = 1% conversion loss in e-commerce',
-        'Perceived performance matters more than actual performance',
-        'Critical rendering path optimization has highest ROI',
-        'Performance budgets prevent regression better than monitoring'
+        'The best architectures respond to reality, not PowerPoint projections',
+        'Positioning matters more than prediction',
+        'Small signals reveal big problems before they cascade',
+        'Sometimes the right move is to paddle around the wave'
       ]
     },
     {
-      id: 'team-scaling',
-      title: 'Scaling Engineering Teams',
-      subtitle: 'From 5 to 100 without losing velocity',
-      excerpt: 'Growing engineering teams is like scaling systems—you need the right architecture, clear interfaces, and robust processes. Here\'s what actually works.',
-      readTime: '12 min read',
+      id: 'quiet-leadership',
+      title: 'Holding Up the Mirror',
+      subtitle: 'Quiet leadership in loud organizations',
+      excerpt: 'Fortune 500 companies don\'t need another voice in the room. They need someone to reflect what\'s actually happening—the gaps between strategy and execution, the technical debt nobody wants to talk about, the assumptions that stopped being true three years ago.',
+      readTime: '8 min read',
       date: '2024-07-18',
       category: 'Leadership',
-      tags: ['Management', 'Process', 'Culture', 'Growth'],
+      tags: ['Enterprise', 'Strategy', 'Consulting', 'Signal'],
       insights: [
-        'Conway\'s Law: Team structure defines system architecture',
-        'Async communication scales; meetings don\'t',
-        'Documentation quality correlates with team velocity',
-        'Technical debt compounds faster in larger teams'
+        'Most organizations know their problems—they need permission to act',
+        'Listening reveals more than talking ever will',
+        'The questions you ask define the answers you get',
+        'Technical leadership is about clarity, not authority'
       ]
     },
     {
-      id: 'action-sports-tech',
-      title: 'Technology Meets Action Sports',
-      subtitle: 'Precision timing in extreme conditions',
-      excerpt: 'What photographing professional athletes taught me about system reliability, real-time processing, and handling failure under pressure.',
+      id: 'ai-native-shift',
+      title: 'Answer-First Commerce',
+      subtitle: 'Rethinking assumptions in an AI-native world',
+      excerpt: 'Current work at Accenture Song: helping retailers think past "add a chatbot." When customers expect answers instead of search results, your entire commerce platform needs rethinking—not retrofitting.',
       readTime: '10 min read',
       date: '2024-06-25',
-      category: 'Insights',
-      tags: ['Sports', 'Real-time', 'Reliability', 'Pressure'],
+      category: 'AI Strategy',
+      tags: ['AI', 'Commerce', 'Transformation', 'Strategy'],
       insights: [
-        'Sub-20ms response times required for action capture',
-        'Hardware failure rates increase 3x in extreme conditions',
-        'Predictive systems outperform reactive systems',
-        'Redundancy planning must account for simultaneous failures'
+        'Search-first architecture doesn\'t map to answer-first experiences',
+        'AI isn\'t a feature layer—it changes core assumptions',
+        'The hardest part isn\'t the technology, it\'s organizational readiness',
+        'Best approach: progressive enhancement, not big-bang replacement'
       ]
     }
   ];
@@ -267,15 +267,15 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
                 ref={headingRef}
                 className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
               >
-                Perfect
-                <span className="block text-athletic-brand-violet">Exposure</span>
+                Signal Dispatch
+                <span className="block text-athletic-brand-violet">Field Notes</span>
               </h2>
               <p
                 ref={subtitleRef}
                 className={`text-xl text-white/80 max-w-3xl mx-auto leading-relaxed ${getClasses(subtitleVisible)}`}
               >
-                Technical insights captured through years of building systems under pressure.
-                Each article represents lessons learned in the field.
+                Writing from the field—where architecture decks meet enterprise reality.<br />
+                Observations on commerce platforms, systems thinking, and reading the road.
               </p>
             </div>
 

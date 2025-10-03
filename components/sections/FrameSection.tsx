@@ -77,51 +77,51 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
   const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: projectsRef, isVisible: projectsVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
-  // Project portfolio data - Real anonymized case studies
+  // Project portfolio data - Grounded in real platform work
   const projects: Project[] = [
     {
-      id: 'enterprise-platform',
-      title: 'Enterprise Analytics Platform',
-      subtitle: 'Fortune 500 Retail Company',
-      description: 'Led architecture and development of a distributed analytics platform processing 10TB+ daily across 15 microservices, serving 50,000+ concurrent users with sub-200ms response times.',
-      technologies: ['React', 'Node.js', 'Kafka', 'Redis', 'PostgreSQL', 'Kubernetes'],
-      architecture: ['Microservices', 'Event Streaming', 'CQRS Pattern', 'Circuit Breaker', 'Auto-scaling'],
-      challenges: ['Real-time processing', 'Data consistency', 'High availability', 'Performance optimization'],
-      outcomes: ['99.97% uptime → $2M+ protected daily', '40% cost reduction → $800K annual savings', 'Sub-second query times', '10x user scale'],
+      id: 'commerce-transformation',
+      title: 'Commerce Platform Modernization',
+      subtitle: 'SAP Commerce Cloud',
+      description: 'Multi-year platform transformation connecting legacy commerce systems with modern cloud architecture. Focused on stabilizing integrations that kept breaking and building technical runways for future capabilities.',
+      technologies: ['SAP Commerce', 'Hybris', 'Java', 'Spring', 'Solr', 'Kubernetes'],
+      architecture: ['Headless Commerce', 'API Gateway', 'Event-driven Integration', 'Multi-tenant SaaS', 'Cloud Migration'],
+      challenges: ['Legacy system dependencies', 'Data migration complexity', 'Zero-downtime deployments', 'Multi-brand consistency'],
+      outcomes: ['Platform stabilization', 'Reduced integration failures', 'Cloud-native architecture', 'Technical debt reduction'],
       metrics: {
-        performance: '< 200ms avg response',
-        scale: '50K concurrent users',
-        timeline: '18 months delivery'
+        performance: 'Enterprise scale',
+        scale: 'Multi-brand retail',
+        timeline: 'Multi-year engagement'
       }
     },
     {
-      id: 'mobile-fintech',
-      title: 'Mobile Financial Platform',
-      subtitle: 'FinTech Startup',
-      description: 'Architected secure mobile payment system handling $2M+ daily transactions with PCI DSS compliance, fraud detection, and seamless user experience.',
-      technologies: ['React Native', 'Python', 'PostgreSQL', 'Redis', 'AWS Lambda'],
-      architecture: ['Event-driven', 'Serverless', 'Encryption at rest', 'API Gateway', 'CDN'],
-      challenges: ['PCI compliance', 'Fraud prevention', 'Real-time processing', 'Mobile optimization'],
-      outcomes: ['PCI DSS certified → Enterprise compliance', 'Zero security incidents → $0 fraud loss', '2.1s avg transaction', '4.9/5 user rating'],
+      id: 'salesforce-integration',
+      title: 'Salesforce Commerce Integration',
+      subtitle: 'Order Management & Fulfillment',
+      description: 'Built integrations connecting Salesforce Commerce Cloud with warehouse management, inventory, and fulfillment systems. The kind of work where "it should be simple" meets enterprise reality.',
+      technologies: ['Salesforce Commerce', 'Node.js', 'REST APIs', 'Kafka', 'Redis', 'PostgreSQL'],
+      architecture: ['Event-driven sync', 'Circuit breaker patterns', 'Idempotent operations', 'Retry strategies', 'Dead letter queues'],
+      challenges: ['System inconsistencies', 'Real-time inventory sync', 'Order state management', 'Third-party API reliability'],
+      outcomes: ['Reliable order flow', 'Inventory synchronization', 'Reduced manual interventions', 'Improved customer experience'],
       metrics: {
-        performance: '< 2.1s transactions',
-        scale: '$2M+ daily volume',
-        timeline: '12 months MVP'
+        performance: 'Sub-second sync',
+        scale: 'High-volume retail',
+        timeline: '18-month delivery'
       }
     },
     {
-      id: 'iot-monitoring',
-      title: 'IoT Monitoring System',
-      subtitle: 'Industrial Manufacturing',
-      description: 'Built distributed IoT platform monitoring 10,000+ sensors across manufacturing facilities, providing real-time alerts and predictive maintenance insights.',
-      technologies: ['Python', 'InfluxDB', 'MQTT', 'Docker', 'Grafana', 'TensorFlow'],
-      architecture: ['Time-series DB', 'Message queuing', 'Edge computing', 'ML pipeline', 'Container orchestration'],
-      challenges: ['Time-series data', 'Edge processing', 'Network reliability', 'Predictive modeling'],
-      outcomes: ['30% maintenance reduction → $1.2M annual savings', '99.5% sensor uptime', 'Predictive accuracy 85% → Prevents $500K losses', 'Real-time alerts'],
+      id: 'ai-native-readiness',
+      title: 'AI-Native Commerce Strategy',
+      subtitle: 'Answer-First Transformation',
+      description: 'Current work at Accenture Song: helping Fortune 500 retailers think differently about commerce in an AI-native world. Less about "adding AI features" and more about rethinking core assumptions when customers expect answers, not search results.',
+      technologies: ['Strategic Architecture', 'Commerce Platforms', 'AI Integration', 'Change Management', 'Technical Advisory'],
+      architecture: ['Answer-first experiences', 'Context-aware systems', 'Agent-based workflows', 'Progressive enhancement', 'Human-in-loop design'],
+      challenges: ['Paradigm shift resistance', 'Legacy platform constraints', 'Organizational readiness', 'Measuring AI value'],
+      outcomes: ['Strategic roadmaps', 'Executive alignment', 'Technical feasibility studies', 'Platform evaluation'],
       metrics: {
-        performance: '< 500ms data ingestion',
-        scale: '10K+ sensors monitored',
-        timeline: '24 months full rollout'
+        performance: 'Strategic guidance',
+        scale: 'Fortune 500 retail',
+        timeline: 'Ongoing engagement'
       }
     }
   ];
@@ -219,20 +219,20 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
             {/* Section header */}
             <div className="text-center mb-16">
-              <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Work</div>
+              <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Strategic Work</div>
               <h2
                 ref={headingRef}
                 className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
               >
-                Perfect
-                <span className="block text-athletic-brand-violet">Composition</span>
+                Commerce Architecture
+                <span className="block text-athletic-brand-violet">That Holds Up</span>
               </h2>
               <p
                 ref={subtitleRef}
                 className={`text-xl text-white/80 max-w-3xl mx-auto leading-relaxed ${getClasses(subtitleVisible)}`}
               >
-                Each project represents a carefully framed solution—balancing technical excellence
-                with business impact, composed for optimal results.
+                25 years building platforms for SAP Commerce, Salesforce, and Adobe.<br />
+                The kind of work where "it should be simple" meets enterprise reality.
               </p>
             </div>
 

@@ -21,23 +21,20 @@ const ContactSection: React.FC<ContactSectionProps> = ({ setRef }) => {
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'
                 }`}
             >
-                <SectionTitle>Let's Connect</SectionTitle>
+                <SectionTitle>Get in Touch</SectionTitle>
                 <p className="text-lg text-gray-300 mb-12">
-                    I'm always open to discussing new projects, creative ideas, or opportunities to be part of an ambitious vision. Whether you're interested in my technical expertise or my creative work, feel free to reach out.
+                    Open to conversations about commerce architecture, AI-native strategy, or action sports photography.
                 </p>
 
                 {/* Primary CTA - Email */}
                 <div className="mb-12">
                     <a
                         ref={emailBtnRef}
-                        href="mailto:nino@ninochavez.com"
+                        href="mailto:hello@nino.photos"
                         className="btn-primary btn-magnetic inline-block text-lg px-8 py-4"
                     >
-                        Email Me Directly
+                        hello@nino.photos
                     </a>
-                    <p className="text-sm text-white/60 mt-3">
-                        Response within 24 hours
-                    </p>
                 </div>
 
                 {/* Secondary - Social Links */}

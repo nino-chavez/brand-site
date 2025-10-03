@@ -142,7 +142,7 @@ const EXPERIENCE_DATABASE: ExperienceRole[] = [
         },
         {
           name: 'AI-Powered Analytics Platform',
-          description: 'Architected real-time analytics platform processing 100TB+ daily',
+          description: 'Built real-time analytics platform processing 100TB+ daily',
           impact: 'Enabled real-time decision making, 60% faster insights generation',
           technologies: ['Apache Kafka', 'TensorFlow', 'BigQuery', 'Python', 'React Dashboard']
         },
@@ -188,7 +188,7 @@ const EXPERIENCE_DATABASE: ExperienceRole[] = [
         },
         {
           initiative: 'Cloud-Native Adoption',
-          scope: 'Led organization-wide migration to cloud-native architecture patterns',
+          scope: 'Organization-wide migration to cloud-native architecture patterns',
           results: '60% infrastructure cost reduction, improved system reliability'
         }
       ],
@@ -227,8 +227,8 @@ const EXPERIENCE_DATABASE: ExperienceRole[] = [
       overview: 'Led platform engineering initiatives for enterprise SaaS product serving 100K+ users, focusing on scalability, performance, and developer experience.',
       keyAchievements: [
         'Improved platform performance by 300% while reducing infrastructure costs by 45%',
-        'Led team of 12 engineers through successful IPO preparation and SOC2 compliance',
-        'Architected microservices platform handling 1M+ requests per minute'
+        'Guided team of 12 engineers through successful IPO preparation and SOC2 compliance',
+        'Built microservices platform handling 1M+ requests per minute'
       ],
       technologies: ['Node.js', 'React', 'PostgreSQL', 'Redis', 'Docker', 'AWS']
     },
@@ -313,7 +313,7 @@ const EXPERIENCE_DATABASE: ExperienceRole[] = [
       keyAchievements: [
         'Built core platform features used by 10K+ monthly active users',
         'Established CI/CD practices and testing standards for growing team',
-        'Led frontend architecture transition from jQuery to React'
+        'Transitioned frontend architecture from jQuery to React'
       ],
       technologies: ['JavaScript', 'Python', 'React', 'Django', 'PostgreSQL', 'AWS']
     },

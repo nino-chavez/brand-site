@@ -209,25 +209,7 @@ export default function SimplifiedGameFlowContainer({
         onError={handlePortfolioSectionError}
       />
 
-      {/* Debug controls only in development with explicit flag */}
-      {import.meta.env.DEV && debugMode && (
-        <div className="fixed bottom-4 left-4 space-x-2 z-50 opacity-20 hover:opacity-100 transition-opacity">
-          <button
-            onClick={() => handleNavigationTest('focus')}
-            data-testid="navigate-to-focus"
-            className="px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-500"
-          >
-            Focus
-          </button>
-          <button
-            onClick={handleFailingNavigation}
-            data-testid="failing-navigation"
-            className="px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-500"
-          >
-            Test Error
-          </button>
-        </div>
-      )}
+      {/* Debug controls removed - use React DevTools or browser console for debugging */}
 
       {/* Progress indicator */}
       <div className="hidden" data-testid="section-progress">

@@ -42,15 +42,24 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
   // Effects context for user-controlled animations
   const { getClasses } = useAnimationWithEffects();
 
-  // Section-level animation (whole section entrance)
+  // Section-level animation (whole section entrance) - trigger well before entering viewport
   const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
-    threshold: 0.15,
-    triggerOnce: true
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '0px 0px 300px 0px' // Trigger 300px before section enters viewport (bottom margin)
   });
 
-  // Content-level animations (staggered after section)
-  const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
-  const { elementRef: bodyRef, isVisible: bodyVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
+  // Content-level animations (staggered after section) - aggressive early trigger
+  const { elementRef: headingRef, isVisible: headingVisible } = useScrollAnimation({
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '0px 0px 250px 0px' // Trigger 250px before entering viewport
+  });
+  const { elementRef: bodyRef, isVisible: bodyVisible } = useScrollAnimation({
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '0px 0px 250px 0px' // Trigger 250px before entering viewport
+  });
 
   // Focus readiness sequence
   useEffect(() => {
@@ -111,33 +120,33 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
     });
   }, [focusPoint]);
 
-  // Athletic stats data
+  // Career statistics - grounded in real experience
   const athleticStats = [
-    { label: 'Experience', value: '20+', unit: 'years', context: 'building enterprise systems', icon: '🏆' },
-    { label: 'Team Scale', value: '100+', unit: 'engineers', context: 'led across 5 continents', icon: '👥' },
-    { label: 'Architecture', value: '15+', unit: 'systems', context: 'serving millions of users', icon: '🏗️' },
-    { label: 'Performance', value: '99.9%', unit: 'uptime', context: 'SLA maintained in production', icon: '⚡' }
+    { label: 'Experience', value: '25', unit: 'years', context: 'enterprise architecture', icon: '🏆' },
+    { label: 'Current Role', value: 'Song', unit: 'Accenture', context: 'Feb 2023 - Present', icon: '👥' },
+    { label: 'Focus', value: 'Commerce', unit: 'platforms', context: 'SAP • Salesforce • Adobe', icon: '🏗️' },
+    { label: 'Specialty', value: 'AI-Native', unit: 'strategy', context: 'Answer-first transformation', icon: '⚡' }
   ];
 
   // Technical stack organized by focus areas
   const technicalAreas = [
     {
-      area: 'Enterprise Architecture',
-      skills: ['System Design', 'Microservices', 'Cloud Infrastructure', 'API Strategy'],
+      area: 'Commerce Platforms',
+      skills: ['SAP Commerce (Hybris)', 'Salesforce Commerce Cloud', 'Adobe Commerce', 'Headless Architecture'],
       proficiency: 95,
       experience: '15+ years'
     },
     {
-      area: 'Full-Stack Development',
-      skills: ['React/TypeScript', 'Node.js', 'Python', 'Database Design'],
+      area: 'Integration Architecture',
+      skills: ['Order Management', 'Inventory Sync', 'Fulfillment Systems', 'Event-Driven Integration'],
       proficiency: 92,
-      experience: '18+ years'
+      experience: '20+ years'
     },
     {
-      area: 'Leadership & Strategy',
-      skills: ['Team Building', 'Technical Vision', 'Stakeholder Management', 'Agile Practices'],
+      area: 'AI-Native Strategy',
+      skills: ['Answer-First Commerce', 'Agentic Systems', 'Context-Aware Experiences', 'Progressive Enhancement'],
       proficiency: 88,
-      experience: '12+ years'
+      experience: 'Current focus'
     }
   ];
 
@@ -206,30 +215,30 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                   ref={headingRef}
                   className={`text-4xl md:text-6xl font-black text-white leading-tight ${getClasses(headingVisible)}`}
                 >
-                  From Startup to
-                  <span className="block text-athletic-brand-violet">Enterprise Scale</span>
+                  Systems Thinking Meets
+                  <span className="block text-athletic-brand-violet">Enterprise Reality</span>
                 </h2>
                 <p className="text-lg text-white/70 mt-4 leading-relaxed">
-                  20 years building systems that don't break under pressure—from early-stage products to Fortune 500 platforms serving millions.
+                  25 years building commerce infrastructure that holds up when it matters—from early-stage platforms to Fortune 500 enterprise transformations.
                 </p>
               </div>
 
-              {/* Achievement Highlights Grid */}
+              {/* Current Focus Grid */}
               <div className="grid md:grid-cols-3 gap-6 mb-8 p-6 bg-gradient-to-r from-athletic-brand-violet/10 to-cyan-500/10 rounded-lg border border-athletic-brand-violet/20">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-athletic-brand-violet mb-2">100+ Engineers</div>
-                  <p className="text-sm text-white/70">Led across Microsoft, Oracle, and Adobe teams</p>
-                  <p className="text-xs text-white/50 mt-1">→ $500M+ in delivered value</p>
+                  <div className="text-3xl font-bold text-athletic-brand-violet mb-2">Commerce Platforms</div>
+                  <p className="text-sm text-white/70">SAP Commerce, Salesforce, Adobe</p>
+                  <p className="text-xs text-white/50 mt-1">Enterprise-scale implementations</p>
                 </div>
                 <div className="text-center border-l border-r border-white/10 px-4">
-                  <div className="text-3xl font-bold text-cyan-400 mb-2">$10M+ Daily</div>
-                  <p className="text-sm text-white/70">Transaction platforms with zero downtime</p>
-                  <p className="text-xs text-white/50 mt-1">→ $2M+ protected from outages</p>
+                  <div className="text-3xl font-bold text-cyan-400 mb-2">AI-Native Readiness</div>
+                  <p className="text-sm text-white/70">Answer-first commerce transformation</p>
+                  <p className="text-xs text-white/50 mt-1">Agentic systems architecture</p>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-400 mb-2">10K → 10M Users</div>
-                  <p className="text-sm text-white/70">Scaled systems 1000x without infrastructure rebuild</p>
-                  <p className="text-xs text-white/50 mt-1">→ $15M saved on rewrites</p>
+                  <div className="text-3xl font-bold text-orange-400 mb-2">Accenture Song</div>
+                  <p className="text-sm text-white/70">Enterprise Architect & Strategic Advisor</p>
+                  <p className="text-xs text-white/50 mt-1">Feb 2023 - Present</p>
                 </div>
               </div>
 
@@ -238,19 +247,19 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 className={`prose prose-lg prose-invert max-w-none ${getClasses(bodyVisible)}`}
               >
                 <p className="text-xl text-white/90 leading-relaxed mb-6">
-                  I'm Nino Chavez, an Enterprise Architect and Technical Leader who transforms complex business challenges into elegant, scalable solutions that serve millions of users daily.
+                  I'm a systems thinker, photographer, and strategist. By trade, I work in enterprise architecture—helping teams navigate ambiguity and build things that hold up over time.
                 </p>
 
                 <p className="text-lg text-white/80 leading-relaxed mb-6">
-                  My approach is simple: I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: <strong className="text-white font-semibold">the entire system of ownership, scope, and second-order effects where ideas must actually live</strong>.
+                  I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: <strong className="text-white font-semibold">the entire system of ownership, scope, and second-order effects where ideas must actually live</strong>.
                 </p>
 
                 <p className="text-lg text-white/80 leading-relaxed mb-6">
-                  I architect resilient systems that enable people and businesses to thrive. My specialty is "reading the road"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on.
+                  My specialty is "reading the road"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on. Quiet leadership is my lane. I'd rather hold up a mirror than take the mic.
                 </p>
 
                 <p className="text-lg text-white/80 leading-relaxed">
-                  Leadership, for me, is "living in the gap"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but <strong className="text-athletic-brand-violet">together</strong>.
+                  Leadership is "living in the gap"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but <strong className="text-athletic-brand-violet">together</strong>.
                 </p>
               </div>
 
@@ -325,19 +334,14 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                   ))}
                 </div>
 
-                {/* Performance indicators */}
+                {/* Platform expertise */}
                 <div className="mt-8 pt-6 border-t border-white/10">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-white/70">System Reliability</span>
-                    <span className="text-green-400 font-semibold">99.9%</span>
-                  </div>
-                  <div className="flex justify-between items-center text-sm mt-2">
-                    <span className="text-white/70">Team Satisfaction</span>
-                    <span className="text-green-400 font-semibold">4.8/5.0</span>
-                  </div>
-                  <div className="flex justify-between items-center text-sm mt-2">
-                    <span className="text-white/70">Project Success Rate</span>
-                    <span className="text-green-400 font-semibold">98%</span>
+                  <div className="text-xs text-white/50 uppercase tracking-wide mb-3">Platform Experience</div>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">SAP Commerce</span>
+                    <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">Salesforce</span>
+                    <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">Adobe</span>
+                    <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-md text-xs">AI Strategy</span>
                   </div>
                 </div>
               </div>

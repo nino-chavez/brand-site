@@ -124,7 +124,7 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3 ${className}`}
+      className={`fixed bottom-20 right-6 z-40 flex flex-col items-end gap-3 ${className}`}
       role="complementary"
       aria-label="Quick navigation actions"
     >

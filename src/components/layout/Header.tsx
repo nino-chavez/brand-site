@@ -116,7 +116,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
 
                     {/* Layout Switcher & Technical HUD Navigation */}
                     <div className="flex items-center gap-6">
-                        {/* Layout Switcher - Icon Buttons */}
+                        {/* Layout Switcher - Icon Buttons with 3D effects */}
                         <div className="flex items-center gap-2">
                             <span className="text-xs text-white/60 hidden sm:inline">Layout:</span>
                             <div className="flex gap-1 p-1 rounded-lg" style={{
@@ -147,7 +147,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                                 </button>
                                 <button
                                     onClick={() => handleLayoutChange('canvas')}
-                                    className="px-3 py-1.5 rounded transition-all duration-200"
+                                    className="px-3 py-1.5 rounded transition-all duration-200 group"
                                     style={{
                                         background: currentLayout === 'canvas'
                                             ? 'rgba(139, 92, 246, 0.4)'
@@ -159,13 +159,24 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                                             ? '0 0 8px rgba(139, 92, 246, 0.4)'
                                             : 'none',
                                         transform: currentLayout === 'canvas' ? 'scale(1.05)' : 'scale(1)',
-                                        fontSize: '18px',
-                                        color: 'white'
+                                        fontSize: '16px',
+                                        color: 'white',
+                                        perspective: '100px'
                                     }}
                                     aria-label="Canvas layout"
                                     title="Canvas layout"
                                 >
-                                    ⬚
+                                    <div
+                                        className="inline-block transition-transform duration-300"
+                                        style={{
+                                            transformStyle: 'preserve-3d',
+                                            transform: 'rotateX(30deg) rotateY(-30deg)',
+                                            textShadow: '2px 2px 0 rgba(139, 92, 246, 0.8), 3px 3px 6px rgba(0, 0, 0, 0.8), 4px 4px 0 rgba(75, 29, 153, 0.4)',
+                                            filter: 'drop-shadow(0 2px 4px rgba(139, 92, 246, 0.4))'
+                                        }}
+                                    >
+                                        ⬚
+                                    </div>
                                 </button>
                                 <button
                                     onClick={() => handleLayoutChange('timeline')}

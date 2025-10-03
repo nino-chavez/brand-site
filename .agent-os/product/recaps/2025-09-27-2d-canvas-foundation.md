@@ -33,7 +33,7 @@
 - **Performance optimization** configurations with hardware acceleration prioritization
 
 ## 🔗 PR Information
-- **GitHub PR:** https://github.com/chavezabelino/brand-site/pull/5
+- **GitHub PR:** https://github.com/nino-chavez/brand-site/pull/5
 - **Title:** "feat: 2D Canvas Layout System Foundation"
 - **Status:** Merged ✅
 

@@ -89,18 +89,16 @@ const App: React.FC = () => {
         const handleDOMContentLoaded = () => {
             if (document.fonts) {
                 document.fonts.ready.then(() => {
-                    // Minimal delay for smooth transition
-                    setTimeout(() => {
-                        setIsLoading(false);
-                        setIsAppReady(true);
-                    }, 300); // Reduced from 900ms to 300ms
+                    // Immediate transition to prevent scroll blocking
+                    setIsLoading(false);
+                    setIsAppReady(true);
                 });
             } else {
-                // Fallback for browsers without Font Loading API
+                // Fallback for browsers without Font Loading API - minimal delay
                 setTimeout(() => {
                     setIsLoading(false);
                     setIsAppReady(true);
-                }, 300); // Reduced from 1000ms to 300ms
+                }, 100); // Reduced from 300ms to 100ms
             }
         };
 
@@ -139,12 +137,34 @@ const App: React.FC = () => {
     // Collect section elements for scroll spy
     // Uses unified SectionId photography metaphor IDs
     // Note: CaptureSection uses id="capture", not "hero"
-    const sectionElements = useMemo(() => {
-        if (typeof window === 'undefined') return [];
+    const [sectionElements, setSectionElements] = useState<HTMLElement[]>([]);
 
-        return ['capture', 'focus', 'frame', 'exposure', 'develop', 'portfolio']
-            .map(id => document.getElementById(id))
-            .filter((el): el is HTMLElement => el !== null);
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+
+        // Wait for DOM to be ready, then collect sections
+        const collectSections = () => {
+            const elements = ['capture', 'focus', 'frame', 'exposure', 'develop', 'portfolio']
+                .map(id => document.getElementById(id))
+                .filter((el): el is HTMLElement => el !== null);
+
+            if (elements.length > 0) {
+                setSectionElements(elements);
+                console.log('[ScrollSpy] Collected sections:', elements.map(el => el.id));
+            } else {
+                console.warn('[ScrollSpy] No sections found, retrying...');
+            }
+        };
+
+        // Try multiple times to ensure sections are collected
+        const attempts = [0, 100, 500, 1000]; // Try immediately, then retry if needed
+        const timeouts = attempts.map(delay =>
+            setTimeout(collectSections, delay)
+        );
+
+        return () => {
+            timeouts.forEach(timeout => clearTimeout(timeout));
+        };
     }, [layoutMode]); // Re-collect when layout changes
 
     // Track active section with scroll spy
@@ -404,7 +424,7 @@ const App: React.FC = () => {
                     <ViewfinderController />
                     <EffectsPanel />
 
-                    <div className="bg-brand-dark text-brand-light font-sans antialiased scroll-smooth">
+                    <div className="bg-brand-dark text-brand-light font-sans antialiased scroll-smooth overflow-x-hidden" style={{ overflowY: 'auto', minHeight: '100vh' }}>
                         <BackgroundEffects />
 
                         {/* Skip link for accessibility */}

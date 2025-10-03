@@ -173,26 +173,24 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
             {/* Section header */}
             <div className="text-center mb-16">
-              <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Gallery</div>
+              <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Photography</div>
               <h2
                 ref={headingRef}
                 className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
               >
-                Perfect
-                <span className="block text-athletic-brand-violet">Development</span>
+                Action Sports
+                <span className="block text-athletic-brand-violet">Photography</span>
               </h2>
               <div
                 ref={subtitleRef}
                 className={`text-center max-w-3xl mx-auto mb-8 ${getClasses(subtitleVisible)}`}
               >
-                <p className="text-base text-athletic-brand-cyan mb-4 font-medium">
-                  The Art of Technical Precision
-                </p>
                 <p className="text-lg text-white/80 leading-relaxed">
-                  My approach to action sports photography mirrors my enterprise architecture philosophy:
-                  anticipate the critical moment, focus on what matters, execute with precision.
-                  Whether capturing a championship spike or designing a distributed system,
-                  excellence requires the same fundamental skills.
+                  I shoot action sports—mostly volleyball, surfing, and skating.<br />
+                  It's about timing, light, and being in the right place when it matters.
+                </p>
+                <p className="text-base text-white/60 mt-4">
+                  More at <a href="https://gallery.nino.photos" target="_blank" rel="noopener noreferrer" className="text-athletic-brand-violet hover:text-athletic-brand-cyan transition-colors">gallery.nino.photos</a>
                 </p>
               </div>
 

@@ -287,16 +287,10 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                 ))}
               </div>
 
-              {/* Quick stats - More modern card design */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-xl">
-                  <div className="text-2xl font-bold text-green-400 mb-1">&lt; 48hrs</div>
-                  <div className="text-xs text-white/60 uppercase tracking-wide">Response Time</div>
-                </div>
-                <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-xl">
-                  <div className="text-2xl font-bold text-blue-400 mb-1">99.9%</div>
-                  <div className="text-xs text-white/60 uppercase tracking-wide">Satisfaction</div>
-                </div>
+              {/* Response time indicator */}
+              <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-xl">
+                <div className="text-2xl font-bold text-green-400 mb-1">&lt; 48hrs</div>
+                <div className="text-xs text-white/60 uppercase tracking-wide">Typical Response Time</div>
               </div>
             </div>
 
@@ -310,47 +304,48 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                 <form onSubmit={handleQuickContact} className="space-y-5" data-testid="contact-form">
                   <div className="mb-6">
                     <h4 className="text-2xl font-bold text-white mb-2">Send a Message</h4>
-                    <p className="text-sm text-white/60">All fields are required</p>
+                    <p className="text-sm text-white/60">* Required fields</p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="name" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
-                        placeholder="Your name"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
-                        placeholder="you@company.com"
-                      />
-                    </div>
+                  {/* Single-column layout for clearer scanning path */}
+                  <div>
+                    <label htmlFor="name" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
+                      Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      required
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
+                      placeholder="Your name"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="email" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
+                      placeholder="you@company.com"
+                    />
                   </div>
 
                   <div>
                     <label htmlFor="inquiry-type" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
-                      What are you interested in?
+                      What are you interested in? (optional)
                     </label>
                     <select
                       id="inquiry-type"
                       name="inquiry-type"
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
                     >
+                      <option value="">Select an option...</option>
                       <option value="architecture">Enterprise Architecture</option>
                       <option value="consulting">Technical Consulting</option>
                       <option value="leadership">Engineering Leadership</option>
@@ -363,14 +358,13 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
 
                   <div>
                     <label htmlFor="message" className="block text-xs font-semibold text-white/70 uppercase tracking-wide mb-2">
-                      Project Details
+                      Message (optional)
                     </label>
                     <textarea
                       id="message"
                       name="message"
                       rows={5}
-                      required
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all resize-none"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all resize-none"
                       placeholder="Tell me about your challenge, timeline, and what you're looking to achieve..."
                     />
                   </div>

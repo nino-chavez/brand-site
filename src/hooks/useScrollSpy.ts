@@ -43,13 +43,15 @@ const useScrollSpy = (
 
     // Update active section programmatically (for navigation clicks)
     const updateActiveSection = useCallback((sectionId: SectionId) => {
+        console.log('[ScrollSpy] Manual navigation to:', sectionId);
         setActiveSection(sectionId);
         setIsNavigating(true);
 
         // Use shorter, more precise timing for navigation state
         setTimeout(() => {
+            console.log('[ScrollSpy] Navigation complete, re-enabling scroll detection');
             setIsNavigating(false);
-        }, 600); // Shorter delay, matching typical smooth scroll duration
+        }, 800); // Match smooth scroll duration (was 600ms, increased to 800ms)
 
         if (enableVolleyballTracking) {
             const position = getPositionBySection(sectionId);
@@ -112,10 +114,14 @@ const useScrollSpy = (
         // Enhanced scroll handler that's more responsive
         const handleScroll = () => {
             // Skip updates during navigation to prevent conflicts
-            if (isNavigating) return;
+            if (isNavigating) {
+                console.log('[ScrollSpy] Skipping update - navigation in progress');
+                return;
+            }
 
             const currentSection = getCurrentSection();
             if (currentSection && currentSection !== activeSection) {
+                console.log('[ScrollSpy] Section changed:', activeSection, '→', currentSection);
                 setActiveSection(currentSection);
 
                 if (enableVolleyballTracking) {

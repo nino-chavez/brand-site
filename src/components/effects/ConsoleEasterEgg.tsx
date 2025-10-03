@@ -50,7 +50,8 @@ export const ConsoleEasterEgg: React.FC = () => {
 %cWant to chat about software architecture, design systems, or action sports photography?
 %c📧 hello@nino.photos
 %c💼 linkedin.com/in/nino-chavez
-%c🐙 github.com/chavezabelino
+%c🐙 github.com/nino-chavez
+%c🏢 github.com/signal-x-studio
 %c📝 blog.nino.photos
 %c📸 gallery.nino.photos
 

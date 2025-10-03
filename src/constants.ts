@@ -15,28 +15,28 @@ export const SECTIONS: Section[] = [
 
 export const WORK_PROJECTS: WorkProject[] = [
     {
-        title: 'AI-Driven Development Platform',
-        description: 'Architected autonomous coding system using Claude/GPT-4 for a Fortune 500 tech company. Reduced development cycle time 60% while maintaining 99.9% test coverage. Scaled from proof-of-concept to production serving 500+ engineers.',
-        tags: ['GenAI', 'Architecture', 'TypeScript', 'Scale'],
-        imageUrl: 'https://picsum.photos/seed/ai/600/400',
+        title: 'Commerce Platform Modernization',
+        description: 'Multi-year SAP Commerce transformation connecting legacy systems with modern cloud architecture. Focused on stabilizing integrations that kept breaking and building technical runways for future capabilities.',
+        tags: ['SAP Commerce', 'Hybris', 'Java', 'Cloud Migration'],
+        imageUrl: 'https://picsum.photos/seed/commerce/600/400',
         link: '#',
-        outcome: '60% faster development • 500+ engineers • 99.9% uptime'
+        outcome: 'Platform stabilization • Cloud-native architecture • Technical debt reduction'
     },
     {
-        title: 'Multi-Cloud Infrastructure Migration',
-        description: 'Led Fortune 500 retailer migration from legacy datacenter to AWS/Azure hybrid cloud. Reduced infrastructure costs 40% ($8M annually) while improving performance 3x. Zero downtime across 200+ microservices serving 10M daily users.',
-        tags: ['AWS', 'Azure', 'Architecture', 'Cost Optimization'],
-        imageUrl: 'https://picsum.photos/seed/cloud/600/400',
+        title: 'Salesforce Commerce Integration',
+        description: 'Built integrations connecting Salesforce Commerce Cloud with warehouse management, inventory, and fulfillment systems. The kind of work where "it should be simple" meets enterprise reality.',
+        tags: ['Salesforce Commerce', 'Node.js', 'Kafka', 'Integration'],
+        imageUrl: 'https://picsum.photos/seed/integration/600/400',
         link: '#',
-        outcome: '$8M saved annually • 3x performance • Zero downtime'
+        outcome: 'Reliable order flow • Inventory synchronization • Reduced manual interventions'
     },
     {
-        title: 'Real-Time Analytics Platform',
-        description: 'Built event-driven analytics system for major sports organization. Reduced query times from 30s to 200ms while scaling from 5K to 50K concurrent users. Processing 100M events daily with sub-second latency using Kafka + ClickHouse.',
-        tags: ['React', 'Kafka', 'ClickHouse', 'Real-Time'],
-        imageUrl: 'https://picsum.photos/seed/volleyball/600/400',
+        title: 'AI-Native Commerce Strategy',
+        description: 'Current work at Accenture Song: helping Fortune 500 retailers think differently about commerce in an AI-native world. Less about "adding AI features" and more about rethinking core assumptions.',
+        tags: ['Strategic Architecture', 'AI Integration', 'Commerce', 'Change Management'],
+        imageUrl: 'https://picsum.photos/seed/strategy/600/400',
         link: '#',
-        outcome: '150x faster queries • 10x user scale • 100M events/day'
+        outcome: 'Strategic roadmaps • Executive alignment • Technical feasibility studies'
     },
 ];
 
@@ -66,7 +66,8 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
     { name: 'LinkedIn', url: 'https://www.linkedin.com/in/nino-chavez/', icon: LinkedinIcon },
-    { name: 'GitHub', url: 'https://github.com/chavezabelino', icon: GithubIcon },
+    { name: 'GitHub', url: 'https://github.com/nino-chavez', icon: GithubIcon },
+    { name: 'Signal X Studio', url: 'https://github.com/signal-x-studio', icon: GithubIcon },
     { name: 'Photography', url: 'https://gallery.nino.photos', icon: CameraIcon },
     { name: 'Blog', url: 'https://blog.nino.photos', icon: BlogIcon },
     { name: 'Instagram', url: 'https://www.instagram.com/ninochavezphoto/', icon: InstagramIcon },
@@ -229,7 +230,7 @@ export const HERO_TECHNICAL_SKILLS: TechnicalSkill[] = [
         label: 'Strategy',
         value: 'Enterprise Integration',
         animationDelay: 750,
-        hoverInfo: 'Multi-platform system integration and organizational alignment'
+        hoverInfo: 'Connecting systems that were never meant to work together'
     },
     {
         id: 'principle',
@@ -237,7 +238,7 @@ export const HERO_TECHNICAL_SKILLS: TechnicalSkill[] = [
         label: 'Principle',
         value: 'AI-Native',
         animationDelay: 900,
-        hoverInfo: 'AI-first approach to business reinvention and platform modernization'
+        hoverInfo: 'Building with AI as core infrastructure, not an add-on'
     },
     {
         id: 'experience',
@@ -263,7 +264,7 @@ export const HERO_TECHNICAL_SKILLS: TechnicalSkill[] = [
         label: 'Program Value',
         value: '$10M+ Delivery',
         animationDelay: 1350,
-        hoverInfo: 'Multi-million dollar enterprise commerce transformation programs'
+        hoverInfo: 'Enterprise commerce transformations worth $10M+'
     },
 
     // Photography

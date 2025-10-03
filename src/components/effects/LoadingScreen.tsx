@@ -64,15 +64,15 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onLoadComplete
             setIsExiting(true);
             const timeout = setTimeout(() => {
                 onLoadComplete?.();
-            }, 500);
+            }, 200); // Reduced from 500ms to 200ms for faster exit
             return () => clearTimeout(timeout);
         }
     }, [isLoading, progress, onLoadComplete]);
 
     if (!isLoading && isExiting) {
         return (
-            <div className="fixed inset-0 z-50 bg-black flex items-center justify-center transition-opacity duration-500 opacity-0 pointer-events-none">
-                {/* Exiting state */}
+            <div className="fixed inset-0 z-50 bg-black flex items-center justify-center transition-opacity duration-200 opacity-0 pointer-events-none">
+                {/* Exiting state - fast fade */}
             </div>
         );
     }

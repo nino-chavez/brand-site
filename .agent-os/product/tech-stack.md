@@ -76,7 +76,7 @@
 
 ## Code Repository URL
 
-- **Repository:** `git@github.com:chavezabelino/brand-site.git`
+- **Repository:** `git@github.com:nino-chavez/brand-site.git`
 - **Version Control:** Git-based workflow with feature branches
 - **Collaboration:** AI-assisted development with Claude
 

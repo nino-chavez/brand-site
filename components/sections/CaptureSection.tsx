@@ -21,7 +21,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   className = ''
 }, ref) => {
   // Game Flow section hook
-  const { state, actions } = useUnifiedGameFlow();
+  const { state } = useUnifiedGameFlow();
   const isActive = state.currentSection === 'capture';
 
   // Debug logging
@@ -136,16 +136,14 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   }, []);
 
   const handleViewWorkCTA = useCallback(() => {
-    gameFlowDebugger.log('info', 'navigation', 'View Work CTA clicked - initiating Game Flow journey');
+    gameFlowDebugger.log('info', 'navigation', 'View Work CTA clicked - smooth scroll to projects');
 
-    // Trigger capture sequence animation
-    setCaptureSequenceActive(true);
-
-    // Navigate to focus section after animation
-    setTimeout(() => {
-      actions.navigateToSection('focus');
-    }, 800); // Match capture sequence duration
-  }, [gameFlowDebugger, actions]);
+    // Navigate directly to frame (projects) section without flash animation
+    const frameSection = document.getElementById('frame');
+    if (frameSection) {
+      frameSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [gameFlowDebugger]);
 
   // Primary CTA handler - for immediate contact
   const handlePrimaryCTA = useCallback(() => {
@@ -228,10 +226,10 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         }}
       />
 
-      {/* Enhanced dark overlays for better contrast */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
-      <div className="absolute inset-0 bg-black/20" />
+      {/* Enhanced dark overlays for better contrast and text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
+      <div className="absolute inset-0 bg-black/30" />
 
       {/* Animated gradient overlay - more subdued for minimalist focus */}
       <div
@@ -250,7 +248,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-green-500/20 border border-green-400/40 backdrop-blur-sm rounded-full">
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-sm font-medium text-green-100">
-              Available for Select Projects • Starting February 2025
+              Taking New Engagements • Q1 2026
             </span>
           </div>
 
@@ -283,11 +281,11 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             className={`mb-8 ${getClasses(roleVisible)}`}
             data-testid="hero-role"
           >
-            <p className="text-xl md:text-3xl lg:text-4xl font-semibold tracking-wide mb-4">
-              Scaling Systems Architect
+            <p className="text-xl md:text-3xl lg:text-4xl font-semibold tracking-wide mb-4" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+              Systems Thinker • Enterprise Architect
             </p>
-            <p className="text-lg md:text-xl text-white/80 font-medium">
-              From 10K to 10M Users Without Breaking a Sweat
+            <p className="text-lg md:text-xl text-white/80 font-medium" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+              I help teams build infrastructure that holds up when it matters
             </p>
           </div>
 
@@ -299,15 +297,17 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
               textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)'
             }}
           >
-            I've scaled 15+ systems from startup to IPO without a single architecture rewrite
+            25 years in enterprise architecture<br />
+            Currently: Guiding Fortune 500s through AI-native transformation
           </p>
 
           {/* Trust signals with specific companies */}
-          <p className="text-sm md:text-base text-white/70 mb-4 font-medium">
-            Microsoft • Oracle • Adobe
+          <p className="text-sm md:text-base text-white/70 mb-4 font-medium" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            SAP Commerce • Salesforce • Adobe
           </p>
-          <p className="text-xs md:text-sm text-white/50 mb-6">
-            20 years scaling mission-critical systems
+          <p className="text-xs md:text-sm text-white/50 mb-6" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+            Not here for buzzwords or hype cycles<br />
+            Here to find the signal in the noise
           </p>
 
           {/* Consolidated 2-CTA Approach */}
@@ -343,7 +343,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
                 </span>
               </button>
 
-              {/* Medium Commitment: Architecture Review */}
+              {/* Medium Commitment: Read Writing */}
               <button
                 ref={contactButtonRef}
                 onClick={handlePrimaryCTA}
@@ -352,13 +352,13 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
                   transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
                   willChange: 'transform'
                 }}
-                aria-label="Schedule architecture discussion"
+                aria-label="Read Signal Dispatch field notes"
               >
                 <span className="flex items-center justify-center space-x-2">
                   <svg className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
-                  <span className="tracking-wide">Schedule Review</span>
+                  <span className="tracking-wide">Read Signal Dispatch</span>
                 </span>
               </button>
             </div>

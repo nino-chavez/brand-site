@@ -250,32 +250,75 @@ const TimelineLayoutContent: React.FC = () => {
         <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'white' }}>
           Nino Chavez
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)' }}>
             Layout:
           </span>
-          <select
-            value="timeline"
-            onChange={(e) => {
-              const layout = e.target.value;
-              window.location.href = layout === 'traditional' ? '/' : `/?layout=${layout}`;
-            }}
-            style={{
-              background: 'rgba(139, 92, 246, 0.2)',
-              border: '1px solid rgba(139, 92, 246, 0.5)',
-              borderRadius: '4px',
-              color: 'white',
-              padding: '6px 12px',
-              fontSize: '13px',
-              cursor: 'pointer',
-              fontWeight: '500',
-            }}
-            aria-label="Switch layout view"
-          >
-            <option value="traditional">📄 Traditional</option>
-            <option value="canvas">🗺️ Canvas</option>
-            <option value="timeline">🎞️ Timeline</option>
-          </select>
+          <div style={{ display: 'flex', gap: '4px', padding: '4px', borderRadius: '8px', background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+            <button
+              onClick={() => { window.location.href = '/'; }}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '4px',
+                background: 'transparent',
+                border: '1px solid transparent',
+                fontSize: '18px',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 200ms'
+              }}
+              aria-label="Traditional layout"
+              title="Traditional layout"
+            >
+              ☰
+            </button>
+            <button
+              onClick={() => { window.location.href = '/?layout=canvas'; }}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '4px',
+                background: 'transparent',
+                border: '1px solid transparent',
+                fontSize: '16px',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 200ms',
+                perspective: '100px'
+              }}
+              aria-label="Canvas layout"
+              title="Canvas layout"
+            >
+              <div style={{
+                display: 'inline-block',
+                transition: 'transform 300ms',
+                transformStyle: 'preserve-3d',
+                transform: 'rotateX(30deg) rotateY(-30deg)',
+                textShadow: '2px 2px 0 rgba(139, 92, 246, 0.8), 3px 3px 6px rgba(0, 0, 0, 0.8), 4px 4px 0 rgba(75, 29, 153, 0.4)',
+                filter: 'drop-shadow(0 2px 4px rgba(139, 92, 246, 0.4))'
+              }}>
+                ⬚
+              </div>
+            </button>
+            <button
+              onClick={() => { window.location.href = '/?layout=timeline'; }}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '4px',
+                background: 'rgba(139, 92, 246, 0.4)',
+                border: '1px solid rgba(139, 92, 246, 0.6)',
+                boxShadow: '0 0 8px rgba(139, 92, 246, 0.4)',
+                transform: 'scale(1.05)',
+                fontSize: '18px',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 200ms'
+              }}
+              aria-label="Timeline layout"
+              title="Timeline layout"
+            >
+              ▬
+            </button>
+          </div>
         </div>
       </div>
 
