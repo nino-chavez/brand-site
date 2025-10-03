@@ -279,7 +279,6 @@ const App: React.FC = () => {
                     <ConsoleEasterEgg />
                     <SectionAmbientLighting />
                     <FilmMode />
-                    <EffectsPanel />
                     <ViewfinderController />
 
                 <div className="bg-brand-dark text-brand-light font-sans antialiased overflow-hidden h-screen">
@@ -345,9 +344,6 @@ const App: React.FC = () => {
 
                     {/* Canvas Minimap - Spatial orientation */}
                     <CanvasMinimap />
-
-                    {/* Persistent CTA Bar - Conversion optimization */}
-                    <PersistentCTABar onNavigate={handleCanvasNavigate} />
 
                     {/* CursorLensV2 - Disabled in canvas mode (conflicts with mouse drag panning) */}
                     {process.env.NODE_ENV === 'development' && false && (
@@ -422,7 +418,6 @@ const App: React.FC = () => {
                     <SectionAmbientLighting />
                     <FilmMode />
                     <ViewfinderController />
-                    <EffectsPanel />
 
                     <div className="bg-brand-dark text-brand-light font-sans antialiased scroll-smooth overflow-x-hidden" style={{ overflowY: 'auto', minHeight: '100vh' }}>
                         <BackgroundEffects />

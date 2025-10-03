@@ -15,6 +15,14 @@ export const SECTIONS: Section[] = [
 
 export const WORK_PROJECTS: WorkProject[] = [
     {
+        title: 'Interactive Portfolio System',
+        description: 'Built this portfolio as a technical showcase—camera viewfinder effects, custom cursor interactions, photography-themed navigation, and a complete effects control system. React 19, TypeScript, custom hooks, and 60fps canvas animations.',
+        tags: ['React 19', 'TypeScript', 'Canvas API', 'Custom Hooks', 'Animation'],
+        imageUrl: 'https://picsum.photos/seed/portfolio/600/400',
+        link: '/demo',
+        outcome: 'Interactive demo • Effects control panel • Photography metaphor architecture'
+    },
+    {
         title: 'Commerce Platform Modernization',
         description: 'Multi-year SAP Commerce transformation connecting legacy systems with modern cloud architecture. Focused on stabilizing integrations that kept breaking and building technical runways for future capabilities.',
         tags: ['SAP Commerce', 'Hybris', 'Java', 'Cloud Migration'],
