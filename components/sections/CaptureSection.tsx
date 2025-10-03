@@ -257,13 +257,13 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       />
 
       {/* Enhanced dark overlays for better contrast and text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40" />
-      <div className="absolute inset-0 bg-black/30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30 z-[5]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 z-[6]" />
+      <div className="absolute inset-0 bg-black/30 z-[7]" />
 
       {/* Animated gradient overlay - more subdued for minimalist focus */}
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-20 z-[8]"
         style={{
           background: 'linear-gradient(-45deg, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.05), rgba(16, 185, 129, 0.05), rgba(245, 158, 11, 0.05))',
           backgroundSize: '400% 400%',
