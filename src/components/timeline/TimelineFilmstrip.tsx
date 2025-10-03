@@ -117,7 +117,9 @@ const TimelineFilmstrip: React.FC<TimelineFilmstripProps> = ({ sections }) => {
             onClick={actions.navigateToLayer}
             onMouseEnter={actions.setHoveredThumbnail}
             onMouseLeave={() => actions.setHoveredThumbnail(null)}
-          />
+          >
+            {section.component}
+          </TimelineThumbnail>
         ))}
       </div>
 
@@ -144,23 +146,40 @@ const TimelineFilmstrip: React.FC<TimelineFilmstripProps> = ({ sections }) => {
         ►
       </button>
 
-      {/* Loop indicator flash */}
+      {/* Loop indicator flash - enhanced with pulse effect */}
       {state.isLooping && (
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'rgba(139, 92, 246, 0.3)',
-            animation: 'loopFlash 150ms ease-out',
-            pointerEvents: 'none',
-          }}
-        />
+        <>
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'rgba(139, 92, 246, 0.4)',
+              animation: 'loopFlash 300ms ease-in-out',
+              pointerEvents: 'none',
+            }}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent)',
+              animation: 'loopPulse 300ms ease-in-out',
+              pointerEvents: 'none',
+            }}
+          />
+        </>
       )}
 
       <style>{`
         @keyframes loopFlash {
           0%, 100% { opacity: 0; }
           50% { opacity: 1; }
+        }
+
+        @keyframes loopPulse {
+          0% { transform: scaleX(0); opacity: 0; }
+          50% { transform: scaleX(1); opacity: 1; }
+          100% { transform: scaleX(0); opacity: 0; }
         }
       `}</style>
     </div>

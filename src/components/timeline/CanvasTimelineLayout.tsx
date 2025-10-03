@@ -41,6 +41,58 @@ const TIMELINE_SECTIONS: TimelineSection[] = [
 const TimelineLayoutContent: React.FC = () => {
   const { state, actions } = useTimelineState();
   const ariaLiveRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = React.useState(false);
+  const [filmstripVisible, setFilmstripVisible] = React.useState(true);
+  const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Filmstrip auto-hide on mobile
+  useEffect(() => {
+    if (!isMobile) {
+      setFilmstripVisible(true);
+      return;
+    }
+
+    const resetHideTimer = () => {
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+      }
+      setFilmstripVisible(true);
+      hideTimerRef.current = setTimeout(() => {
+        setFilmstripVisible(false);
+      }, 3000);
+    };
+
+    resetHideTimer();
+
+    return () => {
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+      }
+    };
+  }, [isMobile, state.activeLayerIndex]);
+
+  // Show filmstrip on viewport tap (mobile)
+  const handleViewportTap = () => {
+    if (isMobile && !filmstripVisible) {
+      setFilmstripVisible(true);
+      if (hideTimerRef.current) {
+        clearTimeout(hideTimerRef.current);
+      }
+      hideTimerRef.current = setTimeout(() => {
+        setFilmstripVisible(false);
+      }, 3000);
+    }
+  };
 
   // Keyboard navigation
   useEffect(() => {
@@ -178,16 +230,26 @@ const TimelineLayoutContent: React.FC = () => {
         </div>
       </div>
 
-      {/* Filmstrip (100px) */}
-      <TimelineFilmstrip sections={TIMELINE_SECTIONS} />
+      {/* Filmstrip (100px) - auto-hide on mobile */}
+      <div
+        style={{
+          position: 'relative',
+          transform: filmstripVisible ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 300ms ease-in-out',
+        }}
+      >
+        <TimelineFilmstrip sections={TIMELINE_SECTIONS} />
+      </div>
 
-      {/* Layer viewport */}
+      {/* Layer viewport - tap to show filmstrip on mobile */}
       <div
         id="timeline-content"
+        onClick={handleViewportTap}
         style={{
           flex: 1,
           position: 'relative',
           overflow: 'hidden',
+          cursor: isMobile && !filmstripVisible ? 'pointer' : 'default',
         }}
       >
         {TIMELINE_SECTIONS.map((section, index) => (

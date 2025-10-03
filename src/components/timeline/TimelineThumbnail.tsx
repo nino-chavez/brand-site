@@ -50,6 +50,9 @@ const TimelineThumbnail: React.FC<TimelineThumbnailProps> = ({
   // Format timecode (00:00, 00:15, 00:30, etc.)
   const timecode = `00:${String(index * 15).padStart(2, '0')}`;
 
+  // Check if this is the last section (for loop indicator)
+  const isLastSection = index === 5;
+
   return (
     <button
       role="tab"
@@ -138,27 +141,44 @@ const TimelineThumbnail: React.FC<TimelineThumbnailProps> = ({
         {timecode}
       </div>
 
-      {/* Section preview content */}
-      {children && (
+      {/* Section preview content - scaled down */}
+      {children ? (
         <div
+          className="timeline-thumbnail-wrapper"
           style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '1500px',
-            height: '833px',
-            transform: 'scale(0.12)',
-            transformOrigin: 'top left',
-            pointerEvents: 'none',
+            inset: 0,
+            overflow: 'hidden',
             zIndex: 1,
           }}
         >
-          {children}
+          <div
+            className="timeline-thumbnail-content"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '1500px',
+              height: '833px',
+              transform: 'scale(0.12)', // 180x100 from 1500x833
+              transformOrigin: 'top left',
+              pointerEvents: 'none',
+              overflow: 'hidden',
+            }}
+          >
+            <div style={{
+              width: '1500px',
+              height: '833px',
+              background: '#0a0a0a',
+              padding: '40px 20px',
+              overflow: 'hidden'
+            }}>
+              {children}
+            </div>
+          </div>
         </div>
-      )}
-
-      {/* Fallback: Section name if no preview */}
-      {!children && (
+      ) : (
+        /* Fallback: Section name if no preview */
         <div
           style={{
             position: 'absolute',
@@ -192,10 +212,33 @@ const TimelineThumbnail: React.FC<TimelineThumbnailProps> = ({
         />
       )}
 
+      {/* Loop boundary indicator on last section */}
+      {isLastSection && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '4px',
+            right: '8px',
+            fontSize: '16px',
+            color: 'rgba(139, 92, 246, 0.7)',
+            zIndex: 4,
+            pointerEvents: 'none',
+            animation: isActive ? 'loopRotate 1s ease-in-out infinite' : 'none',
+          }}
+        >
+          ↻
+        </div>
+      )}
+
       <style>{`
         @keyframes scanline {
           0% { transform: translateY(0); }
           100% { transform: translateY(100px); }
+        }
+
+        @keyframes loopRotate {
+          0%, 100% { transform: rotate(0deg); }
+          50% { transform: rotate(180deg); }
         }
       `}</style>
     </button>
