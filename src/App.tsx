@@ -157,17 +157,23 @@ const App: React.FC = () => {
     if (layoutMode === 'timeline') {
         return (
             <AthleticTokenProvider>
-                <EffectsProvider>
-                    {/* Photography-themed loading screen */}
-                    <LoadingScreen isLoading={isLoading || !isAppReady} />
+                <UnifiedGameFlowProvider
+                    initialSection="capture"
+                    performanceMode={performanceMode}
+                    debugMode={debugMode}
+                >
+                    <EffectsProvider>
+                        {/* Photography-themed loading screen */}
+                        <LoadingScreen isLoading={isLoading || !isAppReady} />
 
-                    {/* WOW Factor Components */}
-                    <CustomCursor />
-                    <ConsoleEasterEgg />
+                        {/* WOW Factor Components */}
+                        <CustomCursor />
+                        <ConsoleEasterEgg />
 
-                    {/* Timeline Layout */}
-                    <CanvasTimelineLayout />
-                </EffectsProvider>
+                        {/* Timeline Layout */}
+                        <CanvasTimelineLayout />
+                    </EffectsProvider>
+                </UnifiedGameFlowProvider>
             </AthleticTokenProvider>
         );
     }
