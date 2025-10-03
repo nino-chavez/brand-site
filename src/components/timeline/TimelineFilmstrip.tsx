@@ -27,6 +27,42 @@ export interface TimelineFilmstripProps {
 const TimelineFilmstrip: React.FC<TimelineFilmstripProps> = ({ sections }) => {
   const { state, actions } = useTimelineState();
   const filmstripRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = React.useState(false);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Swipe gesture handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    handleSwipe();
+  };
+
+  const handleSwipe = () => {
+    const swipeDistance = touchStartX.current - touchEndX.current;
+    const minSwipeDistance = 50; // pixels
+
+    if (Math.abs(swipeDistance) > minSwipeDistance) {
+      if (swipeDistance > 0) {
+        // Swiped left - next section
+        actions.navigateNext();
+      } else {
+        // Swiped right - previous section
+        actions.navigatePrevious();
+      }
+    }
+  };
 
   // Auto-scroll to active thumbnail
   useEffect(() => {
@@ -87,6 +123,8 @@ const TimelineFilmstrip: React.FC<TimelineFilmstripProps> = ({ sections }) => {
       <div
         ref={filmstripRef}
         role="tablist"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
         style={{
           flex: 1,
           display: 'flex',
@@ -117,6 +155,7 @@ const TimelineFilmstrip: React.FC<TimelineFilmstripProps> = ({ sections }) => {
             onClick={actions.navigateToLayer}
             onMouseEnter={actions.setHoveredThumbnail}
             onMouseLeave={() => actions.setHoveredThumbnail(null)}
+            compact={isMobile}
           >
             {section.component}
           </TimelineThumbnail>

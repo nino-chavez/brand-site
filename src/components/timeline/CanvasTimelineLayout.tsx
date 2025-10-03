@@ -276,28 +276,36 @@ const TimelineLayoutContent: React.FC = () => {
           cursor: isMobile && !filmstripVisible ? 'pointer' : 'default',
         }}
       >
-        {TIMELINE_SECTIONS.map((section, index) => (
-          <TimelineLayer
-            key={section.id}
-            isActive={state.activeLayerIndex === index}
-            isHovered={state.hoveredThumbnailIndex === index}
-            zIndex={state.activeLayerIndex === index ? 10 : 1}
-            transitionStyle={state.transitionStyle}
-            layerIndex={index}
-          >
-            <div
-              id={`layer-${section.id}`}
-              style={{
-                width: '100%',
-                height: '100%',
-                overflowY: 'auto',
-                padding: '40px 20px',
-              }}
+        {TIMELINE_SECTIONS.map((section, index) => {
+          // Lazy loading: only render active layer and adjacent layers
+          const isAdjacent = Math.abs(state.activeLayerIndex - index) <= 1;
+          const shouldRender = state.activeLayerIndex === index || isAdjacent || state.hoveredThumbnailIndex === index;
+
+          return (
+            <TimelineLayer
+              key={section.id}
+              isActive={state.activeLayerIndex === index}
+              isHovered={state.hoveredThumbnailIndex === index}
+              zIndex={state.activeLayerIndex === index ? 10 : 1}
+              transitionStyle={isMobile ? 'crossfade' : state.transitionStyle}
+              layerIndex={index}
             >
-              {section.component}
-            </div>
-          </TimelineLayer>
-        ))}
+              {shouldRender && (
+                <div
+                  id={`layer-${section.id}`}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    overflowY: 'auto',
+                    padding: '40px 20px',
+                  }}
+                >
+                  {section.component}
+                </div>
+              )}
+            </TimelineLayer>
+          );
+        })}
       </div>
 
       {/* Frame counter + Transition selector (40px) */}

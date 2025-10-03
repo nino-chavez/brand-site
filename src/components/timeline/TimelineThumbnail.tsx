@@ -27,6 +27,8 @@ export interface TimelineThumbnailProps {
   onMouseLeave?: () => void;
   /** Preview content (scaled-down section) */
   children?: React.ReactNode;
+  /** Compact mode for mobile (100x56 vs 180x100) */
+  compact?: boolean;
 }
 
 const TimelineThumbnail: React.FC<TimelineThumbnailProps> = ({
@@ -37,7 +39,8 @@ const TimelineThumbnail: React.FC<TimelineThumbnailProps> = ({
   onClick,
   onMouseEnter,
   onMouseLeave,
-  children
+  children,
+  compact = false
 }) => {
   const handleClick = useCallback(() => {
     onClick(index);
@@ -53,6 +56,12 @@ const TimelineThumbnail: React.FC<TimelineThumbnailProps> = ({
   // Check if this is the last section (for loop indicator)
   const isLastSection = index === 5;
 
+  // Responsive dimensions
+  const thumbWidth = compact ? 100 : 180;
+  const thumbHeight = compact ? 56 : 100;
+  const margin = compact ? '0 4px' : '0 8px';
+  const borderWidth = compact ? (isActive ? '3px' : '1px') : (isActive ? '4px' : '2px');
+
   return (
     <button
       role="tab"
@@ -65,10 +74,10 @@ const TimelineThumbnail: React.FC<TimelineThumbnailProps> = ({
       className={`timeline-thumbnail ${isActive ? 'active' : ''}`}
       style={{
         position: 'relative',
-        width: '180px',
-        height: '100px',
-        margin: '0 8px',
-        border: isActive ? '4px solid rgb(139, 92, 246)' : '2px solid rgba(255, 255, 255, 0.2)',
+        width: `${thumbWidth}px`,
+        height: `${thumbHeight}px`,
+        margin,
+        border: `${borderWidth} solid ${isActive ? 'rgb(139, 92, 246)' : 'rgba(255, 255, 255, 0.2)'}`,
         borderRadius: '4px',
         background: '#1a1a1a',
         cursor: 'pointer',
