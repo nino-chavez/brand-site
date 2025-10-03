@@ -187,7 +187,20 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       aria-label="Capture section - Introduction and technical readiness"
     >
       {/* Dynamic Ken Burns Background Showcase */}
-      {/* Current image layer with Ken Burns effect */}
+      {/* Current image - Blurred backdrop layer for portrait images */}
+      <div
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${heroImages[currentImageIndex].url})`,
+          filter: heroImages[currentImageIndex].orientation === 'portrait' ? 'blur(40px) brightness(0.6)' : 'none',
+          transform: heroImages[currentImageIndex].orientation === 'portrait' ? 'scale(1.2)' : 'none',
+          willChange: 'transform, opacity',
+          opacity: heroImages[currentImageIndex].orientation === 'portrait' ? 1 : 0
+        }}
+        data-backdrop-blur={heroImages[currentImageIndex].orientation === 'portrait'}
+      />
+
+      {/* Current image - Sharp foreground layer with Ken Burns effect */}
       <div
         className="absolute inset-0 w-full h-full bg-center bg-no-repeat"
         style={{
@@ -204,7 +217,20 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         data-ken-burns-active={settings.animationStyle !== 'reduced'}
       />
 
-      {/* Next image layer for crossfade (pre-loading) */}
+      {/* Next image - Blurred backdrop layer for portrait images */}
+      <div
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${heroImages[nextImageIndex].url})`,
+          filter: heroImages[nextImageIndex].orientation === 'portrait' ? 'blur(40px) brightness(0.6)' : 'none',
+          transform: heroImages[nextImageIndex].orientation === 'portrait' ? 'scale(1.2)' : 'none',
+          willChange: 'transform, opacity',
+          opacity: 0
+        }}
+        data-backdrop-blur={heroImages[nextImageIndex].orientation === 'portrait'}
+      />
+
+      {/* Next image - Sharp foreground layer for crossfade (pre-loading) */}
       <div
         className="absolute inset-0 w-full h-full bg-center bg-no-repeat"
         style={{
