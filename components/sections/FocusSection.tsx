@@ -59,17 +59,17 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
 
       const focusSequence = async () => {
         try {
-          // Focus targeting sequence
-          await new Promise(resolve => setTimeout(resolve, 300));
+          // Focus targeting sequence - reduced delays for faster content reveal
+          await new Promise(resolve => setTimeout(resolve, 50));
           setFocusTargetLocked(true);
 
-          await new Promise(resolve => setTimeout(resolve, 400));
+          await new Promise(resolve => setTimeout(resolve, 50));
           setProfileRevealed(true);
 
-          await new Promise(resolve => setTimeout(resolve, 500));
+          await new Promise(resolve => setTimeout(resolve, 50));
           setStatsAnimated(true);
 
-          await new Promise(resolve => setTimeout(resolve, 300));
+          await new Promise(resolve => setTimeout(resolve, 50));
           setNarrativeProgressed(true);
 
           gameFlowDebugger.endBenchmark('focus-section-ready');

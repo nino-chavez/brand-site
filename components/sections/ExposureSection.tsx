@@ -145,11 +145,11 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
 
       const exposureSequence = async () => {
         try {
-          // Exposure calculation sequence
-          await new Promise(resolve => setTimeout(resolve, 300));
+          // Exposure calculation sequence - reduced delays for faster content reveal
+          await new Promise(resolve => setTimeout(resolve, 50));
           setExposureCalculated(true);
 
-          await new Promise(resolve => setTimeout(resolve, 400));
+          await new Promise(resolve => setTimeout(resolve, 50));
           setArticlesLoaded(true);
 
           gameFlowDebugger.endBenchmark('exposure-section-ready');

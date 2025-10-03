@@ -84,17 +84,17 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 
       const readinessSequence = async () => {
         try {
-          // Simulate camera startup sequence
-          await new Promise(resolve => setTimeout(resolve, 200));
+          // Simulate camera startup sequence - reduced delays for faster content reveal
+          await new Promise(resolve => setTimeout(resolve, 50));
           setCameraReady(true);
 
-          await new Promise(resolve => setTimeout(resolve, 300));
+          await new Promise(resolve => setTimeout(resolve, 50));
           setFocusLocked(true);
 
-          await new Promise(resolve => setTimeout(resolve, 200));
+          await new Promise(resolve => setTimeout(resolve, 50));
           setExposureSet(true);
 
-          await new Promise(resolve => setTimeout(resolve, 300));
+          await new Promise(resolve => setTimeout(resolve, 50));
           setCompositionFramed(true);
 
           gameFlowDebugger.endBenchmark('capture-section-ready');

@@ -83,8 +83,8 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
       const developSequence = async () => {
         try {
-          // Development process simulation
-          await new Promise(resolve => setTimeout(resolve, 300));
+          // Development process simulation - reduced delays for faster content reveal
+          await new Promise(resolve => setTimeout(resolve, 50));
           setDevelopmentComplete(true);
 
           // High-speed gallery loading
