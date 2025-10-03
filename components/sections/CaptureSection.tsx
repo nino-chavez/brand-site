@@ -38,10 +38,15 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Dynamic background showcase with Ken Burns effect - all 27 gallery images
-  const heroImages = Array.from({ length: 27 }, (_, i) =>
-    `/images/gallery/portfolio-${String(i).padStart(2, '0')}.jpg`
-  );
+  // Dynamic background showcase with Ken Burns effect
+  // hero.jpg is landscape (1920x1280), gallery images are portrait (3919x5879)
+  const heroImages = [
+    { url: '/images/hero.jpg', orientation: 'landscape' },
+    ...Array.from({ length: 27 }, (_, i) => ({
+      url: `/images/gallery/portfolio-${String(i).padStart(2, '0')}.jpg`,
+      orientation: 'portrait' as const
+    }))
+  ];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [nextImageIndex, setNextImageIndex] = useState(1);
 
@@ -184,9 +189,10 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       {/* Dynamic Ken Burns Background Showcase */}
       {/* Current image layer with Ken Burns effect */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 w-full h-full bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${heroImages[currentImageIndex]})`,
+          backgroundImage: `url(${heroImages[currentImageIndex].url})`,
+          backgroundSize: heroImages[currentImageIndex].orientation === 'landscape' ? 'cover' : 'contain',
           willChange: 'transform, opacity',
           height: '120%',
           top: '-10%',
@@ -200,9 +206,10 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 
       {/* Next image layer for crossfade (pre-loading) */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 w-full h-full bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${heroImages[nextImageIndex]})`,
+          backgroundImage: `url(${heroImages[nextImageIndex].url})`,
+          backgroundSize: heroImages[nextImageIndex].orientation === 'landscape' ? 'cover' : 'contain',
           willChange: 'transform, opacity',
           height: '120%',
           top: '-10%',
