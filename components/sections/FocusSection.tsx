@@ -42,7 +42,14 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
   // Effects context for user-controlled animations
   const { getClasses } = useAnimationWithEffects();
 
-  // Section-level animation (whole section entrance) - trigger at section border
+  // Early content loading - trigger well before viewport for smooth nav behavior
+  const { elementRef: earlyLoadRef, isVisible: contentLoaded } = useScrollAnimation({
+    threshold: 0,
+    triggerOnce: true,
+    rootMargin: '0px 0px 300px 0px' // Load content 300px before section enters
+  });
+
+  // Section-level animation (whole section entrance) - trigger at section border for visible effect
   const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
     threshold: 0.1, // Trigger when 10% of section is visible
     triggerOnce: true,
@@ -155,6 +162,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
       ref={(el) => {
         sectionRef.current = el;
         sectionAnimRef.current = el;
+        earlyLoadRef.current = el; // Also use for early content loading trigger
         if (typeof ref === 'function') {
           ref(el);
         } else if (ref) {
@@ -203,9 +211,11 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
 
           {/* About Narrative - Left Column */}
           <div className="space-y-8">
+            {/* Render content early for nav sync, but animate visibility at section border */}
+            {contentLoaded && (
             <div
               className={`transition-all duration-1000 ${
-                profileRevealed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
+                sectionVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
               }`}
               data-testid="about-narrative"
             >
@@ -272,14 +282,16 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 </div>
               </div>
             </div>
+            )}
           </div>
 
           {/* Athletic Stats Card - Right Column */}
           <div className="relative">
+            {contentLoaded && (
             <div
               className={`transition-all duration-1000 delay-200 ${
-                statsAnimated ? 'opacity-100 transform translate-y-0 scale-100' : 'opacity-0 transform translate-y-8 scale-95'
-              } ${statsAnimated ? 'animate-in' : 'hidden'}`}
+                sectionVisible ? 'opacity-100 transform translate-y-0 scale-100' : 'opacity-0 transform translate-y-8 scale-95'
+              }`}
               data-testid="athletic-stats-card"
             >
               <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 sports-statistics-style">
@@ -368,6 +380,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 </div>
               </div>
             </div>
+            )}
           </div>
         </div>
       </div>
