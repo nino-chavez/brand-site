@@ -13,61 +13,37 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [showScoreboardNav, setShowScoreboardNav] = useState(true);
-    const [currentLayout, setCurrentLayout] = useState<'traditional' | 'canvas'>('traditional');
-    const [isTransitioning, setIsTransitioning] = useState(false);
+    const [currentLayout, setCurrentLayout] = useState<'traditional' | 'canvas' | 'timeline'>('traditional');
     const athleticTokens = useAthleticTokens();
 
     // Detect current layout from URL
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const layoutParam = urlParams.get('layout');
-        setCurrentLayout(layoutParam === 'canvas' ? 'canvas' : 'traditional');
+        if (layoutParam === 'canvas') {
+            setCurrentLayout('canvas');
+        } else if (layoutParam === 'timeline') {
+            setCurrentLayout('timeline');
+        } else {
+            setCurrentLayout('traditional');
+        }
     }, []);
 
-    // Handle layout toggle
-    const handleLayoutToggle = useCallback(() => {
-        if (isTransitioning) return;
-
-        setIsTransitioning(true);
-        const newLayout = currentLayout === 'traditional' ? 'canvas' : 'traditional';
-
-        // Smooth transition
-        const urlParams = new URLSearchParams(window.location.search);
-        if (newLayout === 'canvas') {
-            urlParams.set('layout', 'canvas');
-        } else {
-            urlParams.delete('layout');
-        }
-
-        // Update URL and reload with transition
-        const newUrl = urlParams.toString()
-            ? `${window.location.pathname}?${urlParams.toString()}`
-            : window.location.pathname;
+    // Handle layout change
+    const handleLayoutChange = useCallback((newLayout: 'traditional' | 'canvas' | 'timeline') => {
+        if (newLayout === currentLayout) return;
 
         // Brief fade transition
         document.body.style.opacity = '0';
         document.body.style.transition = 'opacity 200ms ease-out';
 
         setTimeout(() => {
-            window.location.href = newUrl;
+            const url = newLayout === 'traditional'
+                ? '/'
+                : `/?layout=${newLayout}`;
+            window.location.href = url;
         }, 200);
-    }, [currentLayout, isTransitioning]);
-
-    // Keyboard shortcut (L key)
-    useEffect(() => {
-        const handleKeyPress = (e: KeyboardEvent) => {
-            if (e.key === 'l' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-                // Only trigger if not in input/textarea
-                const target = e.target as HTMLElement;
-                if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
-                    handleLayoutToggle();
-                }
-            }
-        };
-
-        window.addEventListener('keypress', handleKeyPress);
-        return () => window.removeEventListener('keypress', handleKeyPress);
-    }, [handleLayoutToggle]);
+    }, [currentLayout]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -138,89 +114,32 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                         />
                     </button>
 
-                    {/* Layout Toggle & Technical HUD Navigation */}
+                    {/* Layout Switcher & Technical HUD Navigation */}
                     <div className="flex items-center gap-6">
-                        {/* Layout Toggle */}
-                        <button
-                            onClick={handleLayoutToggle}
-                            disabled={isTransitioning}
-                            className="
-                                group relative flex items-center gap-2
-                                px-4 py-2 rounded-lg
-                                transition-all duration-200
-                                disabled:opacity-50 disabled:cursor-not-allowed
-                            "
-                            style={{
-                                background: 'rgba(139, 92, 246, 0.1)',
-                                border: '1px solid rgba(139, 92, 246, 0.3)',
-                                backdropFilter: 'blur(8px)'
-                            }}
-                            aria-label={`Switch to ${currentLayout === 'traditional' ? 'canvas' : 'traditional'} layout`}
-                            title={`Switch to ${currentLayout === 'traditional' ? 'Canvas' : 'Traditional'} view (press L)`}
-                        >
-                            {/* Traditional Icon (Grid) */}
-                            <svg
-                                className={`w-5 h-5 transition-all duration-200 ${
-                                    currentLayout === 'traditional'
-                                        ? 'text-athletic-brand-violet scale-110'
-                                        : 'text-white/40 scale-90'
-                                }`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-
-                            {/* Separator */}
-                            <div
-                                className="h-6 w-px"
-                                style={{ background: 'rgba(255, 255, 255, 0.2)' }}
-                            />
-
-                            {/* Canvas Icon (3D Cube) */}
-                            <svg
-                                className={`w-5 h-5 transition-all duration-200 ${
-                                    currentLayout === 'canvas'
-                                        ? 'text-athletic-brand-violet scale-110'
-                                        : 'text-white/40 scale-90'
-                                }`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                                />
-                            </svg>
-
-                            {/* Tooltip hint on hover */}
-                            <span
+                        {/* Layout Switcher Dropdown */}
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs text-white/60 hidden sm:inline">Layout:</span>
+                            <select
+                                value={currentLayout}
+                                onChange={(e) => handleLayoutChange(e.target.value as 'traditional' | 'canvas' | 'timeline')}
                                 className="
-                                    absolute -bottom-8 left-1/2 -translate-x-1/2
-                                    px-2 py-1 rounded text-xs whitespace-nowrap
-                                    opacity-0 group-hover:opacity-100
-                                    pointer-events-none
-                                    transition-opacity duration-200
+                                    px-3 py-1.5 rounded text-sm font-medium
+                                    transition-all duration-200
+                                    cursor-pointer
                                 "
                                 style={{
-                                    background: 'rgba(0, 0, 0, 0.9)',
-                                    color: 'white'
+                                    background: 'rgba(139, 92, 246, 0.2)',
+                                    border: '1px solid rgba(139, 92, 246, 0.5)',
+                                    color: 'white',
+                                    fontWeight: '500'
                                 }}
+                                aria-label="Switch layout view"
                             >
-                                {currentLayout === 'traditional' ? 'Canvas View' : 'Traditional View'}
-                            </span>
-                        </button>
+                                <option value="traditional">📄 Traditional</option>
+                                <option value="canvas">🗺️ Canvas</option>
+                                <option value="timeline">🎞️ Timeline</option>
+                            </select>
+                        </div>
 
                         {/* Desktop HUD */}
                         <div className="hidden md:block">
