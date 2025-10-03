@@ -38,14 +38,10 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Dynamic background showcase with Ken Burns effect
-  const heroImages = [
-    '/images/gallery/portfolio-00.jpg',
-    '/images/gallery/portfolio-05.jpg',
-    '/images/gallery/portfolio-10.jpg',
-    '/images/gallery/portfolio-15.jpg',
-    '/images/gallery/portfolio-20.jpg',
-  ];
+  // Dynamic background showcase with Ken Burns effect - all 27 gallery images
+  const heroImages = Array.from({ length: 27 }, (_, i) =>
+    `/images/gallery/portfolio-${String(i).padStart(2, '0')}.jpg`
+  );
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [nextImageIndex, setNextImageIndex] = useState(1);
 
