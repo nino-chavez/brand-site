@@ -404,7 +404,7 @@ const App: React.FC = () => {
                     <ViewfinderController />
                     <EffectsPanel />
 
-                    <div className="bg-brand-dark text-brand-light font-sans antialiased">
+                    <div className="bg-brand-dark text-brand-light font-sans antialiased scroll-smooth">
                         <BackgroundEffects />
 
                         {/* Skip link for accessibility */}

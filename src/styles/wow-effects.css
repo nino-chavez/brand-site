@@ -94,17 +94,41 @@ body.custom-cursor-active * {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 4px;
   background: linear-gradient(
     90deg,
-    rgba(139, 92, 246, 0.8) 0%,
-    rgba(6, 182, 212, 0.8) 50%,
-    rgba(249, 115, 22, 0.8) 100%
+    rgba(139, 92, 246, 0.95) 0%,
+    rgba(6, 182, 212, 0.95) 50%,
+    rgba(249, 115, 22, 0.95) 100%
   );
   transform-origin: left;
   transform: scaleX(0);
   z-index: 100;
-  transition: transform 100ms ease-out;
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5),
+              0 2px 8px rgba(0, 0, 0, 0.3);
+  filter: drop-shadow(0 0 4px rgba(139, 92, 246, 0.4));
+}
+
+/* Pulse effect on scroll */
+.scroll-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 /* ========================================

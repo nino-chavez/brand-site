@@ -181,9 +181,14 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                     </button>
                 </div>
 
-                {/* Mobile technical HUD */}
+                {/* Mobile technical HUD - with slide-in animation */}
                 {showScoreboardNav && (
-                    <div className="md:hidden mt-4 flex justify-center">
+                    <div
+                        className="md:hidden mt-4 flex justify-center animate-in slide-in-from-top-2 duration-300"
+                        style={{
+                            animation: 'slideDown 300ms ease-out'
+                        }}
+                    >
                         <TechnicalHUD
                             activeSection={activeSection as SectionId}
                             onNavigate={handleHUDNavigate}
@@ -191,6 +196,20 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                         />
                     </div>
                 )}
+
+                {/* Animation keyframes */}
+                <style>{`
+                    @keyframes slideDown {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-10px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                `}</style>
             </div>
         </header>
     );
