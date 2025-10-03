@@ -44,6 +44,8 @@ const TimelineLayoutContent: React.FC = () => {
   const [isMobile, setIsMobile] = React.useState(false);
   const [filmstripVisible, setFilmstripVisible] = React.useState(true);
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [showKeyboardHelp, setShowKeyboardHelp] = React.useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = React.useState(false);
 
   // Mobile detection
   useEffect(() => {
@@ -53,6 +55,19 @@ const TimelineLayoutContent: React.FC = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Reduced motion preference detection
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setPrefersReducedMotion(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   // Filmstrip auto-hide on mobile
@@ -138,6 +153,16 @@ const TimelineLayoutContent: React.FC = () => {
           e.preventDefault();
           actions.toggleAutoAdvance();
           break;
+        case '?':
+          e.preventDefault();
+          setShowKeyboardHelp(prev => !prev);
+          break;
+        case 'Escape':
+          if (showKeyboardHelp) {
+            e.preventDefault();
+            setShowKeyboardHelp(false);
+          }
+          break;
         default:
           break;
       }
@@ -145,7 +170,7 @@ const TimelineLayoutContent: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [actions, state.activeLayerIndex]);
+  }, [actions, state.activeLayerIndex, showKeyboardHelp]);
 
   // Screen reader announcements
   const announceLayerChange = (index: number) => {
@@ -281,13 +306,16 @@ const TimelineLayoutContent: React.FC = () => {
           const isAdjacent = Math.abs(state.activeLayerIndex - index) <= 1;
           const shouldRender = state.activeLayerIndex === index || isAdjacent || state.hoveredThumbnailIndex === index;
 
+          // Accessibility: Force crossfade for mobile or reduced motion preference
+          const accessibleTransition = (isMobile || prefersReducedMotion) ? 'crossfade' : state.transitionStyle;
+
           return (
             <TimelineLayer
               key={section.id}
               isActive={state.activeLayerIndex === index}
               isHovered={state.hoveredThumbnailIndex === index}
               zIndex={state.activeLayerIndex === index ? 10 : 1}
-              transitionStyle={isMobile ? 'crossfade' : state.transitionStyle}
+              transitionStyle={accessibleTransition}
               layerIndex={index}
             >
               {shouldRender && (
@@ -357,6 +385,148 @@ const TimelineLayoutContent: React.FC = () => {
           {`00:${String(state.activeLayerIndex * 15).padStart(2, '0')}`} / {`00:${String((TIMELINE_SECTIONS.length - 1) * 15).padStart(2, '0')}`}
         </div>
       </div>
+
+      {/* Keyboard shortcuts overlay - press ? to toggle */}
+      {showKeyboardHelp && (
+        <div
+          role="dialog"
+          aria-labelledby="keyboard-help-title"
+          aria-modal="true"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(8px)',
+          }}
+          onClick={() => setShowKeyboardHelp(false)}
+        >
+          <div
+            style={{
+              background: '#1a1a1a',
+              border: '2px solid rgba(139, 92, 246, 0.5)',
+              borderRadius: '12px',
+              padding: '32px',
+              maxWidth: '500px',
+              boxShadow: '0 20px 60px rgba(139, 92, 246, 0.3)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2
+              id="keyboard-help-title"
+              style={{
+                fontSize: '24px',
+                fontWeight: 'bold',
+                color: 'white',
+                marginBottom: '24px',
+                textAlign: 'center',
+              }}
+            >
+              ⌨️ Keyboard Shortcuts
+            </h2>
+
+            <div style={{ display: 'grid', gap: '16px', color: 'white' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Navigate sections</span>
+                <kbd style={{
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                }}>← →</kbd>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Jump to section</span>
+                <kbd style={{
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                }}>1-6</kbd>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>First section</span>
+                <kbd style={{
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                }}>Home</kbd>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Last section</span>
+                <kbd style={{
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                }}>End</kbd>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Auto-advance</span>
+                <kbd style={{
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                }}>Space</kbd>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Show/hide help</span>
+                <kbd style={{
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                }}>?</kbd>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Close help</span>
+                <kbd style={{
+                  background: 'rgba(139, 92, 246, 0.2)',
+                  padding: '4px 12px',
+                  borderRadius: '4px',
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                }}>Esc</kbd>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowKeyboardHelp(false)}
+              style={{
+                marginTop: '24px',
+                width: '100%',
+                padding: '12px',
+                background: 'rgba(139, 92, 246, 0.3)',
+                border: '1px solid rgba(139, 92, 246, 0.5)',
+                borderRadius: '6px',
+                color: 'white',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: 'pointer',
+              }}
+            >
+              Got it!
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Screen reader live region */}
       <div
