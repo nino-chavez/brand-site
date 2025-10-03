@@ -352,12 +352,62 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
 
       {/* Enhanced Navigation Hints - Visible at all zoom levels */}
       {/* Audit feedback: Increase visibility, add background, remove scale restriction */}
+
+      {/* Connection Lines from Center (Capture) to Each Section */}
+      <svg
+        className="absolute pointer-events-none"
+        style={{
+          left: 0,
+          top: 0,
+          width: '4000px',
+          height: '3000px',
+          zIndex: 0
+        }}
+      >
+        {/* Line to Skills (up) */}
+        <line
+          x1="2550" y1="1500"
+          x2="2450" y2="500"
+          stroke="rgba(139, 92, 246, 0.15)"
+          strokeWidth="2"
+          strokeDasharray="8,4"
+        />
+
+        {/* Line to About (left) */}
+        <line
+          x1="1450" y1="1500"
+          x2="600" y2="1500"
+          stroke="rgba(139, 92, 246, 0.15)"
+          strokeWidth="2"
+          strokeDasharray="8,4"
+        />
+
+        {/* Line to Projects (right) */}
+        <line
+          x1="2650" y1="1500"
+          x2="3400" y2="1500"
+          stroke="rgba(139, 92, 246, 0.15)"
+          strokeWidth="2"
+          strokeDasharray="8,4"
+        />
+
+        {/* Line to Gallery (down) */}
+        <line
+          x1="2550" y1="1900"
+          x2="2550" y2="2600"
+          stroke="rgba(139, 92, 246, 0.15)"
+          strokeWidth="2"
+          strokeDasharray="8,4"
+        />
+      </svg>
+
       <div
         className="absolute pointer-events-none"
         style={{
           left: '2000px',
           top: '1200px',
-          transform: 'translate(-50%, -50%)'
+          transform: 'translate(-50%, -50%)',
+          animation: 'pulse 3s ease-in-out infinite'
         }}
       >
         <div
@@ -372,12 +422,20 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         </div>
       </div>
 
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.7; }
+          50% { opacity: 1; }
+        }
+      `}</style>
+
       <div
         className="absolute pointer-events-none"
         style={{
           left: '600px',
           top: '1500px',
-          transform: 'translate(-50%, -50%)'
+          transform: 'translate(-50%, -50%)',
+          animation: 'pulse 3s ease-in-out infinite 0.5s' // Stagger delay
         }}
       >
         <div
@@ -397,7 +455,8 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         style={{
           left: '3400px',
           top: '1500px',
-          transform: 'translate(-50%, -50%)'
+          transform: 'translate(-50%, -50%)',
+          animation: 'pulse 3s ease-in-out infinite 1s' // Stagger delay
         }}
       >
         <div
@@ -417,7 +476,8 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         style={{
           left: '2000px',
           top: '2700px',
-          transform: 'translate(-50%, -50%)'
+          transform: 'translate(-50%, -50%)',
+          animation: 'pulse 3s ease-in-out infinite 1.5s' // Stagger delay
         }}
       >
         <div
