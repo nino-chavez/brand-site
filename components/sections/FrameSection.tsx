@@ -194,7 +194,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
         }
       }}
       id="frame"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-slate-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
+      className={`min-h-screen relative bg-gradient-to-br from-neutral-900 via-slate-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
       data-testid="frame-section"
       data-active={active || isActive}
       data-progress={progress}

@@ -157,7 +157,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
         }
       }}
       id="develop"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-gray-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
+      className={`min-h-screen relative bg-gradient-to-br from-neutral-900 via-gray-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
       data-testid="develop-section"
       data-active={active || isActive}
       data-progress={progress}

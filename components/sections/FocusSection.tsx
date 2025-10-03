@@ -153,7 +153,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
         }
       }}
       id="focus"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
+      className={`min-h-screen relative bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 ${getClasses(sectionVisible)} ${className}`}
       data-testid="focus-section"
       data-active={active || isActive}
       data-progress={progress}
@@ -189,8 +189,8 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
       </div>
 
       {/* Main content with focus-aware layout */}
-      <div className="relative z-20 min-h-screen flex items-center justify-center">
-        <div className="max-w-6xl mx-auto px-8 py-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <div className="relative z-20 py-24 md:py-32">
+        <div className="max-w-6xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
           {/* About Narrative - Left Column */}
           <div className="space-y-8">

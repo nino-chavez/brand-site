@@ -177,7 +177,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
         }
       }}
       id="portfolio"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-neutral-900 via-slate-900 to-black ${getClasses(sectionVisible)} ${className}`}
+      className={`min-h-screen relative bg-gradient-to-br from-neutral-900 via-slate-900 to-black ${getClasses(sectionVisible)} ${className}`}
       data-testid="portfolio-section"
       data-active={active || isActive}
       data-progress={progress}

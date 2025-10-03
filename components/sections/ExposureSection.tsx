@@ -223,7 +223,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
         }
       }}
       id="exposure"
-      className={`min-h-screen relative overflow-hidden bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 ${getClasses(sectionVisible)} ${className}`}
+      className={`min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 ${getClasses(sectionVisible)} ${className}`}
       data-testid="exposure-section"
       data-active={active || isActive}
       data-progress={progress}
