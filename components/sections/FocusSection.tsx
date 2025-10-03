@@ -223,25 +223,6 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 </p>
               </div>
 
-              {/* Current Focus Grid */}
-              <div className="grid md:grid-cols-3 gap-6 mb-8 p-6 bg-gradient-to-r from-athletic-brand-violet/10 to-cyan-500/10 rounded-lg border border-athletic-brand-violet/20">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-athletic-brand-violet mb-2">Commerce Platforms</div>
-                  <p className="text-sm text-white/70">SAP Commerce, Salesforce, Adobe</p>
-                  <p className="text-xs text-white/50 mt-1">Enterprise-scale implementations</p>
-                </div>
-                <div className="text-center border-l border-r border-white/10 px-4">
-                  <div className="text-3xl font-bold text-cyan-400 mb-2">AI-Native Readiness</div>
-                  <p className="text-sm text-white/70">Answer-first commerce transformation</p>
-                  <p className="text-xs text-white/50 mt-1">Agentic systems architecture</p>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-400 mb-2">Accenture Song</div>
-                  <p className="text-sm text-white/70">Enterprise Architect & Strategic Advisor</p>
-                  <p className="text-xs text-white/50 mt-1">Feb 2023 - Present</p>
-                </div>
-              </div>
-
               <div
                 ref={bodyRef}
                 className={`prose prose-lg prose-invert max-w-none ${getClasses(bodyVisible)}`}
@@ -303,11 +284,12 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
             >
               <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 sports-statistics-style">
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">Performance Metrics</h3>
-                  <p className="text-white/70">Career Statistics</p>
+                  <h3 className="text-2xl font-bold text-white mb-2">Career Snapshot</h3>
+                  <p className="text-white/70">At a Glance</p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6">
+                {/* Key Stats Grid */}
+                <div className="grid grid-cols-2 gap-6 mb-8">
                   {athleticStats.map((stat, index) => (
                     <div
                       key={stat.label}
@@ -334,14 +316,27 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                   ))}
                 </div>
 
-                {/* Platform expertise */}
-                <div className="mt-8 pt-6 border-t border-white/10">
-                  <div className="text-xs text-white/50 uppercase tracking-wide mb-3">Platform Experience</div>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">SAP Commerce</span>
-                    <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">Salesforce</span>
-                    <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">Adobe</span>
-                    <span className="px-3 py-1 bg-cyan-500/20 text-cyan-400 rounded-md text-xs">AI Strategy</span>
+                {/* Core Expertise Section */}
+                <div className="mb-8 pt-6 border-t border-white/10">
+                  <div className="text-xs text-white/50 uppercase tracking-wide mb-4">Core Expertise</div>
+                  <div className="space-y-4">
+                    {/* Commerce Platforms */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-white mb-2">Enterprise Commerce</h4>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">SAP Commerce</span>
+                        <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">Salesforce</span>
+                        <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">Adobe</span>
+                      </div>
+                    </div>
+
+                    {/* AI-Native Strategy */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-white mb-2">AI-Native Strategy</h4>
+                      <p className="text-xs text-white/60 leading-relaxed">
+                        Answer-first commerce • Agentic systems • Context-aware experiences
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
