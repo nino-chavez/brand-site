@@ -25,6 +25,7 @@ interface CanvasTouchGestureProps {
   onTouchMove: (e: React.TouchEvent) => void;
   onTouchEnd: (e: React.TouchEvent) => void;
   onMouseDown: (e: React.MouseEvent) => void;
+  onContextMenu: (e: React.MouseEvent) => void;
 }
 
 export const useCanvasTouchGestures = ({
@@ -138,8 +139,17 @@ export const useCanvasTouchGestures = ({
   const momentumAnimationId = useRef<number | null>(null);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    // Only handle left mouse button
-    if (e.button !== 0) return;
+    // Handle both left-click (button 0) and right-click (button 2) for panning
+    // Left-click requires canvas area check, right-click pans from anywhere (Miro/Lucidchart UX)
+    const isLeftClick = e.button === 0;
+    const isRightClick = e.button === 2;
+
+    if (!isLeftClick && !isRightClick) return;
+
+    // Right-click always initiates pan mode (professional canvas UX)
+    if (isRightClick) {
+      e.preventDefault(); // Prevent context menu
+    }
 
     // Cancel any ongoing momentum animation
     if (momentumAnimationId.current !== null) {
@@ -154,13 +164,16 @@ export const useCanvasTouchGestures = ({
       return;
     }
 
-    // CRITICAL: Only start drag if click originated on canvas or canvas content
-    // This prevents "jump to blank area" bug when clicking outside canvas
-    // Allow both .lightbox-canvas and .canvas-content for more flexible dragging
-    const isCanvasArea = target.closest('.lightbox-canvas, .canvas-content, .canvas-portfolio-layout');
-    if (!isCanvasArea) {
-      console.log('🎯 Click outside canvas area - pan mode blocked');
-      return;
+    // Canvas area check only for left-click (right-click pans from anywhere)
+    if (isLeftClick) {
+      // CRITICAL: Only start drag if click originated on canvas or canvas content
+      // This prevents "jump to blank area" bug when clicking outside canvas
+      // Allow both .lightbox-canvas and .canvas-content for more flexible dragging
+      const isCanvasArea = target.closest('.lightbox-canvas, .canvas-content, .canvas-portfolio-layout');
+      if (!isCanvasArea) {
+        console.log('🎯 Click outside canvas area - pan mode blocked');
+        return;
+      }
     }
 
     // Store both current position (for delta calc) and initial position (for threshold check)
@@ -172,12 +185,22 @@ export const useCanvasTouchGestures = ({
     lastMousePosition.current = null;
     velocity.current = { x: 0, y: 0 };
 
-    // Don't set isDragging yet - wait for threshold
-    hasExceededThreshold.current = false;
-
-    // Don't change cursor yet - wait for drag threshold
-    // This allows text selection and clicking to work normally
-  }, []);
+    // Right-click bypasses threshold for instant panning (professional UX)
+    if (isRightClick) {
+      hasExceededThreshold.current = true;
+      isDragging.current = true;
+      document.body.style.userSelect = 'none';
+      document.body.style.webkitUserSelect = 'none';
+      document.body.style.cursor = 'grabbing';
+      onDragStart?.();
+      console.log('🎯 Right-click pan mode activated (instant)');
+    } else {
+      // Left-click waits for threshold
+      hasExceededThreshold.current = false;
+      // Don't change cursor yet - wait for drag threshold
+      // This allows text selection and clicking to work normally
+    }
+  }, [onDragStart]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!mouseStart.current || !mouseInitialStart.current) return;
@@ -323,11 +346,17 @@ export const useCanvasTouchGestures = ({
     };
   }, [handleMouseMove, handleMouseUp]);
 
+  // Prevent context menu on canvas for right-click drag
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+  }, []);
+
   return {
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
     onTouchEnd: handleTouchEnd,
-    onMouseDown: handleMouseDown
+    onMouseDown: handleMouseDown,
+    onContextMenu: handleContextMenu // Prevent context menu for right-click drag
   };
 };
 

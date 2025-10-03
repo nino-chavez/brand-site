@@ -31,11 +31,11 @@ const CANVAS_WORLD = {
   centerY: 1500
 };
 
-// Minimap dimensions
+// Minimap dimensions - increased size for better visibility
 const MINIMAP = {
-  width: 200,
-  height: 150,
-  scale: 200 / 4000 // Scale factor to fit 4000px world into 200px minimap
+  width: 240,  // Increased from 200 (20% larger)
+  height: 180, // Increased from 150 (20% larger)
+  scale: 240 / 4000 // Scale factor to fit 4000px world into 240px minimap
 };
 
 export interface CanvasMinimapProps {

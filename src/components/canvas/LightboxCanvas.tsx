@@ -29,7 +29,7 @@ export interface LightboxCanvasProps {
 // ===== CONSTANTS =====
 
 const SCALE_LIMITS = { min: 0.5, max: 3.0 };
-const KEYBOARD_MOVE_DISTANCE = 50;
+const KEYBOARD_MOVE_DISTANCE = 100; // Increased from 50 for faster Miro/Lucidchart-style panning
 const ANIMATION_DURATION = 800; // ms
 
 // ===== COMPONENT =====
@@ -62,7 +62,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       transform: `translate3d(${-x}px, ${-y}px, 0) scale(${scale})`,
       transformOrigin: 'center center',
       willChange: (isTransitioning || isDragging) ? 'transform' : 'auto',
-      transition: (isTransitioning && !isDragging) ? 'transform 300ms ease-out' : 'none',
+      transition: (isTransitioning && !isDragging) ? 'transform 150ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
       backfaceVisibility: 'hidden' as const,
       perspective: '1000px'
     };

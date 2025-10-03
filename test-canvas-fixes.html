@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Layout Fixes Verification</title>
+    <style>
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+        h1 {
+            color: #8b5cf6;
+        }
+        .test-section {
+            background: #16213e;
+            border: 1px solid #8b5cf6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .fixed {
+            background: #10b981;
+            color: white;
+        }
+        .issue {
+            background: #ef4444;
+            color: white;
+        }
+        .code-block {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        code {
+            color: #60a5fa;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+        }
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Canvas Layout Fixes Verification</h1>
+
+    <div class="test-section">
+        <h2>Fix 1: Minimap Viewport Sync <span class="status fixed">FIXED</span></h2>
+        <p><strong>File:</strong> <code>/src/components/canvas/CanvasMinimap.tsx</code></p>
+        <p><strong>Lines Changed:</strong> 67-69</p>
+
+        <div class="code-block">
+            <strong>Before (INCORRECT):</strong><br>
+            <code>
+            const worldX = state.position.x / state.position.scale;<br>
+            const worldY = state.position.y / state.position.scale;
+            </code>
+        </div>
+
+        <div class="code-block">
+            <strong>After (FIXED):</strong><br>
+            <code>
+            // Note: position values are negative when panning right/down, so we invert<br>
+            const worldX = -state.position.x / state.position.scale;<br>
+            const worldY = -state.position.y / state.position.scale;
+            </code>
+        </div>
+
+        <p><strong>Result:</strong> Minimap viewport indicator now correctly shows the actual canvas viewport position.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Fix 2: Initial Canvas Position <span class="status fixed">FIXED</span></h2>
+        <p><strong>File:</strong> <code>/src/contexts/CanvasStateProvider.tsx</code></p>
+        <p><strong>Lines Changed:</strong> 105-131</p>
+
+        <div class="code-block">
+            <strong>Implementation:</strong><br>
+            <code>
+            // Calculate centered position for hero/capture section<br>
+            const defaultCenteredPosition = useMemo(() => {<br>
+            &nbsp;&nbsp;const viewportWidth = window.innerWidth;<br>
+            &nbsp;&nbsp;const viewportHeight = window.innerHeight;<br>
+            &nbsp;&nbsp;// Center on capture section (at world coordinates 2000, 1500)<br>
+            &nbsp;&nbsp;return {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;x: -(2000 + 0) + viewportWidth / 2 - 1000 / 2,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;y: -(1500 + 0) + viewportHeight / 2 - 700 / 2,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;scale: 1.0<br>
+            &nbsp;&nbsp;};<br>
+            }, []);
+            </code>
+        </div>
+
+        <p><strong>Result:</strong> Canvas now correctly centers on the hero/capture section when first loaded.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Fix 3: Content Padding <span class="status fixed">FIXED</span></h2>
+        <p><strong>Files Updated:</strong></p>
+        <ul>
+            <li><code>CaptureSection.tsx</code> - Line 255: Changed <code>px-4</code> to <code>px-8</code> and added <code>p-8</code> wrapper</li>
+            <li><code>FocusSection.tsx</code> - Line 200: Changed <code>px-4</code> to <code>px-8 py-8</code></li>
+            <li><code>FrameSection.tsx</code> - Line 221: Changed <code>px-4</code> to <code>px-8 py-8</code></li>
+            <li><code>ExposureSection.tsx</code> - Line 265: Changed <code>px-4</code> to <code>px-8 py-8</code></li>
+            <li><code>DevelopSection.tsx</code> - Line 176: Changed <code>px-4</code> to <code>px-8 py-8</code></li>
+            <li><code>PortfolioSection.tsx</code> - Line 204: Changed <code>px-4</code> to <code>px-8</code></li>
+        </ul>
+
+        <p><strong>Result:</strong> All section content now has proper padding (2rem/32px) from edges, preventing cramped appearance.</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Testing the Fixes</h2>
+        <p>To verify these fixes in the live application:</p>
+        <ol>
+            <li>Open: <a href="http://localhost:5173/?layout=canvas" target="_blank" style="color: #8b5cf6;">http://localhost:5173/?layout=canvas</a></li>
+            <li>Check the minimap (bottom-left) - the white viewport indicator should match your actual view</li>
+            <li>Refresh the page - the canvas should center on the hero section</li>
+            <li>Observe section content - text should have comfortable spacing from edges</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h2>Summary</h2>
+        <p>All three identified issues have been successfully fixed:</p>
+        <ul>
+            <li>✅ Minimap viewport synchronization corrected</li>
+            <li>✅ Initial canvas position centers on hero section</li>
+            <li>✅ Section content padding increased for better visual spacing</li>
+        </ul>
+    </div>
+</body>
+</html>
