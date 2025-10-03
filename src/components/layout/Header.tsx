@@ -116,29 +116,74 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
 
                     {/* Layout Switcher & Technical HUD Navigation */}
                     <div className="flex items-center gap-6">
-                        {/* Layout Switcher Dropdown */}
+                        {/* Layout Switcher - Icon Buttons */}
                         <div className="flex items-center gap-2">
                             <span className="text-xs text-white/60 hidden sm:inline">Layout:</span>
-                            <select
-                                value={currentLayout}
-                                onChange={(e) => handleLayoutChange(e.target.value as 'traditional' | 'canvas' | 'timeline')}
-                                className="
-                                    px-3 py-1.5 rounded text-sm font-medium
-                                    transition-all duration-200
-                                    cursor-pointer
-                                "
-                                style={{
-                                    background: 'rgba(139, 92, 246, 0.2)',
-                                    border: '1px solid rgba(139, 92, 246, 0.5)',
-                                    color: 'white',
-                                    fontWeight: '500'
-                                }}
-                                aria-label="Switch layout view"
-                            >
-                                <option value="traditional">📄 Traditional</option>
-                                <option value="canvas">🗺️ Canvas</option>
-                                <option value="timeline">🎞️ Timeline</option>
-                            </select>
+                            <div className="flex gap-1 p-1 rounded-lg" style={{
+                                background: 'rgba(15, 23, 42, 0.6)',
+                                border: '1px solid rgba(139, 92, 246, 0.3)'
+                            }}>
+                                <button
+                                    onClick={() => handleLayoutChange('traditional')}
+                                    className="px-3 py-1.5 rounded transition-all duration-200 text-lg"
+                                    style={{
+                                        background: currentLayout === 'traditional'
+                                            ? 'rgba(139, 92, 246, 0.4)'
+                                            : 'transparent',
+                                        border: currentLayout === 'traditional'
+                                            ? '1px solid rgba(139, 92, 246, 0.6)'
+                                            : '1px solid transparent',
+                                        boxShadow: currentLayout === 'traditional'
+                                            ? '0 0 8px rgba(139, 92, 246, 0.4)'
+                                            : 'none',
+                                        transform: currentLayout === 'traditional' ? 'scale(1.05)' : 'scale(1)'
+                                    }}
+                                    aria-label="Traditional layout"
+                                    title="Traditional layout"
+                                >
+                                    📄
+                                </button>
+                                <button
+                                    onClick={() => handleLayoutChange('canvas')}
+                                    className="px-3 py-1.5 rounded transition-all duration-200 text-lg"
+                                    style={{
+                                        background: currentLayout === 'canvas'
+                                            ? 'rgba(139, 92, 246, 0.4)'
+                                            : 'transparent',
+                                        border: currentLayout === 'canvas'
+                                            ? '1px solid rgba(139, 92, 246, 0.6)'
+                                            : '1px solid transparent',
+                                        boxShadow: currentLayout === 'canvas'
+                                            ? '0 0 8px rgba(139, 92, 246, 0.4)'
+                                            : 'none',
+                                        transform: currentLayout === 'canvas' ? 'scale(1.05)' : 'scale(1)'
+                                    }}
+                                    aria-label="Canvas layout"
+                                    title="Canvas layout"
+                                >
+                                    🗺️
+                                </button>
+                                <button
+                                    onClick={() => handleLayoutChange('timeline')}
+                                    className="px-3 py-1.5 rounded transition-all duration-200 text-lg"
+                                    style={{
+                                        background: currentLayout === 'timeline'
+                                            ? 'rgba(139, 92, 246, 0.4)'
+                                            : 'transparent',
+                                        border: currentLayout === 'timeline'
+                                            ? '1px solid rgba(139, 92, 246, 0.6)'
+                                            : '1px solid transparent',
+                                        boxShadow: currentLayout === 'timeline'
+                                            ? '0 0 8px rgba(139, 92, 246, 0.4)'
+                                            : 'none',
+                                        transform: currentLayout === 'timeline' ? 'scale(1.05)' : 'scale(1)'
+                                    }}
+                                    aria-label="Timeline layout"
+                                    title="Timeline layout"
+                                >
+                                    🎞️
+                                </button>
+                            </div>
                         </div>
 
                         {/* Desktop HUD */}
