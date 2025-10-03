@@ -15,7 +15,16 @@ import type { SectionId } from '../../types';
 // ===== TYPES =====
 
 export type TransitionDirection = 'forward' | 'backward' | 'jump';
-export type TransitionStyle = 'crossfade' | 'lightTable' | 'filmBurn';
+export type TransitionStyle =
+  | 'crossfade'      // Simple fade
+  | 'zoomBlur'       // TikTok zoom with blur
+  | 'spin'           // 360° rotation
+  | 'slide'          // Horizontal slide
+  | 'glitch'         // RGB split effect
+  | 'whipPan'        // Fast horizontal blur
+  | 'zoomPunch'      // Quick zoom in/out
+  | 'lightTable'     // Thumbnail expansion
+  | 'filmBurn';      // Radial burn
 
 export interface TimelineState {
   activeLayerIndex: number;           // 0-5 current section

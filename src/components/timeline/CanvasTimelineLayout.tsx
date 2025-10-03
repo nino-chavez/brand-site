@@ -276,7 +276,7 @@ const TimelineLayoutContent: React.FC = () => {
         ))}
       </div>
 
-      {/* Frame counter (40px) */}
+      {/* Frame counter + Transition selector (40px) */}
       <div
         style={{
           height: '40px',
@@ -289,10 +289,37 @@ const TimelineLayoutContent: React.FC = () => {
           fontFamily: 'monospace',
           fontSize: '12px',
           color: 'rgba(255, 255, 255, 0.7)',
+          gap: '16px',
         }}
       >
-        <div>
-          Frame {state.activeLayerIndex + 1} of {TIMELINE_SECTIONS.length} · {TIMELINE_SECTIONS[state.activeLayerIndex]?.name}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span>
+            Frame {state.activeLayerIndex + 1} of {TIMELINE_SECTIONS.length} · {TIMELINE_SECTIONS[state.activeLayerIndex]?.name}
+          </span>
+          <span style={{ opacity: 0.5 }}>|</span>
+          <select
+            value={state.transitionStyle}
+            onChange={(e) => actions.setTransitionStyle(e.target.value as any)}
+            style={{
+              background: 'rgba(139, 92, 246, 0.2)',
+              border: '1px solid rgba(139, 92, 246, 0.5)',
+              borderRadius: '4px',
+              color: 'white',
+              padding: '4px 8px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              fontFamily: 'monospace',
+            }}
+            aria-label="Select transition effect"
+          >
+            <option value="crossfade">Fade</option>
+            <option value="zoomBlur">Zoom Blur</option>
+            <option value="spin">Spin 360°</option>
+            <option value="slide">Slide</option>
+            <option value="glitch">Glitch</option>
+            <option value="whipPan">Whip Pan</option>
+            <option value="zoomPunch">Zoom Punch</option>
+          </select>
         </div>
         <div>
           {`00:${String(state.activeLayerIndex * 15).padStart(2, '0')}`} / {`00:${String((TIMELINE_SECTIONS.length - 1) * 15).padStart(2, '0')}`}
