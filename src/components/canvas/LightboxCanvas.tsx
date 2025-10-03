@@ -50,6 +50,9 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
   // Phase 3: Track active drag for performance hints
   const [isDragging, setIsDragging] = useState(false);
 
+  // Track if hint has been shown (show only once on initial load)
+  const [hintShown, setHintShown] = useState(false);
+
   // ===== MEMOIZED TRANSFORM =====
 
   const canvasTransform = useMemo(() => {
@@ -157,7 +160,8 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
           break;
       }
 
-      executeMovement(newPos);
+      // Use direct updatePosition for smooth instant feedback (like minimap drag)
+      actions.updatePosition(newPos);
     },
     onZoom: (delta) => {
       const newScale = Math.max(
@@ -165,7 +169,8 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         Math.min(SCALE_LIMITS.max, state.position.scale + delta)
       );
 
-      executeMovement({
+      // Use direct updatePosition for smooth instant feedback
+      actions.updatePosition({
         ...state.position,
         scale: newScale
       });
@@ -247,9 +252,12 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         {children}
       </div>
 
-      {/* Drag hint overlay - shows on initial load */}
-      {children && !isTransitioning && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      {/* Drag hint overlay - shows only once on initial load */}
+      {children && !hintShown && (
+        <div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          onAnimationEnd={() => setHintShown(true)}
+        >
           <div
             className="text-center max-w-md px-6 py-4 bg-black/80 backdrop-blur-sm rounded-xl border border-white/20"
             style={{

@@ -9,18 +9,18 @@
  * @since Canvas UX Improvements - Quick Win #2
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useCanvasState } from '../../contexts/CanvasStateProvider';
 import type { SectionId } from '../../types';
 
 // Import spatial section map for coordinates (must match CanvasPortfolioLayout)
 const SPATIAL_SECTION_MAP = {
-  capture: { coordinates: { x: 0, y: 0 }, dimensions: { width: 1100, height: 750 } },
-  focus: { coordinates: { x: -1300, y: 0 }, dimensions: { width: 1000, height: 750 } },
-  frame: { coordinates: { x: 1300, y: 0 }, dimensions: { width: 1000, height: 850 } },
-  exposure: { coordinates: { x: 0, y: -900 }, dimensions: { width: 900, height: 600 } },
-  develop: { coordinates: { x: 0, y: 1000 }, dimensions: { width: 1100, height: 800 } },
-  portfolio: { coordinates: { x: 1500, y: 1000 }, dimensions: { width: 800, height: 650 } }
+  capture: { coordinates: { x: 0, y: 0 }, dimensions: { width: 1100, height: 800 } },
+  focus: { coordinates: { x: -1400, y: 0 }, dimensions: { width: 1000, height: 900 } },
+  frame: { coordinates: { x: 1400, y: 0 }, dimensions: { width: 1000, height: 1100 } },
+  exposure: { coordinates: { x: 0, y: -1000 }, dimensions: { width: 900, height: 800 } },
+  develop: { coordinates: { x: 0, y: 1100 }, dimensions: { width: 1100, height: 900 } },
+  portfolio: { coordinates: { x: 1600, y: 1100 }, dimensions: { width: 800, height: 1100 } }
 } as const;
 
 // Canvas world dimensions
@@ -34,12 +34,12 @@ const CANVAS_WORLD = {
 // Calculate actual content bounds (sections extend beyond 4000x3000 world)
 // Based on SPATIAL_SECTION_MAP absolute positions
 const CONTENT_BOUNDS = {
-  minX: 700,    // focus left edge: 2000 + (-1300) = 700
-  maxX: 4300,   // frame/portfolio right: 2000 + 1300 + 1000 = 4300
-  minY: 600,    // exposure top: 1500 + (-900) = 600
-  maxY: 3300,   // develop bottom: 1500 + 1000 + 800 = 3300
-  width: 3600,  // 4300 - 700
-  height: 2700  // 3300 - 600
+  minX: 600,    // focus left edge: 2000 + (-1400) = 600
+  maxX: 4400,   // portfolio right: 2000 + 1600 + 800 = 4400
+  minY: 500,    // exposure top: 1500 + (-1000) = 500
+  maxY: 3500,   // develop bottom: 1500 + 1100 + 900 = 3500
+  width: 3800,  // 4400 - 600
+  height: 3000  // 3500 - 500
 };
 
 // Minimap dimensions - fit actual content (not arbitrary 4000x3000 world)
@@ -70,6 +70,7 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
   const { state, actions } = useCanvasState();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [hoveredSection, setHoveredSection] = useState<SectionId | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   // Calculate viewport rectangle in minimap coordinates
   const viewportRect = useMemo(() => {
@@ -94,6 +95,60 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
       height: minimapHeight
     };
   }, [state.position.x, state.position.y, state.position.scale]);
+
+  // Handle viewport drag - sync center of box with mouse position
+  const handleViewportDragStart = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setIsDragging(true);
+  }, []);
+
+  // Handle viewport dragging via mouse move
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      // Get minimap container element
+      const minimapElement = document.querySelector('.minimap-container') as HTMLElement;
+      if (!minimapElement) return;
+
+      const rect = minimapElement.getBoundingClientRect();
+
+      // Mouse position relative to minimap (in minimap pixels)
+      const minimapX = e.clientX - rect.left;
+      const minimapY = e.clientY - rect.top;
+
+      // Convert minimap coordinates to world coordinates
+      const worldX = (minimapX / MINIMAP.scale) - MINIMAP.offsetX;
+      const worldY = (minimapY / MINIMAP.scale) - MINIMAP.offsetY;
+
+      // Calculate viewport dimensions in world space
+      const viewportWidth = window.innerWidth / state.position.scale;
+      const viewportHeight = window.innerHeight / state.position.scale;
+
+      // Position viewport so the dragged point is at the center
+      // Canvas position is top-left of viewport in world space
+      const targetX = worldX - viewportWidth / 2;
+      const targetY = worldY - viewportHeight / 2;
+
+      actions.updatePosition({
+        x: targetX,
+        y: targetY,
+        scale: state.position.scale
+      });
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging, actions, state.position.scale]);
 
   // Handle section click navigation
   const handleSectionClick = (sectionId: SectionId) => {
@@ -172,7 +227,7 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
     >
       {/* Minimap Container */}
       <div
-        className="relative rounded-lg overflow-hidden"
+        className="minimap-container relative rounded-lg overflow-hidden"
         style={{
           width: `${MINIMAP.width}px`,
           height: `${MINIMAP.height}px`,
@@ -239,9 +294,9 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
           );
         })}
 
-        {/* Viewport indicator */}
+        {/* Viewport indicator - Draggable */}
         <div
-          className="absolute pointer-events-none"
+          className="absolute cursor-move transition-opacity"
           style={{
             left: `${viewportRect.x}px`,
             top: `${viewportRect.y}px`,
@@ -249,8 +304,14 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
             height: `${viewportRect.height}px`,
             border: '2px solid rgba(255, 255, 255, 0.8)',
             borderRadius: '2px',
-            boxShadow: '0 0 8px rgba(255, 255, 255, 0.4)'
+            boxShadow: '0 0 8px rgba(255, 255, 255, 0.4)',
+            opacity: isDragging ? 0.7 : 1,
+            pointerEvents: 'auto'
           }}
+          onMouseDown={handleViewportDragStart}
+          role="button"
+          aria-label="Drag to pan canvas viewport"
+          tabIndex={0}
         />
 
         {/* Collapse button */}

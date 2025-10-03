@@ -38,42 +38,42 @@ export const SPATIAL_SECTION_MAP = {
   capture: {
     id: 'capture' as SectionId,
     coordinates: { x: 0, y: 0 },
-    dimensions: { width: 1100, height: 750 },  // Increased from 1000x700
+    dimensions: { width: 1100, height: 800 },  // Increased to 800 for full content
     zIndex: 10,
     description: 'Hero section - Enterprise architect introduction'
   },
   focus: {
     id: 'focus' as SectionId,
-    coordinates: { x: -1300, y: 0 },  // Adjusted spacing
-    dimensions: { width: 1000, height: 750 },  // Increased from 900x650
+    coordinates: { x: -1400, y: 0 },  // Increased spacing from -1300
+    dimensions: { width: 1000, height: 900 },  // Increased to 900 for full bio content
     zIndex: 5,
     description: 'About section - Professional background and expertise'
   },
   frame: {
     id: 'frame' as SectionId,
-    coordinates: { x: 1300, y: 0 },  // Adjusted spacing
-    dimensions: { width: 1000, height: 850 },  // Increased from 900x650 (projects need more height)
+    coordinates: { x: 1400, y: 0 },  // Increased spacing from 1300
+    dimensions: { width: 1000, height: 1100 },  // Increased to 1100 to fit all project cards
     zIndex: 5,
     description: 'Projects section - Technical case studies'
   },
   exposure: {
     id: 'exposure' as SectionId,
-    coordinates: { x: 0, y: -900 },  // Adjusted spacing
-    dimensions: { width: 900, height: 600 },  // Increased from 800x500
+    coordinates: { x: 0, y: -1000 },  // Increased spacing from -900
+    dimensions: { width: 900, height: 800 },  // Increased to 800 for full skills content
     zIndex: 3,
     description: 'Skills section - Technical stack and expertise'
   },
   develop: {
     id: 'develop' as SectionId,
-    coordinates: { x: 0, y: 1000 },  // Adjusted spacing
-    dimensions: { width: 1100, height: 800 },  // Increased from 1000x700
+    coordinates: { x: 0, y: 1100 },  // Increased spacing from 1000
+    dimensions: { width: 1100, height: 900 },  // Increased to 900 for gallery grid
     zIndex: 5,
     description: 'Gallery section - Visual portfolio'
   },
   portfolio: {
     id: 'portfolio' as SectionId,
-    coordinates: { x: 1500, y: 1000 },  // Adjusted spacing
-    dimensions: { width: 800, height: 650 },  // Increased from 700x550
+    coordinates: { x: 1600, y: 1100 },  // Increased spacing from 1500, 1000
+    dimensions: { width: 800, height: 1100 },  // Increased to 1100 to fit full contact form with all fields
     zIndex: 3,
     description: 'Contact section - Get in touch'
   }
@@ -356,7 +356,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         className="absolute pointer-events-none"
         style={{
           left: '2000px',
-          top: '1300px',
+          top: '1200px',
           transform: 'translate(-50%, -50%)'
         }}
       >
@@ -375,7 +375,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
       <div
         className="absolute pointer-events-none"
         style={{
-          left: '700px',
+          left: '600px',
           top: '1500px',
           transform: 'translate(-50%, -50%)'
         }}
@@ -395,7 +395,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
       <div
         className="absolute pointer-events-none"
         style={{
-          left: '3300px',
+          left: '3400px',
           top: '1500px',
           transform: 'translate(-50%, -50%)'
         }}
@@ -416,7 +416,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         className="absolute pointer-events-none"
         style={{
           left: '2000px',
-          top: '2600px',
+          top: '2700px',
           transform: 'translate(-50%, -50%)'
         }}
       >
