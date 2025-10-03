@@ -113,13 +113,12 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
     }
 
     const interval = setInterval(() => {
-      setNextImageIndex((current) => (current + 1) % heroImages.length);
-
-      // Crossfade timing - reduced to 800ms for snappier feel
-      setTimeout(() => {
-        setCurrentImageIndex((current) => (current + 1) % heroImages.length);
-      }, 800); // 800ms crossfade duration (was 1000ms)
-    }, 6000); // Change image every 6 seconds (was 8s) for more dynamic feel
+      setCurrentImageIndex((current) => {
+        const next = (current + 1) % heroImages.length;
+        setNextImageIndex((next + 1) % heroImages.length);
+        return next;
+      });
+    }, 10000); // Match Ken Burns animation duration for smooth transitions
 
     return () => clearInterval(interval);
   }, [settings.animationStyle, settings.transitionSpeed, heroImages.length]);
@@ -189,14 +188,14 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       {/* Dynamic Ken Burns Background Showcase */}
       {/* Current image layer with Ken Burns effect */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url(${heroImages[currentImageIndex]})`,
           willChange: 'transform, opacity',
           height: '120%',
           top: '-10%',
           transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
-          animation: settings.animationStyle !== 'reduced' ? 'kenBurns 12s ease-out infinite' : 'none',
+          animation: settings.animationStyle !== 'reduced' ? 'kenBurns 10s ease-in-out forwards' : 'none',
           opacity: 1
         }}
         data-parallax-intensity={settings.parallaxIntensity}
@@ -205,14 +204,14 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 
       {/* Next image layer for crossfade (pre-loading) */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url(${heroImages[nextImageIndex]})`,
           willChange: 'transform, opacity',
           height: '120%',
           top: '-10%',
           transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
-          animation: settings.animationStyle !== 'reduced' ? 'kenBurnsReverse 12s ease-out infinite' : 'none',
+          animation: settings.animationStyle !== 'reduced' ? 'kenBurns 10s ease-in-out forwards' : 'none',
           opacity: 0
         }}
         data-parallax-intensity={settings.parallaxIntensity}
@@ -499,22 +498,13 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           }
         }
 
-        /* Ken Burns effect - optimized timing for engagement */
+        /* Ken Burns effect - smooth zoom matching 10s cycle */
         @keyframes kenBurns {
           0% {
             transform: scale(1) translate(0, 0);
           }
           100% {
-            transform: scale(1.08) translate(-1.5%, -1%);
-          }
-        }
-
-        @keyframes kenBurnsReverse {
-          0% {
-            transform: scale(1.08) translate(1.5%, 1%);
-          }
-          100% {
-            transform: scale(1) translate(0, 0);
+            transform: scale(1.1) translate(-2%, -1.5%);
           }
         }
 
