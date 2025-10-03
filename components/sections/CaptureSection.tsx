@@ -366,7 +366,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             {/* Social Proof Links - Moved to Subtle Footer Row */}
             <div className="flex justify-center gap-6 text-sm text-white/50">
               <a
-                href="https://github.com/ninoai"
+                href="https://github.com/nino-chavez"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white/80 transition-colors inline-flex items-center gap-1.5"
@@ -377,7 +377,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
                 GitHub
               </a>
               <a
-                href="https://linkedin.com/in/ninochavez"
+                href="https://linkedin.com/in/nino-chavez"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-white/80 transition-colors inline-flex items-center gap-1.5"

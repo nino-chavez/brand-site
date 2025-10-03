@@ -76,7 +76,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
       type: 'linkedin',
       label: 'LinkedIn',
       value: '/in/ninochavez',
-      href: 'https://linkedin.com/in/ninochavez',
+      href: 'https://linkedin.com/in/nino-chavez',
       icon: '💼'
     },
     {
