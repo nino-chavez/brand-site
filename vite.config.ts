@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        strictPort: false, // Auto-increment port if 3000 is in use
       },
       plugins: [react(), createTokenPlugin()],
       build: {
