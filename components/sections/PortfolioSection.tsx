@@ -102,14 +102,9 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
 
       const portfolioSequence = async () => {
         try {
-          // Portfolio completion sequence - reduced delays for faster content reveal
-          await new Promise(resolve => setTimeout(resolve, 50));
+          // Instant content reveal - no delays for immediate visibility
           setPortfolioComplete(true);
-
-          await new Promise(resolve => setTimeout(resolve, 50));
           setContactReady(true);
-
-          await new Promise(resolve => setTimeout(resolve, 50));
           setNarrativeComplete(true);
 
           // Capture final performance metrics

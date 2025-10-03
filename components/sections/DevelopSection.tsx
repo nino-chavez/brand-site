@@ -83,20 +83,16 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
 
       const developSequence = async () => {
         try {
-          // Development process simulation - reduced delays for faster content reveal
-          await new Promise(resolve => setTimeout(resolve, 50));
+          // Instant content reveal - no delays for immediate visibility
           setDevelopmentComplete(true);
 
-          // High-speed gallery loading
-          const loadPromises = adaptedGalleryImages.map((image, index) =>
+          // Instant gallery loading
+          const loadPromises = adaptedGalleryImages.map((image) =>
             new Promise(resolve => {
               const img = new Image();
               img.onload = resolve;
               img.onerror = resolve; // Continue even if image fails
               img.src = image.src;
-
-              // Simulate progressive loading
-              setTimeout(resolve, index * 50); // Stagger loads for effect
             })
           );
 

@@ -133,11 +133,8 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
       const frameSequence = async () => {
         try {
-          // Composition and framing sequence - reduced delays for faster content reveal
-          await new Promise(resolve => setTimeout(resolve, 50));
+          // Instant content reveal - no delays for immediate visibility
           setCompositionLocked(true);
-
-          await new Promise(resolve => setTimeout(resolve, 50));
           setProjectsLoaded(true);
 
           gameFlowDebugger.endBenchmark('frame-section-ready');
