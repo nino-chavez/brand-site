@@ -31,11 +31,24 @@ const CANVAS_WORLD = {
   centerY: 1500
 };
 
-// Minimap dimensions - increased size for better visibility
+// Calculate actual content bounds (sections extend beyond 4000x3000 world)
+// Based on SPATIAL_SECTION_MAP absolute positions
+const CONTENT_BOUNDS = {
+  minX: 700,    // focus left edge: 2000 + (-1300) = 700
+  maxX: 4300,   // frame/portfolio right: 2000 + 1300 + 1000 = 4300
+  minY: 600,    // exposure top: 1500 + (-900) = 600
+  maxY: 3300,   // develop bottom: 1500 + 1000 + 800 = 3300
+  width: 3600,  // 4300 - 700
+  height: 2700  // 3300 - 600
+};
+
+// Minimap dimensions - fit actual content (not arbitrary 4000x3000 world)
 const MINIMAP = {
-  width: 240,  // Increased from 200 (20% larger)
-  height: 180, // Increased from 150 (20% larger)
-  scale: 240 / 4000 // Scale factor to fit 4000px world into 240px minimap
+  width: 240,
+  height: 180,
+  scale: Math.min(240 / CONTENT_BOUNDS.width, 180 / CONTENT_BOUNDS.height), // Fit to actual content
+  offsetX: -CONTENT_BOUNDS.minX, // Shift content to start at 0,0 in minimap
+  offsetY: -CONTENT_BOUNDS.minY
 };
 
 export interface CanvasMinimapProps {
@@ -68,9 +81,9 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
     const worldX = state.position.x;
     const worldY = state.position.y;
 
-    // Convert to minimap pixel coordinates
-    const minimapX = worldX * MINIMAP.scale;
-    const minimapY = worldY * MINIMAP.scale;
+    // Convert to minimap pixel coordinates with content bounds offset
+    const minimapX = (worldX + MINIMAP.offsetX) * MINIMAP.scale;
+    const minimapY = (worldY + MINIMAP.offsetY) * MINIMAP.scale;
     const minimapWidth = viewportWidth * MINIMAP.scale;
     const minimapHeight = viewportHeight * MINIMAP.scale;
 
@@ -179,8 +192,9 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
           const isHovered = hoveredSection === sectionId;
 
           // Convert section coordinates to minimap coordinates
-          const minimapX = (CANVAS_WORLD.centerX + section.coordinates.x) * MINIMAP.scale;
-          const minimapY = (CANVAS_WORLD.centerY + section.coordinates.y) * MINIMAP.scale;
+          // Apply content bounds offset to fit all sections in minimap
+          const minimapX = (CANVAS_WORLD.centerX + section.coordinates.x + MINIMAP.offsetX) * MINIMAP.scale;
+          const minimapY = (CANVAS_WORLD.centerY + section.coordinates.y + MINIMAP.offsetY) * MINIMAP.scale;
           const minimapWidth = section.dimensions.width * MINIMAP.scale;
           const minimapHeight = section.dimensions.height * MINIMAP.scale;
 
