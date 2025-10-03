@@ -125,7 +125,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                             }}>
                                 <button
                                     onClick={() => handleLayoutChange('traditional')}
-                                    className="px-3 py-1.5 rounded transition-all duration-200 text-lg"
+                                    className="px-3 py-1.5 rounded transition-all duration-200"
                                     style={{
                                         background: currentLayout === 'traditional'
                                             ? 'rgba(139, 92, 246, 0.4)'
@@ -136,16 +136,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                                         boxShadow: currentLayout === 'traditional'
                                             ? '0 0 8px rgba(139, 92, 246, 0.4)'
                                             : 'none',
-                                        transform: currentLayout === 'traditional' ? 'scale(1.05)' : 'scale(1)'
+                                        transform: currentLayout === 'traditional' ? 'scale(1.05)' : 'scale(1)',
+                                        fontSize: '18px',
+                                        color: 'white'
                                     }}
                                     aria-label="Traditional layout"
                                     title="Traditional layout"
                                 >
-                                    📄
+                                    ☰
                                 </button>
                                 <button
                                     onClick={() => handleLayoutChange('canvas')}
-                                    className="px-3 py-1.5 rounded transition-all duration-200 text-lg"
+                                    className="px-3 py-1.5 rounded transition-all duration-200"
                                     style={{
                                         background: currentLayout === 'canvas'
                                             ? 'rgba(139, 92, 246, 0.4)'
@@ -156,16 +158,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                                         boxShadow: currentLayout === 'canvas'
                                             ? '0 0 8px rgba(139, 92, 246, 0.4)'
                                             : 'none',
-                                        transform: currentLayout === 'canvas' ? 'scale(1.05)' : 'scale(1)'
+                                        transform: currentLayout === 'canvas' ? 'scale(1.05)' : 'scale(1)',
+                                        fontSize: '18px',
+                                        color: 'white'
                                     }}
                                     aria-label="Canvas layout"
                                     title="Canvas layout"
                                 >
-                                    🗺️
+                                    ⬚
                                 </button>
                                 <button
                                     onClick={() => handleLayoutChange('timeline')}
-                                    className="px-3 py-1.5 rounded transition-all duration-200 text-lg"
+                                    className="px-3 py-1.5 rounded transition-all duration-200"
                                     style={{
                                         background: currentLayout === 'timeline'
                                             ? 'rgba(139, 92, 246, 0.4)'
@@ -176,12 +180,14 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, activeSection }) => {
                                         boxShadow: currentLayout === 'timeline'
                                             ? '0 0 8px rgba(139, 92, 246, 0.4)'
                                             : 'none',
-                                        transform: currentLayout === 'timeline' ? 'scale(1.05)' : 'scale(1)'
+                                        transform: currentLayout === 'timeline' ? 'scale(1.05)' : 'scale(1)',
+                                        fontSize: '18px',
+                                        color: 'white'
                                     }}
                                     aria-label="Timeline layout"
                                     title="Timeline layout"
                                 >
-                                    🎞️
+                                    ▬
                                 </button>
                             </div>
                         </div>
