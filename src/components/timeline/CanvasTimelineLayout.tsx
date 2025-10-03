@@ -210,7 +210,7 @@ const TimelineLayoutContent: React.FC = () => {
         Skip to timeline content
       </a>
 
-      {/* Header placeholder (60px) */}
+      {/* Header with layout switcher (60px) */}
       <div
         style={{
           height: '60px',
@@ -225,8 +225,32 @@ const TimelineLayoutContent: React.FC = () => {
         <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'white' }}>
           Nino Chavez
         </div>
-        <div style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)' }}>
-          Timeline View
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <span style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)' }}>
+            Layout:
+          </span>
+          <select
+            value="timeline"
+            onChange={(e) => {
+              const layout = e.target.value;
+              window.location.href = layout === 'traditional' ? '/' : `/?layout=${layout}`;
+            }}
+            style={{
+              background: 'rgba(139, 92, 246, 0.2)',
+              border: '1px solid rgba(139, 92, 246, 0.5)',
+              borderRadius: '4px',
+              color: 'white',
+              padding: '6px 12px',
+              fontSize: '13px',
+              cursor: 'pointer',
+              fontWeight: '500',
+            }}
+            aria-label="Switch layout view"
+          >
+            <option value="traditional">📄 Traditional</option>
+            <option value="canvas">🗺️ Canvas</option>
+            <option value="timeline">🎞️ Timeline</option>
+          </select>
         </div>
       </div>
 
