@@ -7,9 +7,9 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
       server: {
-        port: 3000,
+        port: 3002,
         host: '0.0.0.0',
-        strictPort: false, // Auto-increment port if 3000 is in use
+        strictPort: false, // Auto-increment port if 3002 is in use
       },
       plugins: [react(), createTokenPlugin()],
       build: {

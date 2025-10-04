@@ -19,7 +19,8 @@ test.describe('Gallery Flow', () => {
       await setViewport(page, viewportKey);
 
       // Step 1: Navigate to gallery section
-      await page.goto('http://localhost:3000');
+      const testUrl = process.env.TEST_URL || 'http://localhost:3002';
+      await page.goto(testUrl);
       const gallerySection = page.locator('[data-section="portfolio"]').first();
       if (await gallerySection.isVisible()) {
         await gallerySection.scrollIntoViewIfNeeded();

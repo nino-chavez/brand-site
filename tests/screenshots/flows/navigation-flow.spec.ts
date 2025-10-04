@@ -19,7 +19,8 @@ test.describe('Navigation Flow', () => {
       await setViewport(page, viewportKey);
 
       // Step 1: Initial page load
-      await page.goto('http://localhost:3000');
+      const testUrl = process.env.TEST_URL || 'http://localhost:3002';
+      await page.goto(testUrl);
       await captureFlowStep(page, 'navigation', {
         step: 1,
         description: 'Initial page load',

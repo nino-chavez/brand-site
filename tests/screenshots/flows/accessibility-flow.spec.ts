@@ -20,7 +20,8 @@ test.describe('Accessibility Flow', () => {
     await setViewport(page, viewportKey);
 
     // Step 1: Initial load with focus
-    await page.goto('http://localhost:3000');
+    const testUrl = process.env.TEST_URL || 'http://localhost:3002';
+    await page.goto(testUrl);
 
     await captureFlowStep(page, 'accessibility', {
       step: 1,

@@ -19,7 +19,8 @@ test.describe('Canvas Layout Flow', () => {
       await setViewport(page, viewportKey);
 
       // Step 1: Load canvas mode
-      await page.goto('http://localhost:3000?layout=canvas');
+      const testUrl = process.env.TEST_URL || 'http://localhost:3002';
+      await page.goto(`${testUrl}?layout=canvas`);
       await page.waitForTimeout(2000); // Allow canvas to initialize
 
       await captureFlowStep(page, 'canvas', {
