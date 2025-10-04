@@ -372,33 +372,20 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             className={`mb-8 ${getClasses(roleVisible)}`}
             data-testid="hero-role"
           >
-            <p className="text-xl md:text-3xl lg:text-4xl font-semibold tracking-wide mb-4" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
-              Systems Thinker • Enterprise Architect
-            </p>
-            <p className="text-lg md:text-xl text-white/80 font-medium" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
-              I help teams build infrastructure that holds up when it matters
+            <p className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-wide mb-4" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
+              What I Build When Nobody's Watching
             </p>
           </div>
 
           {/* Value proposition */}
           <p
             ref={taglineRef}
-            className={`text-lg md:text-xl text-white/75 mb-6 font-normal leading-relaxed ${getClasses(taglineVisible)}`}
+            className={`text-base md:text-xl text-white/90 mb-6 font-normal max-w-4xl mx-auto leading-relaxed ${getClasses(taglineVisible)}`}
             style={{
               textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)'
             }}
           >
-            25 years in enterprise architecture<br />
-            Currently: Guiding Fortune 500s through AI-native transformation
-          </p>
-
-          {/* Trust signals with specific companies */}
-          <p className="text-sm md:text-base text-white/70 mb-4 font-medium" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
-            SAP Commerce • Salesforce • Adobe
-          </p>
-          <p className="text-xs md:text-sm text-white/50 mb-6" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
-            Not here for buzzwords or hype cycles<br />
-            Here to find the signal in the noise
+            Two decades architecting Fortune 500 commerce platforms—where downtime costs millions and "good enough" fails. I can't show you that work. What I can show: this portfolio (5 AI agents, 97/100 Lighthouse, automated quality gates), a real-time volleyball platform, projects solving problems I'm not paid to solve. Want to know how I think? Look at what I build when nobody's watching.
           </p>
 
           {/* Consolidated 2-CTA Approach */}
@@ -419,10 +406,10 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
                   willChange: 'transform'
                 }}
                 data-testid="view-work-cta"
-                aria-label="View case studies and portfolio"
+                aria-label="See what I build - view personal projects"
               >
                 <span className="flex items-center justify-center space-x-2">
-                  <span className="tracking-wide">View Case Studies</span>
+                  <span className="tracking-wide">See What I Build</span>
                   <svg
                     className="w-6 h-6 transition-transform duration-300 group-hover:translate-y-1"
                     fill="none"

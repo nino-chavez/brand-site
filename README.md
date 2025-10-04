@@ -2,24 +2,36 @@
 <img width="1200" height="475" alt="Nino Chavez Portfolio Banner" src="./public/images/banner.jpeg" />
 </div>
 
-# Nino Chavez Portfolio: "The Moment of Impact"
+# Nino Chavez Portfolio: "What I Build When Nobody's Watching"
 
-A cutting-edge personal portfolio website built entirely with AI-powered development tools, showcasing the intersection of enterprise software architecture and action sports photography.
+A cutting-edge personal portfolio website built entirely with AI-powered development tools, demonstrating production-grade multi-agent development methodology through personal projects and open-source contributions.
 
 ## About This Project
 
-This portfolio represents more than just a personal brand showcase—it's a live demonstration of **AI-first development methodology** in action. Every component, animation, and interaction has been collaboratively built using advanced AI agents, resulting in a sophisticated single-page application that balances technical excellence with compelling visual storytelling.
+Two decades architecting Fortune 500 commerce platforms—where downtime costs millions and "good enough" fails. I can't show you that work. What I can show: this portfolio (5 AI agents, 97/100 Lighthouse, automated quality gates), a real-time volleyball platform, and projects solving problems I'm not paid to solve.
 
-### The "Moment of Impact" Concept
+This isn't a showcase of client work (bound by NDAs). It's a demonstration of **AI-first development methodology** through personal projects that reveal how I think, build, and solve problems.
 
-The entire experience is built around capturing the perfect moment—whether it's the precise timing of a volleyball spike or the architectural decision that transforms a complex system. The UI follows a camera-inspired workflow with six distinct sections representing the professional photography process:
+### Featured Personal Projects
 
-1. **Equipment Check** (Hero) - Camera viewfinder interface
-2. **Warm-Up** (About) - Professional background and dual expertise
-3. **Game Time** (Projects) - Burst-mode project showcase with EXIF-style metadata
-4. **Training** (Insights) - Technical articles and thought leadership
-5. **Action Shots** (Gallery) - Action sports photography portfolio
-6. **Contact** - Professional connection hub
+This portfolio showcases 5 production-grade personal projects:
+
+1. **Multi-Agent Development Platform** (This Site) - 5 AI agents, 97/100 Lighthouse, automated quality gates
+2. **MatchFlow** - Real-time volleyball tournament platform with 137 services, 88/100 production readiness
+3. **Aegis Framework** - First-in-industry AI agent governance framework with constitutional enforcement
+4. **SmugMug API Reference App** - Built in 72 hours, 20x velocity multiplier, AI-powered semantic search
+5. **Commerce Prompt Analyzer** - Answer engine optimization tool for e-commerce catalog analysis
+
+### Photography Metaphor Navigation
+
+The UI follows a camera-inspired workflow with six sections representing the photography process:
+
+1. **Capture** (Hero) - Camera viewfinder interface
+2. **Focus** (About) - Professional background and expertise
+3. **Frame** (Projects) - Personal project showcase
+4. **Exposure** (Insights) - Technical writing and thought leadership
+5. **Develop** (Gallery) - Action sports photography
+6. **Portfolio** (Contact) - Professional connection hub
 
 ## Tech Stack
 

@@ -24,6 +24,7 @@ coverage/
 playwright-report*
 test-results/
 .vitest/
+lighthouse-reports/
 
 # OS files
 .DS_Store

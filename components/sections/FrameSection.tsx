@@ -3,6 +3,8 @@ import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
 import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
+import { WORK_PROJECTS } from '../../src/constants';
+import type { WorkProject } from '../../src/types';
 
 interface ExposureSettings {
   aperture: number;
@@ -77,54 +79,15 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
   const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: projectsRef, isVisible: projectsVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
-  // Project portfolio data - Grounded in real platform work
-  const projects: Project[] = [
-    {
-      id: 'commerce-transformation',
-      title: 'Commerce Platform Modernization',
-      subtitle: 'SAP Commerce Cloud',
-      description: 'Multi-year platform transformation connecting legacy commerce systems with modern cloud architecture. Focused on stabilizing integrations that kept breaking and building technical runways for future capabilities.',
-      technologies: ['SAP Commerce', 'Hybris', 'Java', 'Spring', 'Solr', 'Kubernetes'],
-      architecture: ['Headless Commerce', 'API Gateway', 'Event-driven Integration', 'Multi-tenant SaaS', 'Cloud Migration'],
-      challenges: ['Legacy system dependencies', 'Data migration complexity', 'Zero-downtime deployments', 'Multi-brand consistency'],
-      outcomes: ['Platform stabilization', 'Reduced integration failures', 'Cloud-native architecture', 'Technical debt reduction'],
-      metrics: {
-        performance: 'Enterprise scale',
-        scale: 'Multi-brand retail',
-        timeline: 'Multi-year engagement'
-      }
-    },
-    {
-      id: 'salesforce-integration',
-      title: 'Salesforce Commerce Integration',
-      subtitle: 'Order Management & Fulfillment',
-      description: 'Built integrations connecting Salesforce Commerce Cloud with warehouse management, inventory, and fulfillment systems. The kind of work where "it should be simple" meets enterprise reality.',
-      technologies: ['Salesforce Commerce', 'Node.js', 'REST APIs', 'Kafka', 'Redis', 'PostgreSQL'],
-      architecture: ['Event-driven sync', 'Circuit breaker patterns', 'Idempotent operations', 'Retry strategies', 'Dead letter queues'],
-      challenges: ['System inconsistencies', 'Real-time inventory sync', 'Order state management', 'Third-party API reliability'],
-      outcomes: ['Reliable order flow', 'Inventory synchronization', 'Reduced manual interventions', 'Improved customer experience'],
-      metrics: {
-        performance: 'Sub-second sync',
-        scale: 'High-volume retail',
-        timeline: '18-month delivery'
-      }
-    },
-    {
-      id: 'ai-native-readiness',
-      title: 'AI-Native Commerce Strategy',
-      subtitle: 'Answer-First Transformation',
-      description: 'Current work at Accenture Song: helping Fortune 500 retailers think differently about commerce in an AI-native world. Less about "adding AI features" and more about rethinking core assumptions when customers expect answers, not search results.',
-      technologies: ['Strategic Architecture', 'Commerce Platforms', 'AI Integration', 'Change Management', 'Technical Advisory'],
-      architecture: ['Answer-first experiences', 'Context-aware systems', 'Agent-based workflows', 'Progressive enhancement', 'Human-in-loop design'],
-      challenges: ['Paradigm shift resistance', 'Legacy platform constraints', 'Organizational readiness', 'Measuring AI value'],
-      outcomes: ['Strategic roadmaps', 'Executive alignment', 'Technical feasibility studies', 'Platform evaluation'],
-      metrics: {
-        performance: 'Strategic guidance',
-        scale: 'Fortune 500 retail',
-        timeline: 'Ongoing engagement'
-      }
-    }
-  ];
+  /**
+   * Project portfolio data - Now centralized in src/constants.ts
+   *
+   * DATA SOURCE: This component imports project data from src/constants.ts
+   * DO NOT hardcode project data here. Update WORK_PROJECTS in constants.ts instead.
+   *
+   * This ensures single source of truth for content updates across all layout modes.
+   */
+  const projects = WORK_PROJECTS as Project[];
 
   // Frame composition sequence
   useEffect(() => {
@@ -219,20 +182,20 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
             {/* Section header */}
             <div className="text-center mb-16">
-              <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Strategic Work</div>
+              <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Personal Projects</div>
               <h2
                 ref={headingRef}
                 className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
               >
-                Commerce Architecture
-                <span className="block text-athletic-brand-violet">That Holds Up</span>
+                What I Build
+                <span className="block text-athletic-brand-violet">When Nobody's Watching</span>
               </h2>
               <p
                 ref={subtitleRef}
                 className={`text-xl text-white/80 max-w-3xl mx-auto leading-relaxed ${getClasses(subtitleVisible)}`}
               >
-                25 years building platforms for SAP Commerce, Salesforce, and Adobe.<br />
-                The kind of work where "it should be simple" meets enterprise reality.
+                Two decades building Fortune 500 commerce platforms. Can't show you that work.<br />
+                What I can show: what I build on my own time, solving problems I'm not paid to solve.
               </p>
             </div>
 

@@ -270,39 +270,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                     <div className="space-y-2 mb-8" style={{
                         animation: 'fadeInUp 1s ease-out 0.4s both'
                     }}>
-                        <p className="text-xl md:text-3xl lg:text-4xl text-white font-semibold tracking-wide" style={{
+                        <p className="text-2xl md:text-4xl lg:text-5xl text-white font-bold tracking-wide" style={{
                             textShadow: '0 3px 8px rgba(0, 0, 0, 0.9), 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.7)'
                         }}>
-                            Enterprise Architect & Technical Leader
+                            What I Build When Nobody's Watching
                         </p>
-                        <div className="flex items-center justify-center space-x-3 text-lg md:text-xl text-white/90 font-medium" style={{
-                            textShadow: '0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.7)'
-                        }}>
-                            <span>Software Engineering</span>
-                            <div className="w-1 h-1 rounded-full bg-white/60"></div>
-                            <span>Visual Storytelling</span>
-                        </div>
                     </div>
-                    <p className="text-xl md:text-2xl text-white/85 mb-4 font-normal max-w-3xl mx-auto leading-relaxed tracking-wide" style={{
+                    <p className="text-base md:text-xl text-white/90 mb-6 font-normal max-w-4xl mx-auto leading-relaxed" style={{
                         textShadow: '0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.7)',
                         animation: 'fadeInUp 1s ease-out 0.6s both'
                     }}>
-                        Building resilient systems that scale from thousands to millions of users
-                    </p>
-
-                    {/* Trust signals */}
-                    <p className="text-sm md:text-base text-white/70 mb-6 max-w-2xl mx-auto" style={{
-                        textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)',
-                        animation: 'fadeInUp 1s ease-out 0.65s both'
-                    }}>
-                        Trusted by Fortune 500 companies • 20+ years enterprise experience
-                    </p>
-
-                    <p className="text-base md:text-lg text-white/70 mb-10 max-w-2xl mx-auto" style={{
-                        textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)',
-                        animation: 'fadeInUp 1s ease-out 0.7s both'
-                    }}>
-                        React 19 • TypeScript • AWS/Azure • Microservices • Leading 50+ Engineers
+                        Two decades architecting Fortune 500 commerce platforms—where downtime costs millions and "good enough" fails. I can't show you that work. What I can show: this portfolio (5 AI agents, 97/100 Lighthouse, automated quality gates), a real-time volleyball platform, projects solving problems I'm not paid to solve. Want to know how I think? Look at what I build when nobody's watching.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6" style={{
                         animation: 'fadeInUp 1s ease-out 0.8s both'
@@ -313,7 +291,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                             className="btn-primary group btn-magnetic text-xl px-10 py-5"
                         >
                             <span className="flex items-center justify-center space-x-2">
-                                <span className="tracking-wide">View Case Studies</span>
+                                <span className="tracking-wide">See What I Build</span>
                                 <svg className="w-6 h-6 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                                 </svg>
