@@ -11,6 +11,9 @@ import { defaultViewports } from '../config/viewports';
 
 test.describe('Game Flow Sections', () => {
   test('should capture all photography workflow sections', async ({ page }) => {
+    // Increase timeout for multi-section capture (Chromium: 29s, Firefox/WebKit: 32-47s)
+    test.setTimeout(60000); // 30s → 60s
+
     console.log('\n🎬 Capturing Game Flow Sections...\n');
 
     const sections = [
