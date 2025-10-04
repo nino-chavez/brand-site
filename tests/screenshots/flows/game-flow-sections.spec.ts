@@ -28,8 +28,17 @@ test.describe('Game Flow Sections', () => {
     for (const viewportKey of defaultViewports) {
       console.log(`\n📱 Viewport: ${viewportKey}`);
 
+      // Add navigation detection
+      page.on('framenavigated', (frame) => {
+        if (frame === page.mainFrame()) {
+          console.log(`  🔄 Page navigation detected: ${frame.url()}`);
+        }
+      });
+
       await setViewport(page, viewportKey);
-      await page.goto('http://localhost:3000', { waitUntil: 'domcontentloaded' });
+      // Use production build (port 3002) instead of dev server to avoid HMR navigation issues
+      const testUrl = process.env.TEST_URL || 'http://localhost:3002';
+      await page.goto(testUrl, { waitUntil: 'domcontentloaded' });
 
       // Wait for initial page load, animations, and ensure no navigation occurs
       await page.waitForLoadState('load');
