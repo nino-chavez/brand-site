@@ -38,19 +38,14 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const sectionRef = useRef<HTMLElement>(null);
 
-  // PERFORMANCE TESTING: Carousel disabled to isolate LCP issue
-  // Dynamic background showcase with Ken Burns effect
+  // Dynamic background showcase with lazy-loaded Ken Burns effect
   // hero.webp is landscape (optimized from 922KB to 658KB), gallery images are portrait (3919x5879)
-  const heroImages = [
-    { url: '/images/hero.webp', orientation: 'landscape' },
-    // CAROUSEL DISABLED FOR LIGHTHOUSE TESTING - Only load hero image
-    // ...Array.from({ length: 27 }, (_, i) => ({
-    //   url: `/images/gallery/portfolio-${String(i).padStart(2, '0')}.jpg`,
-    //   orientation: 'portrait' as const
-    // }))
-  ];
+  // PERFORMANCE: Start with no images, lazy-load entire carousel after LCP
+  const [heroImages, setHeroImages] = useState<Array<{ url: string; orientation: 'landscape' | 'portrait' }>>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [nextImageIndex, setNextImageIndex] = useState(0); // Keep at 0 to prevent preloading
+  const [nextImageIndex, setNextImageIndex] = useState(0);
+  const [carouselReady, setCarouselReady] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Magnetic button effects
   const viewWorkButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.4, radius: 100 });
@@ -108,27 +103,58 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
     }
   }, [active, isActive, onSectionReady, onError, gameFlowDebugger]);
 
-  // CAROUSEL DISABLED FOR LIGHTHOUSE TESTING
-  // Dynamic background rotation (only if motion not reduced)
+  // Lazy-load carousel images after initial hero paint (performance optimization)
   useEffect(() => {
-    // DISABLED: Keep static hero image for performance testing
-    return;
+    // Defer carousel loading until after LCP to improve Lighthouse score
+    const loadCarouselImages = () => {
+      // Include hero.webp + 27 gallery images
+      const allImages = [
+        { url: '/images/hero.webp', orientation: 'landscape' as const },
+        ...Array.from({ length: 27 }, (_, i) => ({
+          url: `/images/gallery/portfolio-${String(i).padStart(2, '0')}.jpg`,
+          orientation: 'portrait' as const
+        }))
+      ];
 
-    // // Respect user's motion preference
-    // if (settings.animationStyle === 'reduced' || settings.transitionSpeed === 'none') {
-    //   return;
-    // }
+      setHeroImages(allImages);
+      setCarouselReady(true);
+      console.log('📸 Carousel images lazy-loaded (1 hero + 27 gallery images)');
+    };
 
-    // const interval = setInterval(() => {
-    //   setCurrentImageIndex((current) => {
-    //     const next = (current + 1) % heroImages.length;
-    //     setNextImageIndex((next + 1) % heroImages.length);
-    //     return next;
-    //   });
-    // }, 10000); // Match Ken Burns animation duration for smooth transitions
+    // Load carousel 3 seconds after mount to allow hero LCP to complete
+    const timeoutId = setTimeout(loadCarouselImages, 3000);
 
-    // return () => clearInterval(interval);
-  }, [settings.animationStyle, settings.transitionSpeed, heroImages.length]);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
+  // Dynamic background rotation (only if carousel ready and motion not reduced)
+  useEffect(() => {
+    // Wait for carousel to be lazy-loaded
+    if (!carouselReady) return;
+
+    // Respect user's motion preference
+    if (settings.animationStyle === 'reduced' || settings.transitionSpeed === 'none') {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      // Start transition
+      setIsTransitioning(true);
+
+      // After 2s fade, update indices and end transition
+      setTimeout(() => {
+        setCurrentImageIndex((current) => {
+          const next = (current + 1) % heroImages.length;
+          setNextImageIndex((next + 1) % heroImages.length);
+          return next;
+        });
+        setIsTransitioning(false);
+      }, 2000); // 2s crossfade duration
+
+    }, 10000); // 10s per image (8s visible + 2s transition)
+
+    return () => clearInterval(interval);
+  }, [settings.animationStyle, settings.transitionSpeed, heroImages.length, carouselReady]);
 
   // Mouse movement handler for subtle interactions
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
@@ -193,64 +219,93 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       aria-label="Capture section - Introduction and technical readiness"
     >
       {/* Dynamic Ken Burns Background Showcase */}
-      {/* Current image - Blurred backdrop layer for portrait images */}
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${heroImages[currentImageIndex].url})`,
-          filter: heroImages[currentImageIndex].orientation === 'portrait' ? 'blur(40px) brightness(0.6)' : 'none',
-          transform: heroImages[currentImageIndex].orientation === 'portrait' ? 'scale(1.2)' : 'none',
-          willChange: 'transform, opacity',
-          opacity: heroImages[currentImageIndex].orientation === 'portrait' ? 1 : 0
-        }}
-        data-backdrop-blur={heroImages[currentImageIndex].orientation === 'portrait'}
-      />
+      {!carouselReady ? (
+        /* Gradient placeholder while carousel loads (LCP optimization) */
+        <div className="absolute inset-0">
+          {/* Base gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
 
-      {/* Current image - Sharp foreground layer with Ken Burns effect */}
-      <div
-        className="absolute inset-0 w-full h-full bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${heroImages[currentImageIndex].url})`,
-          backgroundSize: heroImages[currentImageIndex].orientation === 'landscape' ? 'cover' : 'contain',
-          willChange: 'transform, opacity',
-          height: '120%',
-          top: '-10%',
-          transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
-          animation: settings.animationStyle !== 'reduced' ? 'kenBurns 10s ease-in-out forwards' : 'none',
-          opacity: 1
-        }}
-        data-parallax-intensity={settings.parallaxIntensity}
-        data-ken-burns-active={settings.animationStyle !== 'reduced'}
-      />
+          {/* Animated accent gradient */}
+          <div
+            className="absolute inset-0 opacity-50"
+            style={{
+              background: 'radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.3), transparent 50%)',
+              animation: 'gradientShift 10s ease-in-out infinite'
+            }}
+          />
 
-      {/* Next image - Blurred backdrop layer for portrait images */}
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${heroImages[nextImageIndex].url})`,
-          filter: heroImages[nextImageIndex].orientation === 'portrait' ? 'blur(40px) brightness(0.6)' : 'none',
-          transform: heroImages[nextImageIndex].orientation === 'portrait' ? 'scale(1.2)' : 'none',
-          willChange: 'transform, opacity',
-          opacity: 0
-        }}
-        data-backdrop-blur={heroImages[nextImageIndex].orientation === 'portrait'}
-      />
+          {/* SVG grain texture */}
+          <svg className="absolute inset-0 w-full h-full opacity-20">
+            <filter id="capture-noise">
+              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" />
+              <feColorMatrix type="saturate" values="0" />
+            </filter>
+            <rect width="100%" height="100%" filter="url(#capture-noise)" />
+          </svg>
+        </div>
+      ) : (
+        /* Ken Burns carousel once images are loaded */
+        <>
+          {/* Current image - Blurred backdrop layer for portrait images */}
+          <div
+            className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-[2000ms] ease-in-out"
+            style={{
+              backgroundImage: `url(${heroImages[currentImageIndex]?.url})`,
+              filter: heroImages[currentImageIndex]?.orientation === 'portrait' ? 'blur(40px) brightness(0.6)' : 'none',
+              transform: heroImages[currentImageIndex]?.orientation === 'portrait' ? 'scale(1.2)' : 'none',
+              willChange: 'transform, opacity',
+              opacity: isTransitioning ? 0 : (heroImages[currentImageIndex]?.orientation === 'portrait' ? 1 : 0)
+            }}
+            data-backdrop-blur={heroImages[currentImageIndex]?.orientation === 'portrait'}
+          />
 
-      {/* Next image - Sharp foreground layer for crossfade (pre-loading) */}
-      <div
-        className="absolute inset-0 w-full h-full bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${heroImages[nextImageIndex].url})`,
-          backgroundSize: heroImages[nextImageIndex].orientation === 'landscape' ? 'cover' : 'contain',
-          willChange: 'transform, opacity',
-          height: '120%',
-          top: '-10%',
-          transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
-          animation: settings.animationStyle !== 'reduced' ? 'kenBurns 10s ease-in-out forwards' : 'none',
-          opacity: 0
-        }}
-        data-parallax-intensity={settings.parallaxIntensity}
-      />
+          {/* Current image - Sharp foreground layer with Ken Burns effect */}
+          <div
+            className="absolute inset-0 w-full h-full bg-center bg-no-repeat transition-opacity duration-[2000ms] ease-in-out"
+            style={{
+              backgroundImage: `url(${heroImages[currentImageIndex]?.url})`,
+              backgroundSize: heroImages[currentImageIndex]?.orientation === 'landscape' ? 'cover' : 'contain',
+              willChange: 'transform, opacity',
+              height: '120%',
+              top: '-10%',
+              transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
+              animation: settings.animationStyle !== 'reduced' ? 'kenBurns 10s ease-in-out infinite' : 'none',
+              opacity: isTransitioning ? 0 : 1
+            }}
+            data-parallax-intensity={settings.parallaxIntensity}
+            data-ken-burns-active={settings.animationStyle !== 'reduced'}
+          />
+
+          {/* Next image - Blurred backdrop layer for portrait images */}
+          <div
+            className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat transition-opacity duration-[2000ms] ease-in-out"
+            style={{
+              backgroundImage: `url(${heroImages[nextImageIndex]?.url})`,
+              filter: heroImages[nextImageIndex]?.orientation === 'portrait' ? 'blur(40px) brightness(0.6)' : 'none',
+              transform: heroImages[nextImageIndex]?.orientation === 'portrait' ? 'scale(1.2)' : 'none',
+              willChange: 'transform, opacity',
+              opacity: isTransitioning ? (heroImages[nextImageIndex]?.orientation === 'portrait' ? 1 : 0) : 0
+            }}
+            data-backdrop-blur={heroImages[nextImageIndex]?.orientation === 'portrait'}
+          />
+
+          {/* Next image - Sharp foreground layer for crossfade (pre-loading) */}
+          <div
+            className="absolute inset-0 w-full h-full bg-center bg-no-repeat transition-opacity duration-[2000ms] ease-in-out"
+            style={{
+              backgroundImage: `url(${heroImages[nextImageIndex]?.url})`,
+              backgroundSize: heroImages[nextImageIndex]?.orientation === 'landscape' ? 'cover' : 'contain',
+              willChange: 'transform, opacity',
+              height: '120%',
+              top: '-10%',
+              transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
+              animation: settings.animationStyle !== 'reduced' ? 'kenBurns 10s ease-in-out infinite' : 'none',
+              opacity: isTransitioning ? 1 : 0
+            }}
+            data-parallax-intensity={settings.parallaxIntensity}
+          />
+        </>
+      )}
 
       {/* Interactive orange spotlight with pulse effect following mouse */}
       <div

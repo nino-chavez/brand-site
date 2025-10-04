@@ -12,7 +12,6 @@ interface HeroSectionProps {
 const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
     const [isHovered, setIsHovered] = useState(false);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [parallaxOffset, setParallaxOffset] = useState(0);
 
     // Access athletic design tokens
     const athleticTokens = useAthleticTokens();
@@ -61,17 +60,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
         setProfileMinimized(prev => !prev);
     }, []);
 
-    // Parallax scroll effect
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrolled = window.scrollY;
-            // Move background slower than scroll (0.5 = half speed)
-            setParallaxOffset(scrolled * 0.5);
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     // Mouse hover and position handlers
     const handleMouseEnter = useCallback(() => {
@@ -89,21 +77,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
         setMousePosition({ x, y });
     }, []);
 
-    // Simple, smooth parallax effect
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollY = window.scrollY;
-            const backgroundElement = document.getElementById('hero-background');
-            if (backgroundElement) {
-                // Simple parallax - background moves slower than scroll
-                const parallaxOffset = scrollY * 0.5;
-                backgroundElement.style.transform = `translate3d(0, ${parallaxOffset}px, 0)`;
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
 
     // Legacy viewfinder handlers (simplified)
     const handleViewfinderToggle = useCallback(() => {
@@ -238,22 +211,29 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                     zIndex: 10,
                 }}
             >
-                {/* Hero background image - optimized for LCP */}
-                <img
-                    id="hero-background"
-                    src="/images/hero.webp"
-                    alt="Hero background"
-                    className="absolute inset-0 w-full h-full object-cover"
-                    style={{
-                        transform: `translateY(${parallaxOffset}px)`, // Parallax effect
-                        willChange: 'transform',
-                        // Extend the background slightly to prevent gaps during parallax
-                        height: '120%',
-                        top: '-10%',
-                    }}
-                    loading="eager"
-                    fetchpriority="high"
-                />
+                {/* Optimized hero background - Gradient + SVG Pattern (Option A) */}
+                <div id="hero-background" className="absolute inset-0">
+                    {/* Base gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
+
+                    {/* Animated accent gradient */}
+                    <div
+                        className="absolute inset-0 opacity-50"
+                        style={{
+                            background: 'radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.3), transparent 50%)',
+                            animation: 'gradientShift 10s ease-in-out infinite'
+                        }}
+                    />
+
+                    {/* SVG grain texture overlay */}
+                    <svg className="absolute inset-0 w-full h-full opacity-20">
+                        <filter id="noise">
+                            <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" />
+                            <feColorMatrix type="saturate" values="0" />
+                        </filter>
+                        <rect width="100%" height="100%" filter="url(#noise)" />
+                    </svg>
+                </div>
 
             {/* Enhanced dark overlay with animated gradients */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20"></div>

@@ -24,63 +24,94 @@ const AboutSection: React.FC<AboutSectionProps> = ({ setRef }) => {
                     </div>
                 </div>
                 <div className="lg:col-span-3">
-                    <SectionTitle>From Startup to Enterprise Scale</SectionTitle>
+                    <SectionTitle>Enterprise Architecture & Technical Leadership</SectionTitle>
                     <p className="text-xl text-gray-400 mb-8">
-                        20 years building systems that don't break under pressure—from early-stage products to Fortune 500 platforms serving millions.
+                        26 years translating business strategy into scalable technical reality—from full-stack development to Fortune 500 enterprise architecture.
                     </p>
 
-                    {/* Achievement Highlights */}
-                    <div className="grid md:grid-cols-3 gap-6 mb-10 p-6 bg-gradient-to-r from-brand-violet/10 to-brand-cyan/10 rounded-lg border border-brand-violet/20">
-                        <div className="text-center">
-                            <div className="text-3xl font-bold text-gradient-violet mb-2">100+ Engineers</div>
-                            <p className="text-sm text-gray-400">Led across Microsoft, Oracle, and Adobe teams</p>
-                        </div>
-                        <div className="text-center border-l border-r border-white/10 px-4">
-                            <div className="text-3xl font-bold text-gradient-cyan mb-2">$10M+ Daily</div>
-                            <p className="text-sm text-gray-400">Transaction platforms with zero downtime</p>
-                        </div>
-                        <div className="text-center">
-                            <div className="text-3xl font-bold text-gradient-orange mb-2">10K → 10M Users</div>
-                            <p className="text-sm text-gray-400">Scaled systems 1000x without infrastructure rebuild</p>
+                    {/* Professional Timeline */}
+                    <div className="mb-10 p-6 bg-gradient-to-r from-brand-violet/10 to-brand-cyan/10 rounded-lg border border-brand-violet/20">
+                        <h3 className="text-lg font-semibold text-white mb-4">Professional Timeline</h3>
+                        <div className="space-y-3 text-sm text-gray-300">
+                            <div className="flex justify-between items-start border-l-2 border-brand-violet pl-4">
+                                <div>
+                                    <div className="font-semibold text-white">Enterprise Architect & Strategic Advisor</div>
+                                    <div className="text-gray-400">Accenture Song</div>
+                                </div>
+                                <div className="text-gray-400 text-xs">2023-Present</div>
+                            </div>
+                            <div className="flex justify-between items-start border-l-2 border-gray-600 pl-4">
+                                <div>
+                                    <div className="font-semibold text-white">Managing Delivery Architect</div>
+                                    <div className="text-gray-400">Capgemini</div>
+                                </div>
+                                <div className="text-gray-400 text-xs">2021-2023</div>
+                            </div>
+                            <div className="flex justify-between items-start border-l-2 border-gray-600 pl-4">
+                                <div>
+                                    <div className="font-semibold text-white">Domain Architect</div>
+                                    <div className="text-gray-400">Peapod Digital Labs</div>
+                                </div>
+                                <div className="text-gray-400 text-xs">2020-2021</div>
+                            </div>
+                            <div className="flex justify-between items-start border-l-2 border-gray-600 pl-4">
+                                <div>
+                                    <div className="font-semibold text-white">Managing Enterprise Architect</div>
+                                    <div className="text-gray-400">Accenture Interactive</div>
+                                </div>
+                                <div className="text-gray-400 text-xs">2018-2020</div>
+                            </div>
+                            <div className="flex justify-between items-start border-l-2 border-gray-600 pl-4">
+                                <div>
+                                    <div className="font-semibold text-white">Managing Enterprise Architect</div>
+                                    <div className="text-gray-400">Gorilla Group</div>
+                                </div>
+                                <div className="text-gray-400 text-xs">2015-2018</div>
+                            </div>
+                            <div className="flex justify-between items-start border-l-2 border-gray-500 pl-4">
+                                <div>
+                                    <div className="font-semibold text-white">Software Engineer & Engineering Lead</div>
+                                    <div className="text-gray-400">Various firms</div>
+                                </div>
+                                <div className="text-gray-400 text-xs">1999-2015</div>
+                            </div>
                         </div>
                     </div>
 
                     <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
-                        <p>
-                            I'm Nino Chavez, an Enterprise Architect and Technical Leader who transforms complex business challenges into elegant, scalable solutions that serve millions of users daily.
-                        </p>
-
-                        <p>
-                            My approach is simple: I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: the entire system of ownership, scope, and second-order effects where ideas must actually live.
-                        </p>
-
                         <div className="mt-8 mb-8">
                             <h3 className="text-2xl font-semibold text-white mb-4">What I Do</h3>
+                            <ul className="space-y-3 text-gray-300">
+                                <li className="flex items-start">
+                                    <span className="text-brand-violet mr-3 mt-1">▸</span>
+                                    <span>Architect commerce platforms for Fortune 500 clients—SAP Commerce, Salesforce, Adobe, and custom solutions</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-brand-violet mr-3 mt-1">▸</span>
+                                    <span>Lead engineering teams (50-100+) through multi-million dollar implementations</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-brand-violet mr-3 mt-1">▸</span>
+                                    <span>Translate executive strategy into technical execution</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-brand-violet mr-3 mt-1">▸</span>
+                                    <span>Design platforms that adapt as business models evolve</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="mt-8 mb-8">
+                            <h3 className="text-2xl font-semibold text-white mb-4">Technical Foundation</h3>
                             <p className="mb-4">
-                                I architect resilient systems that enable people and businesses to thrive. From leading 100+ person engineering teams to migrating Fortune 500 legacy infrastructure to multi-cloud platforms, my value lies in providing clarity when the stakes are high and the path forward isn't obvious.
-                            </p>
-                            <p className="mb-4">
-                                Recent engagements include: Reducing cloud infrastructure costs 40% while improving performance for a Fortune 500 retailer. Designing AI governance frameworks for regulated industries. Migrating legacy monoliths to event-driven architectures without service interruption.
-                            </p>
-                            <p>
-                                My specialty is "reading the road"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on. I practice rigorous decision hygiene: understanding the full operational context before making a move, always asking "who checks the foundation?"
+                                26 years across the stack—full-stack development through enterprise architecture. I choose platforms based on adaptability under uncertainty: favor composition over monoliths, data ownership over vendor lock-in, and proven patterns over emerging hype.
                             </p>
                         </div>
 
                         <div className="mt-8 mb-8">
-                            <h3 className="text-2xl font-semibold text-white mb-4">How I Lead</h3>
-                            <p className="mb-4">
-                                Leadership, for me, is a quiet, steadying practice. I call it "living in the gap"—holding the long-term vision while remaining present with the team's reality. My goal isn't to micromanage but to be the structure (the "human loom," as I call it) that allows all the other pieces to come together effectively.
-                            </p>
+                            <h3 className="text-2xl font-semibold text-white mb-4">Current Work</h3>
                             <p>
-                                I coach without coddling. I empower teams with autonomy and clear guardrails. And I arrive not just fast, but together—because sustainable velocity matters more than heroic sprints.
-                            </p>
-                        </div>
-
-                        <div className="mt-8 mb-8">
-                            <h3 className="text-2xl font-semibold text-white mb-4">My Philosophy on AI</h3>
-                            <p>
-                                AI is infrastructure, not magic. While others debate whether AI will replace developers, I'm building the governance and architecture patterns that make AI reliable in production. The human role hasn't disappeared—it's evolved from coder to architect, from syntax to systems.
+                                Advising enterprises on AI platform architecture—specifically, how to structure commerce systems so AI capabilities integrate cleanly rather than bolt on awkwardly.
                             </p>
                         </div>
 

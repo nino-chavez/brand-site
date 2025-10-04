@@ -3,18 +3,18 @@
     "mode": "traditional",
     "url": "http://localhost:4173/",
     "scores": {
-      "performance": 79,
+      "performance": 97,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100
     },
     "metrics": {
-      "first-contentful-paint": 1955.1837,
-      "largest-contentful-paint": 5255.1837,
-      "total-blocking-time": 28,
+      "first-contentful-paint": 1956.2788,
+      "largest-contentful-paint": 2020.7788,
+      "total-blocking-time": 67,
       "cumulative-layout-shift": 0,
-      "speed-index": 1955.1837
+      "speed-index": 1956.2788
     },
-    "timestamp": "2025-10-04T00:54:04.128Z"
+    "timestamp": "2025-10-04T01:14:51.573Z"
   }
 ]
