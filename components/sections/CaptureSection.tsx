@@ -39,9 +39,9 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   const sectionRef = useRef<HTMLElement>(null);
 
   // Dynamic background showcase with Ken Burns effect
-  // hero.jpg is landscape (1920x1280), gallery images are portrait (3919x5879)
+  // hero.webp is landscape (optimized from 922KB to 658KB), gallery images are portrait (3919x5879)
   const heroImages = [
-    { url: '/images/hero.jpg', orientation: 'landscape' },
+    { url: '/images/hero.webp', orientation: 'landscape' },
     ...Array.from({ length: 27 }, (_, i) => ({
       url: `/images/gallery/portfolio-${String(i).padStart(2, '0')}.jpg`,
       orientation: 'portrait' as const

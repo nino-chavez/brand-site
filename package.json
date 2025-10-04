@@ -49,7 +49,12 @@
     "capture:all": "npm run capture:components && npm run capture:flows",
     "capture:clean": "rm -rf tests/screenshots/output/*",
     "perf:check": "tsx scripts/performance-budget-check.ts",
-    "perf:check:strict": "tsx scripts/performance-budget-check.ts --strict"
+    "perf:check:strict": "tsx scripts/performance-budget-check.ts --strict",
+    "lighthouse:audit": "tsx scripts/lighthouse-audit.ts",
+    "lighthouse:traditional": "tsx scripts/lighthouse-audit.ts --mode=traditional",
+    "lighthouse:canvas": "tsx scripts/lighthouse-audit.ts --mode=canvas",
+    "lighthouse:timeline": "tsx scripts/lighthouse-audit.ts --mode=timeline",
+    "lighthouse:ci": "tsx scripts/lighthouse-audit.ts --ci"
   },
   "dependencies": {
     "color2k": "^2.0.3",

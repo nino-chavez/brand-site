@@ -238,23 +238,22 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                     zIndex: 10,
                 }}
             >
-                {/* Separate parallax background element */}
-                <div
+                {/* Hero background image - optimized for LCP */}
+                <img
                     id="hero-background"
-                    className="absolute inset-0 w-full h-full"
+                    src="/images/hero.webp"
+                    alt="Hero background"
+                    className="absolute inset-0 w-full h-full object-cover"
                     style={{
-                        backgroundImage: 'url(/images/hero.jpg)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
                         transform: `translateY(${parallaxOffset}px)`, // Parallax effect
                         willChange: 'transform',
-                        willChange: 'transform, opacity',
                         // Extend the background slightly to prevent gaps during parallax
                         height: '120%',
                         top: '-10%',
                     }}
-                ></div>
+                    loading="eager"
+                    fetchpriority="high"
+                />
 
             {/* Enhanced dark overlay with animated gradients */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20"></div>
