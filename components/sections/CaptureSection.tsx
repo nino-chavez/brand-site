@@ -38,17 +38,19 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const sectionRef = useRef<HTMLElement>(null);
 
+  // PERFORMANCE TESTING: Carousel disabled to isolate LCP issue
   // Dynamic background showcase with Ken Burns effect
   // hero.webp is landscape (optimized from 922KB to 658KB), gallery images are portrait (3919x5879)
   const heroImages = [
     { url: '/images/hero.webp', orientation: 'landscape' },
-    ...Array.from({ length: 27 }, (_, i) => ({
-      url: `/images/gallery/portfolio-${String(i).padStart(2, '0')}.jpg`,
-      orientation: 'portrait' as const
-    }))
+    // CAROUSEL DISABLED FOR LIGHTHOUSE TESTING - Only load hero image
+    // ...Array.from({ length: 27 }, (_, i) => ({
+    //   url: `/images/gallery/portfolio-${String(i).padStart(2, '0')}.jpg`,
+    //   orientation: 'portrait' as const
+    // }))
   ];
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [nextImageIndex, setNextImageIndex] = useState(1);
+  const [nextImageIndex, setNextImageIndex] = useState(0); // Keep at 0 to prevent preloading
 
   // Magnetic button effects
   const viewWorkButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.4, radius: 100 });
@@ -106,22 +108,26 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
     }
   }, [active, isActive, onSectionReady, onError, gameFlowDebugger]);
 
+  // CAROUSEL DISABLED FOR LIGHTHOUSE TESTING
   // Dynamic background rotation (only if motion not reduced)
   useEffect(() => {
-    // Respect user's motion preference
-    if (settings.animationStyle === 'reduced' || settings.transitionSpeed === 'none') {
-      return;
-    }
+    // DISABLED: Keep static hero image for performance testing
+    return;
 
-    const interval = setInterval(() => {
-      setCurrentImageIndex((current) => {
-        const next = (current + 1) % heroImages.length;
-        setNextImageIndex((next + 1) % heroImages.length);
-        return next;
-      });
-    }, 10000); // Match Ken Burns animation duration for smooth transitions
+    // // Respect user's motion preference
+    // if (settings.animationStyle === 'reduced' || settings.transitionSpeed === 'none') {
+    //   return;
+    // }
 
-    return () => clearInterval(interval);
+    // const interval = setInterval(() => {
+    //   setCurrentImageIndex((current) => {
+    //     const next = (current + 1) % heroImages.length;
+    //     setNextImageIndex((next + 1) % heroImages.length);
+    //     return next;
+    //   });
+    // }, 10000); // Match Ken Burns animation duration for smooth transitions
+
+    // return () => clearInterval(interval);
   }, [settings.animationStyle, settings.transitionSpeed, heroImages.length]);
 
   // Mouse movement handler for subtle interactions
