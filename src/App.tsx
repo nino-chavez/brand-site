@@ -12,7 +12,6 @@ import PersistentCTABar from './components/canvas/PersistentCTABar';
 import CanvasMinimap from './components/canvas/CanvasMinimap';
 import CanvasTimelineLayout from './components/timeline/CanvasTimelineLayout';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
-import useScrollSpy from './hooks/useScrollSpy';
 import type { SectionId } from './types';
 
 // WOW Factor Components
@@ -108,7 +107,9 @@ const App: React.FC = () => {
         // Check if user has already seen loading this session
         const hasSeenLoading = sessionStorage.getItem('hasSeenLoading');
         if (hasSeenLoading) {
-            console.log('⚡ Session storage: Skipping loading screen');
+            if (import.meta.env.DEV) {
+                console.log('⚡ Session storage: Skipping loading screen');
+            }
             setIsLoading(false);
             setIsAppReady(true);
             return;
@@ -166,38 +167,8 @@ const App: React.FC = () => {
         }
     }, []);
 
-    // Collect section elements for scroll spy
-    // Uses unified SectionId photography metaphor IDs
-    // Note: CaptureSection uses id="capture", not "hero"
-    const [sectionElements, setSectionElements] = useState<HTMLElement[]>([]);
-
-    useEffect(() => {
-        if (typeof window === 'undefined') return;
-
-        // Wait for DOM to be ready, then collect sections
-        const collectSections = () => {
-            const elements = ['capture', 'focus', 'frame', 'exposure', 'develop', 'portfolio']
-                .map(id => document.getElementById(id))
-                .filter((el): el is HTMLElement => el !== null);
-
-            if (elements.length > 0) {
-                setSectionElements(elements);
-                console.log('[ScrollSpy] Collected sections:', elements.map(el => el.id));
-            } else {
-                console.warn('[ScrollSpy] No sections found, retrying...');
-            }
-        };
-
-        // Try multiple times to ensure sections are collected
-        const attempts = [0, 100, 500, 1000]; // Try immediately, then retry if needed
-        const timeouts = attempts.map(delay =>
-            setTimeout(collectSections, delay)
-        );
-
-        return () => {
-            timeouts.forEach(timeout => clearTimeout(timeout));
-        };
-    }, [layoutMode]); // Re-collect when layout changes
+    // Note: ScrollSpy functionality removed - each layout mode (timeline, canvas, traditional)
+    // handles its own navigation tracking through UnifiedGameFlowContext
 
     // Timeline Layout Mode
     if (layoutMode === 'timeline') {

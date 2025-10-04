@@ -399,7 +399,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
               }`}
               data-testid="integrated-stats-card"
             >
-              <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+              <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6 pointer-events-auto">
                 <h4 className="text-lg font-semibold text-white mb-4">Technical Depth</h4>
 
                 <div className="space-y-4">

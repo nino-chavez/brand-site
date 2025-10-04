@@ -120,8 +120,23 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
     const projectIndex = projects.findIndex(p => p.id === projectId);
     setCurrentProjectIndex(projectIndex);
 
+    // Auto-scroll panel to top when opening - ensures content is visible
+    // Use longer delay + requestAnimationFrame to ensure DOM is ready
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        if (panelContentRef.current) {
+          panelContentRef.current.scrollTop = 0; // Instant scroll to top
+        }
+      });
+    }, 300); // Increased delay to match slide-in animation
+
     gameFlowDebugger.log('info', 'interaction', 'Project selected for detailed view', { projectId });
   }, [projects, gameFlowDebugger]);
+
+  // Panel scroll management
+  const panelContentRef = useRef<HTMLDivElement>(null);
+  const [panelScrolled, setPanelScrolled] = useState(false);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
 
   // Close side panel
   const handleCloseSidePanel = useCallback(() => {
@@ -134,13 +149,76 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
     const nextIndex = (currentProjectIndex + 1) % projects.length;
     setCurrentProjectIndex(nextIndex);
     setSelectedProject(projects[nextIndex].id);
+
+    // Scroll to top when switching projects - instant scroll
+    requestAnimationFrame(() => {
+      if (panelContentRef.current) {
+        panelContentRef.current.scrollTop = 0;
+      }
+    });
   }, [currentProjectIndex, projects]);
 
   const handlePreviousProject = useCallback(() => {
     const prevIndex = currentProjectIndex === 0 ? projects.length - 1 : currentProjectIndex - 1;
     setCurrentProjectIndex(prevIndex);
     setSelectedProject(projects[prevIndex].id);
+
+    // Scroll to top when switching projects - instant scroll
+    requestAnimationFrame(() => {
+      if (panelContentRef.current) {
+        panelContentRef.current.scrollTop = 0;
+      }
+    });
   }, [currentProjectIndex, projects]);
+
+  // Track panel scroll position for visual indicators
+  useEffect(() => {
+    const panelContent = panelContentRef.current;
+    if (!panelContent) return;
+
+    const handleScroll = () => {
+      const scrollTop = panelContent.scrollTop;
+      const scrollHeight = panelContent.scrollHeight;
+      const clientHeight = panelContent.clientHeight;
+
+      setPanelScrolled(scrollTop > 20);
+      setShowScrollIndicator(scrollHeight > clientHeight && scrollTop < scrollHeight - clientHeight - 20);
+    };
+
+    panelContent.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
+
+    return () => panelContent.removeEventListener('scroll', handleScroll);
+  }, [sidePanelOpen, selectedProject]);
+
+  // Keyboard navigation for panel
+  useEffect(() => {
+    if (!sidePanelOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'Escape':
+          handleCloseSidePanel();
+          break;
+        case 'ArrowLeft':
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            handlePreviousProject();
+          }
+          break;
+        case 'ArrowRight':
+          if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            handleNextProject();
+          }
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [sidePanelOpen, handleCloseSidePanel, handleNextProject, handlePreviousProject]);
 
   // Get selected project data
   const selectedProjectData = selectedProject ? projects.find(p => p.id === selectedProject) : null;
@@ -295,20 +373,27 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
           sidePanelOpen ? 'translate-x-0 slide-in' : 'translate-x-full'
         }`}
         data-testid="project-tech-side-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="panel-title"
+        aria-describedby="panel-description"
       >
         {selectedProjectData && (
           <div className="h-full flex flex-col overflow-hidden">
-            {/* Panel header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
+            {/* Panel header - adds shadow when content scrolled */}
+            <div className={`flex items-center justify-between p-6 border-b border-white/10 transition-shadow duration-300 ${
+              panelScrolled ? 'shadow-lg shadow-black/50' : ''
+            }`}>
               <div>
-                <h3 className="text-2xl font-bold text-white">{selectedProjectData.title}</h3>
-                <p className="text-white/60">{selectedProjectData.subtitle}</p>
+                <h3 id="panel-title" className="text-2xl font-bold text-white">{selectedProjectData.title}</h3>
+                <p id="panel-description" className="text-white/60">{selectedProjectData.subtitle}</p>
               </div>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={handlePreviousProject}
                   className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-all"
                   title="Previous project"
+                  aria-label="Previous project"
                 >
                   ←
                 </button>
@@ -316,6 +401,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                   onClick={handleNextProject}
                   className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-all"
                   title="Next project"
+                  aria-label="Next project"
                 >
                   →
                 </button>
@@ -323,14 +409,18 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                   onClick={handleCloseSidePanel}
                   className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-all"
                   title="Close panel"
+                  aria-label="Close panel"
                 >
                   ×
                 </button>
               </div>
             </div>
 
-            {/* Panel content */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-8">
+            {/* Panel content - scrollable with ref for auto-scroll */}
+            <div
+              ref={panelContentRef}
+              className="flex-1 overflow-y-auto p-6 space-y-8"
+            >
 
               {/* Project description */}
               <div>
@@ -413,6 +503,18 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                 </div>
               </div>
             </div>
+
+            {/* Scroll indicator - shows when there's more content below */}
+            {showScrollIndicator && (
+              <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/90 to-transparent pointer-events-none flex items-end justify-center pb-4">
+                <div className="flex flex-col items-center space-y-1 animate-bounce">
+                  <span className="text-white/50 text-xs">More below</span>
+                  <svg className="w-5 h-5 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

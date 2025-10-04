@@ -110,6 +110,24 @@ This approach has enabled:
 - **Living Documentation** - Self-maintaining specs and architectural decisions
 - **Performance Optimization** - AI-driven analysis of bundle size and runtime performance
 
+## Project Health
+
+**Current Health Score:** 8.3/10 🟢 **EXCELLENT**
+
+This project maintains enterprise-grade quality through comprehensive health monitoring across 7 dimensions. See [PROJECT_HEALTH.md](./PROJECT_HEALTH.md) for detailed status.
+
+**Quick Health Check:**
+```bash
+npm run health          # Standard report
+npm run health:verbose  # Detailed analysis
+```
+
+**Health Monitoring:**
+- ✅ Automated weekly reports (Sundays 00:00 UTC)
+- ✅ CI/CD integration (runs on merge to main)
+- ✅ 7-dimension comprehensive assessment
+- ✅ Automated GitHub issues for scores <7.5/10
+
 ## Run Locally
 
 **Prerequisites:** Node.js 18+

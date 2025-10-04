@@ -8,6 +8,21 @@
 import type { ViewportConfig } from '../config/viewports';
 import { captureConfig } from '../config/capture.config';
 import type { Page } from '@playwright/test';
+import { readFile } from 'fs/promises';
+import { mkdir, writeFile } from 'fs/promises';
+import { dirname, join } from 'path';
+
+// Load package versions dynamically to avoid CommonJS require() in ESM
+async function getPackageVersion(packageName: string): Promise<string> {
+  try {
+    const packageJsonPath = join(process.cwd(), 'node_modules', packageName, 'package.json');
+    const content = await readFile(packageJsonPath, 'utf-8');
+    const pkg = JSON.parse(content);
+    return pkg.version || 'unknown';
+  } catch {
+    return 'unknown';
+  }
+}
 
 export interface ScreenshotMetadata {
   // Identification
@@ -98,8 +113,8 @@ export async function generateComponentMetadata(
     capture: {
       timestamp: new Date().toISOString(),
       frameworkVersion: captureConfig.version,
-      playwrightVersion: require('@playwright/test/package.json').version,
-      storybookVersion: require('@storybook/react-vite/package.json').version,
+      playwrightVersion: await getPackageVersion('@playwright/test'),
+      storybookVersion: await getPackageVersion('@storybook/react-vite'),
       browser: page.context().browser()?.browserType().name() || 'unknown',
       platform: browserInfo.platform,
     },
@@ -149,7 +164,7 @@ export async function generateFlowMetadata(
     capture: {
       timestamp: new Date().toISOString(),
       frameworkVersion: captureConfig.version,
-      playwrightVersion: require('@playwright/test/package.json').version,
+      playwrightVersion: await getPackageVersion('@playwright/test'),
       browser: page.context().browser()?.browserType().name() || 'unknown',
       platform: browserInfo.platform,
     },
@@ -162,15 +177,12 @@ export async function saveMetadata(
   metadata: ScreenshotMetadata,
   outputPath: string
 ): Promise<void> {
-  const fs = require('fs');
-  const path = require('path');
-
   // Ensure directory exists
-  const dir = path.dirname(outputPath);
-  await fs.promises.mkdir(dir, { recursive: true });
+  const dir = dirname(outputPath);
+  await mkdir(dir, { recursive: true });
 
   // Write metadata
-  await fs.promises.writeFile(
+  await writeFile(
     outputPath,
     JSON.stringify(metadata, null, 2),
     'utf-8'

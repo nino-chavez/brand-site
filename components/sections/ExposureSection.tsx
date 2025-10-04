@@ -3,6 +3,8 @@ import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
 import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
+import { INSIGHTS_ARTICLES } from '../../src/constants';
+import type { InsightArticle } from '../../src/types';
 
 interface ExposureSettings {
   aperture: number;
@@ -70,73 +72,15 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
   const { elementRef: subtitleRef, isVisible: subtitleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: articleRef, isVisible: articleVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
-  // Articles/insights data - Field notes from Signal Dispatch
-  const articles: Article[] = [
-    {
-      id: 'commerce-integration-reality',
-      title: 'When "Simple Integration" Isn\'t',
-      subtitle: 'Commerce platform field notes',
-      excerpt: 'Connecting SAP Commerce to warehouse systems sounds straightforward in the architecture deck. Then you meet the legacy ERP that thinks it\'s 1997, inventory data that updates "eventually," and business rules that exist only in someone\'s head.',
-      readTime: '7 min read',
-      date: '2024-09-15',
-      category: 'Field Notes',
-      tags: ['Commerce', 'Integration', 'Reality Check', 'Legacy Systems'],
-      insights: [
-        'Documentation describes the system they wish they had, not the one that exists',
-        'Every integration has an "undocumented behavior" that breaks everything',
-        'The phrase "it should be straightforward" is a warning sign',
-        'Success is measured in fires that don\'t start, not features shipped'
-      ]
-    },
-    {
-      id: 'reading-the-road',
-      title: 'Reading the Road',
-      subtitle: 'Pattern recognition in systems and surfing',
-      excerpt: 'Surfers don\'t predict waves—they read conditions, position themselves, and respond to what shows up. Enterprise architecture works the same way. You can\'t predict the future, but you can learn to read the signals.',
-      readTime: '6 min read',
-      date: '2024-08-22',
-      category: 'Systems Thinking',
-      tags: ['Strategy', 'Pattern Recognition', 'Surfing', 'Architecture'],
-      insights: [
-        'The best architectures respond to reality, not PowerPoint projections',
-        'Positioning matters more than prediction',
-        'Small signals reveal big problems before they cascade',
-        'Sometimes the right move is to paddle around the wave'
-      ]
-    },
-    {
-      id: 'quiet-leadership',
-      title: 'Holding Up the Mirror',
-      subtitle: 'Quiet leadership in loud organizations',
-      excerpt: 'Fortune 500 companies don\'t need another voice in the room. They need someone to reflect what\'s actually happening—the gaps between strategy and execution, the technical debt nobody wants to talk about, the assumptions that stopped being true three years ago.',
-      readTime: '8 min read',
-      date: '2024-07-18',
-      category: 'Leadership',
-      tags: ['Enterprise', 'Strategy', 'Consulting', 'Signal'],
-      insights: [
-        'Most organizations know their problems—they need permission to act',
-        'Listening reveals more than talking ever will',
-        'The questions you ask define the answers you get',
-        'Technical leadership is about clarity, not authority'
-      ]
-    },
-    {
-      id: 'ai-native-shift',
-      title: 'Answer-First Commerce',
-      subtitle: 'Rethinking assumptions in an AI-native world',
-      excerpt: 'Current work at Accenture Song: helping retailers think past "add a chatbot." When customers expect answers instead of search results, your entire commerce platform needs rethinking—not retrofitting.',
-      readTime: '10 min read',
-      date: '2024-06-25',
-      category: 'AI Strategy',
-      tags: ['AI', 'Commerce', 'Transformation', 'Strategy'],
-      insights: [
-        'Search-first architecture doesn\'t map to answer-first experiences',
-        'AI isn\'t a feature layer—it changes core assumptions',
-        'The hardest part isn\'t the technology, it\'s organizational readiness',
-        'Best approach: progressive enhancement, not big-bang replacement'
-      ]
-    }
-  ];
+  /**
+   * Articles/insights data - Now centralized in src/constants.ts
+   *
+   * DATA SOURCE: This component imports insights data from src/constants.ts
+   * DO NOT hardcode articles data here. Update INSIGHTS_ARTICLES in constants.ts instead.
+   *
+   * This ensures single source of truth for content updates across all layout modes.
+   */
+  const articles = INSIGHTS_ARTICLES as Article[];
 
   // Exposure calculation sequence
   useEffect(() => {

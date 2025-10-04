@@ -10,9 +10,15 @@
 
 import { useEffect } from 'react';
 
+// Global flag to ensure easter egg only displays once per session
+let hasDisplayed = false;
+
 export const ConsoleEasterEgg: React.FC = () => {
   useEffect(() => {
-    // Only run once on mount
+    // Only run once per session, even if component remounts
+    if (hasDisplayed) return;
+
+    hasDisplayed = true;
     console.log(`
 %c
 ██████╗ ███████╗██╗  ██╗██╗███╗   ██╗██████╗     ████████╗██╗  ██╗███████╗

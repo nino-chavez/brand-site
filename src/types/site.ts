@@ -33,20 +33,47 @@ export interface Section {
 }
 
 export interface WorkProject {
+    // Core fields
     title: string;
     description: string;
     tags: string[];
     imageUrl: string;
     link: string;
     outcome?: string; // Optional measurable outcomes summary
+
+    // Extended fields for FrameSection compatibility
+    id?: string;
+    subtitle?: string;
+    technologies?: string[];
+    architecture?: string[];
+    challenges?: string[];
+    outcomes?: string[];
+    metrics?: {
+        performance: string;
+        scale: string;
+        timeline: string;
+    };
+    repository?: string;
+    demo?: string;
+    image?: string; // Alias for imageUrl
 }
 
 export interface InsightArticle {
+    // Core fields
     title: string;
     platform: 'Blog' | 'LinkedIn';
     excerpt: string;
     imageUrl: string;
     link: string;
+
+    // Extended fields for ExposureSection compatibility
+    id?: string;
+    subtitle?: string;
+    readTime?: string;
+    date?: string;
+    category?: string;
+    tags?: string[];
+    insights?: string[];
 }
 
 export interface SocialLink {

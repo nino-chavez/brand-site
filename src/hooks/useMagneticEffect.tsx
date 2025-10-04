@@ -50,13 +50,15 @@ export const useMagneticEffect = <T extends HTMLElement>(
     // Store original transition and ensure transform isn't transitioned
     const originalTransition = element.style.transition;
 
-    // Log for debugging
-    console.info('[MagneticEffect] Initialized on element', {
-      element: element.tagName,
-      testId: element.getAttribute('data-testid'),
-      strength,
-      radius
-    });
+    // Log for debugging (development only)
+    if (import.meta.env.DEV) {
+      console.info('[MagneticEffect] Initialized on element', {
+        element: element.tagName,
+        testId: element.getAttribute('data-testid'),
+        strength,
+        radius
+      });
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = element.getBoundingClientRect();

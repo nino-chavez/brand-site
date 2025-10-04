@@ -125,7 +125,7 @@ const ViewfinderOverlay: React.FC<ViewfinderOverlayProps> = ({
   return (
     <div
       ref={overlayRef}
-      className={`fixed inset-0 z-50 pointer-events-auto ${className}`}
+      className={`fixed inset-0 z-50 pointer-events-none ${className}`}
       onClick={handleClick}
       role="application"
       aria-label="Interactive camera viewfinder"

@@ -15,61 +15,185 @@ export const SECTIONS: Section[] = [
 
 export const WORK_PROJECTS: WorkProject[] = [
     {
-        title: 'Interactive Portfolio System',
-        description: 'Built this portfolio as a technical showcase—camera viewfinder effects, custom cursor interactions, photography-themed navigation, and a complete effects control system. React 19, TypeScript, custom hooks, and 60fps canvas animations.',
-        tags: ['React 19', 'TypeScript', 'Canvas API', 'Custom Hooks', 'Animation'],
+        id: 'multi-agent-platform',
+        title: 'Multi-Agent Development Platform',
+        subtitle: 'This Portfolio Site',
+        description: 'Orchestrated 5 specialized AI agents (Claude, Gemini, Amazon Kiro, Copilot, Cursor) through enhanced Agent-OS framework with automated quality gates. Achieved 97/100 Lighthouse performance while maintaining enterprise standards through 30-minute commit cadence and continuous validation.',
+        tags: ['Agent-OS', 'Multi-Agent Orchestra', 'React 19', 'TypeScript', 'Quality Gates'],
+        technologies: ['Agent-OS', 'React 19', 'TypeScript', 'Vite', 'Vitest', 'Quality Gates'],
+        architecture: ['Multi-Agent Orchestration', 'Automated Quality Gates', 'Performance Budgets', 'Continuous Validation', 'Work Loss Prevention'],
+        challenges: ['Agent coordination across 5 platforms', 'Maintaining quality consistency', 'Meeting 97/100 Lighthouse target', 'Preventing work loss'],
+        outcomes: ['97/100 Lighthouse score achieved', '95% work loss reduction', '5 automated quality gates passing', 'Enterprise-grade portfolio site'],
         imageUrl: 'https://picsum.photos/seed/portfolio/600/400',
-        link: '/demo',
-        outcome: 'Interactive demo • Effects control panel • Photography metaphor architecture'
+        link: 'https://github.com/nino-chavez/brand-site',
+        repository: 'https://github.com/nino-chavez/brand-site',
+        outcome: '97/100 Lighthouse • 95% work loss reduction • 5 automated quality gates passed',
+        metrics: {
+            performance: '97/100 Lighthouse',
+            scale: '5 AI agents orchestrated',
+            timeline: 'Ongoing optimization'
+        }
     },
     {
-        title: 'Fortune 500 Commerce Transformation',
-        description: 'Multi-year SAP Commerce platform modernization for Fortune 500 retailer. Led enterprise architecture strategy connecting legacy systems with modern cloud infrastructure. Scaled to handle $10M+ daily transactions with zero downtime.',
-        tags: ['SAP Commerce', 'Enterprise Architecture', 'Cloud Migration', 'Fortune 500'],
-        imageUrl: 'https://picsum.photos/seed/commerce/600/400',
-        link: '#',
-        outcome: '$10M+ daily transactions • Zero downtime • 40% infrastructure cost reduction'
+        id: 'match-flow',
+        title: 'MatchFlow',
+        subtitle: 'Production-Ready Tournament Platform',
+        description: 'Built a comprehensive volleyball tournament management platform with real-time scoring, automated scheduling, and 137 specialized services. Achieved 88/100 production readiness score with enterprise infrastructure including capability-based permissions, WebSocket real-time updates, and comprehensive monitoring. Demonstrates 10x development efficiency through strategic AI-assisted workflows.',
+        tags: ['Next.js 15', 'React 19', 'Supabase', 'Real-Time', 'Production-Ready'],
+        technologies: ['Next.js 15', 'React 19', 'TypeScript 5', 'Supabase', 'PostgreSQL', 'Vercel'],
+        architecture: ['Service-Oriented (137 services)', 'Real-Time WebSocket', 'Capability-Based Permissions', 'Row-Level Security', 'Event-Driven'],
+        challenges: ['Real-time match state sync', 'Complex scheduling logic', 'Fine-grained permissions', 'Production monitoring'],
+        outcomes: ['88/100 production readiness', '91 Lighthouse performance', '100% documentation health', '10x dev efficiency demonstrated'],
+        imageUrl: 'https://picsum.photos/seed/matchflow/600/400',
+        link: 'https://github.com/signal-x-studio/match-flow',
+        repository: 'https://github.com/signal-x-studio/match-flow',
+        outcome: '88/100 production ready • 137 services • Real-time WebSocket • 10x efficiency',
+        metrics: {
+            performance: '91 Lighthouse score',
+            scale: '137 specialized services',
+            timeline: '6-month development'
+        }
     },
     {
-        title: 'Enterprise Integration Architecture',
-        description: 'Designed and implemented integration layer for Fortune 100 company connecting Salesforce Commerce Cloud with warehouse management, inventory systems, and fulfillment platforms. Event-driven architecture handling 1M+ orders monthly with 99.99% uptime.',
-        tags: ['Salesforce Commerce', 'Event-Driven', 'Kafka', 'Fortune 100'],
-        imageUrl: 'https://picsum.photos/seed/integration/600/400',
-        link: '#',
-        outcome: '1M+ orders/month • 99.99% uptime • 60% faster order processing'
+        id: 'aegis-framework',
+        title: 'Aegis Framework',
+        subtitle: 'AI Agent Governance Framework',
+        description: 'First-in-industry governance framework for consistent, compliant AI agent code generation. Provides constitutional governance for multi-agent coordination, real-time quality enforcement, and drift prevention. Solves the critical problem every AI-assisted developer faces: inconsistent code generation across tools. Built for individual developers, teams, and enterprise organizations needing production-grade AI governance.',
+        tags: ['AI Governance', 'Multi-Agent', 'Constitutional Framework', 'TypeScript', 'DevOps'],
+        technologies: ['TypeScript', 'Node.js', 'OpenTelemetry', 'Zod', 'Vitest', 'Playwright'],
+        architecture: ['Constitutional Governance', 'Pattern Recognition', 'Self-Healing Systems', 'Multi-Agent Coordination', 'Observability'],
+        challenges: ['Enforcing standards across AI tools', 'Preventing quality drift', 'Multi-agent orchestration', 'Production governance'],
+        outcomes: ['Industry-first governance spec', 'Constitutional framework v2.5', 'Multi-tool coordination', 'Open-source community adoption'],
+        imageUrl: 'https://picsum.photos/seed/aegis/600/400',
+        link: 'https://github.com/signal-x-studio/aegis-framework',
+        repository: 'https://github.com/signal-x-studio/aegis-framework',
+        outcome: 'Industry-first AI governance • Constitutional framework • Multi-agent coordination',
+        metrics: {
+            performance: 'Real-time enforcement',
+            scale: 'Multi-agent orchestration',
+            timeline: '2.5.0 framework release'
+        }
     },
     {
-        title: 'AI-Native Commerce Strategy',
-        description: 'Strategic consulting at Accenture Song leading Fortune 500 retailers through AI-first commerce transformation. Architecting answer-first experiences, agentic commerce systems, and AI governance frameworks for regulated industries. Bridging C-suite vision with technical implementation.',
-        tags: ['AI Strategy', 'Enterprise Architecture', 'Fortune 500', 'Accenture Song'],
-        imageUrl: 'https://picsum.photos/seed/strategy/600/400',
-        link: '#',
-        outcome: 'C-suite alignment • AI governance frameworks • Multi-year transformation roadmaps'
+        id: 'smugmug-reference',
+        title: 'SmugMug API Reference App',
+        subtitle: 'Built in 72 Hours with AI Agents',
+        description: 'Enterprise-grade application built in one weekend by orchestrating 5 specialized AI agents as a virtual development team. Demonstrates three pillars: building WITH AI (multi-agent workflow), building AI INTO features (semantic photo search), and building FOR AI (agent-native architecture). Achieved 20x velocity multiplier with 98.8% cost reduction versus traditional development.',
+        tags: ['Multi-Agent Development', 'React 19', 'AI-Powered Search', 'OAuth 1.0a', 'Gemini'],
+        technologies: ['React 19', 'TypeScript 5.8', 'Vite', 'Google Gemini', 'Playwright', 'Vitest'],
+        architecture: ['Agent-Native Design', 'Dual Interface (UI/Programmatic)', 'OAuth 1.0a', 'Semantic Search', 'AI-Enforced Standards'],
+        challenges: ['72-hour timeline', 'Solo developer constraints', 'OAuth complexity', 'AI agent coordination'],
+        outcomes: ['20,000+ lines in 72 hours', '20x velocity multiplier', '98.8% cost reduction', 'Full test coverage'],
+        imageUrl: 'https://picsum.photos/seed/smugmug/600/400',
+        link: 'https://github.com/signal-x-studio/smugmug-api-reference-app',
+        repository: 'https://github.com/signal-x-studio/smugmug-api-reference-app',
+        demo: 'https://signal-x-studio.github.io/smugmug-api-reference-app/',
+        outcome: '72-hour build • 20x velocity • AI-powered search • 98.8% cost reduction',
+        metrics: {
+            performance: '20x velocity multiplier',
+            scale: '20,000+ lines of code',
+            timeline: '72 hours (1 weekend)'
+        }
+    },
+    {
+        id: 'commerce-prompt-analyzer',
+        title: 'Commerce Prompt Analyzer',
+        subtitle: 'Answer Engine Optimization Tool',
+        description: 'AI-powered tool that analyzes e-commerce category structures and generates customer search prompts for answer engines like Gemini. Tests prompt answerability across multiple AI engines to identify gaps in product catalog coverage. Built for commerce strategists and SEO professionals adapting to the shift from search-first to answer-first discovery. Directly supports enterprise consulting work in AI-native commerce transformation.',
+        tags: ['AI-Native Commerce', 'Gemini', 'Answer Engines', 'React 19', 'SEO'],
+        technologies: ['React 19', 'TypeScript 5.8', 'Google Gemini', 'Vite', 'AI Studio'],
+        architecture: ['Multi-Engine Testing', 'Catalog Analysis', 'Prompt Generation', 'Answerability Validation', 'Real-Time Feedback'],
+        challenges: ['Answer engine variability', 'Catalog structure inference', 'Prompt quality assessment', 'Multi-engine coordination'],
+        outcomes: ['Multi-engine prompt testing', 'Catalog gap identification', 'Answer-first readiness assessment', 'Enterprise consulting tool'],
+        imageUrl: 'https://picsum.photos/seed/commerce-analyzer/600/400',
+        link: 'https://github.com/signal-x-studio/commerce-prompt-analyzer',
+        repository: 'https://github.com/signal-x-studio/commerce-prompt-analyzer',
+        outcome: 'Answer engine optimization • Multi-engine testing • Commerce consulting tool',
+        metrics: {
+            performance: 'Multi-engine analysis',
+            scale: 'Category-level insights',
+            timeline: 'Strategic consulting tool'
+        }
     },
 ];
 
 export const INSIGHTS_ARTICLES: InsightArticle[] = [
     {
-        title: 'The Future is Agentic: AI-Driven Software Engineering',
+        id: 'commerce-integration-reality',
+        title: 'When "Simple Integration" Isn\'t',
+        subtitle: 'Commerce platform field notes',
         platform: 'Blog',
-        excerpt: 'Exploring the paradigm shift in software development where AI agents take the lead in coding, testing, and deployment.',
-        imageUrl: 'https://picsum.photos/seed/agentic/600/400',
+        excerpt: 'Connecting SAP Commerce to warehouse systems sounds straightforward in the architecture deck. Then you meet the legacy ERP that thinks it\'s 1997, inventory data that updates "eventually," and business rules that exist only in someone\'s head.',
+        imageUrl: 'https://picsum.photos/seed/integration-reality/600/400',
         link: 'https://blog.nino.photos',
+        readTime: '7 min read',
+        date: '2024-09-15',
+        category: 'Field Notes',
+        tags: ['Commerce', 'Integration', 'Reality Check', 'Legacy Systems'],
+        insights: [
+            'Documentation describes the system they wish they had, not the one that exists',
+            'Every integration has an "undocumented behavior" that breaks everything',
+            'The phrase "it should be straightforward" is a warning sign',
+            'Success is measured in fires that don\'t start, not features shipped'
+        ]
     },
     {
-        title: 'Bridging the Gap: Architecting for Business and Technology',
+        id: 'reading-the-road',
+        title: 'Reading the Road',
+        subtitle: 'Pattern recognition in systems and surfing',
+        platform: 'Blog',
+        excerpt: 'Surfers don\'t predict waves—they read conditions, position themselves, and respond to what shows up. Enterprise architecture works the same way. You can\'t predict the future, but you can learn to read the signals.',
+        imageUrl: 'https://picsum.photos/seed/pattern-recognition/600/400',
+        link: 'https://blog.nino.photos',
+        readTime: '6 min read',
+        date: '2024-08-22',
+        category: 'Systems Thinking',
+        tags: ['Strategy', 'Pattern Recognition', 'Surfing', 'Architecture'],
+        insights: [
+            'The best architectures respond to reality, not PowerPoint projections',
+            'Positioning matters more than prediction',
+            'Small signals reveal big problems before they cascade',
+            'Sometimes the right move is to paddle around the wave'
+        ]
+    },
+    {
+        id: 'quiet-leadership',
+        title: 'Holding Up the Mirror',
+        subtitle: 'Quiet leadership in loud organizations',
         platform: 'LinkedIn',
-        excerpt: 'A deep dive into the role of an Enterprise Architect as a translator between executive vision and technical implementation.',
-        imageUrl: 'https://picsum.photos/seed/bridge/600/400',
+        excerpt: 'Fortune 500 companies don\'t need another voice in the room. They need someone to reflect what\'s actually happening—the gaps between strategy and execution, the technical debt nobody wants to talk about, the assumptions that stopped being true three years ago.',
+        imageUrl: 'https://picsum.photos/seed/leadership/600/400',
         link: 'https://www.linkedin.com/in/nino-chavez/',
+        readTime: '8 min read',
+        date: '2024-07-18',
+        category: 'Leadership',
+        tags: ['Enterprise', 'Strategy', 'Consulting', 'Signal'],
+        insights: [
+            'Most organizations know their problems—they need permission to act',
+            'Listening reveals more than talking ever will',
+            'The questions you ask define the answers you get',
+            'Technical leadership is about clarity, not authority'
+        ]
     },
     {
-        title: 'Capturing the Moment: A Guide to Action Sports Photography',
+        id: 'ai-native-shift',
+        title: 'Answer-First Commerce',
+        subtitle: 'Rethinking assumptions in an AI-native world',
         platform: 'Blog',
-        excerpt: 'Tips and techniques for freezing peak action, from gear selection to composition, tailored for sports like volleyball.',
-        imageUrl: 'https://picsum.photos/seed/actionsports/600/400',
+        excerpt: 'Current work at Accenture Song: helping retailers think past "add a chatbot." When customers expect answers instead of search results, your entire commerce platform needs rethinking—not retrofitting.',
+        imageUrl: 'https://picsum.photos/seed/ai-commerce/600/400',
         link: 'https://blog.nino.photos',
-    },
+        readTime: '10 min read',
+        date: '2024-06-25',
+        category: 'AI Strategy',
+        tags: ['AI', 'Commerce', 'Transformation', 'Strategy'],
+        insights: [
+            'Search-first architecture doesn\'t map to answer-first experiences',
+            'AI isn\'t a feature layer—it changes core assumptions',
+            'The hardest part isn\'t the technology, it\'s organizational readiness',
+            'Best approach: progressive enhancement, not big-bang replacement'
+        ]
+    }
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [

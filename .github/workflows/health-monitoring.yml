@@ -1,0 +1,157 @@
+name: Project Health Monitoring
+
+on:
+  # Weekly schedule (Sundays at 00:00 UTC)
+  schedule:
+    - cron: '0 0 * * 0'
+
+  # On push to main branch
+  push:
+    branches: [main]
+
+  # Manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  health-check:
+    name: Comprehensive Health Assessment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run health check
+        id: health
+        run: |
+          npm run health:json > health-report.json
+          npm run health:verbose > health-report.txt
+          SCORE=$(jq -r '.overall' health-report.json)
+          STATUS=$(jq -r '.status' health-report.json)
+          echo "score=$SCORE" >> $GITHUB_OUTPUT
+          echo "status=$STATUS" >> $GITHUB_OUTPUT
+
+      - name: Upload health reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-reports
+          path: |
+            health-report.json
+            health-report.txt
+
+      - name: Check health threshold
+        run: |
+          SCORE=$(jq -r '.overall' health-report.json)
+          echo "Health score: $SCORE/10"
+
+          if (( $(echo "$SCORE < 7.0" | bc -l) )); then
+            echo "❌ Health check failed: Score $SCORE is below threshold 7.0"
+            exit 1
+          elif (( $(echo "$SCORE < 7.5" | bc -l) )); then
+            echo "⚠️  Warning: Health score $SCORE is below recommended threshold 7.5"
+          else
+            echo "✅ Health check passed: Score $SCORE"
+          fi
+
+      - name: Comment health report on PR (if PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('health-report.txt', 'utf8');
+            const score = '${{ steps.health.outputs.score }}';
+            const status = '${{ steps.health.outputs.status }}';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🏥 Project Health Report\n\n**Overall Score:** ${score}/10 - ${status}\n\n<details>\n<summary>View detailed report</summary>\n\n\`\`\`\n${report}\n\`\`\`\n\n</details>`
+            });
+
+      - name: Create issue for low health (weekly only)
+        if: |
+          github.event_name == 'schedule' &&
+          steps.health.outputs.score < 7.5
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('health-report.json', 'utf8'));
+            const score = report.overall;
+            const criticalActions = report.criticalActions.slice(0, 5);
+
+            const issueBody = `# Project Health Alert
+
+**Overall Score:** ${score}/10 - ${report.status}
+**Timestamp:** ${report.timestamp}
+
+## Critical Actions Required
+
+${criticalActions.map((action, i) => `${i + 1}. ${action}`).join('\n')}
+
+## Dimension Breakdown
+
+| Dimension | Score | Trend |
+|-----------|-------|-------|
+| Configuration | ${report.dimensions.configuration.score}/10 | ${report.dimensions.configuration.trend === 'up' ? '⬆️' : report.dimensions.configuration.trend === 'down' ? '⬇️' : '➡️'} |
+| Architecture | ${report.dimensions.architecture.score}/10 | ${report.dimensions.architecture.trend === 'up' ? '⬆️' : report.dimensions.architecture.trend === 'down' ? '⬇️' : '➡️'} |
+| Test Coverage | ${report.dimensions.testCoverage.score}/10 | ${report.dimensions.testCoverage.trend === 'up' ? '⬆️' : report.dimensions.testCoverage.trend === 'down' ? '⬇️' : '➡️'} |
+| Documentation | ${report.dimensions.documentation.score}/10 | ${report.dimensions.documentation.trend === 'up' ? '⬆️' : report.dimensions.documentation.trend === 'down' ? '⬇️' : '➡️'} |
+| Features | ${report.dimensions.features.score}/10 | ${report.dimensions.features.trend === 'up' ? '⬆️' : report.dimensions.features.trend === 'down' ? '⬇️' : '➡️'} |
+| Technical Debt | ${report.dimensions.technicalDebt.score}/10 | ${report.dimensions.technicalDebt.trend === 'up' ? '⬆️' : report.dimensions.technicalDebt.trend === 'down' ? '⬇️' : '➡️'} |
+| Production Readiness | ${report.dimensions.productionReadiness.score}/10 | ${report.dimensions.productionReadiness.trend === 'up' ? '⬆️' : report.dimensions.productionReadiness.trend === 'down' ? '⬇️' : '➡️'} |
+
+---
+
+*Automated health monitoring - see [PROJECT_HEALTH.md](./PROJECT_HEALTH.md) for details*
+`;
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🏥 Project Health Alert: Score ${score}/10`,
+              body: issueBody,
+              labels: ['health', 'maintenance', 'priority']
+            });
+
+      - name: Update PROJECT_HEALTH.md (weekly only)
+        if: github.event_name == 'schedule'
+        run: |
+          # Note: This would require a script to update the markdown file
+          # For now, we'll commit the health reports as artifacts
+          echo "Health reports generated - manual update of PROJECT_HEALTH.md recommended"
+
+      - name: Commit health reports (weekly only)
+        if: github.event_name == 'schedule'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Create reports directory if it doesn't exist
+          mkdir -p .health-reports
+
+          # Move reports with timestamp
+          TIMESTAMP=$(date +%Y-%m-%d)
+          mv health-report.json .health-reports/health-$TIMESTAMP.json
+          mv health-report.txt .health-reports/health-$TIMESTAMP.txt
+
+          # Commit
+          git add .health-reports/
+          git commit -m "chore: weekly health monitoring report - $TIMESTAMP [skip ci]" || echo "No changes to commit"
+          git push

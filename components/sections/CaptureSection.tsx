@@ -118,7 +118,9 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
 
       setHeroImages(allImages);
       setCarouselReady(true);
-      console.log('📸 Carousel images lazy-loaded (1 hero + 27 gallery images)');
+      if (import.meta.env.DEV) {
+        console.log('📸 Carousel images lazy-loaded (1 hero + 27 gallery images)');
+      }
     };
 
     // Load carousel 3 seconds after mount to allow hero LCP to complete

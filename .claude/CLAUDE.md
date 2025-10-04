@@ -69,6 +69,7 @@ This project uses an autonomy-optimized Agent OS workflow built for Sonnet 4.5:
 3. **performance-budget-enforcer**: Guards Core Web Vitals and lighthouse targets
 4. **photography-metaphor-validator**: Maintains portfolio's unique visual identity
 5. **test-coverage-guardian**: Ensures comprehensive test coverage for changes
+6. **health-monitoring**: Autonomous comprehensive health assessments (weekly + post-work)
 
 ### Validation Commands
 User can request manual validation using natural language:
@@ -77,9 +78,63 @@ User can request manual validation using natural language:
 - **"validate performance"** → Runs performance-budget-enforcer
 - **"check metaphor"** → Runs photography-metaphor-validator
 - **"validate coverage"** → Runs test-coverage-guardian
+- **"check health"** → Runs comprehensive health monitoring
 - **"run all quality gates"** → Runs complete validation suite
 
 See `.claude/workflows/validation-commands.md` for complete command patterns.
+
+## Project Health Monitoring
+
+**Current Health Score:** 8.3/10 🟢 **EXCELLENT**
+
+This project includes comprehensive health monitoring across 7 dimensions. The health monitoring agent runs:
+- **Automatically:** Weekly (Sundays 00:00 UTC) + on merge to main
+- **Manually:** Via `npm run health` or natural language request
+
+### Health Check Commands
+
+```bash
+# Standard health report
+npm run health
+
+# Detailed analysis with recommendations
+npm run health:verbose
+
+# JSON output for automation/CI
+npm run health:json
+
+# Update PROJECT_HEALTH.md dashboard
+npm run health:update
+```
+
+### When to Run Health Checks
+
+1. **Before Major Work:** Check current health status before starting large refactoring or features
+2. **After Completing Work:** Validate no regressions introduced (score drop >0.5 points)
+3. **Weekly:** Automatic via GitHub Actions (no action needed)
+4. **Before Deployment:** Ensure production readiness score >8.0/10
+
+### Health Dimensions Tracked
+
+| Dimension | Weight | Current | Target |
+|-----------|--------|---------|--------|
+| Configuration | 10% | 7.5/10 | 8.5/10 |
+| Architecture | 15% | 9.0/10 | 9.0/10 ✅ |
+| Test Coverage | 15% | 8.5/10 | 8.5/10 ✅ |
+| Documentation | 10% | 8.0/10 | 8.5/10 |
+| Features | 15% | 9.5/10 | 9.0/10 ✅ |
+| Technical Debt | 20% | 7.0/10 | 8.0/10 |
+| Production Readiness | 15% | 9.0/10 | 9.0/10 ✅ |
+
+### Update PROJECT_HEALTH.md When:
+
+- Overall score changes by >0.5 points
+- Critical actions are completed
+- Major features are deployed
+- Quarterly deep audits are performed
+- Health check reveals new issues
+
+See [PROJECT_HEALTH.md](../PROJECT_HEALTH.md) for current detailed status.
 
 ### Decision Patterns
 Reference `.claude/agents/intelligence/*.md` for:
