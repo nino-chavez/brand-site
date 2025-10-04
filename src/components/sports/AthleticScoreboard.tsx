@@ -37,37 +37,37 @@ export function AthleticScoreboard({
         {
             id: 'hero' as SectionId,
             label: 'HOME',
-            icon: '🎯',
+            icon: '◉',
             description: 'Portfolio home'
         },
         {
             id: 'focus' as SectionId,  // Photography metaphor for About
             label: 'ABOUT',
-            icon: '👨‍💻',
+            icon: '◈',
             description: 'About Nino'
         },
         {
             id: 'frame' as SectionId,  // Photography metaphor for Work
             label: 'WORK',
-            icon: '🚀',
+            icon: '◆',
             description: 'Projects & experience'
         },
         {
             id: 'exposure' as SectionId,  // Photography metaphor for Insights
             label: 'INSIGHTS',
-            icon: '💡',
+            icon: '○',
             description: 'Technical articles'
         },
         {
             id: 'develop' as SectionId,  // Photography metaphor for Gallery
             label: 'GALLERY',
-            icon: '📷',
+            icon: '●',
             description: 'Photography portfolio'
         },
         {
             id: 'reel' as SectionId,
             label: 'REEL',
-            icon: '🎥',
+            icon: '▶',
             description: 'Video content'
         }
     ];

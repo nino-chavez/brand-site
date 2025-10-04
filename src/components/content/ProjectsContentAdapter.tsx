@@ -618,7 +618,7 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
 
   const [explorationState, setExplorationState] = useState<ExplorationState>({
     currentMode: 'business',
-    breadcrumbs: [{ label: 'Projects', action: () => {}, icon: '🚀' }],
+    breadcrumbs: [{ label: 'Projects', action: () => {}, icon: '◆' }],
     navigationHistory: []
   });
 
@@ -753,8 +753,8 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
       ...prev,
       selectedProject: projectId,
       breadcrumbs: [
-        { label: 'Projects', action: () => setSelectedProject(undefined), icon: '🚀' },
-        { label: sortedProjects.find(p => p.id === projectId)?.title || 'Project', action: () => {}, icon: '📂' }
+        { label: 'Projects', action: () => setSelectedProject(undefined), icon: '◆' },
+        { label: sortedProjects.find(p => p.id === projectId)?.title || 'Project', action: () => {}, icon: '○' }
       ],
       navigationHistory: [...prev.navigationHistory, projectId]
     }));

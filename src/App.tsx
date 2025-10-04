@@ -32,7 +32,7 @@ const App: React.FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isAppReady, setIsAppReady] = useState(false);
 
-    // Check URL parameters for layout mode
+    // Check URL parameters for layout mode + mobile detection
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const urlParams = new URLSearchParams(window.location.search);
@@ -40,13 +40,43 @@ const App: React.FC = () => {
             const debugParam = urlParams.get('debug');
             const testParam = urlParams.get('test');
 
-            if (layoutParam === 'canvas') {
-                setLayoutMode('canvas');
-                console.log('🚀 Canvas layout mode activated via URL parameter');
-            } else if (layoutParam === 'timeline') {
-                setLayoutMode('timeline');
-                console.log('🎬 Timeline layout mode activated via URL parameter');
-            }
+            // Progressive Enhancement: Detect mobile viewport
+            const checkAndSetLayout = () => {
+                const isMobileViewport = window.innerWidth < 768;
+
+                if (layoutParam === 'canvas') {
+                    // Only allow canvas mode on desktop viewports
+                    if (isMobileViewport) {
+                        console.log('📱 Mobile viewport detected - forcing traditional layout for accessibility');
+                        setLayoutMode('traditional');
+                    } else {
+                        setLayoutMode('canvas');
+                        console.log('🚀 Canvas layout mode activated via URL parameter');
+                    }
+                } else if (layoutParam === 'timeline') {
+                    // Only allow timeline mode on desktop viewports
+                    if (isMobileViewport) {
+                        console.log('📱 Mobile viewport detected - forcing traditional layout for accessibility');
+                        setLayoutMode('traditional');
+                    } else {
+                        setLayoutMode('timeline');
+                        console.log('🎬 Timeline layout mode activated via URL parameter');
+                    }
+                }
+            };
+
+            checkAndSetLayout();
+
+            // Handle viewport resize (orientation change, browser resize)
+            const handleResize = () => {
+                const isMobileViewport = window.innerWidth < 768;
+                if (isMobileViewport && (layoutMode === 'canvas' || layoutMode === 'timeline')) {
+                    console.log('📱 Viewport resized to mobile - switching to traditional layout');
+                    setLayoutMode('traditional');
+                }
+            };
+
+            window.addEventListener('resize', handleResize);
 
             if (debugParam === 'true') {
                 setDebugMode(true);
@@ -57,8 +87,10 @@ const App: React.FC = () => {
             if (testParam === 'true') {
                 console.log('🧪 Test mode detected via URL parameter');
             }
+
+            return () => window.removeEventListener('resize', handleResize);
         }
-    }, []);
+    }, [layoutMode]);
 
     // Handle initial loading state
     useEffect(() => {
@@ -166,12 +198,6 @@ const App: React.FC = () => {
             timeouts.forEach(timeout => clearTimeout(timeout));
         };
     }, [layoutMode]); // Re-collect when layout changes
-
-    // Track active section with scroll spy
-    const { activeSection } = useScrollSpy(sectionElements, {
-        threshold: 0.3,
-        rootMargin: '-20% 0px -35% 0px'
-    });
 
     // Timeline Layout Mode
     if (layoutMode === 'timeline') {
@@ -293,7 +319,7 @@ const App: React.FC = () => {
                     </a>
 
                     {/* Header with canvas navigation */}
-                    <Header onNavigate={handleCanvasNavigate} activeSection={activeSection} />
+                    <Header onNavigate={handleCanvasNavigate} />
 
                     {/* Debug Info */}
                     {debugMode && (
@@ -431,7 +457,7 @@ const App: React.FC = () => {
                         </a>
 
                         {/* Simplified header - Game Flow Container handles most navigation */}
-                        <Header onNavigate={handleNavigate} activeSection={activeSection} />
+                        <Header onNavigate={handleNavigate} />
 
                         {/* Main Game Flow experience */}
                         <main id="main-content" className="relative z-10">

@@ -47,7 +47,9 @@
     "capture:components": "playwright test tests/screenshots/scripts/capture-components.spec.ts --config playwright.config.screenshots.ts",
     "capture:flows": "playwright test tests/screenshots/flows/ --config playwright.config.screenshots.ts",
     "capture:all": "npm run capture:components && npm run capture:flows",
-    "capture:clean": "rm -rf tests/screenshots/output/*"
+    "capture:clean": "rm -rf tests/screenshots/output/*",
+    "perf:check": "tsx scripts/performance-budget-check.ts",
+    "perf:check:strict": "tsx scripts/performance-budget-check.ts --strict"
   },
   "dependencies": {
     "color2k": "^2.0.3",

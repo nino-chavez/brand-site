@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react';
 import { SectionId } from '../../types';
 
 interface TechnicalHUDProps {
-    activeSection: SectionId;
     onNavigate: (sectionId: SectionId) => void;
     className?: string;
     variant?: 'header' | 'floating' | 'mobile';
@@ -22,7 +21,6 @@ interface TechnicalHUDProps {
  * - Subtle animations that feel premium, not gimmicky
  */
 export function TechnicalHUD({
-    activeSection,
     onNavigate,
     className = '',
     variant = 'header'
@@ -79,6 +77,13 @@ export function TechnicalHUD({
         setHoveredSection(sectionId);
     }, []);
 
+    const handleKeyDown = useCallback((e: React.KeyboardEvent, sectionId: SectionId) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleSectionClick(sectionId);
+        }
+    }, [handleSectionClick]);
+
     // Variant-specific styling
     const variantClasses = {
         header: 'px-0 py-0',
@@ -109,15 +114,17 @@ export function TechnicalHUD({
                 `}
             >
                 {hudSections.map((section) => {
-                    const isActive = section.id === activeSection;
                     const isHovered = section.id === hoveredSection;
 
                     return (
                         <div key={section.id} className="relative">
                             <button
                                 onClick={() => handleSectionClick(section.id)}
+                                onKeyDown={(e) => handleKeyDown(e, section.id)}
                                 onMouseEnter={() => handleSectionHover(section.id)}
                                 onMouseLeave={() => handleSectionHover(null)}
+                                onFocus={() => handleSectionHover(section.id)}
+                                onBlur={() => handleSectionHover(null)}
                                 className={`
                                     ${itemClasses[variant]}
                                     relative
@@ -125,41 +132,27 @@ export function TechnicalHUD({
                                     transition-all duration-200 ease-out
                                     border rounded
 
-                                    ${isActive ? (
-                                        // Active state with violet glow
-                                        `text-white bg-brand-violet/20 border-brand-violet/50
-                                         shadow-[0_0_20px_rgba(139,92,246,0.4),0_0_0_2px_rgba(139,92,246,0.3)]`
-                                    ) : isHovered ? (
-                                        // Hovered state with cyan preview + subtle forward motion
+                                    ${isHovered ? (
+                                        // Hovered/focused state with cyan preview + subtle forward motion
                                         `text-white bg-cyan-500/10 border-cyan-400/40
                                          shadow-[0_0_16px_rgba(6,182,212,0.3),0_0_0_1px_rgba(6,182,212,0.2)]
                                          translate-x-0.5`
                                     ) : (
                                         // Default state with hover effects
-                                        `text-white/70 bg-transparent border-transparent
+                                        `text-white bg-transparent border-transparent
                                          hover:text-white hover:bg-white/5 hover:border-white/20 hover:translate-x-0.5`
                                     )}
 
                                     active:scale-95 active:bg-white/10
-                                    focus:outline-none focus:ring-2 focus:ring-brand-violet/50
-                                    focus:ring-offset-2 focus:ring-offset-transparent
+                                    focus:outline-none focus:ring-3 focus:ring-brand-violet
                                 `}
+                                style={{
+                                    minWidth: variant === 'mobile' ? '44px' : 'auto',
+                                    minHeight: variant === 'mobile' ? '44px' : 'auto'
+                                }}
                                 aria-label={`Navigate to ${section.description}`}
-                                aria-pressed={isActive}
                             >
                                 {section.label}
-
-                                {/* Active indicator - subtle line */}
-                                {isActive && (
-                                    <div
-                                        className="
-                                            absolute -bottom-0.5 left-1/2 transform -translate-x-1/2
-                                            w-8 h-0.5 bg-brand-violet
-                                            rounded-full
-                                        "
-                                        aria-hidden="true"
-                                    />
-                                )}
                             </button>
 
                             {/* Technical hover overlay - positioned below with enhanced styling */}

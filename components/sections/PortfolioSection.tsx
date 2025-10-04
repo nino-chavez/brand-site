@@ -62,7 +62,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
   const { elementRef: narrativeRef, isVisible: narrativeVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
   const { elementRef: contactRef, isVisible: contactVisible } = useScrollAnimation({ threshold: 0.1, triggerOnce: true });
 
-  // Contact methods
+  // Contact methods - using SVG icons instead of emojis
   const contactMethods: ContactMethod[] = [
     {
       type: 'email',
@@ -70,28 +70,28 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
       value: 'nino@ninochavez.com',
       href: 'mailto:nino@ninochavez.com?subject=Collaboration Opportunity',
       primary: true,
-      icon: '📧'
+      icon: '✉'
     },
     {
       type: 'linkedin',
       label: 'LinkedIn',
       value: '/in/ninochavez',
       href: 'https://linkedin.com/in/nino-chavez',
-      icon: '💼'
+      icon: '◆'
     },
     {
       type: 'github',
       label: 'GitHub',
       value: '@ninochavez',
       href: 'https://github.com/ninochavez',
-      icon: '⚡'
+      icon: '◉'
     },
     {
       type: 'calendar',
       label: 'Schedule Call',
       value: 'Book 30 min consultation',
       href: 'https://calendly.com/ninochavez/consultation',
-      icon: '📅'
+      icon: '◈'
     }
   ];
 

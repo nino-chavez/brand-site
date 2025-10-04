@@ -256,44 +256,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                     }}
                 ></div>
 
-                {/* Interactive spotlight effect */}
-                <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none z-10"
-                    style={{
-                        background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(139, 92, 246, 0.15), transparent 60%)`,
-                    }}
-                ></div>
             {/* Enhanced dark overlay with animated gradients */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20"></div>
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30"></div>
             <div className="absolute inset-0 bg-black/20"></div>
 
-            {/* Animated gradient overlay for modern feel */}
-            <div
-                className="absolute inset-0 opacity-30"
-                style={{
-                    background: 'linear-gradient(-45deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.1), rgba(245, 158, 11, 0.1))',
-                    backgroundSize: '400% 400%',
-                    animation: 'gradientShift 15s ease infinite'
-                }}
-            ></div>
-
-            {/* Subtle animated particles using CSS */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(6)].map((_, i) => (
-                    <div
-                        key={i}
-                        className="absolute rounded-full bg-white/5"
-                        style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                            width: `${Math.random() * 4 + 2}px`,
-                            height: `${Math.random() * 4 + 2}px`,
-                            animation: `breathe ${Math.random() * 4 + 3}s ease-in-out infinite ${Math.random() * 2}s`,
-                        }}
-                    />
-                ))}
-            </div>
 
             {/* Smooth transition fade at bottom of hero for seamless section flow */}
             <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-brand-dark to-transparent z-30 pointer-events-none"></div>
@@ -345,7 +312,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ setRef, onNavigate }) => {
                     </p>
 
                     {/* Trust signals */}
-                    <p className="text-sm md:text-base text-white/60 mb-6 max-w-2xl mx-auto" style={{
+                    <p className="text-sm md:text-base text-white/70 mb-6 max-w-2xl mx-auto" style={{
                         textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)',
                         animation: 'fadeInUp 1s ease-out 0.65s both'
                     }}>

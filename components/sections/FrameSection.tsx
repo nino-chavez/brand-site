@@ -260,7 +260,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
                       {/* Project preview */}
                       <div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center overflow-hidden">
-                        <div className="text-6xl opacity-20 transition-transform duration-500 group-hover:scale-110">📊</div>
+                        <div className="text-6xl opacity-20 transition-transform duration-500 group-hover:scale-110">◈</div>
                       </div>
 
                       {/* Project summary */}

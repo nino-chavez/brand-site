@@ -344,7 +344,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
                 {/* Key insights */}
                 <div className="mb-8">
                   <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                    <span className="mr-2">🎯</span>
+                    <span className="mr-2">◆</span>
                     Key Insights
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

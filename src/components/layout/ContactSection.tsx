@@ -21,9 +21,12 @@ const ContactSection: React.FC<ContactSectionProps> = ({ setRef }) => {
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'
                 }`}
             >
-                <SectionTitle>Get in Touch</SectionTitle>
+                <SectionTitle>Let's Talk Strategy</SectionTitle>
+                <p className="text-xl text-gray-100 mb-4 font-medium">
+                    Enterprise transformation. AI-native commerce. Strategic architecture.
+                </p>
                 <p className="text-lg text-gray-300 mb-12">
-                    Open to conversations about commerce architecture, AI-native strategy, or action sports photography.
+                    Available for strategic consulting engagements with Fortune 500 companies and high-growth platforms.
                 </p>
 
                 {/* Primary CTA - Email */}
@@ -60,7 +63,6 @@ const ContactSection: React.FC<ContactSectionProps> = ({ setRef }) => {
                 </div>
                 <footer className="text-sm text-gray-500 border-t border-gray-800 pt-8 mt-12">
                     <p>&copy; {new Date().getFullYear()} Nino Chavez. All rights reserved.</p>
-                    <p className="mt-2">Built with Generative AI, React, and Tailwind CSS.</p>
                 </footer>
             </div>
         </Section>

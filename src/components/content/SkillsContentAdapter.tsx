@@ -48,7 +48,7 @@ const SKILLS_DATABASE: SkillCategory[] = [
   {
     id: 'architecture',
     name: 'Enterprise Architecture',
-    icon: '🏗️',
+    icon: '◈',
     description: 'System design and architectural strategy',
     proficiency: 95,
     experience: '15+ years',
@@ -98,7 +98,7 @@ const SKILLS_DATABASE: SkillCategory[] = [
   {
     id: 'fullstack',
     name: 'Full-Stack Development',
-    icon: '💻',
+    icon: '◆',
     description: 'End-to-end application development',
     proficiency: 92,
     experience: '18+ years',
@@ -154,7 +154,7 @@ const SKILLS_DATABASE: SkillCategory[] = [
   {
     id: 'leadership',
     name: 'Leadership & Strategy',
-    icon: '👥',
+    icon: '◉',
     description: 'Team leadership and technical strategy',
     proficiency: 88,
     experience: '12+ years',
@@ -195,7 +195,7 @@ const SKILLS_DATABASE: SkillCategory[] = [
   {
     id: 'devops',
     name: 'DevOps & Infrastructure',
-    icon: '🚀',
+    icon: '▲',
     description: 'Infrastructure automation and deployment',
     proficiency: 85,
     experience: '10+ years',
@@ -272,7 +272,7 @@ const SKILLS_DATABASE: SkillCategory[] = [
   {
     id: 'photography',
     name: 'Action Sports Photography',
-    icon: '📸',
+    icon: '○',
     description: 'Professional volleyball and action sports photography',
     proficiency: 88,
     experience: '8+ years',

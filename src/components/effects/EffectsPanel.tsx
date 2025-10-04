@@ -117,7 +117,7 @@ export const EffectsPanel: React.FC = () => {
         aria-controls="effects-panel"
       >
         <span className="text-2xl group-hover:scale-110 transition-transform inline-block">
-          📷
+          ◉
         </span>
         <div className="absolute -top-1 -right-1 w-3 h-3 bg-brand-orange rounded-full animate-pulse" />
       </button>
@@ -269,7 +269,7 @@ export const EffectsPanel: React.FC = () => {
                 {/* Toggle Effects */}
                 <div className="space-y-3">
                   {[
-                    { key: 'enableViewfinder', label: 'Viewfinder Mode', icon: '📷', description: 'Camera metadata & brackets' },
+                    { key: 'enableViewfinder', label: 'Viewfinder Mode', icon: '◉', description: 'Camera metadata & brackets' },
                     { key: 'enableMotionBlur', label: 'Motion Blur', icon: '∿', description: 'Subtle blur during transitions' },
                     { key: 'enableParticles', label: 'Particles', icon: '✦', description: 'Floating light particles' },
                     { key: 'enableGlow', label: 'Glow Effects', icon: '◉', description: 'Card and button glows' },

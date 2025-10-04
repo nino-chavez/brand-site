@@ -1,0 +1,70 @@
+{
+  "budgets": [
+    {
+      "metric": "lighthouse-performance",
+      "budget": 90,
+      "blocking": true
+    },
+    {
+      "metric": "first-contentful-paint",
+      "budget": 1800,
+      "unit": "ms",
+      "blocking": true
+    },
+    {
+      "metric": "largest-contentful-paint",
+      "budget": 2500,
+      "unit": "ms",
+      "blocking": true
+    },
+    {
+      "metric": "cumulative-layout-shift",
+      "budget": 0.1,
+      "blocking": true
+    },
+    {
+      "metric": "total-blocking-time",
+      "budget": 300,
+      "unit": "ms",
+      "blocking": false
+    },
+    {
+      "metric": "bundle-size",
+      "budget": 250,
+      "unit": "kb",
+      "blocking": false,
+      "files": [
+        "dist/**/*.js"
+      ]
+    },
+    {
+      "metric": "image-size",
+      "budget": 1024,
+      "unit": "kb",
+      "blocking": false,
+      "files": [
+        "public/images/**/*"
+      ]
+    }
+  ],
+  "thresholds": {
+    "mobile": {
+      "lighthouse-performance": 85,
+      "first-contentful-paint": 2000,
+      "largest-contentful-paint": 3000
+    },
+    "desktop": {
+      "lighthouse-performance": 95,
+      "first-contentful-paint": 1500,
+      "largest-contentful-paint": 2000
+    }
+  },
+  "monitoring": {
+    "enabled": true,
+    "frequency": "on-build",
+    "alerting": {
+      "console": true,
+      "ci-failure": true
+    }
+  }
+}

@@ -267,7 +267,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
             }}
           >
             <div className="text-white/90 text-lg font-medium mb-2">
-              💡 Click and drag anywhere to pan
+              Click and drag anywhere to pan
             </div>
             <div className="text-white/60 text-sm">
               Or use arrow keys • Click sections to focus

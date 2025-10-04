@@ -42,14 +42,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
   // Effects context for user-controlled animations
   const { getClasses } = useAnimationWithEffects();
 
-  // Early content loading - trigger well before viewport for smooth nav behavior
-  const { elementRef: earlyLoadRef, isVisible: contentLoaded } = useScrollAnimation({
-    threshold: 0,
-    triggerOnce: true,
-    rootMargin: '0px 0px 300px 0px' // Load content 300px before section enters
-  });
-
-  // Section-level animation (whole section entrance) - trigger at section border for visible effect
+  // Section-level animation - trigger at section border for visible effect
   const { elementRef: sectionAnimRef, isVisible: sectionVisible } = useScrollAnimation({
     threshold: 0.1, // Trigger when 10% of section is visible
     triggerOnce: true,
@@ -127,12 +120,44 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
     });
   }, [focusPoint]);
 
-  // Career statistics - grounded in real experience
-  const athleticStats = [
-    { label: 'Experience', value: '25', unit: 'years', context: 'enterprise architecture', icon: '🏆' },
-    { label: 'Current Role', value: 'Song', unit: 'Accenture', context: 'Feb 2023 - Present', icon: '👥' },
-    { label: 'Focus', value: 'Commerce', unit: 'platforms', context: 'SAP • Salesforce • Adobe', icon: '🏗️' },
-    { label: 'Specialty', value: 'AI-Native', unit: 'strategy', context: 'Answer-first transformation', icon: '⚡' }
+  // Career timeline - 25 year progression
+  const careerMilestones = [
+    {
+      year: 2000,
+      era: 'Early Commerce',
+      scale: '10K→100K users',
+      role: 'Platform Engineer',
+      achievement: 'Built first enterprise commerce systems'
+    },
+    {
+      year: 2008,
+      era: 'Scale & Growth',
+      scale: '100K→1M users',
+      role: 'Technical Architect',
+      achievement: 'Led Microsoft & Oracle platform teams'
+    },
+    {
+      year: 2015,
+      era: 'Enterprise Transformation',
+      scale: '1M→10M users',
+      role: 'Enterprise Architect',
+      achievement: 'Fortune 500 multi-cloud migrations'
+    },
+    {
+      year: 2020,
+      era: 'AI-First Strategy',
+      scale: 'Answer-first commerce',
+      role: 'Strategic Advisor',
+      achievement: 'AI governance & transformation frameworks'
+    },
+    {
+      year: 2023,
+      era: 'Song',
+      scale: 'Accenture',
+      role: 'Current',
+      achievement: 'Leading AI-native commerce innovation',
+      current: true
+    }
   ];
 
   // Technical stack organized by focus areas
@@ -162,7 +187,6 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
       ref={(el) => {
         sectionRef.current = el;
         sectionAnimRef.current = el;
-        earlyLoadRef.current = el; // Also use for early content loading trigger
         if (typeof ref === 'function') {
           ref(el);
         } else if (ref) {
@@ -211,8 +235,6 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
 
           {/* About Narrative - Left Column */}
           <div className="space-y-8">
-            {/* Render content early for nav sync, but animate visibility at section border */}
-            {contentLoaded && (
             <div
               className={`transition-all duration-1000 ${
                 sectionVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
@@ -282,73 +304,89 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 </div>
               </div>
             </div>
-            )}
           </div>
 
-          {/* Athletic Stats Card - Right Column */}
+          {/* Career Timeline - Right Column */}
           <div className="relative">
-            {contentLoaded && (
             <div
               className={`transition-all duration-1000 delay-200 ${
                 sectionVisible ? 'opacity-100 transform translate-y-0 scale-100' : 'opacity-0 transform translate-y-8 scale-95'
               }`}
-              data-testid="athletic-stats-card"
+              data-testid="career-timeline-card"
             >
               <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 sports-statistics-style">
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">Career Snapshot</h3>
-                  <p className="text-white/70">At a Glance</p>
+                {/* Header */}
+                <div className="mb-8">
+                  <h3 className="text-xl font-semibold text-white">25 Year Journey</h3>
+                  <p className="text-sm text-white/50 mt-1">2000 → 2025 • Enterprise Scale Evolution</p>
                 </div>
 
-                {/* Key Stats Grid */}
-                <div className="grid grid-cols-2 gap-6 mb-8">
-                  {athleticStats.map((stat, index) => (
-                    <div
-                      key={stat.label}
-                      className="text-center"
-                      style={{
-                        animationDelay: `${index * 200}ms`
-                      }}
-                      data-testid={`${stat.label.toLowerCase().replace(' ', '-')}-stat`}
-                    >
-                      <div className="text-3xl mb-2">{stat.icon}</div>
-                      <div className="text-3xl font-black text-athletic-brand-violet mb-1">
-                        {stat.value}
+                {/* Timeline Visualization */}
+                <div className="relative mb-8">
+                  {/* Timeline base line */}
+                  <div className="absolute left-0 right-0 top-1/2 h-px bg-white/20" />
+
+                  {/* Milestone points */}
+                  <div className="relative flex justify-between items-center">
+                    {careerMilestones.map((milestone, index) => (
+                      <div
+                        key={milestone.year}
+                        className="group relative flex flex-col items-center cursor-pointer"
+                        data-testid={`milestone-${milestone.year}`}
+                      >
+                        {/* Timeline dot */}
+                        <div
+                          className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                            milestone.current
+                              ? 'bg-athletic-brand-violet ring-4 ring-athletic-brand-violet/30'
+                              : 'bg-white/40 group-hover:bg-athletic-brand-violet group-hover:ring-4 group-hover:ring-athletic-brand-violet/30'
+                          }`}
+                          style={{
+                            animationDelay: `${index * 150}ms`
+                          }}
+                        />
+
+                        {/* Year label */}
+                        <div className="text-xs text-white/60 mt-2 font-mono">{milestone.year}</div>
+
+                        {/* Hover expansion card */}
+                        <div className="absolute top-full mt-6 w-48 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-300 z-10">
+                          <div className="bg-black/90 backdrop-blur-md border border-athletic-brand-violet/30 rounded-lg p-4 shadow-2xl">
+                            <div className="text-xs text-athletic-brand-violet font-semibold mb-1">{milestone.era}</div>
+                            <div className="text-sm text-white font-medium mb-2">{milestone.role}</div>
+                            <div className="text-xs text-white/70 mb-2">{milestone.scale}</div>
+                            <div className="text-xs text-white/50 leading-relaxed">{milestone.achievement}</div>
+                          </div>
+                          {/* Arrow pointer */}
+                          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-b-8 border-l-transparent border-r-transparent border-b-athletic-brand-violet/30" />
+                        </div>
                       </div>
-                      <div className="text-sm text-white/60 uppercase tracking-wide">
-                        {stat.unit}
-                      </div>
-                      <div className="text-xs text-white/50 mt-1">
-                        {stat.label}
-                      </div>
-                      <div className="text-xs text-white/40 mt-1 leading-tight">
-                        {stat.context}
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
 
-                {/* Core Expertise Section */}
-                <div className="mb-8 pt-6 border-t border-white/10">
-                  <div className="text-xs text-white/50 uppercase tracking-wide mb-4">Core Expertise</div>
-                  <div className="space-y-4">
-                    {/* Commerce Platforms */}
-                    <div>
-                      <h4 className="text-sm font-semibold text-white mb-2">Enterprise Commerce</h4>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">SAP Commerce</span>
-                        <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">Salesforce</span>
-                        <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs">Adobe</span>
-                      </div>
-                    </div>
+                {/* Current snapshot */}
+                <div className="pt-6 border-t border-white/10 space-y-4">
+                  <div>
+                    <div className="text-xs text-white/50 uppercase tracking-wide mb-2">Current Role</div>
+                    <div className="text-2xl font-light text-white">Song</div>
+                    <div className="text-sm text-white/60">Accenture • Feb 2023 - Present</div>
+                  </div>
 
-                    {/* AI-Native Strategy */}
-                    <div>
-                      <h4 className="text-sm font-semibold text-white mb-2">AI-Native Strategy</h4>
-                      <p className="text-xs text-white/60 leading-relaxed">
-                        Answer-first commerce • Agentic systems • Context-aware experiences
-                      </p>
+                  <div>
+                    <div className="text-xs text-white/50 uppercase tracking-wide mb-2">Focus Areas</div>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">SAP Commerce</span>
+                      <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">Salesforce</span>
+                      <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">Adobe</span>
                     </div>
+                  </div>
+
+                  <div>
+                    <div className="text-xs text-white/50 uppercase tracking-wide mb-2">AI-Native Strategy</div>
+                    <p className="text-sm text-white/70 leading-relaxed">
+                      Answer-first commerce • Agentic systems • Context-aware experiences
+                    </p>
                   </div>
                 </div>
               </div>
@@ -380,7 +418,6 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 </div>
               </div>
             </div>
-            )}
           </div>
         </div>
       </div>

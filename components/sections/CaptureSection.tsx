@@ -465,7 +465,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         {/* Camera click sound visual indicator */}
         {captureSequenceActive && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="text-white text-6xl animate-ping">📸</div>
+            <div className="text-white text-6xl animate-ping">◉</div>
           </div>
         )}
       </div>
@@ -480,7 +480,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
           className="fixed bottom-40 left-4 px-3 py-1 bg-purple-600 text-white text-xs rounded z-50"
           data-testid="shutter-trigger"
         >
-          📸 Capture
+          ◉ Capture
         </button>
       )}
 
