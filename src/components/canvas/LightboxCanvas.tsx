@@ -10,7 +10,7 @@
  * @updated Phase 3 - Performance optimization (translate3d, will-change hints, 60fps)
  */
 
-import React, { useRef, useMemo, useState, useCallback } from 'react';
+import React, { useRef, useMemo, useState, useCallback, useEffect } from 'react';
 import { useCanvasState } from '../../contexts/CanvasStateProvider';
 import { useCanvasTouchGestures } from '../../hooks/useCanvasTouchGestures';
 import { useKeyboardNav } from '../../hooks/useKeyboardNav';
@@ -52,6 +52,28 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
 
   // Track if hint has been shown (show only once on initial load)
   const [hintShown, setHintShown] = useState(false);
+
+  // Inject styles on mount
+  useEffect(() => {
+    const styleId = 'lightbox-canvas-styles';
+    if (!document.getElementById(styleId)) {
+      const styleElement = document.createElement('style');
+      styleElement.id = styleId;
+      styleElement.textContent = LightboxCanvasStyles;
+      document.head.appendChild(styleElement);
+    }
+  }, []);
+
+  // Auto-dismiss drag hint after 5 seconds
+  useEffect(() => {
+    if (!hintShown && children) {
+      const timer = setTimeout(() => {
+        setHintShown(true);
+      }, 5000); // 1s delay + 4s animation = 5s total
+
+      return () => clearTimeout(timer);
+    }
+  }, [hintShown, children]);
 
   // ===== MEMOIZED TRANSFORM =====
 
@@ -256,7 +278,6 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       {children && !hintShown && (
         <div
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          onAnimationEnd={() => setHintShown(true)}
         >
           <div
             className="text-center max-w-md px-6 py-4 bg-black/80 backdrop-blur-sm rounded-xl border border-white/20"
@@ -276,12 +297,63 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
         </div>
       )}
 
+      {/* Zoom Controls */}
+      <div className="absolute bottom-6 right-6 flex flex-col gap-2 z-30">
+        <button
+          onClick={() => {
+            const newScale = Math.min(SCALE_LIMITS.max, state.position.scale * 1.2);
+            actions.updatePosition({
+              ...state.position,
+              scale: newScale
+            });
+          }}
+          className="w-10 h-10 bg-white/90 hover:bg-white border border-gray-300 rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:text-gray-900 transition-colors"
+          aria-label="Zoom in"
+          title="Zoom in"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="10" y1="5" x2="10" y2="15" />
+            <line x1="5" y1="10" x2="15" y2="10" />
+          </svg>
+        </button>
+        <button
+          onClick={() => {
+            const newScale = Math.max(SCALE_LIMITS.min, state.position.scale / 1.2);
+            actions.updatePosition({
+              ...state.position,
+              scale: newScale
+            });
+          }}
+          className="w-10 h-10 bg-white/90 hover:bg-white border border-gray-300 rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:text-gray-900 transition-colors"
+          aria-label="Zoom out"
+          title="Zoom out"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="5" y1="10" x2="15" y2="10" />
+          </svg>
+        </button>
+        <button
+          onClick={() => {
+            actions.updatePosition({
+              x: 0,
+              y: 0,
+              scale: 1.0
+            });
+          }}
+          className="w-10 h-10 bg-white/90 hover:bg-white border border-gray-300 rounded-lg shadow-lg flex items-center justify-center text-gray-700 hover:text-gray-900 transition-colors text-xs font-medium"
+          aria-label="Reset zoom"
+          title="Reset zoom to 100%"
+        >
+          1:1
+        </button>
+      </div>
+
       {/* Debug overlay */}
       {debugOverlay}
 
       {/* Performance indicator */}
       {performanceMode === 'high' && (
-        <div className="absolute bottom-4 right-4 text-white text-xs opacity-50 pointer-events-none">
+        <div className="absolute bottom-4 left-4 text-white text-xs opacity-50 pointer-events-none">
           GPU Accelerated
         </div>
       )}

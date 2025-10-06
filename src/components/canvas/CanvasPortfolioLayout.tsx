@@ -221,7 +221,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
 
       {/* Focus Section (About) - Left - Scratch Note Paper */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden canvas-section-scratch ${
+        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-visible canvas-section-scratch ${
           activeSection === 'focus'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
@@ -305,7 +305,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
 
       {/* Exposure Section (Skills) - Top - Index Card Style */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden canvas-section-index ${
+        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-visible canvas-section-index ${
           activeSection === 'exposure'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
@@ -401,7 +401,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
 
       {/* Portfolio Section (Contact) - Bottom Right - Polaroid Style */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 overflow-hidden canvas-section-polaroid ${
+        className={`absolute cursor-pointer transition-all duration-300 overflow-visible canvas-section-polaroid ${
           activeSection === 'portfolio'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'

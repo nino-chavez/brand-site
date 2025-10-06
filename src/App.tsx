@@ -303,7 +303,7 @@ const App: React.FC = () => {
                     )}
 
                     {/* Canvas Layout System */}
-                    <main id="canvas-content" className="relative z-10 h-screen w-screen overflow-hidden bg-gray-900">
+                    <main id="canvas-content" className="relative z-10 h-screen w-screen overflow-hidden">
                         <LightboxCanvas
                             performanceMode={performanceMode}
                             debugMode={debugMode}
