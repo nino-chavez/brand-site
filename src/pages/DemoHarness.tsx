@@ -76,6 +76,19 @@ import {
   StatusIndicatorDemo,
 } from '../components/demo/demos/PassiveStateDemos';
 
+// AI feature demos
+import {
+  ResumeGeneratorDemo,
+  RecruiterMatchAnalyzerDemo,
+  SkillMatcherDemo,
+  CompositionAnalyzerDemo,
+  ContentDiscoveryDemo,
+  ContextualRecommendationsDemo,
+  CostDashboardDemo,
+  RateLimitingDemo,
+  BotDetectionDemo,
+} from '../components/demo/demos/AIFeatureDemos';
+
 import { DEMO_CATEGORIES, demoComponents, getDemosByCategory } from '../config/demoComponents';
 import { useDemoState } from '../hooks/useDemoState';
 import type { ViewMode } from '../components/demo/ModeToggle';
@@ -144,6 +157,17 @@ export const DemoHarness: React.FC = () => {
   const pulseAnimation = useDemoState('pulse-animation', { speed: 'normal', intensity: 'medium' });
   const statusIndicator = useDemoState('status-indicator', { type: 'badge', status: 'success' });
 
+  // AI features
+  const resumeGenerator = useDemoState('resume-generator', { enabled: true });
+  const recruiterAnalyzer = useDemoState('recruiter-match-analyzer', { enabled: true });
+  const skillMatcher = useDemoState('skill-matcher', { maxResults: 5, showHistory: true });
+  const compositionAnalyzer = useDemoState('composition-analyzer', { enabled: true, cacheEnabled: true });
+  const contentDiscovery = useDemoState('content-discovery', { maxResults: 8, siteFilter: 'all' });
+  const contextualRecs = useDemoState('contextual-recommendations', { maxRecommendations: 3, currentSection: 'capture' });
+  const costDashboard = useDemoState('cost-dashboard', { showAlerts: true, refreshInterval: '5s' });
+  const rateLimiting = useDemoState('rate-limiting', { showLimits: true, testMode: false });
+  const botDetection = useDemoState('bot-detection', { sensitivity: 'medium', showSignals: true });
+
   // Total component count for stats
   const totalComponents = demoComponents.length;
 
@@ -197,6 +221,15 @@ export const DemoHarness: React.FC = () => {
     skeletonScreen.resetState();
     pulseAnimation.resetState();
     statusIndicator.resetState();
+    resumeGenerator.resetState();
+    recruiterAnalyzer.resetState();
+    skillMatcher.resetState();
+    compositionAnalyzer.resetState();
+    contentDiscovery.resetState();
+    contextualRecs.resetState();
+    costDashboard.resetState();
+    rateLimiting.resetState();
+    botDetection.resetState();
   };
 
   return (
@@ -1481,6 +1514,363 @@ onTouchEnd={() => clearTimeout(timer)}`}
                   }
                 >
                   <StatusIndicatorDemo type={statusIndicator.state.type} status={statusIndicator.state.status} />
+                </DemoCard>
+              </ComponentCategory>
+            </div>
+
+            {/* AI FEATURES CATEGORY */}
+            <div id="category-aiFeatures">
+              <ComponentCategory
+                title={DEMO_CATEGORIES.aiFeatures.title}
+                description={DEMO_CATEGORIES.aiFeatures.description}
+                icon={DEMO_CATEGORIES.aiFeatures.icon}
+                accentColor="violet"
+                defaultExpanded={!activeCategory || activeCategory === 'aiFeatures'}
+              >
+                {/* Resume Generator */}
+                <DemoCard
+                  title="Smart Resume Generator"
+                  description="AI-powered resume tailoring from job descriptions using Gemini Pro. Cost: ~$0.002/generation. Rate limit: 5/hour per user. Includes multi-layer protection: IP-based (10/hr), session-based (5/hr), daily quota (100), monthly hard cap ($50)."
+                  category="aiFeatures"
+                  testId="demo-resume-generator"
+                  codeSnippet={`import { SmartResumeGenerator } from '@/components/ai/SmartResumeGenerator';
+
+<SmartResumeGenerator />
+// Cost: ~$0.002 per generation
+// Rate limit: 5 per hour per user`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'toggle',
+                          label: 'Feature Enabled',
+                          value: resumeGenerator.state.enabled,
+                          onChange: (value) => resumeGenerator.updateState('enabled', value),
+                        },
+                      ]}
+                      onReset={resumeGenerator.resetState}
+                    />
+                  }
+                >
+                  <ResumeGeneratorDemo enabled={resumeGenerator.state.enabled} />
+                </DemoCard>
+
+                {/* Recruiter Match Analyzer */}
+                <DemoCard
+                  title="Recruiter Match Analyzer (Recruiter Tool)"
+                  description="AI-powered candidate fit analysis for recruiters. Paste job description → get match score (0-100), strong matches with specific examples, potential gaps, interview focus areas, cultural fit assessment, and clear hiring recommendation."
+                  category="aiFeatures"
+                  testId="demo-recruiter-match-analyzer"
+                  codeSnippet={`import { RecruiterMatchAnalyzer } from '@/components/ai/RecruiterMatchAnalyzer';
+
+<RecruiterMatchAnalyzer />
+// Cost: ~$0.002 per analysis
+// Rate limit: 10 per session
+// Output: Match score, gaps, interview focus areas`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'toggle',
+                          label: 'Feature Enabled',
+                          value: recruiterAnalyzer.state.enabled,
+                          onChange: (value) => recruiterAnalyzer.updateState('enabled', value),
+                        },
+                      ]}
+                      onReset={recruiterAnalyzer.resetState}
+                    />
+                  }
+                >
+                  <RecruiterMatchAnalyzerDemo enabled={recruiterAnalyzer.state.enabled} />
+                </DemoCard>
+
+                {/* Skill Matcher */}
+                <DemoCard
+                  title="Semantic Skill Matcher"
+                  description="Client-side semantic search across 24 skills and projects. Cost: ~$0.0001/search (embedding query only). Pre-computed embeddings: 491KB. Includes cosine similarity search and keyword matching fallback."
+                  category="aiFeatures"
+                  testId="demo-skill-matcher"
+                  codeSnippet={`import { SkillMatcher } from '@/components/ai/SkillMatcher';
+
+<SkillMatcher />
+// Cost: ~$0.0001 per search (embedding query only)
+// Pre-computed embeddings: 491KB`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Max Results',
+                          value: skillMatcher.state.maxResults,
+                          min: 3,
+                          max: 10,
+                          step: 1,
+                          onChange: (value) => skillMatcher.updateState('maxResults', value),
+                        },
+                        {
+                          type: 'toggle',
+                          label: 'Show Search History',
+                          value: skillMatcher.state.showHistory,
+                          onChange: (value) => skillMatcher.updateState('showHistory', value),
+                        },
+                      ]}
+                      onReset={skillMatcher.resetState}
+                    />
+                  }
+                >
+                  <SkillMatcherDemo maxResults={skillMatcher.state.maxResults} showHistory={skillMatcher.state.showHistory} />
+                </DemoCard>
+
+                {/* Composition Analyzer */}
+                <DemoCard
+                  title="Photo Composition Analyzer"
+                  description="AI photo analysis with Gemini Vision. Cost: ~$0.005/analysis. Session limit: 3 analyses. Response caching by SHA-256 image hash. Analyzes composition, lighting, timing, and technical settings."
+                  category="aiFeatures"
+                  testId="demo-composition-analyzer"
+                  codeSnippet={`import { CompositionAnalyzer } from '@/components/ai/CompositionAnalyzer';
+
+<CompositionAnalyzer />
+// Cost: ~$0.005 per analysis
+// Session limit: 3 analyses
+// Response caching: SHA-256 image hash`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'toggle',
+                          label: 'Feature Enabled',
+                          value: compositionAnalyzer.state.enabled,
+                          onChange: (value) => compositionAnalyzer.updateState('enabled', value),
+                        },
+                        {
+                          type: 'toggle',
+                          label: 'Response Caching',
+                          value: compositionAnalyzer.state.cacheEnabled,
+                          onChange: (value) => compositionAnalyzer.updateState('cacheEnabled', value),
+                        },
+                      ]}
+                      onReset={compositionAnalyzer.resetState}
+                    />
+                  }
+                >
+                  <CompositionAnalyzerDemo enabled={compositionAnalyzer.state.enabled} cacheEnabled={compositionAnalyzer.state.cacheEnabled} />
+                </DemoCard>
+
+                {/* Content Discovery */}
+                <DemoCard
+                  title="Cross-Site Content Discovery"
+                  description="Find related content across blog.nino.photos and gallery.nino.photos. Cost: $0 (pre-computed embeddings, client-side search). Pure client-side similarity search with no API calls."
+                  category="aiFeatures"
+                  testId="demo-content-discovery"
+                  codeSnippet={`import { ContentDiscovery } from '@/components/ai/ContentDiscovery';
+
+<ContentDiscovery
+  context="action sports photography"
+  maxResults={8}
+  siteFilter="all"
+/>
+// Cost: $0 (pre-computed embeddings, client-side search)`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Max Results',
+                          value: contentDiscovery.state.maxResults,
+                          min: 3,
+                          max: 12,
+                          step: 1,
+                          onChange: (value) => contentDiscovery.updateState('maxResults', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Site Filter',
+                          value: contentDiscovery.state.siteFilter,
+                          options: ['all', 'blog', 'gallery'],
+                          onChange: (value) => contentDiscovery.updateState('siteFilter', value),
+                        },
+                      ]}
+                      onReset={contentDiscovery.resetState}
+                    />
+                  }
+                >
+                  <ContentDiscoveryDemo maxResults={contentDiscovery.state.maxResults} siteFilter={contentDiscovery.state.siteFilter} />
+                </DemoCard>
+
+                {/* Contextual Recommendations */}
+                <DemoCard
+                  title="Contextual Recommendations"
+                  description="Smart navigation suggestions based on current portfolio section. Cost: $0 (pre-computed at build time). Guides visitors through the portfolio logically."
+                  category="aiFeatures"
+                  testId="demo-contextual-recommendations"
+                  codeSnippet={`import { ContextualRecommendations } from '@/components/ai/ContextualRecommendations';
+
+<ContextualRecommendations
+  currentSection="develop"
+  maxRecommendations={3}
+/>
+// Cost: $0 (pre-computed at build time)`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'slider',
+                          label: 'Max Recommendations',
+                          value: contextualRecs.state.maxRecommendations,
+                          min: 2,
+                          max: 5,
+                          step: 1,
+                          onChange: (value) => contextualRecs.updateState('maxRecommendations', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Current Section',
+                          value: contextualRecs.state.currentSection,
+                          options: ['capture', 'focus', 'frame', 'exposure', 'develop', 'portfolio'],
+                          onChange: (value) => contextualRecs.updateState('currentSection', value),
+                        },
+                      ]}
+                      onReset={contextualRecs.resetState}
+                    />
+                  }
+                >
+                  <ContextualRecommendationsDemo
+                    maxRecommendations={contextualRecs.state.maxRecommendations}
+                    currentSection={contextualRecs.state.currentSection}
+                  />
+                </DemoCard>
+
+                {/* Cost Dashboard */}
+                <DemoCard
+                  title="Cost Monitoring Dashboard"
+                  description="Real-time AI usage tracking with budget alerts and feature controls. Monitors daily/monthly spend and per-feature usage. Alerts at 60% ($30) and 90% ($45) thresholds. Hard cap: $50/month."
+                  category="aiFeatures"
+                  testId="demo-cost-dashboard"
+                  codeSnippet={`import { CostDashboard } from '@/components/ai/CostDashboard';
+
+<CostDashboard />
+// Monitors: Daily/monthly spend, per-feature usage
+// Alerts: 60% ($30), 90% ($45) thresholds
+// Hard cap: $50/month`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'toggle',
+                          label: 'Show Budget Alerts',
+                          value: costDashboard.state.showAlerts,
+                          onChange: (value) => costDashboard.updateState('showAlerts', value),
+                        },
+                        {
+                          type: 'select',
+                          label: 'Refresh Interval',
+                          value: costDashboard.state.refreshInterval,
+                          options: ['1s', '5s', '10s', 'manual'],
+                          onChange: (value) => costDashboard.updateState('refreshInterval', value),
+                        },
+                      ]}
+                      onReset={costDashboard.resetState}
+                    />
+                  }
+                >
+                  <CostDashboardDemo showAlerts={costDashboard.state.showAlerts} refreshInterval={costDashboard.state.refreshInterval} />
+                </DemoCard>
+
+                {/* Rate Limiting */}
+                <DemoCard
+                  title="Rate Limiting System"
+                  description="Multi-layer cost protection. IP-based: 10 requests/hour. Session-based: 5 requests/hour. Daily: 100 requests. Monthly: $50 hard cap. Protects against runaway API costs and abuse."
+                  category="aiFeatures"
+                  testId="demo-rate-limiting"
+                  codeSnippet={`import { rateLimiter } from '@/utils/rateLimiter';
+
+const check = await rateLimiter.checkLimit(
+  userIP,
+  'resume-generator',
+  0.002
+);
+
+if (!check.allowed) {
+  // Show rate limit message
+  // Reset time: check.resetTime
+}
+
+// Limits:
+// - IP: 10 requests/hour
+// - Session: 5 requests/hour
+// - Daily: 100 requests
+// - Monthly: $50 hard cap`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'toggle',
+                          label: 'Show Current Limits',
+                          value: rateLimiting.state.showLimits,
+                          onChange: (value) => rateLimiting.updateState('showLimits', value),
+                        },
+                        {
+                          type: 'toggle',
+                          label: 'Test Mode (Low Limits)',
+                          value: rateLimiting.state.testMode,
+                          onChange: (value) => rateLimiting.updateState('testMode', value),
+                        },
+                      ]}
+                      onReset={rateLimiting.resetState}
+                    />
+                  }
+                >
+                  <RateLimitingDemo showLimits={rateLimiting.state.showLimits} testMode={rateLimiting.state.testMode} />
+                </DemoCard>
+
+                {/* Bot Detection */}
+                <DemoCard
+                  title="Bot Detection System"
+                  description="Multi-signal bot analysis. Honeypot fields (invisible to humans). User-agent analysis. Mouse movement patterns. Form timing patterns. Browser feature detection. Auto-escalates to CAPTCHA on suspicious activity."
+                  category="aiFeatures"
+                  testId="demo-bot-detection"
+                  codeSnippet={`import { botDetector } from '@/utils/botDetection';
+
+const check = await botDetector.checkRequest({
+  userAgent: navigator.userAgent,
+  referrer: document.referrer,
+  honeypot,
+  timing: botDetector.getFormDuration()
+});
+
+if (!check.passed) {
+  // Escalate to CAPTCHA
+  // Or block if confidence > 0.9
+}
+
+// Signals:
+// - Honeypot fields (invisible to humans)
+// - User-agent analysis
+// - Mouse movement patterns
+// - Form timing patterns
+// - Browser feature detection`}
+                  controls={
+                    <DemoControls
+                      controls={[
+                        {
+                          type: 'select',
+                          label: 'Detection Sensitivity',
+                          value: botDetection.state.sensitivity,
+                          options: ['low', 'medium', 'high'],
+                          onChange: (value) => botDetection.updateState('sensitivity', value),
+                        },
+                        {
+                          type: 'toggle',
+                          label: 'Show Detection Signals',
+                          value: botDetection.state.showSignals,
+                          onChange: (value) => botDetection.updateState('showSignals', value),
+                        },
+                      ]}
+                      onReset={botDetection.resetState}
+                    />
+                  }
+                >
+                  <BotDetectionDemo sensitivity={botDetection.state.sensitivity} showSignals={botDetection.state.showSignals} />
                 </DemoCard>
               </ComponentCategory>
             </div>

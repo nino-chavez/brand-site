@@ -102,15 +102,15 @@ class BotDetector {
       }
     }
 
-    // 5. Mouse movement analysis
+    // 5. Mouse movement analysis (reduced penalty for legitimate quick interactions)
     const mouseResult = this.analyzeMouseMovement();
     if (mouseResult.suspicious) {
-      signals.push('no_mouse_movement');
-      confidence += 0.4;
+      signals.push('limited_mouse_movement');
+      confidence += 0.2; // Reduced from 0.4 - file uploads may have minimal movement
     }
 
-    // 6. Keyboard activity check
-    if (this.keyPresses === 0 && request.timing !== undefined && request.timing > 1000) {
+    // 6. Keyboard activity check (only flag if NO mouse activity either)
+    if (this.keyPresses === 0 && this.mouseMovements.length === 0 && request.timing !== undefined && request.timing > 1000) {
       signals.push('no_keyboard_activity');
       confidence += 0.3;
     }
@@ -244,13 +244,15 @@ class BotDetector {
    * Analyze mouse movement patterns
    */
   private analyzeMouseMovement(): { suspicious: boolean } {
-    // No movements at all
+    // No movements at all is suspicious, but only with low confidence
+    // Some legitimate users may use keyboard-only navigation or quick uploads
     if (this.mouseMovements.length === 0) {
       return { suspicious: true };
     }
 
-    // Very few movements for extended interaction
-    if (this.mouseMovements.length < 5) {
+    // Reduced threshold: 2+ movements is enough for legitimate interaction
+    // Original was 5, but quick file uploads may have minimal mouse activity
+    if (this.mouseMovements.length < 2) {
       return { suspicious: true };
     }
 

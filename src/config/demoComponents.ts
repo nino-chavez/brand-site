@@ -74,6 +74,12 @@ export const DEMO_CATEGORIES = {
     icon: '⏳',
     description: 'Loading indicators that signal system responsiveness and reduce perceived wait time. Skeleton screens and spinners with 300-1000ms configurable timing.',
   },
+  aiFeatures: {
+    id: 'aiFeatures',
+    title: 'AI Features',
+    icon: '🤖',
+    description: 'Gemini-powered AI features with comprehensive cost protection. Resume tailoring (~$0.002), recruiter match analysis (~$0.002), semantic search ($0.0001), photo analysis (~$0.005), contextual recommendations ($0), and cross-site discovery ($0). Multi-layer rate limiting (5-10/hr), bot detection, and $50/month hard cap.',
+  },
 };
 
 export const demoComponents: DemoComponentConfig[] = [
@@ -868,6 +874,263 @@ onTouchEnd={() => clearTimeout(timer)}`,
     codeSnippet: `<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
   Active
 </span>`,
+  },
+
+  // AI FEATURES
+  {
+    id: 'resume-generator',
+    title: 'Smart Resume Generator (Job Seeker)',
+    description: 'AI-powered resume tailoring from job descriptions using Gemini Pro. For job seekers to generate customized resumes.',
+    category: 'aiFeatures',
+    controls: {
+      enabled: {
+        type: 'toggle',
+        label: 'Feature Enabled',
+        defaultValue: true,
+      },
+    },
+    states: ['idle', 'analyzing', 'generating', 'complete', 'rate-limited', 'captcha-required'],
+    codeSnippet: `import { SmartResumeGenerator } from '@/components/ai/SmartResumeGenerator';
+
+<SmartResumeGenerator />
+// Cost: ~$0.002 per generation
+// Rate limit: 5 per hour per user`,
+  },
+  {
+    id: 'recruiter-match-analyzer',
+    title: 'Recruiter Match Analyzer (Recruiter)',
+    description: 'AI-powered candidate fit analysis for recruiters. Paste job description → get match score, strong points, gaps, and interview recommendations.',
+    category: 'aiFeatures',
+    controls: {
+      enabled: {
+        type: 'toggle',
+        label: 'Feature Enabled',
+        defaultValue: true,
+      },
+    },
+    states: ['idle', 'analyzing', 'complete', 'rate-limited', 'captcha-required'],
+    codeSnippet: `import { RecruiterMatchAnalyzer } from '@/components/ai/RecruiterMatchAnalyzer';
+
+<RecruiterMatchAnalyzer />
+// Cost: ~$0.002 per analysis
+// Rate limit: 10 per session
+// Output: Match score, gaps, interview focus areas`,
+  },
+  {
+    id: 'skill-matcher',
+    title: 'Semantic Skill Matcher',
+    description: 'Client-side semantic search across 24 skills and projects',
+    category: 'aiFeatures',
+    controls: {
+      maxResults: {
+        type: 'slider',
+        label: 'Max Results',
+        min: 3,
+        max: 10,
+        step: 1,
+        defaultValue: 5,
+      },
+      showHistory: {
+        type: 'toggle',
+        label: 'Show Search History',
+        defaultValue: true,
+      },
+    },
+    states: ['idle', 'searching', 'results', 'no-results'],
+    codeSnippet: `import { SkillMatcher } from '@/components/ai/SkillMatcher';
+
+<SkillMatcher />
+// Cost: ~$0.0001 per search (embedding query only)
+// Pre-computed embeddings: 491KB`,
+  },
+  {
+    id: 'composition-analyzer',
+    title: 'Photo Composition Analyzer',
+    description: 'AI photo analysis with Gemini Vision (composition, lighting, timing)',
+    category: 'aiFeatures',
+    controls: {
+      enabled: {
+        type: 'toggle',
+        label: 'Feature Enabled',
+        defaultValue: true,
+      },
+      cacheEnabled: {
+        type: 'toggle',
+        label: 'Response Caching',
+        defaultValue: true,
+      },
+    },
+    states: ['idle', 'uploading', 'analyzing', 'complete', 'session-limit'],
+    codeSnippet: `import { CompositionAnalyzer } from '@/components/ai/CompositionAnalyzer';
+
+<CompositionAnalyzer />
+// Cost: ~$0.005 per analysis
+// Session limit: 3 analyses
+// Response caching: SHA-256 image hash`,
+  },
+  {
+    id: 'content-discovery',
+    title: 'Cross-Site Content Discovery',
+    description: 'Find related content across blog.nino.photos and gallery.nino.photos',
+    category: 'aiFeatures',
+    controls: {
+      maxResults: {
+        type: 'slider',
+        label: 'Max Results',
+        min: 3,
+        max: 12,
+        step: 1,
+        defaultValue: 8,
+      },
+      siteFilter: {
+        type: 'select',
+        label: 'Site Filter',
+        options: ['all', 'blog', 'gallery'],
+        defaultValue: 'all',
+      },
+    },
+    states: ['idle', 'searching', 'results', 'no-results'],
+    codeSnippet: `import { ContentDiscovery } from '@/components/ai/ContentDiscovery';
+
+<ContentDiscovery
+  context="action sports photography"
+  maxResults={8}
+  siteFilter="all"
+/>
+// Cost: $0 (pre-computed embeddings, client-side search)`,
+  },
+  {
+    id: 'contextual-recommendations',
+    title: 'Contextual Recommendations',
+    description: 'Smart navigation suggestions based on current portfolio section',
+    category: 'aiFeatures',
+    controls: {
+      maxRecommendations: {
+        type: 'slider',
+        label: 'Max Recommendations',
+        min: 2,
+        max: 5,
+        step: 1,
+        defaultValue: 3,
+      },
+      currentSection: {
+        type: 'select',
+        label: 'Current Section',
+        options: ['capture', 'focus', 'frame', 'exposure', 'develop', 'portfolio'],
+        defaultValue: 'capture',
+      },
+    },
+    states: ['idle', 'loading', 'displayed'],
+    codeSnippet: `import { ContextualRecommendations } from '@/components/ai/ContextualRecommendations';
+
+<ContextualRecommendations
+  currentSection="develop"
+  maxRecommendations={3}
+/>
+// Cost: $0 (pre-computed at build time)`,
+  },
+  {
+    id: 'cost-dashboard',
+    title: 'Cost Monitoring Dashboard',
+    description: 'Real-time AI usage tracking with budget alerts and feature controls',
+    category: 'aiFeatures',
+    controls: {
+      showAlerts: {
+        type: 'toggle',
+        label: 'Show Budget Alerts',
+        defaultValue: true,
+      },
+      refreshInterval: {
+        type: 'select',
+        label: 'Refresh Interval',
+        options: ['1s', '5s', '10s', 'manual'],
+        defaultValue: '5s',
+      },
+    },
+    states: ['normal', 'warning-60', 'warning-90', 'budget-exceeded'],
+    codeSnippet: `import { CostDashboard } from '@/components/ai/CostDashboard';
+
+<CostDashboard />
+// Monitors: Daily/monthly spend, per-feature usage
+// Alerts: 60% ($30), 90% ($45) thresholds
+// Hard cap: $50/month`,
+  },
+  {
+    id: 'rate-limiting',
+    title: 'Rate Limiting System',
+    description: 'Multi-layer cost protection (IP, session, daily, monthly)',
+    category: 'aiFeatures',
+    controls: {
+      showLimits: {
+        type: 'toggle',
+        label: 'Show Current Limits',
+        defaultValue: true,
+      },
+      testMode: {
+        type: 'toggle',
+        label: 'Test Mode (Low Limits)',
+        defaultValue: false,
+      },
+    },
+    states: ['within-limits', 'approaching-limit', 'rate-limited', 'reset-pending'],
+    codeSnippet: `import { rateLimiter } from '@/utils/rateLimiter';
+
+const check = await rateLimiter.checkLimit(
+  userIP,
+  'resume-generator',
+  0.002
+);
+
+if (!check.allowed) {
+  // Show rate limit message
+  // Reset time: check.resetTime
+}
+
+// Limits:
+// - IP: 10 requests/hour
+// - Session: 5 requests/hour
+// - Daily: 100 requests
+// - Monthly: $50 hard cap`,
+  },
+  {
+    id: 'bot-detection',
+    title: 'Bot Detection System',
+    description: 'Multi-signal bot analysis (honeypot, user-agent, mouse tracking, timing)',
+    category: 'aiFeatures',
+    controls: {
+      sensitivity: {
+        type: 'select',
+        label: 'Detection Sensitivity',
+        options: ['low', 'medium', 'high'],
+        defaultValue: 'medium',
+      },
+      showSignals: {
+        type: 'toggle',
+        label: 'Show Detection Signals',
+        defaultValue: true,
+      },
+    },
+    states: ['analyzing', 'human-verified', 'suspicious', 'bot-blocked'],
+    codeSnippet: `import { botDetector } from '@/utils/botDetection';
+
+const check = await botDetector.checkRequest({
+  userAgent: navigator.userAgent,
+  referrer: document.referrer,
+  honeypot,
+  timing: botDetector.getFormDuration()
+});
+
+if (!check.passed) {
+  // Escalate to CAPTCHA
+  // Or block if confidence > 0.9
+}
+
+// Signals:
+// - Honeypot fields (invisible to humans)
+// - User-agent analysis
+// - Mouse movement patterns
+// - Form timing patterns
+// - Browser feature detection`,
   },
 ];
 

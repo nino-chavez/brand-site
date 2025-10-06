@@ -1,8 +1,25 @@
 # AI Features - Complete Implementation
 
-**Status:** ✅ All 5 features complete
+**Status:** ✅ All features complete (development only)
 **Total Development Time:** ~34 hours
 **Estimated Monthly Cost:** $15-30 with safeguards
+
+---
+
+## ⚠️ CRITICAL SECURITY NOTICE
+
+**🔴 DO NOT DEPLOY TO PRODUCTION WITHOUT SERVER-SIDE IMPLEMENTATION**
+
+The current implementation exposes your Gemini API key in client-side JavaScript. This is **ONLY safe for local development/testing**.
+
+**Read the security notice:** [AI_SECURITY_NOTICE.md](./AI_SECURITY_NOTICE.md)
+
+**TL;DR:**
+- ❌ API key is embedded in browser bundle (publicly visible)
+- ❌ Rate limiting uses localStorage (easily bypassed)
+- ❌ Anyone can extract your key and rack up charges
+- ✅ Safe for local development only
+- ✅ Production requires server-side API routes + database
 
 ---
 
