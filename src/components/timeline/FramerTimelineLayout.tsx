@@ -130,12 +130,104 @@ export const FramerTimelineLayout: React.FC = () => {
 
   return (
     <div ref={containerRef} className="relative w-full min-h-screen" style={{ background: '#0a0a0a' }}>
+      {/* Header with Layout Switcher */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 z-50"
+        style={{
+          height: '60px',
+          background: 'rgba(0, 0, 0, 0.9)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '0 24px',
+        }}
+        initial={{ y: -60, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', damping: 25 }}
+      >
+        <div style={{ fontSize: '18px', fontWeight: 'bold', color: 'white' }}>
+          Nino Chavez
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)' }}>
+            Layout:
+          </span>
+          <div style={{ display: 'flex', gap: '4px', padding: '4px', borderRadius: '8px', background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(139, 92, 246, 0.3)' }}>
+            <button
+              onClick={() => { window.location.href = '/'; }}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '4px',
+                background: 'transparent',
+                border: '1px solid transparent',
+                fontSize: '18px',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 200ms'
+              }}
+              aria-label="Traditional layout"
+              title="Traditional layout"
+            >
+              ☰
+            </button>
+            <button
+              onClick={() => { window.location.href = '/?layout=canvas'; }}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '4px',
+                background: 'transparent',
+                border: '1px solid transparent',
+                fontSize: '16px',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 200ms',
+                perspective: '100px'
+              }}
+              aria-label="Canvas layout"
+              title="Canvas layout"
+            >
+              <div style={{
+                display: 'inline-block',
+                transition: 'transform 300ms',
+                transformStyle: 'preserve-3d',
+                transform: 'rotateX(30deg) rotateY(-30deg)',
+                textShadow: '2px 2px 0 rgba(139, 92, 246, 0.8), 3px 3px 6px rgba(0, 0, 0, 0.8), 4px 4px 0 rgba(75, 29, 153, 0.4)',
+                filter: 'drop-shadow(0 2px 4px rgba(139, 92, 246, 0.4))'
+              }}>
+                ⬚
+              </div>
+            </button>
+            <button
+              onClick={() => { window.location.href = '/?layout=timeline'; }}
+              style={{
+                padding: '6px 12px',
+                borderRadius: '4px',
+                background: 'rgba(139, 92, 246, 0.4)',
+                border: '1px solid rgba(139, 92, 246, 0.6)',
+                boxShadow: '0 0 8px rgba(139, 92, 246, 0.4)',
+                transform: 'scale(1.05)',
+                fontSize: '18px',
+                color: 'white',
+                cursor: 'pointer',
+                transition: 'all 200ms'
+              }}
+              aria-label="Timeline layout (active)"
+              title="Timeline layout"
+            >
+              🎞
+            </button>
+          </div>
+        </div>
+      </motion.div>
+
       {/* Film Editor Filmstrip Navigation */}
       <AnimatePresence>
         {filmstripVisible && (
           <motion.div
-            className="fixed top-0 left-0 right-0 z-50"
+            className="fixed left-0 right-0 z-40"
             style={{
+              top: '60px',
               height: '100px',
               background: 'rgba(0, 0, 0, 0.95)',
               borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
@@ -244,7 +336,7 @@ export const FramerTimelineLayout: React.FC = () => {
       </AnimatePresence>
 
       {/* Section Content Container - Horizontal Sliding */}
-      <div className="relative w-full overflow-hidden" style={{ paddingTop: '100px' }}>
+      <div className="relative w-full overflow-hidden" style={{ paddingTop: '160px' }}>
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={scrollState.currentSectionIndex}
@@ -389,7 +481,7 @@ export const FramerTimelineLayout: React.FC = () => {
       <motion.div
         style={{
           position: 'fixed',
-          top: '120px',
+          top: '180px',
           right: '24px',
           background: 'rgba(0, 0, 0, 0.85)',
           border: '1px solid rgba(255, 255, 255, 0.15)',
