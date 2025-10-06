@@ -50,7 +50,10 @@ export const FramerTimelineLayout: React.FC = () => {
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const [filmstripVisible, setFilmstripVisible] = useState(true);
   const [transitionStyle, setTransitionStyle] = useState<string>('spring');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const playIntervalRef = useRef<number | null>(null);
 
   // Professional timecode formatter (HH:MM:SS:FF format)
   const formatTimecode = useCallback((sectionIndex: number, progress: number): string => {
@@ -66,6 +69,68 @@ export const FramerTimelineLayout: React.FC = () => {
     const seconds = totalSeconds % 60;
 
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(frames).padStart(2, '0')}`;
+  }, []);
+
+  // Transport controls: Play/Pause
+  const togglePlay = useCallback(() => {
+    setIsPlaying(prev => !prev);
+  }, []);
+
+  // Transport controls: Previous frame
+  const previousFrame = useCallback(() => {
+    const prevIndex = scrollState.currentSectionIndex - 1;
+    if (prevIndex >= 0) {
+      transitionToSection(prevIndex, 'backward');
+    }
+  }, [scrollState.currentSectionIndex, transitionToSection]);
+
+  // Transport controls: Next frame
+  const nextFrame = useCallback(() => {
+    const nextIndex = scrollState.currentSectionIndex + 1;
+    if (nextIndex < TIMELINE_SECTIONS.length) {
+      transitionToSection(nextIndex, 'forward');
+    }
+  }, [scrollState.currentSectionIndex, transitionToSection]);
+
+  // Auto-play: advance to next section automatically
+  useEffect(() => {
+    if (isPlaying) {
+      playIntervalRef.current = window.setInterval(() => {
+        const nextIndex = scrollState.currentSectionIndex + 1;
+        if (nextIndex < TIMELINE_SECTIONS.length) {
+          transitionToSection(nextIndex, 'forward');
+        } else {
+          setIsPlaying(false); // Stop at last section
+        }
+      }, 3000); // 3 seconds per section
+    } else {
+      if (playIntervalRef.current) {
+        clearInterval(playIntervalRef.current);
+        playIntervalRef.current = null;
+      }
+    }
+    return () => {
+      if (playIntervalRef.current) clearInterval(playIntervalRef.current);
+    };
+  }, [isPlaying, scrollState.currentSectionIndex, transitionToSection]);
+
+  // Close context menu on click outside
+  useEffect(() => {
+    const handleClick = () => setContextMenu(null);
+    const handleContextMenu = (e: MouseEvent) => {
+      // Allow context menu only on timeline container
+      if (containerRef.current?.contains(e.target as Node)) {
+        e.preventDefault();
+        setContextMenu({ x: e.clientX, y: e.clientY });
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    document.addEventListener('contextmenu', handleContextMenu);
+    return () => {
+      document.removeEventListener('click', handleClick);
+      document.removeEventListener('contextmenu', handleContextMenu);
+    };
   }, []);
 
   // Use scroll-based navigation hook
@@ -575,16 +640,177 @@ export const FramerTimelineLayout: React.FC = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        {/* Left: Frame counter + Transition selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <span style={{ fontWeight: 600, letterSpacing: '0.5px' }}>
-            Frame {scrollState.currentSectionIndex + 1} of {TIMELINE_SECTIONS.length}
+        {/* Left: Transport controls */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {/* Previous frame button */}
+          <button
+            onClick={previousFrame}
+            disabled={scrollState.isTransitioning || scrollState.currentSectionIndex === 0}
+            style={{
+              background: 'rgba(50, 50, 50, 0.8)',
+              border: '1px solid rgba(100, 100, 100, 0.5)',
+              borderRadius: '3px',
+              color: 'rgba(255, 255, 255, 0.85)',
+              padding: '4px 8px',
+              fontSize: '12px',
+              cursor: scrollState.currentSectionIndex === 0 ? 'not-allowed' : 'pointer',
+              opacity: scrollState.currentSectionIndex === 0 ? 0.3 : 1,
+            }}
+            aria-label="Previous frame"
+            title="Previous frame (←)"
+          >
+            ⏮
+          </button>
+
+          {/* Play/Pause button */}
+          <button
+            onClick={togglePlay}
+            disabled={scrollState.isTransitioning || scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1}
+            style={{
+              background: isPlaying ? 'rgba(139, 92, 246, 0.3)' : 'rgba(50, 50, 50, 0.8)',
+              border: isPlaying ? '1px solid rgba(139, 92, 246, 0.6)' : '1px solid rgba(100, 100, 100, 0.5)',
+              borderRadius: '3px',
+              color: 'rgba(255, 255, 255, 0.85)',
+              padding: '4px 10px',
+              fontSize: '12px',
+              cursor: 'pointer',
+              boxShadow: isPlaying ? '0 0 8px rgba(139, 92, 246, 0.4)' : 'none',
+            }}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+            title={isPlaying ? 'Pause (Space)' : 'Play (Space)'}
+          >
+            {isPlaying ? '⏸' : '▶'}
+          </button>
+
+          {/* Next frame button */}
+          <button
+            onClick={nextFrame}
+            disabled={scrollState.isTransitioning || scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1}
+            style={{
+              background: 'rgba(50, 50, 50, 0.8)',
+              border: '1px solid rgba(100, 100, 100, 0.5)',
+              borderRadius: '3px',
+              color: 'rgba(255, 255, 255, 0.85)',
+              padding: '4px 8px',
+              fontSize: '12px',
+              cursor: scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 'not-allowed' : 'pointer',
+              opacity: scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 0.3 : 1,
+            }}
+            aria-label="Next frame"
+            title="Next frame (→)"
+          >
+            ⏭
+          </button>
+
+          <span style={{ opacity: 0.3, marginLeft: '4px' }}>|</span>
+
+          {/* Frame counter */}
+          <span style={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: '10px' }}>
+            {scrollState.currentSectionIndex + 1}/{TIMELINE_SECTIONS.length}
           </span>
-          <span style={{ opacity: 0.3 }}>|</span>
-          <span style={{ opacity: 0.7 }}>
+        </div>
+
+        {/* Center: Timeline ruler with draggable playhead */}
+        <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+          {/* Timeline track */}
+          <div
+            style={{
+              flex: 1,
+              height: '18px',
+              background: 'rgba(0, 0, 0, 0.6)',
+              border: '1px solid rgba(100, 100, 100, 0.3)',
+              borderRadius: '2px',
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'pointer',
+            }}
+            onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const clickX = e.clientX - rect.left;
+              const percentage = clickX / rect.width;
+              const targetSection = Math.floor(percentage * TIMELINE_SECTIONS.length);
+              const dir = targetSection > scrollState.currentSectionIndex ? 'forward' : 'backward';
+              transitionToSection(Math.min(targetSection, TIMELINE_SECTIONS.length - 1), dir);
+            }}
+          >
+            {/* Section markers */}
+            {TIMELINE_SECTIONS.map((section, index) => (
+              <div
+                key={section.id}
+                style={{
+                  position: 'absolute',
+                  left: `${(index / TIMELINE_SECTIONS.length) * 100}%`,
+                  width: `${(1 / TIMELINE_SECTIONS.length) * 100}%`,
+                  height: '100%',
+                  background: `linear-gradient(90deg, ${section.color}20, ${section.color}10)`,
+                  borderRight: index < TIMELINE_SECTIONS.length - 1 ? '1px solid rgba(100, 100, 100, 0.3)' : 'none',
+                }}
+                title={section.name}
+              />
+            ))}
+
+            {/* Playhead */}
+            <motion.div
+              style={{
+                position: 'absolute',
+                left: `${((scrollState.currentSectionIndex + scrollState.scrollProgress) / TIMELINE_SECTIONS.length) * 100}%`,
+                top: -2,
+                width: '2px',
+                height: 'calc(100% + 4px)',
+                background: 'rgba(139, 92, 246, 0.9)',
+                boxShadow: '0 0 8px rgba(139, 92, 246, 0.8)',
+                transform: 'translateX(-1px)',
+                pointerEvents: 'none',
+              }}
+              initial={false}
+              animate={{ left: `${((scrollState.currentSectionIndex + scrollState.scrollProgress) / TIMELINE_SECTIONS.length) * 100}%` }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            />
+
+            {/* Playhead handle */}
+            <motion.div
+              style={{
+                position: 'absolute',
+                left: `${((scrollState.currentSectionIndex + scrollState.scrollProgress) / TIMELINE_SECTIONS.length) * 100}%`,
+                top: -4,
+                width: 0,
+                height: 0,
+                borderLeft: '5px solid transparent',
+                borderRight: '5px solid transparent',
+                borderTop: '6px solid rgba(139, 92, 246, 0.9)',
+                transform: 'translateX(-5px)',
+                pointerEvents: 'none',
+                filter: 'drop-shadow(0 0 4px rgba(139, 92, 246, 0.8))',
+              }}
+              initial={false}
+              animate={{ left: `${((scrollState.currentSectionIndex + scrollState.scrollProgress) / TIMELINE_SECTIONS.length) * 100}%` }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            />
+          </div>
+
+          {/* Section name */}
+          <span style={{ fontSize: '10px', opacity: 0.7, whiteSpace: 'nowrap' }}>
             {currentSection.name}
           </span>
+        </div>
+
+        {/* Right: Timecode + Transition selector */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {/* Professional timecode display (HH:MM:SS:FF) */}
+          <div style={{
+            fontWeight: 600,
+            letterSpacing: '1px',
+            color: 'rgba(255, 255, 255, 0.9)',
+            textShadow: '0 0 4px rgba(139, 92, 246, 0.6)',
+            fontFamily: 'SF Mono, Monaco, Consolas, monospace',
+            fontSize: '10px',
+          }}>
+            {formatTimecode(scrollState.currentSectionIndex, scrollState.scrollProgress)}
+          </div>
+
           <span style={{ opacity: 0.3 }}>|</span>
+
+          {/* Transition selector */}
           <select
             value={transitionStyle}
             onChange={(e) => setTransitionStyle(e.target.value)}
@@ -593,13 +819,14 @@ export const FramerTimelineLayout: React.FC = () => {
               border: '1px solid rgba(100, 100, 100, 0.5)',
               borderRadius: '3px',
               color: 'rgba(255, 255, 255, 0.85)',
-              padding: '4px 8px',
-              fontSize: '10px',
+              padding: '3px 6px',
+              fontSize: '9px',
               cursor: 'pointer',
               fontFamily: 'SF Mono, Monaco, Consolas, monospace',
               outline: 'none',
             }}
             aria-label="Select transition effect"
+            title="Transition effect"
           >
             <option value="spring">Spring</option>
             <option value="ease">Ease</option>
@@ -607,18 +834,158 @@ export const FramerTimelineLayout: React.FC = () => {
             <option value="anticipate">Anticipate</option>
           </select>
         </div>
-
-        {/* Right: Professional timecode display (HH:MM:SS:FF) */}
-        <div style={{
-          fontWeight: 600,
-          letterSpacing: '1px',
-          color: 'rgba(255, 255, 255, 0.9)',
-          textShadow: '0 0 4px rgba(139, 92, 246, 0.6)',
-          fontFamily: 'SF Mono, Monaco, Consolas, monospace',
-        }}>
-          {formatTimecode(scrollState.currentSectionIndex, scrollState.scrollProgress)} / {formatTimecode(TIMELINE_SECTIONS.length - 1, 1)}
-        </div>
       </motion.div>
+
+      {/* Context Menu (Desktop Editor Style) */}
+      <AnimatePresence>
+        {contextMenu && (
+          <motion.div
+            style={{
+              position: 'fixed',
+              left: `${contextMenu.x}px`,
+              top: `${contextMenu.y}px`,
+              background: 'rgba(30, 30, 30, 0.98)',
+              border: '1px solid rgba(100, 100, 100, 0.5)',
+              borderRadius: '6px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
+              padding: '6px',
+              zIndex: 100,
+              minWidth: '180px',
+              fontFamily: 'system-ui, -apple-system, sans-serif',
+              fontSize: '13px',
+            }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.15 }}
+          >
+            {/* Jump to Frame */}
+            <div style={{
+              padding: '8px 12px',
+              color: 'rgba(255, 255, 255, 0.5)',
+              fontSize: '11px',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}>
+              Navigation
+            </div>
+
+            {TIMELINE_SECTIONS.map((section, index) => (
+              <button
+                key={section.id}
+                onClick={() => {
+                  const dir = index > scrollState.currentSectionIndex ? 'forward' : 'backward';
+                  transitionToSection(index, dir);
+                  setContextMenu(null);
+                }}
+                disabled={index === scrollState.currentSectionIndex}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  padding: '8px 12px',
+                  background: index === scrollState.currentSectionIndex ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                  border: 'none',
+                  borderRadius: '4px',
+                  color: index === scrollState.currentSectionIndex ? 'rgba(139, 92, 246, 0.9)' : 'rgba(255, 255, 255, 0.85)',
+                  cursor: index === scrollState.currentSectionIndex ? 'default' : 'pointer',
+                  textAlign: 'left',
+                  transition: 'background 150ms',
+                }}
+                onMouseEnter={(e) => {
+                  if (index !== scrollState.currentSectionIndex) {
+                    e.currentTarget.style.background = 'rgba(100, 100, 100, 0.2)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (index !== scrollState.currentSectionIndex) {
+                    e.currentTarget.style.background = 'transparent';
+                  }
+                }}
+              >
+                <span>{section.name}</span>
+                <span style={{ fontSize: '11px', opacity: 0.5 }}>{index + 1}</span>
+              </button>
+            ))}
+
+            <div style={{
+              height: '1px',
+              background: 'rgba(100, 100, 100, 0.3)',
+              margin: '6px 0',
+            }} />
+
+            {/* Toggle Filmstrip */}
+            <button
+              onClick={() => {
+                setFilmstripVisible(prev => !prev);
+                setContextMenu(null);
+              }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+                padding: '8px 12px',
+                background: 'transparent',
+                border: 'none',
+                borderRadius: '4px',
+                color: 'rgba(255, 255, 255, 0.85)',
+                cursor: 'pointer',
+                textAlign: 'left',
+                transition: 'background 150ms',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(100, 100, 100, 0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent';
+              }}
+            >
+              <span>Toggle Filmstrip</span>
+              <span style={{ fontSize: '11px', opacity: 0.5 }}>F</span>
+            </button>
+
+            <div style={{
+              height: '1px',
+              background: 'rgba(100, 100, 100, 0.3)',
+              margin: '6px 0',
+            }} />
+
+            {/* Keyboard Shortcuts Reference */}
+            <div style={{
+              padding: '8px 12px',
+              color: 'rgba(255, 255, 255, 0.5)',
+              fontSize: '11px',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}>
+              Shortcuts
+            </div>
+
+            <div style={{ padding: '4px 12px 8px', fontSize: '11px', color: 'rgba(255, 255, 255, 0.6)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <span>Navigate</span>
+                <span style={{ opacity: 0.7 }}>← / →</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <span>Jump to frame</span>
+                <span style={{ opacity: 0.7 }}>1-6</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <span>First / Last</span>
+                <span style={{ opacity: 0.7 }}>Home / End</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>Filmstrip</span>
+                <span style={{ opacity: 0.7 }}>F</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
