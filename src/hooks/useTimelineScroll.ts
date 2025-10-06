@@ -140,7 +140,7 @@ export const useTimelineScroll = ({
    * Handle scroll events with section awareness
    */
   const handleScroll = useCallback((event: WheelEvent) => {
-    const { currentSectionIndex, isTransitioning, isAtSectionBottom, isAtSectionTop } = state;
+    const { currentSectionIndex, isTransitioning } = state;
 
     // Prevent scroll during transitions
     if (isTransitioning) {
@@ -152,12 +152,16 @@ export const useTimelineScroll = ({
     const scrollingDown = deltaY > 0;
     const scrollingUp = deltaY < 0;
 
-    // Update scroll metrics for current section
+    // Calculate FRESH scroll metrics for current section (not stale state values!)
     const metrics = calculateScrollMetrics(currentSectionIndex);
     setState(prev => ({ ...prev, ...metrics }));
 
+    // Use FRESH metrics for boundary detection (fixes race condition)
+    const freshIsAtSectionBottom = metrics.isAtSectionBottom ?? false;
+    const freshIsAtSectionTop = metrics.isAtSectionTop ?? false;
+
     // Check if we should transition to next/previous section
-    if (scrollingDown && isAtSectionBottom && currentSectionIndex < totalSections - 1) {
+    if (scrollingDown && freshIsAtSectionBottom && currentSectionIndex < totalSections - 1) {
       // Accumulate scroll momentum to trigger transition
       scrollAccumulator.current += Math.abs(deltaY);
 
@@ -165,7 +169,7 @@ export const useTimelineScroll = ({
         event.preventDefault();
         transitionToSection(currentSectionIndex + 1, 'forward');
       }
-    } else if (scrollingUp && isAtSectionTop && currentSectionIndex > 0) {
+    } else if (scrollingUp && freshIsAtSectionTop && currentSectionIndex > 0) {
       // Accumulate scroll momentum to trigger transition
       scrollAccumulator.current += Math.abs(deltaY);
 
