@@ -30,7 +30,7 @@ export interface LightboxCanvasProps {
 
 const SCALE_LIMITS = { min: 0.5, max: 3.0 };
 const KEYBOARD_MOVE_DISTANCE = 100; // Increased from 50 for faster Miro/Lucidchart-style panning
-const ANIMATION_DURATION = 800; // ms
+const ANIMATION_DURATION = 400; // ms - Industry standard (matches Miro, Figma)
 
 // ===== COMPONENT =====
 

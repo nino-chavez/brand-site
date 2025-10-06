@@ -398,11 +398,11 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
             ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
             : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(-1.5deg)',
-          /* Film border - dark edges like real film */
-          borderTop: '16px solid #2a2a2a',
-          borderBottom: '16px solid #2a2a2a',
-          borderLeft: '12px solid #2a2a2a',
-          borderRight: '12px solid #2a2a2a',
+          /* Film border - dark edges like real film (scales inversely with zoom) */
+          borderTop: `${16 / currentScale}px solid #2a2a2a`,
+          borderBottom: `${16 / currentScale}px solid #2a2a2a`,
+          borderLeft: `${12 / currentScale}px solid #2a2a2a`,
+          borderRight: `${12 / currentScale}px solid #2a2a2a`,
           borderRadius: '2px',
           backgroundImage: `
             /* Sprocket holes on left edge */
@@ -445,14 +445,14 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           width: `${SPATIAL_SECTION_MAP.portfolio.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.portfolio.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.portfolio.zIndex,
-          /* Polaroid/instant photo appearance with thick bottom border */
+          /* Polaroid/instant photo appearance with thick bottom border (scales inversely with zoom) */
           backgroundColor: '#ffffff',
           boxShadow: activeSection === 'portfolio'
             ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
             : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(0.9deg)',
-          border: '16px solid #ffffff',
-          borderBottom: '60px solid #ffffff',
+          border: `${16 / currentScale}px solid #ffffff`,
+          borderBottom: `${60 / currentScale}px solid #ffffff`,
           borderRadius: '2px',
           outline: '1px solid rgba(0, 0, 0, 0.1)'
         }}
