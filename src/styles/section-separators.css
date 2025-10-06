@@ -1,0 +1,122 @@
+/**
+ * Section Visual Separators
+ * Stark borders and backgrounds to make scroll fade animations more apparent
+ */
+
+/* Section border styles - photography-inspired dividers */
+.section-border-top {
+  border-top: 4px solid rgba(139, 92, 246, 0.5);
+  position: relative;
+}
+
+.section-border-top::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.8) 50%,
+    transparent 100%
+  );
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+}
+
+.section-border-bottom {
+  border-bottom: 4px solid rgba(139, 92, 246, 0.5);
+  position: relative;
+}
+
+.section-border-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.8) 50%,
+    transparent 100%
+  );
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+}
+
+/* Alternating background colors for stark contrast */
+.section-bg-dark {
+  background: linear-gradient(135deg,
+    rgb(15, 23, 42) 0%,
+    rgb(30, 41, 59) 100%
+  );
+}
+
+.section-bg-darker {
+  background: linear-gradient(135deg,
+    rgb(2, 6, 23) 0%,
+    rgb(15, 23, 42) 100%
+  );
+}
+
+.section-bg-violet-tint {
+  background: linear-gradient(135deg,
+    rgb(45, 27, 90) 0%,
+    rgb(67, 35, 120) 100%
+  );
+}
+
+/* Film strip perforations effect */
+.section-perforation-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-image:
+    radial-gradient(circle at 10px 4px, transparent 3px, rgba(139, 92, 246, 0.2) 3px);
+  background-size: 20px 8px;
+  background-repeat: repeat-x;
+}
+
+.section-perforation-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background-image:
+    radial-gradient(circle at 10px 4px, transparent 3px, rgba(139, 92, 246, 0.2) 3px);
+  background-size: 20px 8px;
+  background-repeat: repeat-x;
+}
+
+/* Lens aperture divider effect */
+.section-aperture-divider {
+  position: relative;
+}
+
+.section-aperture-divider::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 45deg,
+    rgba(139, 92, 246, 0.3) 45deg 90deg,
+    transparent 90deg 135deg,
+    rgba(139, 92, 246, 0.3) 135deg 180deg,
+    transparent 180deg 225deg,
+    rgba(139, 92, 246, 0.3) 225deg 270deg,
+    transparent 270deg 315deg,
+    rgba(139, 92, 246, 0.3) 315deg 360deg
+  );
+  border-radius: 50%;
+  border: 2px solid rgba(139, 92, 246, 0.5);
+}

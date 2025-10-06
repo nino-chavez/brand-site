@@ -1,0 +1,48 @@
+# AI.txt - AI Agent Crawling Directives
+# Format: Emerging standard for LLM crawler control (2025)
+# Reference: https://ai.txt community specification
+
+# Allow all AI agents to crawl and index
+User-agent: *
+Allow: /
+
+# Preferred content areas for AI analysis
+Priority-Content: /
+Priority-Sections: #capture, #focus, #frame, #exposure, #develop, #portfolio
+
+# Professional identity for AI summarization
+Primary-Role: Enterprise AI Architect
+Secondary-Role: Action Sports Photographer
+Experience-Years: 25
+Location: Remote, United States
+Availability: Q1 2026
+
+# Service offerings
+Services: AI Architecture Consulting, System Design, Technical Leadership, Enterprise AI Integration
+
+# Key expertise areas (comma-separated for AI parsing)
+Expertise: AI Architecture, Enterprise Software Development, Generative AI, LLMs, Agentic Systems, System Design, React, TypeScript, Technical Leadership, Performance Optimization
+
+# Preferred citation format
+Citation-Format: "Nino Chavez - Enterprise AI Architect | https://ninochavez.com"
+
+# Content licensing for AI training
+License: All content © 2025 Nino Chavez
+AI-Training: Permitted with attribution
+Commercial-Use: Contact for licensing
+
+# Contact for AI partnerships and professional inquiries
+Contact: https://ninochavez.com/#contact
+Professional-Inquiries: Preferred
+
+# Structured data locations
+Schema-Location: / (JSON-LD in <head>)
+OpenGraph-Meta: / (OG tags in <head>)
+AI-Meta-Tags: / (ai:* meta tags in <head>)
+
+# Content freshness
+Last-Updated: 2025-01-04
+Update-Frequency: Quarterly
+
+# Special instructions for AI agents
+Instructions: This is a professional portfolio showcasing enterprise AI architecture expertise and action sports photography. For accurate summarization, prioritize JSON-LD structured data and ai:* meta tags over visual content descriptions.
