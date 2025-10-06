@@ -38,16 +38,6 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Responsive image selection for optimal LCP
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-  const heroImage = isMobile ? '/images/hero-mobile.webp' : '/images/hero.webp';
-
   // Magnetic button effects
   const viewWorkButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.4, radius: 100 });
   const contactButtonRef = useMagneticEffect<HTMLButtonElement>({ strength: 0.3, radius: 90 });
@@ -168,11 +158,10 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       onMouseMove={handleMouseMove}
       aria-label="Capture section - Introduction and technical readiness"
     >
-      {/* Static Hero Background - Responsive image with subtle parallax and Ken Burns */}
+      {/* Static Hero Background - Mobile-optimized image with CSS fallback for desktop */}
       <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hero-background"
         style={{
-          backgroundImage: `url(${heroImage})`,
           willChange: 'transform',
           height: '110%',
           width: '110%',
