@@ -22,8 +22,11 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
 
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  /* Limit workers to prevent memory overload */
+  workers: process.env.CI ? 1 : 4,
+
+  /* Stop after 10 failures to prevent runaway test execution */
+  maxFailures: 10,
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
@@ -49,6 +52,11 @@ export default defineConfig({
     /* Extended timeout for canvas operations */
     actionTimeout: 10000,
     navigationTimeout: 30000,
+
+    /* Browser context isolation to prevent memory leaks */
+    contextOptions: {
+      reducedMotion: 'no-preference',
+    },
   },
 
   /* Configure projects for major browsers */
@@ -59,7 +67,12 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
         // Ensure hardware acceleration is enabled for canvas testing
         launchOptions: {
-          args: ['--enable-gpu', '--enable-hardware-acceleration']
+          args: [
+            '--enable-gpu',
+            '--enable-hardware-acceleration',
+            '--disable-dev-shm-usage', // Prevent shared memory issues
+            '--no-sandbox', // Required for CI environments
+          ]
         }
       },
     },
