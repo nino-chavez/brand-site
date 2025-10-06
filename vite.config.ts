@@ -49,13 +49,9 @@ export default defineConfig(({ mode }) => {
           output: {
             // Dynamic chunking based on patterns - more maintainable than hardcoded paths
             manualChunks(id: string) {
-              // Split vendor dependencies more granularly for better caching
+              // Split vendor dependencies - keep all React together with other vendors
+              // to avoid circular dependency issues
               if (id.includes('node_modules')) {
-                // React core (largest dependency)
-                if (id.includes('react') || id.includes('react-dom') || id.includes('scheduler')) {
-                  return 'react-vendor';
-                }
-                // Other smaller vendor dependencies
                 return 'vendor';
               }
 
