@@ -1,18 +1,24 @@
 /**
- * FramerTimelineLayout - Enhanced Timeline with Framer Motion
+ * FramerTimelineLayout - Scroll-Based Timeline Navigation
  *
- * Film editor-inspired timeline with Framer Motion for:
- * - Smooth section transitions with AnimatePresence
- * - Shared layout animations for filmstrip
- * - Gesture-based navigation (swipe/drag)
- * - Cinematic entrance/exit animations
+ * Implements intuitive vertical→horizontal scroll pattern:
+ * - Scroll down within section (normal vertical scroll)
+ * - At section bottom → smooth horizontal transition to next section
+ * - New section starts at top → repeat
  *
- * @fileoverview Framer Motion-powered timeline layout
- * @version 2.0.0
+ * Enhanced with Framer Motion for:
+ * - Smooth horizontal slide transitions
+ * - Section enter/exit animations
+ * - Progress indicators
+ * - Gesture-based navigation
+ *
+ * @fileoverview Scroll-aware timeline with Framer Motion
+ * @version 3.0.0
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence, PanInfo, useAnimation } from 'framer-motion';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
+import { useTimelineScroll } from '../../hooks/useTimelineScroll';
 import type { SectionId } from '../../types';
 
 // Import section components
@@ -39,79 +45,95 @@ const TIMELINE_SECTIONS: TimelineSection[] = [
   { id: 'portfolio', name: 'Portfolio', component: PortfolioSection, color: '#ec4899' },
 ];
 
-const swipeConfidenceThreshold = 10000;
-const swipePower = (offset: number, velocity: number) => {
-  return Math.abs(offset) * velocity;
-};
-
 export const FramerTimelineLayout: React.FC = () => {
-  const [[currentIndex, direction], setCurrentIndex] = useState([0, 0]);
+  const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const [filmstripVisible, setFilmstripVisible] = useState(true);
-  const controls = useAnimation();
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const currentSection = TIMELINE_SECTIONS[currentIndex];
+  // Use scroll-based navigation hook
+  const { state: scrollState, registerSection, transitionToSection } = useTimelineScroll({
+    totalSections: TIMELINE_SECTIONS.length,
+    onSectionChange: (newIndex, dir) => {
+      setDirection(dir);
+      console.log(`[INFO] Transitioned to section ${newIndex} (${TIMELINE_SECTIONS[newIndex].name})`);
+    },
+    transitionDuration: 800,
+    scrollThreshold: 50
+  });
+
+  const currentSection = TIMELINE_SECTIONS[scrollState.currentSectionIndex];
+
+  // Scroll progress animation with spring physics
+  const scrollProgress = useSpring(scrollState.scrollProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
+      if (scrollState.isTransitioning) return;
+
       if (e.key === 'ArrowRight' || e.key === 'l') {
-        paginate(1);
+        const nextIndex = scrollState.currentSectionIndex + 1;
+        if (nextIndex < TIMELINE_SECTIONS.length) {
+          transitionToSection(nextIndex, 'forward');
+        }
       } else if (e.key === 'ArrowLeft' || e.key === 'h') {
-        paginate(-1);
+        const prevIndex = scrollState.currentSectionIndex - 1;
+        if (prevIndex >= 0) {
+          transitionToSection(prevIndex, 'backward');
+        }
       } else if (e.key === 'f') {
         setFilmstripVisible(prev => !prev);
+      } else if (e.key === 'Home') {
+        transitionToSection(0, 'backward');
+      } else if (e.key === 'End') {
+        transitionToSection(TIMELINE_SECTIONS.length - 1, 'forward');
+      } else if (e.key >= '1' && e.key <= '6') {
+        const targetIndex = parseInt(e.key) - 1;
+        const dir = targetIndex > scrollState.currentSectionIndex ? 'forward' : 'backward';
+        transitionToSection(targetIndex, dir);
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentIndex]);
-
-  const paginate = (newDirection: number) => {
-    const newIndex = currentIndex + newDirection;
-    if (newIndex >= 0 && newIndex < TIMELINE_SECTIONS.length) {
-      setCurrentIndex([newIndex, newDirection]);
-    }
-  };
+  }, [scrollState.currentSectionIndex, scrollState.isTransitioning, transitionToSection]);
 
   const navigateToSection = (index: number) => {
-    const newDirection = index > currentIndex ? 1 : -1;
-    setCurrentIndex([index, newDirection]);
+    if (scrollState.isTransitioning) return;
+    const dir = index > scrollState.currentSectionIndex ? 'forward' : 'backward';
+    transitionToSection(index, dir);
   };
 
-  // Slide variants for smooth transitions
+  // Horizontal slide variants for section transitions
   const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
+    enter: (direction: 'forward' | 'backward') => ({
+      x: direction === 'forward' ? '100%' : '-100%',
       opacity: 0,
       scale: 0.95,
-      rotateY: direction > 0 ? 10 : -10
     }),
     center: {
-      zIndex: 1,
       x: 0,
       opacity: 1,
       scale: 1,
-      rotateY: 0
     },
-    exit: (direction: number) => ({
-      zIndex: 0,
-      x: direction < 0 ? 1000 : -1000,
+    exit: (direction: 'forward' | 'backward') => ({
+      x: direction === 'forward' ? '-100%' : '100%',
       opacity: 0,
       scale: 0.95,
-      rotateY: direction < 0 ? 10 : -10
     })
   };
 
-  const SectionComponent = currentSection.component;
-
   return (
-    <div className="relative w-full h-screen bg-neutral-900 overflow-hidden">
+    <div ref={containerRef} className="relative w-full min-h-screen bg-neutral-900">
       {/* Filmstrip Navigation */}
       <AnimatePresence>
         {filmstripVisible && (
           <motion.div
-            className="absolute top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10"
+            className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10"
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
@@ -122,36 +144,46 @@ export const FramerTimelineLayout: React.FC = () => {
                 <motion.button
                   key={section.id}
                   onClick={() => navigateToSection(index)}
-                  className={`relative flex-shrink-0 px-6 py-3 rounded-lg font-medium text-sm transition-all ${
-                    index === currentIndex
+                  disabled={scrollState.isTransitioning}
+                  className={`relative flex-shrink-0 px-6 py-3 rounded-lg font-medium text-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
+                    index === scrollState.currentSectionIndex
                       ? 'bg-white/20 text-white'
                       : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'
                   }`}
-                  layoutId={index === currentIndex ? 'activeTab' : undefined}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: scrollState.isTransitioning ? 1 : 1.05 }}
+                  whileTap={{ scale: scrollState.isTransitioning ? 1 : 0.95 }}
                 >
                   {/* Color indicator */}
                   <motion.div
                     className="absolute inset-x-0 bottom-0 h-1 rounded-full"
                     style={{ backgroundColor: section.color }}
                     initial={{ scaleX: 0 }}
-                    animate={{ scaleX: index === currentIndex ? 1 : 0 }}
+                    animate={{ scaleX: index === scrollState.currentSectionIndex ? 1 : 0 }}
                     transition={{ duration: 0.3 }}
                   />
                   <span className="relative z-10">{section.name}</span>
                 </motion.button>
               ))}
             </div>
+
+            {/* Scroll Progress Bar */}
+            <motion.div
+              className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-athletic-brand-violet to-athletic-brand-orange origin-left"
+              style={{
+                scaleX: scrollProgress,
+                width: `${100 / TIMELINE_SECTIONS.length}%`,
+                left: `${(scrollState.currentSectionIndex * 100) / TIMELINE_SECTIONS.length}%`
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Section Content with Swipe Gestures */}
-      <div className="relative w-full h-full pt-20">
+      {/* Section Content Container - Horizontal Sliding */}
+      <div className="relative w-full overflow-hidden pt-20">
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
-            key={currentIndex}
+            key={scrollState.currentSectionIndex}
             custom={direction}
             variants={slideVariants}
             initial="enter"
@@ -160,79 +192,89 @@ export const FramerTimelineLayout: React.FC = () => {
             transition={{
               x: { type: 'spring', stiffness: 300, damping: 30 },
               opacity: { duration: 0.3 },
-              scale: { duration: 0.3 },
-              rotateY: { duration: 0.4 }
+              scale: { duration: 0.3 }
             }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={1}
-            onDragEnd={(e, { offset, velocity }: PanInfo) => {
-              const swipe = swipePower(offset.x, velocity.x);
-
-              if (swipe < -swipeConfidenceThreshold) {
-                paginate(1);
-              } else if (swipe > swipeConfidenceThreshold) {
-                paginate(-1);
-              }
-            }}
-            className="absolute inset-0"
-            style={{
-              perspective: 1200,
-              transformStyle: 'preserve-3d'
-            }}
+            className="w-full"
           >
-            <SectionComponent />
+            {/* Section Wrapper - Allows Vertical Scrolling */}
+            <div
+              ref={(el) => registerSection(scrollState.currentSectionIndex, el)}
+              className="w-full min-h-screen"
+              style={{
+                minHeight: '100vh',
+                overflowY: 'auto'
+              }}
+            >
+              {React.createElement(currentSection.component, {
+                active: true,
+                progress: scrollState.scrollProgress
+              })}
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Progress Indicator */}
+      {/* Scroll Indicator - Shows position within section */}
       <motion.div
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/50 backdrop-blur-md px-6 py-3 rounded-full border border-white/10"
+        className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2"
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        {TIMELINE_SECTIONS.map((section, index) => (
+          <motion.button
+            key={section.id}
+            onClick={() => navigateToSection(index)}
+            disabled={scrollState.isTransitioning}
+            className="relative w-3 h-12 rounded-full bg-white/10 overflow-hidden disabled:cursor-not-allowed"
+            whileHover={{ scale: scrollState.isTransitioning ? 1 : 1.2 }}
+            title={section.name}
+          >
+            {/* Fill indicator */}
+            <motion.div
+              className="absolute inset-x-0 bottom-0 rounded-full"
+              style={{ backgroundColor: section.color }}
+              initial={{ height: 0 }}
+              animate={{
+                height: index === scrollState.currentSectionIndex
+                  ? `${scrollState.scrollProgress * 100}%`
+                  : index < scrollState.currentSectionIndex
+                  ? '100%'
+                  : '0%'
+              }}
+              transition={{ duration: 0.2 }}
+            />
+          </motion.button>
+        ))}
+      </motion.div>
+
+      {/* Section Info Overlay */}
+      <motion.div
+        className="fixed bottom-8 left-8 bg-black/70 backdrop-blur-md px-6 py-4 rounded-xl border border-white/10"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <motion.button
-          onClick={() => paginate(-1)}
-          disabled={currentIndex === 0}
-          className="p-2 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </motion.button>
-
-        <div className="flex gap-2 mx-2">
-          {TIMELINE_SECTIONS.map((section, index) => (
-            <motion.button
-              key={section.id}
-              onClick={() => navigateToSection(index)}
-              className="w-2 h-2 rounded-full transition-all"
-              style={{
-                backgroundColor: index === currentIndex ? section.color : 'rgba(255,255,255,0.3)'
-              }}
-              whileHover={{ scale: 1.5 }}
-              animate={{
-                scale: index === currentIndex ? 1.5 : 1
-              }}
-            />
-          ))}
+        <div className="flex items-center gap-4">
+          <motion.div
+            className="w-3 h-3 rounded-full"
+            style={{ backgroundColor: currentSection.color }}
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <div>
+            <div className="text-white font-medium">
+              {scrollState.currentSectionIndex + 1} / {TIMELINE_SECTIONS.length} · {currentSection.name}
+            </div>
+            <div className="text-white/50 text-sm">
+              {scrollState.isAtSectionBottom
+                ? 'Scroll to continue →'
+                : scrollState.isAtSectionTop
+                ? 'Scroll down ↓'
+                : `${Math.round(scrollState.scrollProgress * 100)}% complete`}
+            </div>
+          </div>
         </div>
-
-        <motion.button
-          onClick={() => paginate(1)}
-          disabled={currentIndex === TIMELINE_SECTIONS.length - 1}
-          className="p-2 rounded-full hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </motion.button>
       </motion.div>
 
       {/* Keyboard Shortcuts Hint */}
@@ -243,10 +285,25 @@ export const FramerTimelineLayout: React.FC = () => {
         transition={{ delay: 1 }}
       >
         <div className="space-y-1">
-          <div><kbd className="px-2 py-1 bg-white/10 rounded">←/→</kbd> or <kbd className="px-2 py-1 bg-white/10 rounded">h/l</kbd> Navigate</div>
+          <div><kbd className="px-2 py-1 bg-white/10 rounded">Scroll</kbd> Navigate section</div>
+          <div><kbd className="px-2 py-1 bg-white/10 rounded">←/→</kbd> or <kbd className="px-2 py-1 bg-white/10 rounded">h/l</kbd> Jump sections</div>
+          <div><kbd className="px-2 py-1 bg-white/10 rounded">1-6</kbd> Direct jump</div>
           <div><kbd className="px-2 py-1 bg-white/10 rounded">f</kbd> Toggle filmstrip</div>
         </div>
       </motion.div>
+
+      {/* Transition Overlay */}
+      <AnimatePresence>
+        {scrollState.isTransitioning && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 z-40 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };
