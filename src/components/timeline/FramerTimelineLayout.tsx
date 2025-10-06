@@ -52,6 +52,22 @@ export const FramerTimelineLayout: React.FC = () => {
   const [transitionStyle, setTransitionStyle] = useState<string>('spring');
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Professional timecode formatter (HH:MM:SS:FF format)
+  const formatTimecode = useCallback((sectionIndex: number, progress: number): string => {
+    const fps = 30; // 30 frames per second
+    const secondsPerSection = 15;
+
+    // Calculate total seconds and frames
+    const totalSeconds = sectionIndex * secondsPerSection + Math.floor(progress * secondsPerSection);
+    const frames = Math.floor((progress * secondsPerSection * fps) % fps);
+
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(frames).padStart(2, '0')}`;
+  }, []);
+
   // Use scroll-based navigation hook
   const { state: scrollState, registerSection, transitionToSection } = useTimelineScroll({
     totalSections: TIMELINE_SECTIONS.length,
@@ -59,8 +75,8 @@ export const FramerTimelineLayout: React.FC = () => {
       setDirection(dir);
       console.log(`[INFO] Transitioned to section ${newIndex} (${TIMELINE_SECTIONS[newIndex].name})`);
     },
-    transitionDuration: 800,
-    scrollThreshold: 150
+    transitionDuration: 400, // Reduced from 800ms for desktop app snappiness
+    scrollThreshold: 250 // Increased from 150px to prevent content cutoff
   });
 
   const currentSection = TIMELINE_SECTIONS[scrollState.currentSectionIndex];
@@ -504,36 +520,58 @@ export const FramerTimelineLayout: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* Transition Overlay */}
+      {/* Scroll Threshold Indicator - Shows when approaching transition boundary */}
       <AnimatePresence>
-        {scrollState.isTransitioning && (
+        {scrollState.scrollProgress > 0.7 && !scrollState.isTransitioning && (
           <motion.div
-            className="fixed inset-0 bg-black/50 z-40 pointer-events-none"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              bottom: '250px', // Match scrollThreshold
+              left: 0,
+              right: 0,
+              height: '2px',
+              background: 'linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent)',
+              pointerEvents: 'none',
+              zIndex: 45,
+            }}
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            exit={{ opacity: 0, scaleX: 0 }}
             transition={{ duration: 0.3 }}
           />
         )}
       </AnimatePresence>
 
-      {/* Timeline Controls Bar (Premiere Pro style) */}
+      {/* Transition Overlay */}
+      <AnimatePresence>
+        {scrollState.isTransitioning && (
+          <motion.div
+            className="fixed inset-0 bg-black/20 z-40 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Timeline Controls Bar (Professional Desktop Editor Style) */}
       <motion.div
         className="fixed bottom-0 left-0 right-0 z-50"
         style={{
-          height: '48px',
-          background: 'rgba(0, 0, 0, 0.95)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+          height: '36px',
+          background: 'linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%)',
+          borderTop: '1px solid #3a3a3a',
           display: 'flex',
           alignItems: 'center',
-          padding: '0 24px',
+          padding: '0 16px',
           justifyContent: 'space-between',
-          fontFamily: 'monospace',
-          fontSize: '12px',
-          color: 'rgba(255, 255, 255, 0.8)',
-          gap: '16px',
+          fontFamily: 'SF Mono, Monaco, Consolas, monospace',
+          fontSize: '11px',
+          color: 'rgba(255, 255, 255, 0.85)',
+          gap: '12px',
         }}
-        initial={{ y: 48, opacity: 0 }}
+        initial={{ y: 36, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
@@ -551,14 +589,14 @@ export const FramerTimelineLayout: React.FC = () => {
             value={transitionStyle}
             onChange={(e) => setTransitionStyle(e.target.value)}
             style={{
-              background: 'rgba(139, 92, 246, 0.2)',
-              border: '1px solid rgba(139, 92, 246, 0.5)',
-              borderRadius: '4px',
-              color: 'white',
-              padding: '6px 12px',
-              fontSize: '11px',
+              background: 'rgba(50, 50, 50, 0.8)',
+              border: '1px solid rgba(100, 100, 100, 0.5)',
+              borderRadius: '3px',
+              color: 'rgba(255, 255, 255, 0.85)',
+              padding: '4px 8px',
+              fontSize: '10px',
               cursor: 'pointer',
-              fontFamily: 'monospace',
+              fontFamily: 'SF Mono, Monaco, Consolas, monospace',
               outline: 'none',
             }}
             aria-label="Select transition effect"
@@ -570,14 +608,15 @@ export const FramerTimelineLayout: React.FC = () => {
           </select>
         </div>
 
-        {/* Right: Timecode display */}
+        {/* Right: Professional timecode display (HH:MM:SS:FF) */}
         <div style={{
           fontWeight: 600,
           letterSpacing: '1px',
           color: 'rgba(255, 255, 255, 0.9)',
           textShadow: '0 0 4px rgba(139, 92, 246, 0.6)',
+          fontFamily: 'SF Mono, Monaco, Consolas, monospace',
         }}>
-          00:{String(scrollState.currentSectionIndex * 15).padStart(2, '0')}:{String(Math.floor(scrollState.scrollProgress * 30)).padStart(2, '0')} / 00:{String((TIMELINE_SECTIONS.length - 1) * 15).padStart(2, '0')}:30
+          {formatTimecode(scrollState.currentSectionIndex, scrollState.scrollProgress)} / {formatTimecode(TIMELINE_SECTIONS.length - 1, 1)}
         </div>
       </motion.div>
     </div>
