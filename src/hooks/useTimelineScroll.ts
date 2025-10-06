@@ -94,6 +94,10 @@ export const useTimelineScroll = ({
     setState(prev => ({ ...prev, isTransitioning: true }));
     scrollAccumulator.current = 0;
 
+    // Immediately scroll window to top for new section
+    // This ensures the next section starts at its top, not relative to previous scroll position
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
     // Call section change callback
     onSectionChange?.(newIndex, direction);
 
@@ -107,16 +111,13 @@ export const useTimelineScroll = ({
         ...prev,
         currentSectionIndex: newIndex,
         isTransitioning: false,
-        scrollProgress: direction === 'forward' ? 0 : 1,
-        isAtSectionTop: direction === 'forward',
-        isAtSectionBottom: direction === 'backward'
+        scrollProgress: 0, // Always start at top
+        isAtSectionTop: true, // Always start at top
+        isAtSectionBottom: false
       }));
 
-      // Scroll new section into view
-      const newSection = sectionRefs.current[newIndex];
-      if (newSection) {
-        newSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      // Ensure window is at top after transition completes
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }, transitionDuration);
   }, [state.isTransitioning, totalSections, transitionDuration, onSectionChange]);
 
