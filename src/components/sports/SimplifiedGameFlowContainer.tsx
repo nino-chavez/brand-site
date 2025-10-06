@@ -1,16 +1,19 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback, useEffect, lazy, Suspense } from 'react';
 import { useUnifiedGameFlow, useUnifiedPerformance } from '../../contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../hooks/useGameFlowDebugger';
 import { useErrorHandling } from '../../hooks/useErrorHandling';
 
-// Direct imports for immediate loading - lazy loading causing issues
+// Eager load: Above-the-fold section (critical for FCP/LCP)
 import CaptureSection from '../../../components/sections/CaptureSection';
-import FocusSection from '../../../components/sections/FocusSection';
-import FrameSection from '../../../components/sections/FrameSection';
-import ExposureSection from '../../../components/sections/ExposureSection';
-import DevelopSection from '../../../components/sections/DevelopSection';
-import JourneySection from '../../components/sections/JourneySection';
-import PortfolioSection from '../../../components/sections/PortfolioSection';
+
+// Lazy load: Below-the-fold sections (not needed for initial paint)
+// This significantly reduces the initial bundle size
+const FocusSection = lazy(() => import('../../../components/sections/FocusSection'));
+const FrameSection = lazy(() => import('../../../components/sections/FrameSection'));
+const ExposureSection = lazy(() => import('../../../components/sections/ExposureSection'));
+const DevelopSection = lazy(() => import('../../../components/sections/DevelopSection'));
+const JourneySection = lazy(() => import('../../components/sections/JourneySection'));
+const PortfolioSection = lazy(() => import('../../../components/sections/PortfolioSection'));
 
 import type { GameFlowSection } from '../../types';
 
@@ -162,6 +165,7 @@ export default function SimplifiedGameFlowContainer({
       )}
 
       {/* Sections using unified state */}
+      {/* Capture Section - Eager loaded (above the fold, critical for FCP/LCP) */}
       <CaptureSection
         ref={setSectionRef('capture')}
         active={state.currentSection === 'capture'}
@@ -170,48 +174,61 @@ export default function SimplifiedGameFlowContainer({
         onError={handleCaptureSectionError}
       />
 
-      <FocusSection
-        ref={setSectionRef('focus')}
-        active={state.currentSection === 'focus'}
-        progress={state.currentSection === 'focus' ? state.scrollProgress : 0}
-        onSectionReady={handleFocusSectionReady}
-        onError={handleFocusSectionError}
-      />
+      {/* Below-the-fold sections - Lazy loaded for better initial performance */}
+      <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+        <FocusSection
+          ref={setSectionRef('focus')}
+          active={state.currentSection === 'focus'}
+          progress={state.currentSection === 'focus' ? state.scrollProgress : 0}
+          onSectionReady={handleFocusSectionReady}
+          onError={handleFocusSectionError}
+        />
+      </Suspense>
 
-      <FrameSection
-        ref={setSectionRef('frame')}
-        active={state.currentSection === 'frame'}
-        progress={state.currentSection === 'frame' ? state.scrollProgress : 0}
-        onSectionReady={handleFrameSectionReady}
-        onError={handleFrameSectionError}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+        <FrameSection
+          ref={setSectionRef('frame')}
+          active={state.currentSection === 'frame'}
+          progress={state.currentSection === 'frame' ? state.scrollProgress : 0}
+          onSectionReady={handleFrameSectionReady}
+          onError={handleFrameSectionError}
+        />
+      </Suspense>
 
-      <ExposureSection
-        ref={setSectionRef('exposure')}
-        active={state.currentSection === 'exposure'}
-        progress={state.currentSection === 'exposure' ? state.scrollProgress : 0}
-        onSectionReady={handleExposureSectionReady}
-        onError={handleExposureSectionError}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+        <ExposureSection
+          ref={setSectionRef('exposure')}
+          active={state.currentSection === 'exposure'}
+          progress={state.currentSection === 'exposure' ? state.scrollProgress : 0}
+          onSectionReady={handleExposureSectionReady}
+          onError={handleExposureSectionError}
+        />
+      </Suspense>
 
-      <DevelopSection
-        ref={setSectionRef('develop')}
-        active={state.currentSection === 'develop'}
-        progress={state.currentSection === 'develop' ? state.scrollProgress : 0}
-        onSectionReady={handleDevelopSectionReady}
-        onError={handleDevelopSectionError}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+        <DevelopSection
+          ref={setSectionRef('develop')}
+          active={state.currentSection === 'develop'}
+          progress={state.currentSection === 'develop' ? state.scrollProgress : 0}
+          onSectionReady={handleDevelopSectionReady}
+          onError={handleDevelopSectionError}
+        />
+      </Suspense>
 
-      {/* Journey Section - Evolution showcase */}
-      <JourneySection />
+      {/* Journey Section - Evolution showcase - Lazy loaded */}
+      <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+        <JourneySection />
+      </Suspense>
 
-      <PortfolioSection
-        ref={setSectionRef('portfolio')}
-        active={state.currentSection === 'portfolio'}
-        progress={state.currentSection === 'portfolio' ? state.scrollProgress : 0}
-        onSectionReady={handlePortfolioSectionReady}
-        onError={handlePortfolioSectionError}
-      />
+      <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
+        <PortfolioSection
+          ref={setSectionRef('portfolio')}
+          active={state.currentSection === 'portfolio'}
+          progress={state.currentSection === 'portfolio' ? state.scrollProgress : 0}
+          onSectionReady={handlePortfolioSectionReady}
+          onError={handlePortfolioSectionError}
+        />
+      </Suspense>
 
       {/* Debug controls removed - use React DevTools or browser console for debugging */}
 

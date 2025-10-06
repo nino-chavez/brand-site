@@ -92,13 +92,13 @@ export default defineConfig(({ mode }) => {
               }
 
               // UI framework components - now in src/components/ui/
+              // NOTE: Removed components/sections/ to allow lazy-loaded sections to split into separate chunks
               if (id.includes('src/components/ui/') ||
-                  (id.includes('components/sections/') ||
-                   id.includes('Navigation') || id.includes('Controls') || id.includes('HUD'))) {
+                   id.includes('Navigation') || id.includes('Controls') || id.includes('HUD')) {
                 return 'ui';
               }
 
-              // Return undefined for default chunk
+              // Return undefined for default chunk - allows lazy-loaded components to create separate chunks
               return undefined;
             }
           }

@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, lazy, Suspense } from 'react';
 import SimplifiedGameFlowContainer from './components/sports/SimplifiedGameFlowContainer';
 import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
 import { CanvasStateProvider, useCanvasState } from './contexts/CanvasStateProvider';
 import Header from './components/layout/Header';
-import CursorLensV2 from './components/canvas/CursorLensV2';
-import LightboxCanvas from './components/canvas/LightboxCanvas';
-import CanvasPortfolioLayout from './components/canvas/CanvasPortfolioLayout';
-import CanvasOnboarding from './components/canvas/CanvasOnboarding';
-import PersistentCTABar from './components/canvas/PersistentCTABar';
-import CanvasMinimap from './components/canvas/CanvasMinimap';
-import FramerTimelineLayout from './components/timeline/FramerTimelineLayout';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 import type { SectionId } from './types';
+
+// Lazy load layout modes that are only activated via URL parameters
+// This significantly reduces the initial bundle size for default (traditional) layout
+const FramerTimelineLayout = lazy(() => import('./components/timeline/FramerTimelineLayout'));
+const LightboxCanvas = lazy(() => import('./components/canvas/LightboxCanvas'));
+const CanvasPortfolioLayout = lazy(() => import('./components/canvas/CanvasPortfolioLayout'));
+const CanvasOnboarding = lazy(() => import('./components/canvas/CanvasOnboarding'));
+const CanvasMinimap = lazy(() => import('./components/canvas/CanvasMinimap'));
+const CursorLensV2 = lazy(() => import('./components/canvas/CursorLensV2'));
 
 // WOW Factor Components
 import CustomCursor from './components/effects/CustomCursor';
@@ -186,8 +188,14 @@ const App: React.FC = () => {
                         <CustomCursor />
                         <ConsoleEasterEgg />
 
-                        {/* Timeline Layout - Scroll-based navigation */}
-                        <FramerTimelineLayout />
+                        {/* Timeline Layout - Scroll-based navigation - Lazy loaded */}
+                        <Suspense fallback={
+                            <div className="min-h-screen bg-brand-dark flex items-center justify-center">
+                                <div className="text-brand-light text-xl">Loading Timeline...</div>
+                            </div>
+                        }>
+                            <FramerTimelineLayout />
+                        </Suspense>
                     </EffectsProvider>
                 </UnifiedGameFlowProvider>
             </AthleticTokenProvider>
@@ -266,8 +274,10 @@ const App: React.FC = () => {
                     {/* Photography-themed loading screen */}
                     <LoadingScreen isLoading={isLoading || !isAppReady} />
 
-                    {/* Canvas Onboarding - First visit guidance */}
-                    <CanvasOnboarding />
+                    {/* Canvas Onboarding - First visit guidance - Lazy loaded */}
+                    <Suspense fallback={null}>
+                        <CanvasOnboarding />
+                    </Suspense>
 
                     {/* WOW Factor Components */}
                     <CustomCursor />
@@ -302,15 +312,21 @@ const App: React.FC = () => {
                         </div>
                     )}
 
-                    {/* Canvas Layout System */}
+                    {/* Canvas Layout System - Lazy loaded */}
                     <main id="canvas-content" className="relative z-10 h-screen w-screen overflow-hidden">
-                        <LightboxCanvas
-                            performanceMode={performanceMode}
-                            debugMode={debugMode}
-                            className="photographer-lightbox-app relative z-10"
-                        >
-                            <CanvasPortfolioLayout />
-                        </LightboxCanvas>
+                        <Suspense fallback={
+                            <div className="h-screen w-screen bg-brand-dark flex items-center justify-center">
+                                <div className="text-brand-light text-xl">Loading Canvas...</div>
+                            </div>
+                        }>
+                            <LightboxCanvas
+                                performanceMode={performanceMode}
+                                debugMode={debugMode}
+                                className="photographer-lightbox-app relative z-10"
+                            >
+                                <CanvasPortfolioLayout />
+                            </LightboxCanvas>
+                        </Suspense>
                     </main>
 
                     {/* Canvas Mode Indicator - Development only */}
@@ -336,25 +352,29 @@ const App: React.FC = () => {
 
                     {/* Layout switcher hidden - use ?layout=canvas URL param to switch modes */}
 
-                    {/* Canvas Minimap - Spatial orientation */}
-                    <CanvasMinimap />
+                    {/* Canvas Minimap - Spatial orientation - Lazy loaded */}
+                    <Suspense fallback={null}>
+                        <CanvasMinimap />
+                    </Suspense>
 
                     {/* CursorLensV2 - Disabled in canvas mode (conflicts with mouse drag panning) */}
                     {process.env.NODE_ENV === 'development' && false && (
-                        <CursorLensV2
-                            isEnabled={false}
-                            activationDelay={800}
-                            onSectionSelect={(section) => {
-                                console.log('[INFO] CursorLens navigation to:', section);
-                            }}
-                            onActivate={() => {
-                                console.log('[INFO] CursorLens activated');
-                            }}
-                            onDeactivate={() => {
-                                console.log('[INFO] CursorLens deactivated');
-                            }}
-                            className="canvas-cursor-lens"
-                        />
+                        <Suspense fallback={null}>
+                            <CursorLensV2
+                                isEnabled={false}
+                                activationDelay={800}
+                                onSectionSelect={(section) => {
+                                    console.log('[INFO] CursorLens navigation to:', section);
+                                }}
+                                onActivate={() => {
+                                    console.log('[INFO] CursorLens activated');
+                                }}
+                                onDeactivate={() => {
+                                    console.log('[INFO] CursorLens deactivated');
+                                }}
+                                className="canvas-cursor-lens"
+                            />
+                        </Suspense>
                     )}
                 </div>
                 </EffectsProvider>
@@ -437,19 +457,21 @@ const App: React.FC = () => {
 
                         {/* CursorLensV2 - Disabled in traditional mode (canvas-only feature) */}
                         {process.env.NODE_ENV === 'development' && false && (
-                            <CursorLensV2
-                                isEnabled={true}
-                                activationDelay={800}
-                                onSectionSelect={(section) => {
-                                    console.log('CursorLens navigation to:', section);
-                                }}
-                                onActivate={() => {
-                                    console.log('CursorLens activated');
-                                }}
-                                onDeactivate={() => {
-                                    console.log('CursorLens deactivated');
-                                }}
-                            />
+                            <Suspense fallback={null}>
+                                <CursorLensV2
+                                    isEnabled={true}
+                                    activationDelay={800}
+                                    onSectionSelect={(section) => {
+                                        console.log('CursorLens navigation to:', section);
+                                    }}
+                                    onActivate={() => {
+                                        console.log('CursorLens activated');
+                                    }}
+                                    onDeactivate={() => {
+                                        console.log('CursorLens deactivated');
+                                    }}
+                                />
+                            </Suspense>
                         )}
                     </div>
                 </CanvasStateProvider>
