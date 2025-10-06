@@ -235,7 +235,6 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
         onMouseDown={handleSectionMouseDown}
         onClick={(e) => handleSectionClick('capture', e)}
-        role="button"
         tabIndex={0}
         aria-label="Navigate to Capture section"
       >
@@ -280,7 +279,6 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
         onMouseDown={handleSectionMouseDown}
         onClick={(e) => handleSectionClick('focus', e)}
-        role="button"
         tabIndex={0}
         aria-label="Navigate to Focus section"
       >
@@ -316,7 +314,6 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
         onMouseDown={handleSectionMouseDown}
         onClick={(e) => handleSectionClick('frame', e)}
-        role="button"
         tabIndex={0}
         aria-label="Navigate to Frame section"
       >
@@ -366,7 +363,6 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
         onMouseDown={handleSectionMouseDown}
         onClick={(e) => handleSectionClick('exposure', e)}
-        role="button"
         tabIndex={0}
         aria-label="Navigate to Exposure section"
       >
@@ -425,7 +421,6 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
         onMouseDown={handleSectionMouseDown}
         onClick={(e) => handleSectionClick('develop', e)}
-        role="button"
         tabIndex={0}
         aria-label="Navigate to Develop section"
       >
@@ -463,7 +458,6 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
         onMouseDown={handleSectionMouseDown}
         onClick={(e) => handleSectionClick('portfolio', e)}
-        role="button"
         tabIndex={0}
         aria-label="Navigate to Portfolio section"
       >
