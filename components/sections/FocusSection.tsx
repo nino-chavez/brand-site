@@ -231,85 +231,108 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
 
       {/* Main content with focus-aware layout */}
       <div className="relative z-20 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="max-w-6xl mx-auto px-8 space-y-16">
 
-          {/* About Narrative - Left Column */}
-          <div className="space-y-8">
-            <div
-              className={`transition-all duration-1000 ${
-                sectionVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
-              }`}
-              data-testid="about-narrative"
+          {/* Title Section - Full Width */}
+          <div
+            className={`transition-all duration-1000 ${
+              sectionVisible ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-8'
+            }`}
+          >
+            <div className="text-sm text-white/60 uppercase tracking-wider mb-2">About</div>
+            <h2
+              ref={headingRef}
+              className={`text-4xl md:text-6xl font-black text-white leading-tight ${getClasses(headingVisible)}`}
             >
-              <div className="mb-6">
-                <div className="text-sm text-white/60 uppercase tracking-wider mb-2">About</div>
-                <h2
-                  ref={headingRef}
-                  className={`text-4xl md:text-6xl font-black text-white leading-tight ${getClasses(headingVisible)}`}
-                >
-                  Systems Thinking Meets
-                  <span className="block text-athletic-brand-violet">Enterprise Reality</span>
-                </h2>
-                <p className="text-lg text-white/70 mt-4 leading-relaxed">
-                  25 years building commerce infrastructure that holds up when it matters—from early-stage platforms to Fortune 500 enterprise transformations.
-                </p>
-              </div>
+              Systems Thinking Meets
+              <span className="block text-athletic-brand-violet">Enterprise Reality</span>
+            </h2>
+            <p className="text-lg text-white/70 mt-4 leading-relaxed max-w-4xl">
+              25 years building commerce infrastructure that holds up when it matters—from early-stage platforms to Fortune 500 enterprise transformations.
+            </p>
+          </div>
 
-              <div
-                ref={bodyRef}
-                className={`prose prose-lg prose-invert max-w-none ${getClasses(bodyVisible)}`}
-              >
-                <p className="text-xl text-white/90 leading-relaxed mb-6">
-                  I'm a systems thinker, photographer, and strategist. By trade, I work in enterprise architecture—helping teams navigate ambiguity and build things that hold up over time.
-                </p>
+          {/* About Narrative - Full Width Single Column */}
+          <div
+            ref={bodyRef}
+            className={`prose prose-lg prose-invert max-w-4xl ${getClasses(bodyVisible)}`}
+            data-testid="about-narrative"
+          >
+            <p className="text-xl text-white/90 leading-relaxed mb-6">
+              I'm a systems thinker, photographer, and strategist. By trade, I work in enterprise architecture—helping teams navigate ambiguity and build things that hold up over time.
+            </p>
 
-                <p className="text-lg text-white/80 leading-relaxed mb-6">
-                  I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: <strong className="text-white font-semibold">the entire system of ownership, scope, and second-order effects where ideas must actually live</strong>.
-                </p>
+            <p className="text-lg text-white/80 leading-relaxed mb-6">
+              I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: <strong className="text-white font-semibold">the entire system of ownership, scope, and second-order effects where ideas must actually live</strong>.
+            </p>
 
-                <p className="text-lg text-white/80 leading-relaxed mb-6">
-                  My specialty is "reading the road"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on. Quiet leadership is my lane. I'd rather hold up a mirror than take the mic.
-                </p>
+            <p className="text-lg text-white/80 leading-relaxed mb-6">
+              My specialty is "reading the road"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on. Quiet leadership is my lane. I'd rather hold up a mirror than take the mic.
+            </p>
 
-                <p className="text-lg text-white/80 leading-relaxed">
-                  Leadership is "living in the gap"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but <strong className="text-athletic-brand-violet">together</strong>.
-                </p>
-              </div>
+            <p className="text-lg text-white/80 leading-relaxed">
+              Leadership is "living in the gap"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but <strong className="text-athletic-brand-violet">together</strong>.
+            </p>
+          </div>
 
-              {/* Integrated technical stack inline */}
-              <div
-                className={`mt-8 transition-all duration-800 delay-300 ${
-                  narrativeProgressed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
-                }`}
-                data-testid="technical-stack-inline"
-              >
+          {/* Two Column: Areas of Focus + Technical Depth */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Areas of Focus - Left Column */}
+            <div
+              className={`transition-all duration-800 delay-300 ${
+                narrativeProgressed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
+              }`}
+            >
+              <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
                 <h3 className="text-lg font-semibold text-white mb-4">Areas of Focus</h3>
-                <div className="space-y-3">
-                  {technicalAreas.map((area, index) => (
-                    <div key={area.area} className="group">
-                      <div className="flex items-center justify-between text-sm text-white/70 mb-1">
-                        <span>{area.area}</span>
-                        <span>{area.experience}</span>
+                <div className="space-y-4">
+                  {technicalAreas.map((area) => (
+                    <details key={area.area} className="group">
+                      <summary className="cursor-pointer text-white/80 hover:text-white transition-colors">
+                        {area.area} <span className="text-white/50">→</span>
+                      </summary>
+                      <div className="mt-2 ml-4 space-y-1">
+                        {area.skills.map((skill) => (
+                          <div key={skill} className="text-sm text-white/60">• {skill}</div>
+                        ))}
                       </div>
-                      <div className="w-full bg-white/10 rounded-full h-1">
-                        <div
-                          className="bg-athletic-brand-violet h-1 rounded-full transition-all duration-1000 delay-500"
-                          style={{
-                            width: narrativeProgressed ? `${area.proficiency}%` : '0%'
-                          }}
-                        />
+                    </details>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Technical Depth - Right Column */}
+            <div
+              className={`transition-all duration-800 delay-400 ${
+                narrativeProgressed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
+              }`}
+              data-testid="integrated-stats-card"
+            >
+              <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">Technical Depth</h3>
+                <div className="space-y-4">
+                  {technicalAreas.map((area) => (
+                    <details key={area.area} className="group">
+                      <summary className="cursor-pointer text-white/80 hover:text-white transition-colors">
+                        {area.area} <span className="text-white/50">→</span>
+                      </summary>
+                      <div className="mt-2 ml-4 space-y-1">
+                        {area.skills.map((skill) => (
+                          <div key={skill} className="text-sm text-white/60">• {skill}</div>
+                        ))}
                       </div>
-                    </div>
+                    </details>
                   ))}
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Career Timeline - Right Column */}
+          {/* Career Timeline - Full Width at Bottom */}
           <div className="relative">
             <div
-              className={`transition-all duration-1000 delay-200 ${
+              className={`transition-all duration-1000 delay-500 ${
                 sectionVisible ? 'opacity-100 transform translate-y-0 scale-100' : 'opacity-0 transform translate-y-8 scale-95'
               }`}
               data-testid="career-timeline-card"
@@ -391,34 +414,8 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 </div>
               </div>
             </div>
-
-            {/* Integrated stats card (contextual) */}
-            <div
-              className={`mt-6 transition-all duration-800 delay-700 ${
-                narrativeProgressed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
-              }`}
-              data-testid="integrated-stats-card"
-            >
-              <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6 pointer-events-auto">
-                <h4 className="text-lg font-semibold text-white mb-4">Technical Depth</h4>
-
-                <div className="space-y-4">
-                  {technicalAreas.map((area, index) => (
-                    <details key={area.area} className="group">
-                      <summary className="cursor-pointer text-white/80 hover:text-white transition-colors">
-                        {area.area} <span className="text-white/50">→</span>
-                      </summary>
-                      <div className="mt-2 ml-4 space-y-1">
-                        {area.skills.map((skill) => (
-                          <div key={skill} className="text-sm text-white/60">• {skill}</div>
-                        ))}
-                      </div>
-                    </details>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
+
         </div>
       </div>
 

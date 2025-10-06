@@ -3,7 +3,6 @@ import SimplifiedGameFlowContainer from './components/sports/SimplifiedGameFlowC
 import { UnifiedGameFlowProvider } from './contexts/UnifiedGameFlowContext';
 import { CanvasStateProvider, useCanvasState } from './contexts/CanvasStateProvider';
 import Header from './components/layout/Header';
-import BackgroundEffects from './components/effects/BackgroundEffects';
 import CursorLensV2 from './components/canvas/CursorLensV2';
 import LightboxCanvas from './components/canvas/LightboxCanvas';
 import CanvasPortfolioLayout from './components/canvas/CanvasPortfolioLayout';
@@ -279,8 +278,6 @@ const App: React.FC = () => {
                     <ViewfinderController />
 
                 <div className="bg-brand-dark text-brand-light font-sans antialiased overflow-hidden h-screen">
-                    <BackgroundEffects />
-
                     {/* Skip link for accessibility */}
                     <a
                         href="#canvas-content"
@@ -417,8 +414,6 @@ const App: React.FC = () => {
                     <ViewfinderController />
 
                     <div className="bg-brand-dark text-brand-light font-sans antialiased scroll-smooth overflow-x-hidden" style={{ overflowY: 'auto', minHeight: '100vh' }}>
-                        <BackgroundEffects />
-
                         {/* Skip link for accessibility */}
                         <a
                             href="#main-content"

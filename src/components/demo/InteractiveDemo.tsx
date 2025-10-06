@@ -10,7 +10,6 @@ import EffectsPanel from '../effects/EffectsPanel';
 import PersistentCTABar from '../canvas/PersistentCTABar';
 import SimplifiedGameFlowContainer from '../sports/SimplifiedGameFlowContainer';
 import Header from '../layout/Header';
-import BackgroundEffects from '../effects/BackgroundEffects';
 import CustomCursor from '../effects/CustomCursor';
 import ScrollProgress from '../effects/ScrollProgress';
 import SectionAmbientLighting from '../effects/SectionAmbientLighting';
@@ -56,7 +55,6 @@ export const InteractiveDemo: React.FC = () => {
 
       {/* Main Content */}
       <div className="pt-24">
-        <BackgroundEffects />
         <Header onNavigate={handleNavigate} activeSection="capture" />
 
         <main className="relative z-10">
