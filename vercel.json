@@ -6,7 +6,15 @@
   "framework": null,
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/assets/:path*",
+      "destination": "/assets/:path*"
+    },
+    {
+      "source": "/images/:path*",
+      "destination": "/images/:path*"
+    },
+    {
+      "source": "/:path*",
       "destination": "/api/ssr"
     }
   ],
