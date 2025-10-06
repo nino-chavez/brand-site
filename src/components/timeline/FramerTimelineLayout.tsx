@@ -620,23 +620,23 @@ export const FramerTimelineLayout: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Timeline Controls Bar (Professional Desktop Editor Style) */}
+      {/* Timeline Controls Bar (Professional Desktop Editor Style - Mobile Responsive) */}
       <motion.div
         className="fixed bottom-0 left-0 right-0 z-50"
         style={{
-          height: '36px',
+          height: 'clamp(44px, 5vh, 48px)', // Responsive: 44px mobile minimum, 48px max
           background: 'linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%)',
           borderTop: '1px solid #3a3a3a',
           display: 'flex',
           alignItems: 'center',
-          padding: '0 16px',
+          padding: '0 clamp(8px, 2vw, 16px)', // Responsive padding
           justifyContent: 'space-between',
           fontFamily: 'SF Mono, Monaco, Consolas, monospace',
-          fontSize: '11px',
+          fontSize: 'clamp(10px, 2.5vw, 11px)', // Responsive font size
           color: 'rgba(255, 255, 255, 0.85)',
-          gap: '12px',
+          gap: 'clamp(6px, 2vw, 12px)', // Responsive gap
         }}
-        initial={{ y: 36, opacity: 0 }}
+        initial={{ y: 48, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
@@ -649,12 +649,17 @@ export const FramerTimelineLayout: React.FC = () => {
             style={{
               background: 'rgba(50, 50, 50, 0.8)',
               border: '1px solid rgba(100, 100, 100, 0.5)',
-              borderRadius: '3px',
+              borderRadius: '4px',
               color: 'rgba(255, 255, 255, 0.85)',
-              padding: '4px 8px',
-              fontSize: '12px',
+              padding: 'clamp(6px, 1.5vh, 8px) clamp(10px, 2vw, 12px)', // Responsive padding for touch
+              fontSize: 'clamp(13px, 3vw, 14px)', // Larger for mobile
               cursor: scrollState.currentSectionIndex === 0 ? 'not-allowed' : 'pointer',
               opacity: scrollState.currentSectionIndex === 0 ? 0.3 : 1,
+              minWidth: '44px', // iOS minimum touch target
+              minHeight: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
             aria-label="Previous frame"
             title="Previous frame (←)"
@@ -669,12 +674,17 @@ export const FramerTimelineLayout: React.FC = () => {
             style={{
               background: isPlaying ? 'rgba(139, 92, 246, 0.3)' : 'rgba(50, 50, 50, 0.8)',
               border: isPlaying ? '1px solid rgba(139, 92, 246, 0.6)' : '1px solid rgba(100, 100, 100, 0.5)',
-              borderRadius: '3px',
+              borderRadius: '4px',
               color: 'rgba(255, 255, 255, 0.85)',
-              padding: '4px 10px',
-              fontSize: '12px',
+              padding: 'clamp(6px, 1.5vh, 8px) clamp(12px, 2.5vw, 14px)', // Responsive padding
+              fontSize: 'clamp(13px, 3vw, 14px)', // Larger for mobile
               cursor: 'pointer',
               boxShadow: isPlaying ? '0 0 8px rgba(139, 92, 246, 0.4)' : 'none',
+              minWidth: '44px', // iOS minimum touch target
+              minHeight: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
             aria-label={isPlaying ? 'Pause' : 'Play'}
             title={isPlaying ? 'Pause (Space)' : 'Play (Space)'}
@@ -689,12 +699,17 @@ export const FramerTimelineLayout: React.FC = () => {
             style={{
               background: 'rgba(50, 50, 50, 0.8)',
               border: '1px solid rgba(100, 100, 100, 0.5)',
-              borderRadius: '3px',
+              borderRadius: '4px',
               color: 'rgba(255, 255, 255, 0.85)',
-              padding: '4px 8px',
-              fontSize: '12px',
+              padding: 'clamp(6px, 1.5vh, 8px) clamp(10px, 2vw, 12px)', // Responsive padding
+              fontSize: 'clamp(13px, 3vw, 14px)', // Larger for mobile
               cursor: scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 'not-allowed' : 'pointer',
               opacity: scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 0.3 : 1,
+              minWidth: '44px', // iOS minimum touch target
+              minHeight: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
             aria-label="Next frame"
             title="Next frame (→)"
@@ -716,7 +731,7 @@ export const FramerTimelineLayout: React.FC = () => {
           <div
             style={{
               flex: 1,
-              height: '18px',
+              height: 'clamp(24px, 4vh, 28px)', // Increased from 18px for mobile touch targets
               background: 'rgba(0, 0, 0, 0.6)',
               border: '1px solid rgba(100, 100, 100, 0.3)',
               borderRadius: '2px',
