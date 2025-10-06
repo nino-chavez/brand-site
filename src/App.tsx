@@ -315,7 +315,7 @@ const App: React.FC = () => {
 
                     {/* Canvas Mode Indicator - Development only */}
                     {process.env.NODE_ENV === 'development' && (
-                        <div className="fixed bottom-4 right-4 z-40 pointer-events-none">
+                        <div className="fixed top-4 right-4 z-40 pointer-events-none">
                             <div className="bg-black/60 backdrop-blur-sm border border-white/20 text-white px-3 py-2 rounded-lg text-sm">
                                 <div className="flex items-center space-x-2">
                                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>

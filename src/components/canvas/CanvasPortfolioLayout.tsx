@@ -397,22 +397,28 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           height: `${SPATIAL_SECTION_MAP.develop.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.develop.zIndex,
           /* Filmstrip appearance with sprocket holes */
-          backgroundColor: '#fafafa',
+          backgroundColor: '#f5f5f5',
           boxShadow: activeSection === 'develop'
-            ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2), inset 0 0 0 12px rgba(0, 0, 0, 0.05)'
-            : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1), inset 0 0 0 12px rgba(0, 0, 0, 0.05)',
+            ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
+            : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(-1.5deg)',
-          border: '12px solid rgba(0, 0, 0, 0.05)',
+          /* Film border - dark edges like real film */
+          borderTop: '16px solid #2a2a2a',
+          borderBottom: '16px solid #2a2a2a',
+          borderLeft: '12px solid #2a2a2a',
+          borderRight: '12px solid #2a2a2a',
           borderRadius: '2px',
           backgroundImage: `
-            radial-gradient(circle at 6px 20px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
-            radial-gradient(circle at 6px 60px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
-            radial-gradient(circle at 6px 100px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
-            radial-gradient(circle at 6px 140px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
-            radial-gradient(circle at calc(100% - 6px) 20px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
-            radial-gradient(circle at calc(100% - 6px) 60px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
-            radial-gradient(circle at calc(100% - 6px) 100px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
-            radial-gradient(circle at calc(100% - 6px) 140px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px)
+            /* Sprocket holes on left edge */
+            radial-gradient(circle at 6px 20px, transparent 3px, #2a2a2a 3px, #2a2a2a 5px, transparent 5px),
+            radial-gradient(circle at 6px 60px, transparent 3px, #2a2a2a 3px, #2a2a2a 5px, transparent 5px),
+            radial-gradient(circle at 6px 100px, transparent 3px, #2a2a2a 3px, #2a2a2a 5px, transparent 5px),
+            radial-gradient(circle at 6px 140px, transparent 3px, #2a2a2a 3px, #2a2a2a 5px, transparent 5px),
+            /* Sprocket holes on right edge */
+            radial-gradient(circle at calc(100% - 6px) 20px, transparent 3px, #2a2a2a 3px, #2a2a2a 5px, transparent 5px),
+            radial-gradient(circle at calc(100% - 6px) 60px, transparent 3px, #2a2a2a 3px, #2a2a2a 5px, transparent 5px),
+            radial-gradient(circle at calc(100% - 6px) 100px, transparent 3px, #2a2a2a 3px, #2a2a2a 5px, transparent 5px),
+            radial-gradient(circle at calc(100% - 6px) 140px, transparent 3px, #2a2a2a 3px, #2a2a2a 5px, transparent 5px)
           `,
           backgroundRepeat: 'repeat-y',
           backgroundSize: '100% 160px'
