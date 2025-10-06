@@ -15,6 +15,7 @@ import { useCanvasState } from '../../contexts/CanvasStateProvider';
 import { useCanvasTouchGestures } from '../../hooks/useCanvasTouchGestures';
 import { useKeyboardNav } from '../../hooks/useKeyboardNav';
 import { rafScheduler, RAFPriority } from '../../utils/rafScheduler';
+import { CanvasHelpOverlay } from './CanvasHelpOverlay';
 import type { CanvasPosition } from '../../contexts/CanvasStateProvider';
 
 // ===== TYPES =====
@@ -361,6 +362,9 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
           GPU Accelerated
         </div>
       )}
+
+      {/* Help System */}
+      <CanvasHelpOverlay />
     </div>
   );
 };

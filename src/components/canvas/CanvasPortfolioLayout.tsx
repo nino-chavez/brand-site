@@ -9,17 +9,18 @@
  * @since Canvas Content Integration
  */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState, Suspense, lazy } from 'react';
 import { useCanvasState } from '../../contexts/CanvasStateProvider';
 import type { SectionId } from '../../types';
+import { SectionSkeleton } from './SectionSkeleton';
 
-// Import section components
-import CaptureSection from '../../../components/sections/CaptureSection';
-import FocusSection from '../../../components/sections/FocusSection';
-import FrameSection from '../../../components/sections/FrameSection';
-import ExposureSection from '../../../components/sections/ExposureSection';
-import DevelopSection from '../../../components/sections/DevelopSection';
-import PortfolioSection from '../../../components/sections/PortfolioSection';
+// Lazy load section components for progressive loading
+const CaptureSection = lazy(() => import('../../../components/sections/CaptureSection'));
+const FocusSection = lazy(() => import('../../../components/sections/FocusSection'));
+const FrameSection = lazy(() => import('../../../components/sections/FrameSection'));
+const ExposureSection = lazy(() => import('../../../components/sections/ExposureSection'));
+const DevelopSection = lazy(() => import('../../../components/sections/DevelopSection'));
+const PortfolioSection = lazy(() => import('../../../components/sections/PortfolioSection'));
 
 // ===== SPATIAL LAYOUT CONFIGURATION =====
 
@@ -98,13 +99,56 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
   // Track mousedown position to detect drag vs click
   const mouseDownPos = useRef<{ x: number; y: number; time: number } | null>(null);
 
-  const handleSectionMouseDown = useCallback((e: React.MouseEvent) => {
+  // ===== SECTION REPOSITIONING =====
+
+  // Custom position offsets (loaded from localStorage)
+  const [sectionOffsets, setSectionOffsets] = useState<Record<SectionId, { x: number; y: number }>>(() => {
+    try {
+      const saved = localStorage.getItem('canvas-section-positions');
+      return saved ? JSON.parse(saved) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  // Track active drag state for repositioning
+  const [dragState, setDragState] = useState<{
+    sectionId: SectionId;
+    startX: number;
+    startY: number;
+    initialOffset: { x: number; y: number };
+  } | null>(null);
+
+  // Save positions to localStorage whenever they change
+  useEffect(() => {
+    if (Object.keys(sectionOffsets).length > 0) {
+      localStorage.setItem('canvas-section-positions', JSON.stringify(sectionOffsets));
+    }
+  }, [sectionOffsets]);
+
+  const handleSectionMouseDown = useCallback((e: React.MouseEvent, sectionId: SectionId) => {
     mouseDownPos.current = {
       x: e.clientX,
       y: e.clientY,
       time: Date.now()
     };
-  }, []);
+
+    // Alt+drag = reposition mode (like Figma/design tools)
+    if (e.altKey) {
+      e.stopPropagation(); // Prevent canvas pan
+
+      const currentOffset = sectionOffsets[sectionId] || { x: 0, y: 0 };
+
+      setDragState({
+        sectionId,
+        startX: e.clientX,
+        startY: e.clientY,
+        initialOffset: currentOffset
+      });
+
+      console.log(`[INFO] Reposition mode activated for ${sectionId} (Alt+drag)`);
+    }
+  }, [sectionOffsets]);
 
   // Section order for keyboard navigation
   const sectionOrder: SectionId[] = ['capture', 'focus', 'frame', 'exposure', 'develop', 'portfolio'];
@@ -168,6 +212,45 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
   }, [actions]);
 
   /**
+   * Global mouse handlers for section repositioning
+   */
+  useEffect(() => {
+    if (!dragState) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!dragState) return;
+
+      const deltaX = (e.clientX - dragState.startX) / currentScale;
+      const deltaY = (e.clientY - dragState.startY) / currentScale;
+
+      const newOffset = {
+        x: dragState.initialOffset.x + deltaX,
+        y: dragState.initialOffset.y + deltaY
+      };
+
+      setSectionOffsets(prev => ({
+        ...prev,
+        [dragState.sectionId]: newOffset
+      }));
+    };
+
+    const handleMouseUp = () => {
+      if (dragState) {
+        console.log(`[INFO] Reposition complete for ${dragState.sectionId}`, sectionOffsets[dragState.sectionId]);
+        setDragState(null);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [dragState, currentScale, sectionOffsets]);
+
+  /**
    * Keyboard navigation - Tab/Shift+Tab to cycle through sections
    */
   useEffect(() => {
@@ -193,6 +276,23 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeSection, handleSectionClick]);
 
+  // Helper to get effective coordinates (default + custom offset)
+  const getEffectiveCoordinates = useCallback((sectionId: SectionId) => {
+    const baseCoords = SPATIAL_SECTION_MAP[sectionId].coordinates;
+    const offset = sectionOffsets[sectionId] || { x: 0, y: 0 };
+    return {
+      x: baseCoords.x + offset.x,
+      y: baseCoords.y + offset.y
+    };
+  }, [sectionOffsets]);
+
+  // Reset all positions to defaults
+  const resetPositions = useCallback(() => {
+    setSectionOffsets({});
+    localStorage.removeItem('canvas-section-positions');
+    console.log('[INFO] All section positions reset to defaults');
+  }, []);
+
   return (
     <div
       className={`canvas-portfolio-layout relative ${className}`}
@@ -207,20 +307,26 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
     >
       {/* Capture Section (Hero) - Center - Torn Notebook Paper */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 overflow-visible canvas-section-torn ${
+        className={`absolute overflow-visible canvas-section-torn ${
+          dragState?.sectionId === 'capture'
+            ? 'cursor-move ring-4 ring-blue-400 shadow-2xl shadow-blue-400/30'
+            : 'cursor-pointer transition-all duration-300'
+        } ${
           activeSection === 'capture'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
         }`}
         style={{
-          left: `${2000 + SPATIAL_SECTION_MAP.capture.coordinates.x}px`,
-          top: `${1500 + SPATIAL_SECTION_MAP.capture.coordinates.y}px`,
+          left: `${2000 + getEffectiveCoordinates('capture').x}px`,
+          top: `${1500 + getEffectiveCoordinates('capture').y}px`,
           width: `${SPATIAL_SECTION_MAP.capture.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.capture.dimensions.height}px`,
-          zIndex: SPATIAL_SECTION_MAP.capture.zIndex,
+          zIndex: dragState?.sectionId === 'capture' ? 100 : SPATIAL_SECTION_MAP.capture.zIndex,
           /* Torn notebook paper appearance */
           backgroundColor: '#fffef8',
-          boxShadow: activeSection === 'capture'
+          boxShadow: dragState?.sectionId === 'capture'
+            ? '0 30px 60px -12px rgba(59, 130, 246, 0.5), 0 10px 20px -8px rgba(59, 130, 246, 0.3)'
+            : activeSection === 'capture'
             ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
             : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(-0.5deg)',
@@ -233,17 +339,28 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
             0% 100%, 0% 98%
           )`
         }}
-        onMouseDown={handleSectionMouseDown}
+        onMouseDown={(e) => handleSectionMouseDown(e, 'capture')}
         onClick={(e) => handleSectionClick('capture', e)}
         tabIndex={0}
-        aria-label="Navigate to Capture section"
+        aria-label="Navigate to Capture section (Hold Alt to reposition)"
       >
-        <CaptureSection
-          active={activeSection === 'capture'}
-          progress={1}
-          shutterSpeed={1000}
-          onCapture={() => {}}
-        />
+        <Suspense
+          fallback={
+            <SectionSkeleton
+              paperStyle="torn"
+              width={SPATIAL_SECTION_MAP.capture.dimensions.width}
+              height={SPATIAL_SECTION_MAP.capture.dimensions.height}
+              contentBlocks={4}
+            />
+          }
+        >
+          <CaptureSection
+            active={activeSection === 'capture'}
+            progress={1}
+            shutterSpeed={1000}
+            onCapture={() => {}}
+          />
+        </Suspense>
       </div>
 
       {/* Focus Section (About) - Left - Scratch Note Paper */}
@@ -254,8 +371,8 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
         }`}
         style={{
-          left: `${2000 + SPATIAL_SECTION_MAP.focus.coordinates.x}px`,
-          top: `${1500 + SPATIAL_SECTION_MAP.focus.coordinates.y}px`,
+          left: `${2000 + getEffectiveCoordinates('focus').x}px`,
+          top: `${1500 + getEffectiveCoordinates('focus').y}px`,
           width: `${SPATIAL_SECTION_MAP.focus.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.focus.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.focus.zIndex,
@@ -277,17 +394,28 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           border: '1px solid rgba(0, 0, 0, 0.08)',
           borderTop: '3px double rgba(139, 92, 246, 0.2)' // Header accent line
         }}
-        onMouseDown={handleSectionMouseDown}
+        onMouseDown={(e) => handleSectionMouseDown(e, 'focus')}
         onClick={(e) => handleSectionClick('focus', e)}
         tabIndex={0}
         aria-label="Navigate to Focus section"
       >
-        <FocusSection
-          active={activeSection === 'focus'}
-          progress={1}
-          depthOfField={0.5}
-          onFocusLock={() => {}}
-        />
+        <Suspense
+          fallback={
+            <SectionSkeleton
+              paperStyle="ruled"
+              width={SPATIAL_SECTION_MAP.focus.dimensions.width}
+              height={SPATIAL_SECTION_MAP.focus.dimensions.height}
+              contentBlocks={5}
+            />
+          }
+        >
+          <FocusSection
+            active={activeSection === 'focus'}
+            progress={1}
+            depthOfField={0.5}
+            onFocusLock={() => {}}
+          />
+        </Suspense>
       </div>
 
       {/* Frame Section (Projects) - Right - Clean Paper with Corner Fold */}
@@ -298,8 +426,8 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
         }`}
         style={{
-          left: `${2000 + SPATIAL_SECTION_MAP.frame.coordinates.x}px`,
-          top: `${1500 + SPATIAL_SECTION_MAP.frame.coordinates.y}px`,
+          left: `${2000 + getEffectiveCoordinates('frame').x}px`,
+          top: `${1500 + getEffectiveCoordinates('frame').y}px`,
           width: `${SPATIAL_SECTION_MAP.frame.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.frame.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.frame.zIndex,
@@ -312,22 +440,33 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           border: '1px solid rgba(0, 0, 0, 0.08)',
           clipPath: 'polygon(0 0, 100% 0, 100% 95%, 97% 100%, 0 100%)' // Bottom-right fold
         }}
-        onMouseDown={handleSectionMouseDown}
+        onMouseDown={(e) => handleSectionMouseDown(e, 'frame')}
         onClick={(e) => handleSectionClick('frame', e)}
         tabIndex={0}
         aria-label="Navigate to Frame section"
       >
-        <FrameSection
-          active={activeSection === 'frame'}
-          progress={1}
-          exposureSettings={{
-            aperture: 2.8,
-            shutterSpeed: 1000,
-            iso: 400,
-            exposureCompensation: 0
-          }}
-          onExposureAdjust={() => {}}
-        />
+        <Suspense
+          fallback={
+            <SectionSkeleton
+              paperStyle="folded"
+              width={SPATIAL_SECTION_MAP.frame.dimensions.width}
+              height={SPATIAL_SECTION_MAP.frame.dimensions.height}
+              contentBlocks={4}
+            />
+          }
+        >
+          <FrameSection
+            active={activeSection === 'frame'}
+            progress={1}
+            exposureSettings={{
+              aperture: 2.8,
+              shutterSpeed: 1000,
+              iso: 400,
+              exposureCompensation: 0
+            }}
+            onExposureAdjust={() => {}}
+          />
+        </Suspense>
       </div>
 
       {/* Exposure Section (Skills) - Top - Index Card Style */}
@@ -338,8 +477,8 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
         }`}
         style={{
-          left: `${2000 + SPATIAL_SECTION_MAP.exposure.coordinates.x}px`,
-          top: `${1500 + SPATIAL_SECTION_MAP.exposure.coordinates.y}px`,
+          left: `${2000 + getEffectiveCoordinates('exposure').x}px`,
+          top: `${1500 + getEffectiveCoordinates('exposure').y}px`,
           width: `${SPATIAL_SECTION_MAP.exposure.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.exposure.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.exposure.zIndex,
@@ -361,22 +500,33 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           border: '1px solid rgba(0, 0, 0, 0.12)',
           borderLeft: '4px solid rgba(245, 158, 11, 0.3)' // Vertical margin line (orange)
         }}
-        onMouseDown={handleSectionMouseDown}
+        onMouseDown={(e) => handleSectionMouseDown(e, 'exposure')}
         onClick={(e) => handleSectionClick('exposure', e)}
         tabIndex={0}
         aria-label="Navigate to Exposure section"
       >
-        <ExposureSection
-          active={activeSection === 'exposure'}
-          progress={1}
-          currentExposure={{
-            aperture: 2.8,
-            shutterSpeed: 1000,
-            iso: 400,
-            exposureCompensation: 0
-          }}
-          onExposureChange={() => {}}
-        />
+        <Suspense
+          fallback={
+            <SectionSkeleton
+              paperStyle="index"
+              width={SPATIAL_SECTION_MAP.exposure.dimensions.width}
+              height={SPATIAL_SECTION_MAP.exposure.dimensions.height}
+              contentBlocks={4}
+            />
+          }
+        >
+          <ExposureSection
+            active={activeSection === 'exposure'}
+            progress={1}
+            currentExposure={{
+              aperture: 2.8,
+              shutterSpeed: 1000,
+              iso: 400,
+              exposureCompensation: 0
+            }}
+            onExposureChange={() => {}}
+          />
+        </Suspense>
       </div>
 
       {/* Develop Section (Gallery) - Bottom - Filmstrip with Sprocket Holes */}
@@ -387,8 +537,8 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
         }`}
         style={{
-          left: `${2000 + SPATIAL_SECTION_MAP.develop.coordinates.x}px`,
-          top: `${1500 + SPATIAL_SECTION_MAP.develop.coordinates.y}px`,
+          left: `${2000 + getEffectiveCoordinates('develop').x}px`,
+          top: `${1500 + getEffectiveCoordinates('develop').y}px`,
           width: `${SPATIAL_SECTION_MAP.develop.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.develop.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.develop.zIndex,
@@ -419,17 +569,28 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           backgroundRepeat: 'repeat-y',
           backgroundSize: '100% 160px'
         }}
-        onMouseDown={handleSectionMouseDown}
+        onMouseDown={(e) => handleSectionMouseDown(e, 'develop')}
         onClick={(e) => handleSectionClick('develop', e)}
         tabIndex={0}
         aria-label="Navigate to Develop section"
       >
-        <DevelopSection
-          active={activeSection === 'develop'}
-          progress={1}
-          developmentStage="final"
-          onDevelopmentComplete={() => {}}
-        />
+        <Suspense
+          fallback={
+            <SectionSkeleton
+              paperStyle="filmstrip"
+              width={SPATIAL_SECTION_MAP.develop.dimensions.width}
+              height={SPATIAL_SECTION_MAP.develop.dimensions.height}
+              contentBlocks={3}
+            />
+          }
+        >
+          <DevelopSection
+            active={activeSection === 'develop'}
+            progress={1}
+            developmentStage="final"
+            onDevelopmentComplete={() => {}}
+          />
+        </Suspense>
       </div>
 
       {/* Portfolio Section (Contact) - Bottom Right - Polaroid Style */}
@@ -440,8 +601,8 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
         }`}
         style={{
-          left: `${2000 + SPATIAL_SECTION_MAP.portfolio.coordinates.x}px`,
-          top: `${1500 + SPATIAL_SECTION_MAP.portfolio.coordinates.y}px`,
+          left: `${2000 + getEffectiveCoordinates('portfolio').x}px`,
+          top: `${1500 + getEffectiveCoordinates('portfolio').y}px`,
           width: `${SPATIAL_SECTION_MAP.portfolio.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.portfolio.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.portfolio.zIndex,
@@ -456,17 +617,28 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           borderRadius: '2px',
           outline: '1px solid rgba(0, 0, 0, 0.1)'
         }}
-        onMouseDown={handleSectionMouseDown}
+        onMouseDown={(e) => handleSectionMouseDown(e, 'portfolio')}
         onClick={(e) => handleSectionClick('portfolio', e)}
         tabIndex={0}
         aria-label="Navigate to Portfolio section"
       >
-        <PortfolioSection
-          active={activeSection === 'portfolio'}
-          progress={1}
-          exportFormat="web"
-          onExport={() => {}}
-        />
+        <Suspense
+          fallback={
+            <SectionSkeleton
+              paperStyle="polaroid"
+              width={SPATIAL_SECTION_MAP.portfolio.dimensions.width}
+              height={SPATIAL_SECTION_MAP.portfolio.dimensions.height}
+              contentBlocks={4}
+            />
+          }
+        >
+          <PortfolioSection
+            active={activeSection === 'portfolio'}
+            progress={1}
+            exportFormat="web"
+            onExport={() => {}}
+          />
+        </Suspense>
       </div>
 
       {/* Enhanced Navigation Hints - Visible at all zoom levels */}
@@ -610,6 +782,29 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Reset Layout Button - Only show if positions have been customized */}
+      {Object.keys(sectionOffsets).length > 0 && (
+        <button
+          onClick={resetPositions}
+          className="fixed bottom-6 left-6 z-50 bg-white/90 hover:bg-white border border-gray-300 rounded-lg shadow-lg px-4 py-2 flex items-center gap-2 text-gray-700 hover:text-gray-900 transition-colors text-sm font-medium"
+          aria-label="Reset section layout to defaults"
+          title="Reset all sections to default positions"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M2 8a6 6 0 0 1 10-4.5M14 8a6 6 0 0 1-10 4.5M12 3.5v3h-3M4 12.5v-3h3" />
+          </svg>
+          Reset Layout
+        </button>
+      )}
+
+      {/* Alt+Drag Hint - Show on hover over sections */}
+      {!dragState && (
+        <div className="fixed top-6 left-6 z-40 bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg px-3 py-2 text-white/90 text-xs pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
+          <kbd className="px-1.5 py-0.5 bg-white/20 rounded text-xs font-mono">Alt</kbd>
+          <span className="ml-2">+ drag to reposition sections</span>
+        </div>
+      )}
     </div>
   );
 };
