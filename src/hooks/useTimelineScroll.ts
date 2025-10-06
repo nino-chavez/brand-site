@@ -89,7 +89,9 @@ export const useTimelineScroll = ({
 
     // At bottom: we've scrolled through all scrollable content
     // Use threshold to trigger transition slightly before absolute bottom
-    const isAtSectionBottom = scrollWithinSection >= maxScrollableDistance - scrollThreshold;
+    // But ensure we have actually scrolled (not a false positive at page load)
+    const isAtSectionBottom = scrollWithinSection >= maxScrollableDistance - scrollThreshold &&
+                              scrollWithinSection > 10; // Must have scrolled at least 10px
 
     return {
       scrollProgress,
@@ -160,25 +162,42 @@ export const useTimelineScroll = ({
     const freshIsAtSectionBottom = metrics.isAtSectionBottom ?? false;
     const freshIsAtSectionTop = metrics.isAtSectionTop ?? false;
 
+    // Debug logging for stuck scroll issues
+    if (freshIsAtSectionBottom && currentSectionIndex === 0) {
+      console.log('[DEBUG] Hero section at bottom:', {
+        scrollProgress: metrics.scrollProgress,
+        accumulator: scrollAccumulator.current,
+        scrollWithinSection: window.pageYOffset - (sectionRefs.current[0]?.offsetTop || 0)
+      });
+    }
+
     // Check if we should transition to next/previous section
     if (scrollingDown && freshIsAtSectionBottom && currentSectionIndex < totalSections - 1) {
-      // Prevent default scroll behavior immediately when at boundary
-      event.preventDefault();
-
       // Accumulate scroll momentum to trigger transition
       scrollAccumulator.current += Math.abs(deltaY);
 
+      // Only prevent default once we have some momentum (prevents deadlock)
+      if (scrollAccumulator.current > 50) {
+        event.preventDefault();
+      }
+
+      // Trigger transition at higher threshold
       if (scrollAccumulator.current > 100) {
+        event.preventDefault();
         transitionToSection(currentSectionIndex + 1, 'forward');
       }
     } else if (scrollingUp && freshIsAtSectionTop && currentSectionIndex > 0) {
-      // Prevent default scroll behavior immediately when at boundary
-      event.preventDefault();
-
       // Accumulate scroll momentum to trigger transition
       scrollAccumulator.current += Math.abs(deltaY);
 
+      // Only prevent default once we have some momentum (prevents deadlock)
+      if (scrollAccumulator.current > 50) {
+        event.preventDefault();
+      }
+
+      // Trigger transition at higher threshold
       if (scrollAccumulator.current > 100) {
+        event.preventDefault();
         transitionToSection(currentSectionIndex - 1, 'backward');
       }
     } else {
