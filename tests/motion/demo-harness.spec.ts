@@ -21,7 +21,7 @@ test.describe('Demo Harness - Core Functionality', () => {
     await page.goto(DEMO_URL);
 
     // Check page title and header
-    await expect(page.locator('h1')).toContainText('UI/UX Component Demo');
+    await expect(page.locator('h1')).toContainText('Enterprise Interaction Pattern Reference');
 
     // Check sidebar navigation exists
     await expect(page.locator('[data-testid="demo-sidebar"]')).toBeVisible();

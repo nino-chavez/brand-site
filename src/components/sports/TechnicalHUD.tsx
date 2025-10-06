@@ -62,6 +62,12 @@ export function TechnicalHUD({
             description: 'Photography portfolio'
         },
         {
+            id: 'volleyball-demo' as SectionId,
+            label: 'SYSTEM',
+            metric: 'Type: Interactive',
+            description: 'Architecture demo'
+        },
+        {
             id: 'portfolio' as SectionId,
             label: 'CONTACT',
             metric: 'Status: Available',
@@ -115,12 +121,21 @@ export function TechnicalHUD({
             >
                 {hudSections.map((section) => {
                     const isHovered = section.id === hoveredSection;
+                    const isExternalLink = section.id === 'volleyball-demo';
+
+                    // Use <a> tag for external link, <button> for section navigation
+                    const Element = isExternalLink ? 'a' : 'button';
+                    const elementProps = isExternalLink
+                        ? { href: '/demo' }
+                        : {
+                            onClick: () => handleSectionClick(section.id),
+                            onKeyDown: (e: React.KeyboardEvent) => handleKeyDown(e, section.id)
+                          };
 
                     return (
                         <div key={section.id} className="relative">
-                            <button
-                                onClick={() => handleSectionClick(section.id)}
-                                onKeyDown={(e) => handleKeyDown(e, section.id)}
+                            <Element
+                                {...elementProps}
                                 onMouseEnter={() => handleSectionHover(section.id)}
                                 onMouseLeave={() => handleSectionHover(null)}
                                 onFocus={() => handleSectionHover(section.id)}
@@ -153,7 +168,7 @@ export function TechnicalHUD({
                                 aria-label={`Navigate to ${section.description}`}
                             >
                                 {section.label}
-                            </button>
+                            </Element>
 
                             {/* Technical hover overlay - positioned below with enhanced styling */}
                             {isHovered && variant !== 'mobile' && (

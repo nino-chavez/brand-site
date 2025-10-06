@@ -5,9 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:ssr": "node server.js",
     "build": "vite build",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --config vite.config.ssr.ts --ssr src/entry-server.tsx --outDir dist/server",
+    "build:ssr": "npm run build:client && npm run build:server",
     "build:analyze": "npm run build && node scripts/bundle-analyzer.js",
     "preview": "vite preview",
+    "preview:ssr": "NODE_ENV=production node server.js",
     "validate": "node .claude/scripts/validate-changes.js",
     "validate:force": "npm run validate || true",
     "decision:template": "node .claude/scripts/log-decision.js template",
@@ -62,8 +67,12 @@
   },
   "dependencies": {
     "color2k": "^2.0.3",
+    "compression": "^1.8.1",
+    "express": "^5.1.0",
+    "framer-motion": "^12.23.22",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "sirv": "^3.0.2"
   },
   "devDependencies": {
     "@axe-core/react": "^4.10.2",

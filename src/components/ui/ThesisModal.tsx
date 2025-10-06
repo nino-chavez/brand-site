@@ -433,12 +433,47 @@ interface ThesisModalTriggerProps {
 
 export const ThesisModalTrigger: React.FC<ThesisModalTriggerProps> = ({ onClick }) => {
   return (
-    <button
-      className="thesis-trigger"
-      onClick={onClick}
-      aria-label="Read the architect's principle"
-    >
-      The Architect's Principle
-    </button>
+    <>
+      <button
+        className="thesis-trigger"
+        onClick={onClick}
+        aria-label="Read the architect's principle"
+      >
+        The Architect's Principle
+      </button>
+      <style jsx>{`
+        .thesis-trigger {
+          background: none;
+          border: none;
+          color: rgba(139, 92, 246, 0.9);
+          font-size: 0.875rem;
+          font-weight: 500;
+          cursor: pointer;
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          transition: all 0.2s ease;
+          text-decoration: underline;
+          text-decoration-color: rgba(139, 92, 246, 0.4);
+          text-underline-offset: 2px;
+        }
+
+        .thesis-trigger:hover {
+          color: rgba(139, 92, 246, 1);
+          background-color: rgba(139, 92, 246, 0.1);
+          text-decoration-color: rgba(139, 92, 246, 0.6);
+        }
+
+        .thesis-trigger:focus {
+          outline: 2px solid rgba(139, 92, 246, 0.5);
+          outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .thesis-trigger {
+            transition: none;
+          }
+        }
+      `}</style>
+    </>
   );
 };

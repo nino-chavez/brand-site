@@ -1,16 +1,20 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Section, { SectionTitle } from './Section';
 import { WORK_PROJECTS } from '../../constants';
 import type { WorkProject } from '../../types';
 import { useStaggeredChildren } from '../../hooks/useScrollAnimation';
 import ProgressiveImage from '../ui/ProgressiveImage';
+import ProjectDetailPanel from '../work/ProjectDetailPanel';
 
 interface WorkSectionProps {
     setRef: (el: HTMLDivElement | null) => void;
 }
 
-const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
+const ProjectCard: React.FC<{
+    project: WorkProject;
+    onClick: (project: WorkProject, element: HTMLDivElement) => void;
+}> = ({ project, onClick }) => {
     const cardRef = useRef<HTMLDivElement | null>(null);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -34,8 +38,15 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
         }
     };
 
+    const handleClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (cardRef.current) {
+            onClick(project, cardRef.current);
+        }
+    };
+
     return (
-        <a href={project.link} target="_blank" rel="noopener noreferrer" className="block group">
+        <div className="block group cursor-pointer" onClick={handleClick}>
             <div
                 ref={cardRef}
                 onMouseMove={handleMouseMove}
@@ -55,18 +66,13 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
                     />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2 text-gradient-violet">{project.title}</h3>
-                <p className="text-gray-300 mb-4 text-sm leading-relaxed">{project.description}</p>
 
-                {/* Outcome metrics badge */}
-                {project.outcome && (
-                    <div className="mb-4 p-3 bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-lg border border-green-500/20">
-                        <p className="text-xs font-semibold text-green-400 uppercase tracking-wider mb-1">Impact</p>
-                        <p className="text-sm text-white/90 font-medium">{project.outcome}</p>
-                    </div>
-                )}
+                {/* Brief description - detail in panel */}
+                <p className="text-gray-300 mb-4 text-sm leading-relaxed line-clamp-2">{project.description}</p>
 
-                <div className="flex flex-wrap gap-2">
-                    {project.tags.map(tag => (
+                {/* Tech stack preview - full list in panel */}
+                <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.slice(0, 3).map(tag => (
                         <span
                             key={tag}
                             className="bg-brand-violet/20 text-brand-violet text-xs font-semibold px-2.5 py-1 rounded-full border border-brand-violet/30 hover:bg-brand-violet/30 hover:border-brand-violet/50 transition-all duration-200"
@@ -74,24 +80,41 @@ const ProjectCard: React.FC<{ project: WorkProject }> = ({ project }) => {
                             {tag}
                         </span>
                     ))}
+                    {project.tags.length > 3 && (
+                        <span className="text-xs text-gray-400 px-2.5 py-1">
+                            +{project.tags.length - 3} more
+                        </span>
+                    )}
                 </div>
 
-                {/* View Project button slides in from bottom */}
+                {/* View Details button */}
                 <div className="mt-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
                     <span className="inline-flex items-center text-violet-400 text-sm font-semibold">
-                        View Project
+                        View Details
                         <svg className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                     </span>
                 </div>
             </div>
-        </a>
+        </div>
     );
 };
 
 const WorkSection: React.FC<WorkSectionProps> = ({ setRef }) => {
-    const { containerRef, visibleIndices } = useStaggeredChildren(WORK_PROJECTS.length, 80); // Faster stagger (was 150ms)
+    const { containerRef, visibleIndices } = useStaggeredChildren(WORK_PROJECTS.length, 80);
+    const [selectedProject, setSelectedProject] = useState<WorkProject | null>(null);
+    const [triggerElement, setTriggerElement] = useState<HTMLElement | null>(null);
+
+    const handleProjectClick = (project: WorkProject, element: HTMLDivElement) => {
+        setSelectedProject(project);
+        setTriggerElement(element);
+    };
+
+    const handleClosePanel = () => {
+        setSelectedProject(null);
+        setTriggerElement(null);
+    };
 
     return (
         <Section id="frame" setRef={setRef}>
@@ -104,19 +127,27 @@ const WorkSection: React.FC<WorkSectionProps> = ({ setRef }) => {
                     {WORK_PROJECTS.map((project, index) => (
                         <div
                             key={index}
-                            className={`transition-all duration-500 ease-out ${ // Faster animation (was 700ms)
+                            className={`transition-all duration-500 ease-out ${
                                 visibleIndices.has(index)
                                     ? 'opacity-100 translate-y-0'
                                     : 'opacity-0 translate-y-8'
                             }`}
                             style={{
-                                transitionDelay: `${index * 80}ms` // Match stagger delay
+                                transitionDelay: `${index * 80}ms`
                             }}
                         >
-                            <ProjectCard project={project} />
+                            <ProjectCard project={project} onClick={handleProjectClick} />
                         </div>
                     ))}
                 </div>
+
+                {/* Detail Panel */}
+                <ProjectDetailPanel
+                    project={selectedProject}
+                    isOpen={!!selectedProject}
+                    onClose={handleClosePanel}
+                    triggerElement={triggerElement}
+                />
             </div>
         </Section>
     );

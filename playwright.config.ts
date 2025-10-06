@@ -45,10 +45,10 @@ export default defineConfig({
     trace: 'on-first-retry',
 
     /* Take screenshot on failure */
-    screenshot: 'only-on-failure',
+    screenshot: 'on',
 
     /* Record video on failure */
-    video: 'retain-on-failure',
+    video: 'on',
 
     /* Extended timeout for canvas operations */
     actionTimeout: 10000,

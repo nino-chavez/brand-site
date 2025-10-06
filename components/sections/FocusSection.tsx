@@ -160,25 +160,41 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
     }
   ];
 
-  // Technical stack organized by focus areas
-  const technicalAreas = [
+  // Areas of focus - strategic capabilities
+  const focusAreas = [
+    {
+      area: 'Enterprise Architecture',
+      description: 'Multi-tenant platforms processing $2B+ GMV. Event-driven systems serving 50M+ active users.',
+      icon: '🏗️'
+    },
+    {
+      area: 'AI Governance',
+      description: 'Verification boundaries for regulated commerce. Model reliability frameworks for production environments.',
+      icon: '🤖'
+    },
+    {
+      area: 'Digital Transformation',
+      description: 'Legacy migration strategies. Zero-downtime cutover patterns for Fortune 500 scale.',
+      icon: '🔄'
+    }
+  ];
+
+  // Technical depth - implementation experience
+  const technicalDepth = [
     {
       area: 'Commerce Platforms',
-      skills: ['SAP Commerce (Hybris)', 'Salesforce Commerce Cloud', 'Adobe Commerce', 'Headless Architecture'],
-      proficiency: 95,
-      experience: '15+ years'
+      years: '15+ years',
+      stack: ['SAP Commerce (Hybris)', 'Salesforce Commerce Cloud', 'Adobe Commerce', 'Headless Architecture']
     },
     {
-      area: 'Integration Architecture',
-      skills: ['Order Management', 'Inventory Sync', 'Fulfillment Systems', 'Event-Driven Integration'],
-      proficiency: 92,
-      experience: '20+ years'
+      area: 'Integration Patterns',
+      years: '20+ years',
+      stack: ['Order Orchestration', 'Real-time Inventory', 'Event-Driven Architecture', 'Microservices']
     },
     {
-      area: 'AI-Native Strategy',
-      skills: ['Answer-First Commerce', 'Agentic Systems', 'Context-Aware Experiences', 'Progressive Enhancement'],
-      proficiency: 88,
-      experience: 'Current focus'
+      area: 'Cloud Infrastructure',
+      years: '10+ years',
+      stack: ['Multi-cloud Strategy', 'Kubernetes', 'Serverless', 'Edge Computing']
     }
   ];
 
@@ -258,19 +274,19 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
             className={`prose prose-lg prose-invert max-w-4xl ${getClasses(bodyVisible)}`}
             data-testid="about-narrative"
           >
-            <p className="text-xl text-white/90 leading-relaxed mb-6">
+            <p className="text-xl text-white/90 leading-[1.7] mb-6">
               I'm a systems thinker, photographer, and strategist. By trade, I work in enterprise architecture—helping teams navigate ambiguity and build things that hold up over time.
             </p>
 
-            <p className="text-lg text-white/80 leading-relaxed mb-6">
+            <p className="text-lg text-white/80 leading-[1.8] mb-6">
               I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: <strong className="text-white font-semibold">the entire system of ownership, scope, and second-order effects where ideas must actually live</strong>.
             </p>
 
-            <p className="text-lg text-white/80 leading-relaxed mb-6">
+            <p className="text-lg text-white/80 leading-[1.8] mb-6">
               My specialty is "reading the road"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on. Quiet leadership is my lane. I'd rather hold up a mirror than take the mic.
             </p>
 
-            <p className="text-lg text-white/80 leading-relaxed">
+            <p className="text-lg text-white/80 leading-[1.8]">
               Leadership is "living in the gap"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but <strong className="text-athletic-brand-violet">together</strong>.
             </p>
           </div>
@@ -279,24 +295,23 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Areas of Focus - Left Column */}
             <div
-              className={`transition-all duration-800 delay-300 ${
+              className={`transition-all duration-500 ${
                 narrativeProgressed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
               }`}
             >
               <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Areas of Focus</h3>
-                <div className="space-y-4">
-                  {technicalAreas.map((area) => (
-                    <details key={area.area} className="group">
-                      <summary className="cursor-pointer text-white/80 hover:text-white transition-colors">
-                        {area.area} <span className="text-white/50">→</span>
-                      </summary>
-                      <div className="mt-2 ml-4 space-y-1">
-                        {area.skills.map((skill) => (
-                          <div key={skill} className="text-sm text-white/60">• {skill}</div>
-                        ))}
+                <h3 className="text-xl font-semibold text-white mb-6">Areas of Focus</h3>
+                <div className="space-y-6">
+                  {focusAreas.map((area) => (
+                    <div key={area.area} className="group">
+                      <div className="flex items-start gap-3">
+                        <span className="text-2xl mt-1">{area.icon}</span>
+                        <div>
+                          <h4 className="text-white font-medium mb-2">{area.area}</h4>
+                          <p className="text-sm text-white/70 leading-relaxed">{area.description}</p>
+                        </div>
                       </div>
-                    </details>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -304,25 +319,28 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
 
             {/* Technical Depth - Right Column */}
             <div
-              className={`transition-all duration-800 delay-400 ${
+              className={`transition-all duration-500 ${
                 narrativeProgressed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
               }`}
               data-testid="integrated-stats-card"
             >
               <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Technical Depth</h3>
-                <div className="space-y-4">
-                  {technicalAreas.map((area) => (
-                    <details key={area.area} className="group">
-                      <summary className="cursor-pointer text-white/80 hover:text-white transition-colors">
-                        {area.area} <span className="text-white/50">→</span>
-                      </summary>
-                      <div className="mt-2 ml-4 space-y-1">
-                        {area.skills.map((skill) => (
-                          <div key={skill} className="text-sm text-white/60">• {skill}</div>
+                <h3 className="text-xl font-semibold text-white mb-6">Technical Depth</h3>
+                <div className="space-y-6">
+                  {technicalDepth.map((area) => (
+                    <div key={area.area} className="group">
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className="text-white font-medium">{area.area}</h4>
+                        <span className="text-xs text-white/50">{area.years}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {area.stack.map((tech) => (
+                          <span key={tech} className="px-2 py-1 bg-white/5 text-white/60 rounded text-xs">
+                            {tech}
+                          </span>
                         ))}
                       </div>
-                    </details>
+                    </div>
                   ))}
                 </div>
               </div>

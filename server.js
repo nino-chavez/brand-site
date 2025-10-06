@@ -97,19 +97,25 @@ app.use(async (req, res, next) => {
       render = (await import('./dist/server/entry-server.js')).render;
     }
 
-    // Render app HTML
+    // Render app HTML and SEO head tags
     console.log('🔄 Rendering React app for URL:', url);
     const rendered = await render(url, ssrManifest);
-    console.log('✅ Render result:', { hasHtml: !!rendered?.html, htmlLength: rendered?.html?.length || 0 });
+    console.log('✅ Render result:', {
+      hasHtml: !!rendered?.html,
+      htmlLength: rendered?.html?.length || 0,
+      hasHead: !!rendered?.head,
+      headLength: rendered?.head?.length || 0
+    });
 
     const appHtml = rendered?.html || '';
+    const appHead = rendered?.head || '';
 
-    // Inject app HTML into template
+    // Inject app HTML and SEO head tags into template
     const html = template
       .replace(`<!--app-html-->`, appHtml)
-      .replace(`<!--app-head-->`, ''); // Can inject additional head tags here
+      .replace(`<!--app-head-->`, appHead);
 
-    console.log('📦 Final HTML length:', html.length, 'SSR content:', appHtml.length > 0 ? 'YES' : 'NO');
+    console.log('📦 Final HTML length:', html.length, 'SSR content:', appHtml.length > 0 ? 'YES' : 'NO', 'SEO meta:', appHead.length > 0 ? 'YES' : 'NO');
     res.status(200).set({ 'Content-Type': 'text/html' }).send(html);
   } catch (e) {
     // Send error stack in dev, generic error in production

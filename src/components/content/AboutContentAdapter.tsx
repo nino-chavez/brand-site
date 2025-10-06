@@ -27,68 +27,68 @@ const ABOUT_CONTENT = {
     title: "Finding the Signal in the Noise",
     summary: "Enterprise Architect & Technical Leader",
     paragraphs: [
-      "Transforming complex business challenges into elegant, scalable solutions serving millions."
+      "Built systems processing $50B+ in annual transactions for Fortune 500 retailers—architectures that survived 15+ Black Friday events without outages."
     ],
     skills: ["Enterprise Architecture", "Technical Leadership", "Systems Thinking"],
     readingTime: "30 sec"
   },
   [ContentLevel.SUMMARY]: {
     title: "Finding the Signal in the Noise",
-    summary: "Enterprise Architect & Technical Leader",
+    summary: "26 years building systems that serve 50M+ users daily",
     paragraphs: [
-      "I'm Nino Chavez, an Enterprise Architect who transforms complex business challenges into elegant, scalable solutions serving millions of users daily.",
+      "I'm Nino Chavez. I build systems that process billions in transactions for Fortune 500 retailers—omnichannel commerce platforms, event-driven order orchestration, real-time inventory systems that enable same-day delivery without increasing infrastructure costs.",
       "I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending pattern—I focus on the stage: the entire system of ownership, scope, and second-order effects where ideas must actually live."
     ],
     skills: [
       "Enterprise Architecture",
-      "Technical Leadership",
-      "Multi-Cloud Platforms",
-      "AI Governance",
+      "E-Commerce Platforms at Scale",
+      "Multi-Cloud Infrastructure",
+      "AI Governance Frameworks",
       "Decision Hygiene"
     ],
     readingTime: "1 min"
   },
   [ContentLevel.DETAILED]: {
     title: "Finding the Signal in the Noise",
-    summary: "20+ years architecting enterprise systems serving 50M+ users",
+    summary: "26 years architecting commerce systems serving 50M+ users",
     paragraphs: [
-      "I'm Nino Chavez, an Enterprise Architect and Technical Leader who transforms complex business challenges into elegant, scalable solutions that serve millions of users daily.",
-      "I architect resilient systems that enable people and businesses to thrive. From leading 100+ person engineering teams to migrating Fortune 500 legacy infrastructure to multi-cloud platforms, my value lies in providing clarity when the stakes are high and the path forward isn't obvious.",
-      "My specialty is \"reading the road\"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on. I practice rigorous decision hygiene: understanding the full operational context before making a move.",
+      "I'm Nino Chavez. I build multi-tenant commerce platforms processing $2B+ annual GMV for Fortune 500 retailers—architectures that survived 10x Black Friday traffic spikes without service interruption.",
+      "Built event-driven order orchestration systems replacing 15-year legacy monoliths—migrated 50M active users with zero downtime. Designed real-time inventory systems serving 12 brands across 2,000+ stores, enabling same-day delivery capabilities without infrastructure cost increases.",
+      "My specialty is \"reading the road\"—identifying patterns others miss. I provide clarity when executives can't see the path forward, translating technical complexity into strategic decisions. I practice rigorous decision hygiene: understanding the full operational context before making a move.",
       "Leadership, for me, is \"living in the gap\"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but together."
     ],
     skills: [
-      "Enterprise Architecture & Strategy",
-      "Fortune 500 Digital Transformation",
-      "Multi-Cloud Infrastructure Migration",
+      "Multi-Tenant Commerce Platforms ($2B+ GMV)",
+      "Event-Driven Order Orchestration",
+      "Real-Time Inventory Systems (2,000+ stores)",
+      "Zero-Downtime Migration (50M+ users)",
       "AI Governance Frameworks",
-      "Technical Leadership (100+ Teams)",
-      "Pattern Recognition & Translation",
-      "Decision Hygiene & Systems Thinking",
-      "Event-Driven Architecture"
+      "Technical Leadership (100+ person teams)",
+      "Pattern Recognition & Strategic Translation",
+      "Decision Hygiene & Systems Thinking"
     ],
     readingTime: "2 min"
   },
   [ContentLevel.TECHNICAL]: {
-    title: "Finding the Signal in the Noise - Technical Deep Dive",
-    summary: "Enterprise Architect specializing in resilient, observable systems at scale",
+    title: "Finding the Signal in the Noise",
+    summary: "Architect specializing in resilient commerce systems at scale",
     paragraphs: [
-      "I'm Nino Chavez, an Enterprise Architect with 20+ years architecting systems serving 50M+ users daily. I specialize in transforming complex business challenges into fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
-      "Recent engagements: Reduced cloud infrastructure costs 40% while improving performance for a Fortune 500 retailer. Designed AI governance frameworks for regulated industries. Migrated legacy monoliths to event-driven architectures without service interruption.",
+      "I'm Nino Chavez. 26 years architecting systems serving 50M+ users daily, processing $50B+ in annual transactions. I build fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
+      "Recent artifacts: Reduced cloud infrastructure costs 40% while improving performance for a Fortune 500 retailer—re-architected data pipelines and compute allocation. Built AI governance frameworks for regulated commerce platforms that enforce verification boundaries between model outputs and business logic execution. Designed event-driven order orchestration replacing SAP monoliths—zero service interruption during 18-month migration.",
       "My approach focuses on second-order effects and decision hygiene. I don't chase trends—I ask foundational questions: Who checks the foundation? What's the entire stage this idea must live on? How do we build systems that enable people to thrive, not just survive?",
-      "On AI: Infrastructure, not magic. While others debate whether AI will replace developers, I'm building the governance and architecture patterns that make AI reliable in production. The human role has evolved from coder to architect, from syntax to systems.",
-      "My action sports photography practice has honed precision under pressure. Capturing a perfect volleyball spike at 1/2000th of a second requires the same discipline as designing systems that can't fail. Both demand knowing exactly where to focus when milliseconds matter."
+      "On AI: Infrastructure, not magic. Most organizations bolt AI onto incompatible architectures, creating compliance risk and technical debt. I design verification boundaries that enforce model reliability before business logic execution—governance patterns that make AI production-ready in regulated environments.",
+      "My action sports photography practice honed precision under pressure. Capturing a perfect volleyball spike at 1/2000th of a second requires the same discipline as designing systems that can't fail. Both demand knowing exactly where to focus when milliseconds matter."
     ],
     skills: [
-      "Enterprise Architecture & Microservices Design",
-      "Event-Driven Architecture & Real-Time Systems",
+      "Commerce Platforms ($50B+ annual transactions)",
+      "Event-Driven Architecture & Order Orchestration",
       "Multi-Cloud Infrastructure (AWS, Azure, GCP)",
-      "AI Governance & Production Reliability Patterns",
-      "Fault-Tolerant, Observable Systems Design",
-      "Technical Leadership & Team Transformation",
+      "AI Governance & Verification Boundaries",
+      "Fault-Tolerant, Observable Systems",
+      "Zero-Downtime Legacy Migration",
       "Cost Optimization at Scale (40%+ reductions)",
-      "Legacy Migration Without Service Interruption",
-      "Strategic Technical Translation for Executives",
+      "Real-Time Inventory & Fulfillment Systems",
+      "Strategic Technical Translation",
       "Decision Hygiene & Systems Thinking"
     ],
     readingTime: "3 min"

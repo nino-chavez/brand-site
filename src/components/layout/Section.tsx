@@ -12,7 +12,8 @@ interface SectionProps {
 const Section: React.FC<SectionProps> = ({ id, setRef, className = '', children }) => {
     // Add extra padding for about section to create smooth transition from hero
     const isAboutSection = id === 'about';
-    const paddingClass = isAboutSection ? 'py-32 lg:py-40' : 'py-20 lg:py-32';
+    const isFocusSection = id === 'focus';
+    const paddingClass = isAboutSection ? 'py-32 lg:py-40' : isFocusSection ? 'py-24 md:py-32 lg:py-40' : 'py-20 lg:py-32';
 
     // Section-specific color classes for ambient lighting
     const sectionColorMap: Record<string, string> = {
@@ -43,7 +44,7 @@ const Section: React.FC<SectionProps> = ({ id, setRef, className = '', children 
         <section
             id={id}
             ref={combineRefs}
-            className={`min-h-screen w-full flex items-center justify-center ${paddingClass} ${className} ${sectionColorClass} ${isAboutSection ? 'bg-gradient-to-b from-brand-dark via-brand-dark to-gray-900' : ''}`}
+            className={`min-h-screen w-full ${isFocusSection ? 'flex items-center justify-center' : ''} ${paddingClass} ${className} ${sectionColorClass} ${isAboutSection ? 'bg-gradient-to-b from-brand-dark via-brand-dark to-gray-900' : ''}`}
             data-section={id}
         >
             <div className={`container mx-auto px-6 ${getClasses(isVisible)}`}>

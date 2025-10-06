@@ -13,6 +13,7 @@ export default defineConfig(({ mode }) => {
       },
       plugins: [react(), createTokenPlugin()],
       build: {
+        ssrManifest: true, // Generate SSR manifest for production
         // Optimize bundle splitting
         rollupOptions: {
           output: {

@@ -1,0 +1,130 @@
+/**
+ * Demo Harness Photography-Inspired Theme
+ *
+ * Color system inspired by camera controls and photography workflows:
+ * - Indigo: Deep focus (navigation, structure)
+ * - Cyan: Sharp highlight (active states, interactions)
+ * - Emerald: Exposure correct (success, validation)
+ * - Orange: Lens flare (CTAs, attention)
+ * - Temperature shifts: Cooler at surface, warmer in depth
+ */
+
+:root {
+  /* Photography-inspired color palette */
+  --color-focus-deep: #4338CA;        /* Indigo-700 - Navigation */
+  --color-highlight-sharp: #06B6D4;   /* Cyan-500 - Active states */
+  --color-exposure-correct: #10B981;  /* Emerald-500 - Success */
+  --color-lens-flare: #F97316;        /* Orange-500 - CTAs */
+
+  /* Temperature gradients */
+  --gradient-cool-surface: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  --gradient-warm-depth: linear-gradient(135deg, #422006 0%, #78350f 100%);
+
+  /* Aperture-inspired spacing (f-stops) */
+  --space-f1: 4px;    /* f/1.4 - Tightest */
+  --space-f2: 8px;    /* f/2.8 */
+  --space-f4: 16px;   /* f/5.6 */
+  --space-f8: 32px;   /* f/11 */
+  --space-f16: 64px;  /* f/22 - Widest */
+
+  /* Shutter-speed timing */
+  --timing-instant: 100ms;   /* 1/1000s */
+  --timing-quick: 200ms;     /* 1/500s */
+  --timing-smooth: 300ms;    /* 1/250s */
+  --timing-deliberate: 500ms; /* 1/125s */
+}
+
+/* Demo category accent colors */
+.accent-animations {
+  --category-color: var(--color-focus-deep);
+  --category-glow: rgba(67, 56, 202, 0.3);
+}
+
+.accent-effects {
+  --category-color: var(--color-highlight-sharp);
+  --category-glow: rgba(6, 182, 212, 0.3);
+}
+
+.accent-interactive {
+  --category-color: #06D6A0; /* Teal */
+  --category-glow: rgba(6, 214, 160, 0.3);
+}
+
+.accent-sections {
+  --category-color: #8B5CF6; /* Purple */
+  --category-glow: rgba(139, 92, 246, 0.3);
+}
+
+.accent-hover {
+  --category-color: #EC4899; /* Pink */
+  --category-glow: rgba(236, 72, 153, 0.3);
+}
+
+.accent-click {
+  --category-color: #FBBF24; /* Amber */
+  --category-glow: rgba(251, 191, 36, 0.3);
+}
+
+.accent-mobile {
+  --category-color: var(--color-exposure-correct);
+  --category-glow: rgba(16, 185, 129, 0.3);
+}
+
+.accent-passive {
+  --category-color: #94A3B8; /* Slate */
+  --category-glow: rgba(148, 163, 184, 0.3);
+}
+
+/* Micro-animations inspired by camera movements */
+@keyframes lens-focus {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes shutter-snap {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+@keyframes aperture-open {
+  from {
+    clip-path: circle(0% at center);
+    opacity: 0;
+  }
+  to {
+    clip-path: circle(100% at center);
+    opacity: 1;
+  }
+}
+
+/* Apply micro-animations */
+.demo-card-hover:hover {
+  animation: lens-focus var(--timing-smooth) ease-in-out;
+}
+
+.demo-interaction-active {
+  animation: shutter-snap var(--timing-instant) ease-out;
+}
+
+.demo-entrance {
+  animation: aperture-open var(--timing-deliberate) ease-out;
+}
+
+/* Depth layering with temperature shifts */
+.layer-surface {
+  background: var(--gradient-cool-surface);
+}
+
+.layer-depth {
+  background: var(--gradient-warm-depth);
+}
+
+/* Modular scale (1.25 ratio) for visual rhythm */
+.text-xs-scale { font-size: 0.64rem; }  /* 10.24px */
+.text-sm-scale { font-size: 0.8rem; }   /* 12.8px */
+.text-base-scale { font-size: 1rem; }   /* 16px */
+.text-lg-scale { font-size: 1.25rem; }  /* 20px */
+.text-xl-scale { font-size: 1.563rem; } /* 25px */
+.text-2xl-scale { font-size: 1.953rem; } /* 31.25px */
+.text-3xl-scale { font-size: 2.441rem; } /* 39.06px */
