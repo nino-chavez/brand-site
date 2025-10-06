@@ -158,9 +158,14 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       onMouseMove={handleMouseMove}
       aria-label="Capture section - Introduction and technical readiness"
     >
-      {/* Static Hero Background - Mobile-optimized image with CSS fallback for desktop */}
-      <div
-        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat hero-background"
+      {/* Static Hero Background - Responsive <img> for optimal LCP (early discovery in HTML) */}
+      <img
+        src="/images/hero-mobile.webp"
+        srcSet="/images/hero-mobile.webp 800w, /images/hero.webp 1920w"
+        sizes="100vw"
+        alt="Action sports photography - dramatic athletic moment"
+        fetchPriority="high"
+        className="absolute inset-0 w-full h-full object-cover object-center"
         style={{
           willChange: 'transform',
           height: '110%',

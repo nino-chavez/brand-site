@@ -20,19 +20,6 @@
   --color-state-warning: #f59e0b;   /* Amber - Warning */
 }
 
-/* Responsive Hero Background - Mobile-first for optimal LCP */
-.hero-background {
-  /* Mobile: 150 KB optimized image (default) */
-  background-image: url('/images/hero-mobile.webp');
-}
-
-/* Desktop: Full quality image only on larger screens */
-@media (min-width: 769px) {
-  .hero-background {
-    background-image: url('/images/hero.webp');
-  }
-}
-
 /* Custom Animations */
 @keyframes fade-in-up {
   0% {
