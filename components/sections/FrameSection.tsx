@@ -369,7 +369,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
       {/* Side panel for project technical details */}
       <div
-        className={`fixed top-0 right-0 h-full w-full md:w-2/3 lg:w-1/2 bg-black/95 backdrop-blur-xl border-l border-white/10 z-50 transform transition-transform duration-500 ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[90%] md:w-[600px] lg:w-[720px] xl:w-[800px] max-w-[90vw] bg-black/95 backdrop-blur-xl border-l border-white/10 z-50 transform transition-transform duration-500 ${
           sidePanelOpen ? 'translate-x-0 slide-in' : 'translate-x-full'
         }`}
         data-testid="project-tech-side-panel"

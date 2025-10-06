@@ -7,7 +7,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const CANVAS_URL = 'http://localhost:3000/?layout=canvas';
+const CANVAS_URL = 'http://localhost:3002/?layout=canvas';
 
 test.describe('Canvas Content Integration', () => {
   test.beforeEach(async ({ page }) => {
