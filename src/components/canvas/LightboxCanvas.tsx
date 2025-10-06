@@ -265,10 +265,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
           ...canvasTransform,
           left: '50%',
           top: '50%',
-          width: '1200px',
-          height: '800px',
-          marginLeft: '-600px',
-          marginTop: '-400px'
+          transformOrigin: 'center center'
         }}
       >
         {children}

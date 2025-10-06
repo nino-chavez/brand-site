@@ -9,7 +9,7 @@
  * @since Canvas Content Integration
  */
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useCanvasState } from '../../contexts/CanvasStateProvider';
 import type { SectionId } from '../../types';
 
@@ -95,13 +95,58 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
   const currentScale = state.position.scale;
   const activeSection = state.activeSection as SectionId;
 
+  // Track if user is dragging to prevent accidental clicks
+  const isDraggingRef = useRef(false);
+  const dragStartPos = useRef<{ x: number; y: number } | null>(null);
+
+  // Track drag for click prevention
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    dragStartPos.current = { x: e.clientX, y: e.clientY };
+    isDraggingRef.current = false;
+  }, []);
+
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    if (!dragStartPos.current) return;
+    const dx = e.clientX - dragStartPos.current.x;
+    const dy = e.clientY - dragStartPos.current.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    if (distance > 5) { // Same threshold as useCanvasTouchGestures
+      isDraggingRef.current = true;
+    }
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    // Reset after a small delay to allow onClick to check isDraggingRef
+    setTimeout(() => {
+      dragStartPos.current = null;
+      isDraggingRef.current = false;
+    }, 10);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [handleMouseMove, handleMouseUp]);
+
   // Section order for keyboard navigation
   const sectionOrder: SectionId[] = ['capture', 'focus', 'frame', 'exposure', 'develop', 'portfolio'];
 
   /**
    * Camera navigation - smoothly pan/zoom to focus on a section
+   * Prevents navigation if user was dragging the canvas
    */
-  const handleSectionClick = useCallback((sectionId: SectionId) => {
+  const handleSectionClick = useCallback((sectionId: SectionId, e?: React.MouseEvent) => {
+    // Prevent navigation if user was dragging
+    if (isDraggingRef.current) {
+      console.log('[INFO] Click blocked - user was dragging canvas');
+      isDraggingRef.current = false;
+      return;
+    }
+
     const section = SPATIAL_SECTION_MAP[sectionId];
     if (!section) return;
 
@@ -175,7 +220,9 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         width: '4000px',
         height: '3000px',
         minWidth: '4000px',
-        minHeight: '3000px'
+        minHeight: '3000px',
+        marginLeft: '-2000px',
+        marginTop: '-1500px'
       }}
     >
       {/* Capture Section (Hero) - Center - Torn Notebook Paper */}
@@ -206,6 +253,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
             0% 100%, 0% 98%
           )`
         }}
+        onMouseDown={handleMouseDown}
         onClick={() => handleSectionClick('capture')}
         role="button"
         tabIndex={0}
@@ -250,6 +298,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           border: '1px solid rgba(0, 0, 0, 0.08)',
           borderTop: '3px double rgba(139, 92, 246, 0.2)' // Header accent line
         }}
+        onMouseDown={handleMouseDown}
         onClick={() => handleSectionClick('focus')}
         role="button"
         tabIndex={0}
@@ -285,6 +334,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           border: '1px solid rgba(0, 0, 0, 0.08)',
           clipPath: 'polygon(0 0, 100% 0, 100% 95%, 97% 100%, 0 100%)' // Bottom-right fold
         }}
+        onMouseDown={handleMouseDown}
         onClick={() => handleSectionClick('frame')}
         role="button"
         tabIndex={0}
@@ -334,6 +384,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           border: '1px solid rgba(0, 0, 0, 0.12)',
           borderLeft: '4px solid rgba(245, 158, 11, 0.3)' // Vertical margin line (orange)
         }}
+        onMouseDown={handleMouseDown}
         onClick={() => handleSectionClick('exposure')}
         role="button"
         tabIndex={0}
@@ -386,6 +437,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           backgroundRepeat: 'repeat-y',
           backgroundSize: '100% 160px'
         }}
+        onMouseDown={handleMouseDown}
         onClick={() => handleSectionClick('develop')}
         role="button"
         tabIndex={0}
@@ -423,6 +475,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           borderRadius: '2px',
           outline: '1px solid rgba(0, 0, 0, 0.1)'
         }}
+        onMouseDown={handleMouseDown}
         onClick={() => handleSectionClick('portfolio')}
         role="button"
         tabIndex={0}
