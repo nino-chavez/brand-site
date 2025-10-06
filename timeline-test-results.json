@@ -1,0 +1,4 @@
+
+> nino-chavez-|-portfolio@0.0.0 test:motion
+> playwright test --config=playwright.motion.config.ts --grep timeline --reporter=json
+

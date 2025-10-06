@@ -295,7 +295,14 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       )}
 
       {/* Zoom Controls */}
-      <div className="absolute bottom-6 right-6 flex flex-col gap-2 z-30">
+      <div className="absolute bottom-6 right-6 flex flex-col items-center gap-2 z-30">
+        {/* Zoom Percentage Indicator */}
+        <div className="bg-white/90 border border-gray-300 rounded-lg shadow-lg px-3 py-1.5 mb-1">
+          <span className="text-xs font-mono font-medium text-gray-700">
+            {Math.round(state.position.scale * 100)}%
+          </span>
+        </div>
+
         <button
           onClick={() => {
             const newScale = Math.min(SCALE_LIMITS.max, state.position.scale * 1.2);

@@ -329,22 +329,47 @@ export const useCanvasTouchGestures = ({
     }
   }, [startMomentumAnimation, onDragEnd]);
 
+  // ===== SCROLL-WHEEL ZOOM =====
+  // Industry standard: Ctrl/Cmd + scroll wheel to zoom
+  const handleWheel = useCallback((e: WheelEvent) => {
+    // Only zoom with Ctrl/Cmd modifier (matches Figma, Miro, Lucidchart)
+    if (!e.ctrlKey && !e.metaKey) return;
+
+    e.preventDefault();
+
+    // Get mouse position for zoom center point
+    const centerX = e.clientX;
+    const centerY = e.clientY;
+
+    // Calculate zoom delta (negative deltaY = zoom in, positive = zoom out)
+    // Scale factor: 0.01 feels natural for most trackpads/mice
+    const scaleDelta = -e.deltaY * 0.01;
+    const newScaleFactor = 1 + scaleDelta;
+
+    // Clamp to reasonable range per scroll event (-20% to +20%)
+    const clampedScaleFactor = Math.max(0.8, Math.min(1.2, newScaleFactor));
+
+    onZoom(clampedScaleFactor, { x: centerX, y: centerY });
+  }, [onZoom]);
+
   // Global mouse event listeners (for drag beyond canvas bounds)
   // Always listen, but check isDragging inside handlers
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('wheel', handleWheel, { passive: false }); // passive: false allows preventDefault
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('wheel', handleWheel);
 
       // Cancel momentum animation on unmount
       if (momentumAnimationId.current !== null) {
         cancelAnimationFrame(momentumAnimationId.current);
       }
     };
-  }, [handleMouseMove, handleMouseUp]);
+  }, [handleMouseMove, handleMouseUp, handleWheel]);
 
   // Prevent context menu on canvas for right-click drag
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
