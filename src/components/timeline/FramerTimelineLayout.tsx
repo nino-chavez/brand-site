@@ -49,6 +49,7 @@ const TIMELINE_SECTIONS: TimelineSection[] = [
 export const FramerTimelineLayout: React.FC = () => {
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const [filmstripVisible, setFilmstripVisible] = useState(true);
+  const [transitionStyle, setTransitionStyle] = useState<string>('spring');
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Use scroll-based navigation hook
@@ -59,7 +60,7 @@ export const FramerTimelineLayout: React.FC = () => {
       console.log(`[INFO] Transitioned to section ${newIndex} (${TIMELINE_SECTIONS[newIndex].name})`);
     },
     transitionDuration: 800,
-    scrollThreshold: 50
+    scrollThreshold: 150
   });
 
   const currentSection = TIMELINE_SECTIONS[scrollState.currentSectionIndex];
@@ -515,6 +516,70 @@ export const FramerTimelineLayout: React.FC = () => {
           />
         )}
       </AnimatePresence>
+
+      {/* Timeline Controls Bar (Premiere Pro style) */}
+      <motion.div
+        className="fixed bottom-0 left-0 right-0 z-50"
+        style={{
+          height: '48px',
+          background: 'rgba(0, 0, 0, 0.95)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '0 24px',
+          justifyContent: 'space-between',
+          fontFamily: 'monospace',
+          fontSize: '12px',
+          color: 'rgba(255, 255, 255, 0.8)',
+          gap: '16px',
+        }}
+        initial={{ y: 48, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        {/* Left: Frame counter + Transition selector */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <span style={{ fontWeight: 600, letterSpacing: '0.5px' }}>
+            Frame {scrollState.currentSectionIndex + 1} of {TIMELINE_SECTIONS.length}
+          </span>
+          <span style={{ opacity: 0.3 }}>|</span>
+          <span style={{ opacity: 0.7 }}>
+            {currentSection.name}
+          </span>
+          <span style={{ opacity: 0.3 }}>|</span>
+          <select
+            value={transitionStyle}
+            onChange={(e) => setTransitionStyle(e.target.value)}
+            style={{
+              background: 'rgba(139, 92, 246, 0.2)',
+              border: '1px solid rgba(139, 92, 246, 0.5)',
+              borderRadius: '4px',
+              color: 'white',
+              padding: '6px 12px',
+              fontSize: '11px',
+              cursor: 'pointer',
+              fontFamily: 'monospace',
+              outline: 'none',
+            }}
+            aria-label="Select transition effect"
+          >
+            <option value="spring">Spring</option>
+            <option value="ease">Ease</option>
+            <option value="linear">Linear</option>
+            <option value="anticipate">Anticipate</option>
+          </select>
+        </div>
+
+        {/* Right: Timecode display */}
+        <div style={{
+          fontWeight: 600,
+          letterSpacing: '1px',
+          color: 'rgba(255, 255, 255, 0.9)',
+          textShadow: '0 0 4px rgba(139, 92, 246, 0.6)',
+        }}>
+          00:{String(scrollState.currentSectionIndex * 15).padStart(2, '0')}:{String(Math.floor(scrollState.scrollProgress * 30)).padStart(2, '0')} / 00:{String((TIMELINE_SECTIONS.length - 1) * 15).padStart(2, '0')}:30
+        </div>
+      </motion.div>
     </div>
   );
 };
