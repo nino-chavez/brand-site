@@ -1,0 +1,78 @@
+.about-page {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: #f1f1f1;
+  background: url('/images/ncp-landing-001.jpg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+}
+
+.about-page .overlay {
+  backdrop-filter: blur(16px);
+  background: rgba(10, 10, 10, 0.65);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.about-page .about-container {
+  position: relative;
+  z-index: 10;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+.about-page a {
+  color: #ffd479;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.about-page .about-header {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.about-page .about-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.about-page .about-footer {
+  font-size: 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.about-page .back {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 1rem;
+  color: #ccc;
+  text-decoration: none;
+  z-index: 10;
+}
+
+.about-page .back:hover {
+  color: #fff;
+}
+
+.about-page .icon-links a {
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+.about-page .icon-links a:hover {
+  color: #fff;
+}

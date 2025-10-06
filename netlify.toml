@@ -5,16 +5,9 @@
   publish = "dist"
   command = "npm run build"
 
-# Legacy site redirect rules
-# Serve the 2024 legacy photography portfolio at /2024-legacy/
-[[redirects]]
-  from = "/2024-legacy/*"
-  to = "/2024-legacy/:splat"
-  status = 200
-  force = false
-
 # SPA fallback - serve index.html for client-side routing
-# This must come AFTER specific routes like /2024-legacy/*
+# Static files (including /2024-legacy/*) are served first by Netlify
+# This rule only applies when no static file exists
 [[redirects]]
   from = "/*"
   to = "/index.html"

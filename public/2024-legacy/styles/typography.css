@@ -1,0 +1,23 @@
+.text-box h1 {
+  font-size: 1.25rem;
+}
+
+.text-box .subtitle {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+}
+
+.text-box .bio {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.text-box .email {
+  display: block;
+  font-weight: bold;
+  color: #00ff99;
+  text-decoration: none;
+  margin-bottom: 0;
+}

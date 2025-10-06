@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100dvh;
+  overflow-y: auto;
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #000;
+  color: white;
+  height: -webkit-fill-available;
+}

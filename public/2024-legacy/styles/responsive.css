@@ -1,0 +1,28 @@
+@media (max-width: 600px) {
+  .character-anchored {
+    width: 90px;
+  }
+}
+
+@media (min-width: 768px) {
+  .text-box {
+    padding: .75rem;
+  }
+
+  .text-box h1 {
+    font-size: 1.5rem;
+  }
+
+  .character-anchored {
+    width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .character-overlay {
+    width: 120px;
+    top: -3.5rem;
+    right: -.25rem;
+  }
+
+  

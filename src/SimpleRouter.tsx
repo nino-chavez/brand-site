@@ -21,8 +21,8 @@ export const SimpleRouter: React.FC = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Development-only route
-  if (currentPath === '/demo' && process.env.NODE_ENV === 'development') {
+  // Demo route - available in all environments
+  if (currentPath === '/demo') {
     return <DemoHarness />;
   }
 
