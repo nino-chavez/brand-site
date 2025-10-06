@@ -419,7 +419,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
             {/* Panel content - scrollable with ref for auto-scroll */}
             <div
               ref={panelContentRef}
-              className="flex-1 overflow-y-auto p-6 space-y-8"
+              className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-8"
             >
 
               {/* Project description */}
