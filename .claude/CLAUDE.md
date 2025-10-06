@@ -59,7 +59,7 @@ This project uses an autonomy-optimized Agent OS workflow built for Sonnet 4.5:
 
 ### Key Features
 - **Work Preservation**: 30-minute commit cadence (95% reduction in work loss risk)
-- **Automated Quality Gates**: 5 specialized blocking agents enforce standards
+- **Automated Quality Gates**: 6 specialized blocking agents enforce standards
 - **Dual Activation**: Path-based + keyword-based triggers catch all relevant changes
 - **Manual Validation**: Natural language commands for on-demand validation
 
@@ -69,7 +69,8 @@ This project uses an autonomy-optimized Agent OS workflow built for Sonnet 4.5:
 3. **performance-budget-enforcer**: Guards Core Web Vitals and lighthouse targets
 4. **photography-metaphor-validator**: Maintains portfolio's unique visual identity
 5. **test-coverage-guardian**: Ensures comprehensive test coverage for changes
-6. **health-monitoring**: Autonomous comprehensive health assessments (weekly + post-work)
+6. **architects-voice-auditor**: Enforces The Architect's Protocol across all written content
+7. **health-monitoring**: Autonomous comprehensive health assessments (weekly + post-work)
 
 ### Validation Commands
 User can request manual validation using natural language:
@@ -78,6 +79,7 @@ User can request manual validation using natural language:
 - **"validate performance"** → Runs performance-budget-enforcer
 - **"check metaphor"** → Runs photography-metaphor-validator
 - **"validate coverage"** → Runs test-coverage-guardian
+- **"validate voice"** → Runs architects-voice-auditor
 - **"check health"** → Runs comprehensive health monitoring
 - **"run all quality gates"** → Runs complete validation suite
 
