@@ -1,0 +1,178 @@
+[
+  {
+    "sourceSection": "capture",
+    "targetSection": "focus",
+    "reason": "Discover how I translate visual storytelling into enterprise architecture",
+    "confidence": 0.95,
+    "keywords": [
+      "storytelling",
+      "vision",
+      "strategy"
+    ]
+  },
+  {
+    "sourceSection": "capture",
+    "targetSection": "portfolio",
+    "reason": "See my action sports photography work",
+    "confidence": 0.9,
+    "keywords": [
+      "photography",
+      "action sports",
+      "visual"
+    ]
+  },
+  {
+    "sourceSection": "focus",
+    "targetSection": "frame",
+    "reason": "Learn about my technical approach to software architecture",
+    "confidence": 0.95,
+    "keywords": [
+      "architecture",
+      "technical",
+      "design"
+    ]
+  },
+  {
+    "sourceSection": "focus",
+    "targetSection": "develop",
+    "reason": "Explore how I implement enterprise-scale solutions",
+    "confidence": 0.9,
+    "keywords": [
+      "enterprise",
+      "implementation",
+      "scale"
+    ]
+  },
+  {
+    "sourceSection": "frame",
+    "targetSection": "develop",
+    "reason": "See how architectural patterns come to life in code",
+    "confidence": 0.95,
+    "keywords": [
+      "code",
+      "patterns",
+      "implementation"
+    ]
+  },
+  {
+    "sourceSection": "frame",
+    "targetSection": "exposure",
+    "reason": "Discover my technical expertise and skill depth",
+    "confidence": 0.9,
+    "keywords": [
+      "skills",
+      "expertise",
+      "technical"
+    ]
+  },
+  {
+    "sourceSection": "develop",
+    "targetSection": "exposure",
+    "reason": "View the technical skills behind these projects",
+    "confidence": 0.9,
+    "keywords": [
+      "technologies",
+      "tools",
+      "skills"
+    ]
+  },
+  {
+    "sourceSection": "develop",
+    "targetSection": "portfolio",
+    "reason": "Check out my complete portfolio of work",
+    "confidence": 0.85,
+    "keywords": [
+      "portfolio",
+      "projects",
+      "work"
+    ]
+  },
+  {
+    "sourceSection": "exposure",
+    "targetSection": "portfolio",
+    "reason": "See how these skills apply in real projects",
+    "confidence": 0.9,
+    "keywords": [
+      "projects",
+      "application",
+      "real-world"
+    ]
+  },
+  {
+    "sourceSection": "exposure",
+    "targetSection": "frame",
+    "reason": "Learn how I apply these skills in architecture work",
+    "confidence": 0.85,
+    "keywords": [
+      "architecture",
+      "application",
+      "practice"
+    ]
+  },
+  {
+    "sourceSection": "portfolio",
+    "targetSection": "capture",
+    "reason": "Learn about my background and what drives my work",
+    "confidence": 0.8,
+    "keywords": [
+      "background",
+      "motivation",
+      "story"
+    ]
+  },
+  {
+    "sourceSection": "portfolio",
+    "targetSection": "develop",
+    "reason": "Dive deeper into my development projects",
+    "confidence": 0.85,
+    "keywords": [
+      "development",
+      "code",
+      "projects"
+    ]
+  },
+  {
+    "sourceSection": "focus",
+    "targetSection": "capture",
+    "reason": "Learn about the foundation of my approach",
+    "confidence": 0.75,
+    "keywords": [
+      "foundation",
+      "background",
+      "approach"
+    ]
+  },
+  {
+    "sourceSection": "frame",
+    "targetSection": "focus",
+    "reason": "Understand my strategic thinking process",
+    "confidence": 0.8,
+    "keywords": [
+      "strategy",
+      "thinking",
+      "approach"
+    ]
+  },
+  {
+    "sourceSection": "develop",
+    "targetSection": "frame",
+    "reason": "See the architectural patterns I follow",
+    "confidence": 0.85,
+    "keywords": [
+      "patterns",
+      "architecture",
+      "structure"
+    ]
+  },
+  {
+    "sourceSection": "exposure",
+    "targetSection": "focus",
+    "reason": "Learn how I apply strategy to technical work",
+    "confidence": 0.75,
+    "keywords": [
+      "strategy",
+      "application",
+      "approach"
+    ]
+  }
+]

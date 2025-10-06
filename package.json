@@ -72,12 +72,14 @@
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
+    "@google/generative-ai": "^0.24.1",
     "color2k": "^2.0.3",
     "compression": "^1.8.1",
     "express": "^5.1.0",
     "framer-motion": "^12.23.22",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
     "sirv": "^3.0.2"
   },
   "devDependencies": {
