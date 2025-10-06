@@ -11,7 +11,13 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
     const [isScrolled, setIsScrolled] = useState(false);
-    const [showScoreboardNav, setShowScoreboardNav] = useState(true);
+    // Start with nav collapsed on mobile, expanded on desktop
+    const [showScoreboardNav, setShowScoreboardNav] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return window.innerWidth >= 768; // Collapsed on mobile (<768px), expanded on desktop
+        }
+        return false; // Default to collapsed for SSR
+    });
     const [currentLayout, setCurrentLayout] = useState<'traditional' | 'canvas' | 'timeline'>('traditional');
     const [announcement, setAnnouncement] = useState('');
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
@@ -62,6 +68,21 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Handle responsive nav state on window resize
+    useEffect(() => {
+        const handleResize = () => {
+            const isMobile = window.innerWidth < 768;
+            // Auto-collapse nav when resizing to mobile, auto-expand when resizing to desktop
+            if (isMobile && showScoreboardNav) {
+                setShowScoreboardNav(false);
+            } else if (!isMobile && !showScoreboardNav) {
+                setShowScoreboardNav(true);
+            }
+        };
+        window.addEventListener('resize', handleResize, { passive: true });
+        return () => window.removeEventListener('resize', handleResize);
+    }, [showScoreboardNav]);
 
     // Detect prefers-reduced-motion
     useEffect(() => {
