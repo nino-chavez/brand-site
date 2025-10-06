@@ -162,19 +162,23 @@ export const useTimelineScroll = ({
 
     // Check if we should transition to next/previous section
     if (scrollingDown && freshIsAtSectionBottom && currentSectionIndex < totalSections - 1) {
+      // Prevent default scroll behavior immediately when at boundary
+      event.preventDefault();
+
       // Accumulate scroll momentum to trigger transition
       scrollAccumulator.current += Math.abs(deltaY);
 
       if (scrollAccumulator.current > 100) {
-        event.preventDefault();
         transitionToSection(currentSectionIndex + 1, 'forward');
       }
     } else if (scrollingUp && freshIsAtSectionTop && currentSectionIndex > 0) {
+      // Prevent default scroll behavior immediately when at boundary
+      event.preventDefault();
+
       // Accumulate scroll momentum to trigger transition
       scrollAccumulator.current += Math.abs(deltaY);
 
       if (scrollAccumulator.current > 100) {
-        event.preventDefault();
         transitionToSection(currentSectionIndex - 1, 'backward');
       }
     } else {
