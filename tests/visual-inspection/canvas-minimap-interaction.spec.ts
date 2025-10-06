@@ -45,7 +45,7 @@ test.describe('Canvas Minimap & Zoom Interaction - Motion Capture', () => {
     await page.waitForTimeout(1000);
 
     // Slowly click different sections via minimap
-    const minimap = page.locator('.canvas-minimap');
+    const minimap = page.locator('.minimap-container');
     await expect(minimap).toBeVisible();
 
     console.log('[TEST] Slow minimap navigation - clicking sections deliberately');
