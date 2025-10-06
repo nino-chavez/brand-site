@@ -68,7 +68,12 @@
     "lighthouse:traditional": "tsx scripts/lighthouse-audit.ts --mode=traditional",
     "lighthouse:canvas": "tsx scripts/lighthouse-audit.ts --mode=canvas",
     "lighthouse:timeline": "tsx scripts/lighthouse-audit.ts --mode=timeline",
-    "lighthouse:ci": "tsx scripts/lighthouse-audit.ts --ci"
+    "lighthouse:ci": "tsx scripts/lighthouse-audit.ts --ci",
+    "ai:build-recommendations": "tsx scripts/generateRecommendations.ts",
+    "ai:build-embeddings": "tsx scripts/generateSkillEmbeddings.ts",
+    "ai:build-cross-site": "tsx scripts/crawlCrossSiteContent.ts",
+    "ai:build-all": "npm run ai:build-recommendations && npm run ai:build-embeddings && npm run ai:build-cross-site",
+    "prebuild": "npm run ai:build-all"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.8",
