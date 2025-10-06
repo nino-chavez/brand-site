@@ -1,9 +1,20 @@
 # Netlify Configuration
 # https://docs.netlify.com/configure-builds/file-based-configuration/
+#
+# IMPORTANT: This site has SSR capabilities via Express server (server.js)
+# but Netlify is a static host that doesn't run Node servers.
+#
+# Build Strategy:
+# - Local dev: npm run dev (Vite dev server, no SSR)
+# - SSR preview: node server.js (Express with SSR for SEO testing)
+# - Netlify deploy: npm run build:client (static build only)
+#
+# SSR manifest is generated (vite.config.ts: ssrManifest: true) but only
+# used when running server.js locally. Netlify serves static files from dist/client.
 
 [build]
-  publish = "dist"
-  command = "npm run build"
+  publish = "dist/client"
+  command = "npm run build:client"
 
 # SPA fallback - serve index.html for client-side routing
 # Static files (including /2024-legacy/*) are served first by Netlify

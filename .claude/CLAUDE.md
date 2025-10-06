@@ -43,6 +43,31 @@ You are Claude, working as part of Nino's AI-assisted development team. Nino is 
 - Component-based architecture with clear separation
 - Custom hooks for reusable logic (useScrollSpy)
 - TypeScript interfaces for data structures
+- **SSR capabilities via Express** (server.js) for SEO optimization
+- **Dual deployment**: Static (Netlify) and SSR-capable (local testing)
+
+### CRITICAL: Architecture Preservation Rules
+
+**NEVER remove these without explicit user approval:**
+
+1. **SSR Configuration** (`vite.config.ts: ssrManifest: true`)
+   - Required for SEO, social previews, JSON-LD schema
+   - Read `.claude/agents/intelligence/ssr-preservation.md` BEFORE touching
+   - If deployment errors occur, fix deployment config, NOT build config
+
+2. **Canvas System Architecture** (see canvas-architecture-guardian)
+   - Coordinate transforms, spatial sections, camera controller
+   - Read intelligence docs before modifying
+
+3. **Accessibility Patterns** (WCAG 2.2 AA compliance)
+   - Keyboard navigation, ARIA labels, focus management
+   - Run accessibility-validator before major UI changes
+
+**When encountering errors:**
+- ✅ Read intelligence docs first
+- ✅ Check git history for when feature was added
+- ✅ Fix configuration, not architecture
+- ❌ Don't remove build features without understanding their purpose
 
 ## Communication Style
 
