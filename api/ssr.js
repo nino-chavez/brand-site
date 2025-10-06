@@ -8,9 +8,6 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Cache the HTML template and SSR manifest
 let template;
@@ -20,8 +17,9 @@ let manifest;
 async function initializeSSR() {
   if (!template) {
     // Read the built HTML template
+    // In Vercel, files are in /var/task/ root
     template = fs.readFileSync(
-      path.resolve(__dirname, '../dist/client/index.html'),
+      path.join(process.cwd(), 'dist/client/index.html'),
       'utf-8'
     );
   }
@@ -30,7 +28,7 @@ async function initializeSSR() {
     // Read the SSR manifest
     manifest = JSON.parse(
       fs.readFileSync(
-        path.resolve(__dirname, '../dist/client/.vite/ssr-manifest.json'),
+        path.join(process.cwd(), 'dist/client/.vite/ssr-manifest.json'),
         'utf-8'
       )
     );
@@ -38,7 +36,9 @@ async function initializeSSR() {
 
   if (!render) {
     // Import the server-side render function
-    const entry = await import('../dist/server/entry-server.js');
+    // Use absolute path from project root
+    const entryPath = path.join(process.cwd(), 'dist/server/entry-server.js');
+    const entry = await import(entryPath);
     render = entry.render;
   }
 
