@@ -13,8 +13,9 @@ export default defineConfig({
   testDir: './tests',
   outputDir: './test-results/',
 
-  /* Run tests in files in parallel */
-  fullyParallel: true,
+  /* CRITICAL: Sequential execution for memory isolation */
+  /* Parallel execution causes memory leaks to accumulate across browser contexts */
+  fullyParallel: false,
 
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -22,7 +23,7 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
 
-  /* Limit workers to prevent memory overload */
+  /* Limit workers to prevent memory overload - max 4 concurrent processes */
   workers: process.env.CI ? 1 : 4,
 
   /* Stop after 10 failures to prevent runaway test execution */
