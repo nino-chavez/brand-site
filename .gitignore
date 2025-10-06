@@ -53,3 +53,4 @@ tmp/
 *storybook.log
 storybook-static
 *.pid
+public/2024-legacy/
