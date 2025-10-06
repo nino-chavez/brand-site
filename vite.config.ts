@@ -41,7 +41,6 @@ export default defineConfig(({ mode }) => {
         }),
       ].filter(Boolean),
       build: {
-        ssrManifest: true, // Generate SSR manifest for production
         // Optimize bundle splitting
         rollupOptions: {
           output: {
