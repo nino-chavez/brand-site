@@ -9,7 +9,7 @@ import CanvasPortfolioLayout from './components/canvas/CanvasPortfolioLayout';
 import CanvasOnboarding from './components/canvas/CanvasOnboarding';
 import PersistentCTABar from './components/canvas/PersistentCTABar';
 import CanvasMinimap from './components/canvas/CanvasMinimap';
-import CanvasTimelineLayout from './components/timeline/CanvasTimelineLayout';
+import FramerTimelineLayout from './components/timeline/FramerTimelineLayout';
 import { AthleticTokenProvider } from '../tokens/simple-provider';
 import type { SectionId } from './types';
 
@@ -186,8 +186,8 @@ const App: React.FC = () => {
                         <CustomCursor />
                         <ConsoleEasterEgg />
 
-                        {/* Timeline Layout */}
-                        <CanvasTimelineLayout />
+                        {/* Timeline Layout - Scroll-based navigation */}
+                        <FramerTimelineLayout />
                     </EffectsProvider>
                 </UnifiedGameFlowProvider>
             </AthleticTokenProvider>
