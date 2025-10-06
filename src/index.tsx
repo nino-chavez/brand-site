@@ -1,6 +1,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+// Import self-hosted Inter variable font
+import '@fontsource-variable/inter';
 import './index.css';
 import SimpleRouter from './SimpleRouter';
 

@@ -230,13 +230,14 @@ docs/
 - ✅ **Speed Index:** 1.96s
 
 **Core Features:**
-1. ✅ **Multi-Agent Development Platform** (5 AI agents orchestrated)
+1. ✅ **Multi-Agent Development Platform** (6 AI agents orchestrated)
 2. ✅ **Photography Metaphor Navigation** (camera-inspired workflow)
-3. ✅ **97/100 Lighthouse Performance** (production-grade)
-4. ✅ **Automated Quality Gates** (5 specialized blocking agents)
-5. ✅ **Real-time Effects System** (60fps animations)
-6. ✅ **Accessibility** (WCAG 2.2 AA compliant)
-7. ✅ **Storybook Component Library** (50+ stories)
+3. ✅ **Journey/Evolution Section** (live legacy site comparison, 233 preserved files)
+4. ✅ **97/100 Lighthouse Performance** (production-grade)
+5. ✅ **Automated Quality Gates** (6 specialized blocking agents)
+6. ✅ **Real-time Effects System** (60fps animations)
+7. ✅ **Accessibility** (WCAG 2.2 AA compliant)
+8. ✅ **Storybook Component Library** (50+ stories)
 
 **Trend:** ⬆️ Improving (recent Lighthouse optimization work)
 

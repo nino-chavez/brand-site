@@ -2,6 +2,8 @@ import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { createTokenPlugin } from './tokens/vite-plugin-tokens';
+import viteCompression from 'vite-plugin-compression';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
@@ -11,7 +13,33 @@ export default defineConfig(({ mode }) => {
         host: '0.0.0.0',
         strictPort: false, // Auto-increment port if 3002 is in use
       },
-      plugins: [react(), createTokenPlugin()],
+      plugins: [
+        react(),
+        createTokenPlugin(),
+        // Gzip compression for production
+        viteCompression({
+          verbose: true,
+          disable: mode !== 'production',
+          threshold: 1024, // Only compress files > 1KB
+          algorithm: 'gzip',
+          ext: '.gz',
+        }),
+        // Brotli compression (better than gzip, supported by modern browsers)
+        viteCompression({
+          verbose: true,
+          disable: mode !== 'production',
+          threshold: 1024,
+          algorithm: 'brotliCompress',
+          ext: '.br',
+        }),
+        // Bundle analyzer (only in production builds)
+        mode === 'production' && visualizer({
+          filename: './dist/stats.html',
+          open: false,
+          gzipSize: true,
+          brotliSize: true,
+        }),
+      ].filter(Boolean),
       build: {
         ssrManifest: true, // Generate SSR manifest for production
         // Optimize bundle splitting

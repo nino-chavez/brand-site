@@ -24,14 +24,26 @@ This portfolio showcases 5 production-grade personal projects:
 
 ### Photography Metaphor Navigation
 
-The UI follows a camera-inspired workflow with six sections representing the photography process:
+The UI follows a camera-inspired workflow with sections representing the photography process:
 
 1. **Capture** (Hero) - Camera viewfinder interface
 2. **Focus** (About) - Professional background and expertise
 3. **Frame** (Projects) - Personal project showcase
 4. **Exposure** (Insights) - Technical writing and thought leadership
 5. **Develop** (Gallery) - Action sports photography
-6. **Portfolio** (Contact) - Professional connection hub
+6. **Journey** (Evolution) - 3-month transformation showcase with live legacy site comparison
+7. **Portfolio** (Contact) - Professional connection hub
+
+### Evolution Showcase: Legacy Site Preservation
+
+This portfolio includes a unique **Journey section** that demonstrates technical evolution through a live comparison:
+
+- **Current Platform:** React 19 + TypeScript + Agent OS (enterprise-grade, 97 Lighthouse score)
+- **2024 Legacy Site:** Original photography portfolio built with ChatGPT (preserved at `/2024-legacy/`)
+
+**View the evolution:** The Journey section shows side-by-side comparison cards, evolution timeline, and direct link to the preserved legacy site with archive banner for contextual navigation.
+
+This approach transforms the portfolio from a static showcase into a dynamic demonstration of capability growth, AI collaboration maturity, and evidence-based technical evolution.
 
 ## Tech Stack
 

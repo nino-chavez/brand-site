@@ -1,6 +1,6 @@
 # Project Structure
 
-Last Updated: 2025-09-30
+Last Updated: 2025-10-05
 
 ## Overview
 
@@ -25,7 +25,15 @@ nino-chavez-site/
 │   ├── showcase/          # End-user facing documentation (future Docusaurus)
 │   ├── developer/         # Developer reference and guides
 │   ├── components/        # Component and API documentation
+│   ├── features/          # Active feature documentation
+│   ├── business/          # Business analysis and case studies
 │   ├── archive/           # Historical documents and assessments
+│   │   ├── audits/        # Audit reports (with YYYY-MM-DD prefix)
+│   │   ├── reports/       # Test and validation reports
+│   │   ├── proposals/     # Feature proposals and plans
+│   │   ├── features/      # Completed feature documentation
+│   │   ├── summaries/     # Implementation summaries
+│   │   └── architecture/  # Architecture analysis documents
 │   └── prompts/           # AI prompt templates
 ├── src/                   # ⭐ Main source directory
 │   ├── components/        # React components (feature-based organization)
@@ -218,10 +226,13 @@ When adding new components:
 
 - `.claude/CLAUDE.md` - Claude collaboration guide
 - `.agent-os/config.yml` - Agent OS workflow configuration
-- `docs/archive/` - Historical documents and assessments
+- `docs/archive/` - Historical documents and assessments (organized by type)
+- `docs/features/` - Active feature documentation
+- `docs/business/` - Business analysis and case studies
 - `docs/showcase/` - AI collaboration showcase documentation
 - `docs/components/` - Component and API reference
 - `.claude/workflows/` - Development workflow guides
+- `ai/ai-prompts/claude/unified-documentation-workflow.md` - Documentation standards and automation
 
 ## Maintenance
 
@@ -233,6 +244,25 @@ This structure follows React/Vite best practices and should be maintained as:
 - Path aliases for cleaner imports
 - Documentation kept up-to-date
 
+### Documentation File Placement
+
+**Root Directory (MAX 3 markdown files):**
+- `README.md` (required)
+- `AGENTS.md` (if using Agent OS)
+- `PROJECT_HEALTH.md` (optional)
+
+**All other documentation goes in `docs/`:**
+- Active feature docs → `docs/features/`
+- Business analysis → `docs/business/`
+- Completed features → `docs/archive/features/`
+- Audit reports → `docs/archive/audits/`
+- Test reports → `docs/archive/reports/`
+- Proposals → `docs/archive/proposals/`
+- Summaries → `docs/archive/summaries/`
+- Architecture → `docs/archive/architecture/`
+
+See `ai/ai-prompts/claude/unified-documentation-workflow.md` for complete file placement rules.
+
 ---
 
-*Last reorganization: 2025-09-30 (Phase 2 consolidation)*
+*Last reorganization: 2025-10-05 (Documentation cleanup + archive structure)*
