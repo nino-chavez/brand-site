@@ -296,6 +296,29 @@ export const LightboxCanvasStyles = `
     /* Phase 1: Removed global user-select: none - now controlled dynamically during drag */
     /* Text selection enabled by default for Figma/Miro-style UX */
     touch-action: none;
+
+    /* Professional Light Board / Drafting Table Background */
+    background:
+      /* Subtle gradient for depth - warmer light board tone */
+      radial-gradient(circle at 30% 30%, rgba(245, 245, 250, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, rgba(240, 245, 255, 0.03) 0%, transparent 50%),
+      /* Grid pattern like a professional drafting board */
+      repeating-linear-gradient(
+        0deg,
+        rgba(200, 210, 220, 0.03) 0px,
+        transparent 1px,
+        transparent 50px,
+        rgba(200, 210, 220, 0.03) 51px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(200, 210, 220, 0.03) 0px,
+        transparent 1px,
+        transparent 50px,
+        rgba(200, 210, 220, 0.03) 51px
+      ),
+      /* Base light board color - warm professional gray */
+      linear-gradient(135deg, #e8eaed 0%, #dde1e6 100%);
   }
 
   .gpu-accelerated {
