@@ -178,9 +178,9 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         minHeight: '3000px'
       }}
     >
-      {/* Capture Section (Hero) - Center */}
+      {/* Capture Section (Hero) - Center - Torn Notebook Paper */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden ${
+        className={`absolute cursor-pointer transition-all duration-300 overflow-visible canvas-section-torn ${
           activeSection === 'capture'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
@@ -191,13 +191,20 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           width: `${SPATIAL_SECTION_MAP.capture.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.capture.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.capture.zIndex,
-          /* Paper-like appearance on light board */
-          backgroundColor: '#ffffff',
+          /* Torn notebook paper appearance */
+          backgroundColor: '#fffef8',
           boxShadow: activeSection === 'capture'
             ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
             : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(-0.5deg)',
-          border: '1px solid rgba(0, 0, 0, 0.08)'
+          borderLeft: '3px solid rgba(255, 150, 150, 0.3)', // Torn edge indicator (red margin line)
+          clipPath: `polygon(
+            0% 2%, 0.5% 0%, 1% 1.5%, 2% 0.5%, 3% 2%, 3.5% 1%, 4% 2.5%, 5% 1%, 6% 2%,
+            7% 0.5%, 8% 2%, 9% 1%, 10% 2.5%, 15% 1%, 20% 2%, 30% 1%, 40% 2%, 50% 0.5%,
+            60% 2%, 70% 1%, 80% 2%, 90% 1%, 95% 2%, 98% 1%, 99% 2%, 100% 1%,
+            100% 98%, 100% 100%,
+            0% 100%, 0% 98%
+          )`
         }}
         onClick={() => handleSectionClick('capture')}
         role="button"
@@ -212,9 +219,9 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         />
       </div>
 
-      {/* Focus Section (About) - Left */}
+      {/* Focus Section (About) - Left - Scratch Note Paper */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden ${
+        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden canvas-section-scratch ${
           activeSection === 'focus'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
@@ -225,12 +232,23 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           width: `${SPATIAL_SECTION_MAP.focus.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.focus.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.focus.zIndex,
-          backgroundColor: '#ffffff',
+          /* Scratch note paper with subtle texture */
+          backgroundColor: '#fefdfb',
+          backgroundImage: `
+            repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 30px,
+              rgba(139, 92, 246, 0.03) 30px,
+              rgba(139, 92, 246, 0.03) 31px
+            )
+          `,
           boxShadow: activeSection === 'focus'
             ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
             : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(1.2deg)',
-          border: '1px solid rgba(0, 0, 0, 0.08)'
+          border: '1px solid rgba(0, 0, 0, 0.08)',
+          borderTop: '3px double rgba(139, 92, 246, 0.2)' // Header accent line
         }}
         onClick={() => handleSectionClick('focus')}
         role="button"
@@ -245,9 +263,9 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         />
       </div>
 
-      {/* Frame Section (Projects) - Right */}
+      {/* Frame Section (Projects) - Right - Clean Paper with Corner Fold */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden ${
+        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-visible canvas-section-folded ${
           activeSection === 'frame'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
@@ -258,13 +276,14 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           width: `${SPATIAL_SECTION_MAP.frame.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.frame.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.frame.zIndex,
-          /* Paper-like appearance on light board */
+          /* Clean paper with corner fold effect */
           backgroundColor: '#ffffff',
           boxShadow: activeSection === 'frame'
             ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
             : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(-0.8deg)',
-          border: '1px solid rgba(0, 0, 0, 0.08)'
+          border: '1px solid rgba(0, 0, 0, 0.08)',
+          clipPath: 'polygon(0 0, 100% 0, 100% 95%, 97% 100%, 0 100%)' // Bottom-right fold
         }}
         onClick={() => handleSectionClick('frame')}
         role="button"
@@ -284,9 +303,9 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         />
       </div>
 
-      {/* Exposure Section (Skills) - Top */}
+      {/* Exposure Section (Skills) - Top - Index Card Style */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden ${
+        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden canvas-section-index ${
           activeSection === 'exposure'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
@@ -297,13 +316,23 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           width: `${SPATIAL_SECTION_MAP.exposure.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.exposure.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.exposure.zIndex,
-          /* Paper-like appearance on light board */
-          backgroundColor: '#ffffff',
+          /* Index card appearance with horizontal lines */
+          backgroundColor: '#fffff8',
+          backgroundImage: `
+            repeating-linear-gradient(
+              0deg,
+              transparent,
+              transparent 28px,
+              rgba(200, 210, 220, 0.4) 28px,
+              rgba(200, 210, 220, 0.4) 29px
+            )
+          `,
           boxShadow: activeSection === 'exposure'
             ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
             : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(0.6deg)',
-          border: '1px solid rgba(0, 0, 0, 0.08)'
+          border: '1px solid rgba(0, 0, 0, 0.12)',
+          borderLeft: '4px solid rgba(245, 158, 11, 0.3)' // Vertical margin line (orange)
         }}
         onClick={() => handleSectionClick('exposure')}
         role="button"
@@ -323,9 +352,9 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         />
       </div>
 
-      {/* Develop Section (Gallery) - Bottom */}
+      {/* Develop Section (Gallery) - Bottom - Filmstrip with Sprocket Holes */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden ${
+        className={`absolute cursor-pointer transition-all duration-300 overflow-visible canvas-section-filmstrip ${
           activeSection === 'develop'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
@@ -336,13 +365,26 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           width: `${SPATIAL_SECTION_MAP.develop.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.develop.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.develop.zIndex,
-          /* Paper-like appearance on light board */
-          backgroundColor: '#ffffff',
+          /* Filmstrip appearance with sprocket holes */
+          backgroundColor: '#fafafa',
           boxShadow: activeSection === 'develop'
-            ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
-            : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
+            ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2), inset 0 0 0 12px rgba(0, 0, 0, 0.05)'
+            : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1), inset 0 0 0 12px rgba(0, 0, 0, 0.05)',
           transform: 'rotate(-1.5deg)',
-          border: '1px solid rgba(0, 0, 0, 0.08)'
+          border: '12px solid rgba(0, 0, 0, 0.05)',
+          borderRadius: '2px',
+          backgroundImage: `
+            radial-gradient(circle at 6px 20px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
+            radial-gradient(circle at 6px 60px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
+            radial-gradient(circle at 6px 100px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
+            radial-gradient(circle at 6px 140px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
+            radial-gradient(circle at calc(100% - 6px) 20px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
+            radial-gradient(circle at calc(100% - 6px) 60px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
+            radial-gradient(circle at calc(100% - 6px) 100px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px),
+            radial-gradient(circle at calc(100% - 6px) 140px, transparent 3px, rgba(0,0,0,0.05) 3px, rgba(0,0,0,0.05) 5px, transparent 5px)
+          `,
+          backgroundRepeat: 'repeat-y',
+          backgroundSize: '100% 160px'
         }}
         onClick={() => handleSectionClick('develop')}
         role="button"
@@ -357,9 +399,9 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         />
       </div>
 
-      {/* Portfolio Section (Contact) - Bottom Right */}
+      {/* Portfolio Section (Contact) - Bottom Right - Polaroid Style */}
       <div
-        className={`absolute cursor-pointer transition-all duration-300 rounded-sm overflow-hidden ${
+        className={`absolute cursor-pointer transition-all duration-300 overflow-hidden canvas-section-polaroid ${
           activeSection === 'portfolio'
             ? 'ring-4 ring-athletic-brand-violet shadow-2xl shadow-athletic-brand-violet/20'
             : 'ring-1 ring-neutral-300/40 hover:ring-2 hover:ring-athletic-brand-violet/50'
@@ -370,13 +412,16 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
           width: `${SPATIAL_SECTION_MAP.portfolio.dimensions.width}px`,
           height: `${SPATIAL_SECTION_MAP.portfolio.dimensions.height}px`,
           zIndex: SPATIAL_SECTION_MAP.portfolio.zIndex,
-          /* Paper-like appearance on light board */
+          /* Polaroid/instant photo appearance with thick bottom border */
           backgroundColor: '#ffffff',
           boxShadow: activeSection === 'portfolio'
             ? '0 20px 50px -12px rgba(0, 0, 0, 0.35), 0 8px 16px -8px rgba(0, 0, 0, 0.2)'
             : '0 8px 24px -4px rgba(0, 0, 0, 0.15), 0 2px 6px -2px rgba(0, 0, 0, 0.1)',
           transform: 'rotate(0.9deg)',
-          border: '1px solid rgba(0, 0, 0, 0.08)'
+          border: '16px solid #ffffff',
+          borderBottom: '60px solid #ffffff',
+          borderRadius: '2px',
+          outline: '1px solid rgba(0, 0, 0, 0.1)'
         }}
         onClick={() => handleSectionClick('portfolio')}
         role="button"
