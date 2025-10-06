@@ -352,13 +352,13 @@ export const FramerTimelineLayout: React.FC = () => {
             }}
             className="w-full"
           >
-            {/* Section Wrapper - Allows Vertical Scrolling */}
+            {/* Section Wrapper - Window scrolls, not the section itself */}
             <div
               ref={(el) => registerSection(scrollState.currentSectionIndex, el)}
-              className="w-full min-h-screen"
+              className="w-full"
               style={{
-                minHeight: '100vh',
-                overflowY: 'auto'
+                minHeight: `calc(100vh - 160px)`, // Account for header + filmstrip
+                position: 'relative'
               }}
             >
               {React.createElement(currentSection.component, {

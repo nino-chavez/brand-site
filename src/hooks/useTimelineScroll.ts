@@ -55,26 +55,41 @@ export const useTimelineScroll = ({
 
   /**
    * Calculate scroll metrics for current section
+   * Uses document coordinates (not viewport-relative)
    */
   const calculateScrollMetrics = useCallback((sectionIndex: number): Partial<TimelineScrollState> => {
     const section = sectionRefs.current[sectionIndex];
     if (!section) return {};
 
-    const sectionRect = section.getBoundingClientRect();
-    const sectionHeight = section.scrollHeight;
+    // Use document coordinates, not viewport coordinates
+    const windowScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const sectionTop = section.offsetTop; // Distance from document top
+    const sectionHeight = section.scrollHeight; // Total content height
     const viewportHeight = window.innerHeight;
-    const scrollableHeight = sectionHeight - viewportHeight;
 
-    // Current scroll position within section
-    const scrollTop = -sectionRect.top;
-    const clampedScrollTop = Math.max(0, Math.min(scrollTop, scrollableHeight));
+    // How far we've scrolled within this section (can be negative if section not yet in view)
+    const scrollWithinSection = windowScrollTop - sectionTop;
+
+    // The section becomes "scrollable" once its top reaches the viewport top
+    // Maximum scroll = section height - viewport height (the "scrollable area")
+    const maxScrollableDistance = Math.max(0, sectionHeight - viewportHeight);
+
+    // Clamp scroll position to valid range [0, maxScrollableDistance]
+    const clampedScroll = Math.max(0, Math.min(scrollWithinSection, maxScrollableDistance));
 
     // Calculate progress (0-1)
-    const scrollProgress = scrollableHeight > 0 ? clampedScrollTop / scrollableHeight : 0;
+    // If section is shorter than viewport, progress goes 0→1 instantly
+    const scrollProgress = maxScrollableDistance > 0
+      ? clampedScroll / maxScrollableDistance
+      : 1; // Section fits in viewport = always "complete"
 
     // Check boundaries
-    const isAtSectionTop = scrollTop <= 0;
-    const isAtSectionBottom = scrollTop >= scrollableHeight - scrollThreshold;
+    // At top: scroll position is at or before section start
+    const isAtSectionTop = scrollWithinSection <= 0;
+
+    // At bottom: we've scrolled through all scrollable content
+    // Use threshold to trigger transition slightly before absolute bottom
+    const isAtSectionBottom = scrollWithinSection >= maxScrollableDistance - scrollThreshold;
 
     return {
       scrollProgress,
