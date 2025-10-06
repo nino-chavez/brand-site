@@ -133,7 +133,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
     // Set active section
     actions.setActiveSection(sectionId);
 
-    console.log(`🎯 Navigating to ${sectionId} section`, {
+    console.log(`[INFO] Navigating to ${sectionId} section`, {
       sectionId,
       sectionAbsolute: { x: sectionAbsoluteX, y: sectionAbsoluteY },
       sectionCenter: { x: sectionCenterX, y: sectionCenterY },

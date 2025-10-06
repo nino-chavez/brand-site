@@ -266,7 +266,7 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
         {/* Error state */}
         {hasImageError && (
           <div className="error-state" role="alert">
-            <span className="error-icon">⚠️</span>
+            <span className="error-icon">!</span>
             <p>Failed to load image</p>
           </div>
         )}

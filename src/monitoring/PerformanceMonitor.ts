@@ -105,7 +105,7 @@ class PerformanceMonitor {
       this.evaluatePerformance();
     }, 1000); // Collect metrics every second
 
-    console.log('🔍 Performance monitoring started');
+    console.log('[DEBUG] Performance monitoring started');
   }
 
   stopMonitoring(): void {
@@ -126,7 +126,7 @@ class PerformanceMonitor {
     // Disconnect observers
     this.observers.forEach(observer => observer.disconnect());
 
-    console.log('⏹️ Performance monitoring stopped');
+    console.log('[INFO] Performance monitoring stopped');
   }
 
   private startFrameRateMonitoring(): void {

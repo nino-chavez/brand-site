@@ -39,7 +39,10 @@ export const JourneySection: React.FC = () => {
             className="bg-neutral-800/50 backdrop-blur-sm rounded-lg p-8 border border-neutral-700/50 hover:border-neutral-600/50 transition-colors"
           >
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">📸</span>
+              <svg className="w-8 h-8 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
               <div>
                 <h3 className="text-2xl font-bold text-white">2024 Legacy</h3>
                 <p className="text-sm text-neutral-400">Built with ChatGPT</p>
@@ -92,7 +95,9 @@ export const JourneySection: React.FC = () => {
             className="bg-gradient-to-br from-neutral-800/70 to-neutral-900/70 backdrop-blur-sm rounded-lg p-8 border border-blue-500/30 hover:border-blue-400/50 transition-colors shadow-lg shadow-blue-500/10"
           >
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">⚡</span>
+              <svg className="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
               <div>
                 <h3 className="text-2xl font-bold text-white">Current Platform</h3>
                 <p className="text-sm text-blue-400">Built with Claude + Agent OS</p>
@@ -151,7 +156,9 @@ export const JourneySection: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">🏗️</span>
+                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
               </div>
               <h4 className="font-semibold text-white mb-2">Architecture</h4>
               <p className="text-sm text-neutral-400">
@@ -161,7 +168,9 @@ export const JourneySection: React.FC = () => {
 
             <div className="text-center">
               <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">🧪</span>
+                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
               <h4 className="font-semibold text-white mb-2">Quality Assurance</h4>
               <p className="text-sm text-neutral-400">
@@ -171,7 +180,9 @@ export const JourneySection: React.FC = () => {
 
             <div className="text-center">
               <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">🤖</span>
+                <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                </svg>
               </div>
               <h4 className="font-semibold text-white mb-2">AI Collaboration</h4>
               <p className="text-sm text-neutral-400">

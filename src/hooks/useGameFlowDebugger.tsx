@@ -586,7 +586,7 @@ export function useGameFlowDebugger(config: Partial<DebuggerConfig> = {}) {
 export const GameFlowDebugUtils = {
     // Log section navigation performance
     logSectionNavigation: (from: GameFlowSection, to: GameFlowSection, duration: number) => {
-        console.log(`🎯 Section Navigation: ${from} → ${to} (${duration.toFixed(2)}ms)`);
+        console.log(`[INFO] Section Navigation: ${from} → ${to} (${duration.toFixed(2)}ms)`);
     },
 
     // Log camera interactions

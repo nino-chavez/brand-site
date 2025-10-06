@@ -342,7 +342,7 @@ export function useContentPerformanceMonitoring(
     // Start periodic metrics collection
     monitoringIntervalRef.current = setInterval(updateMetrics, 2000);
 
-    console.log('🔍 Content performance monitoring started');
+    console.log('[DEBUG] Content performance monitoring started');
   }, [isConfigValid, updateMetrics]);
 
   const stopMonitoring = useCallback(() => {
@@ -353,13 +353,13 @@ export function useContentPerformanceMonitoring(
       clearInterval(monitoringIntervalRef.current);
     }
 
-    console.log('⏹️ Content performance monitoring stopped');
+    console.log('[INFO] Content performance monitoring stopped');
   }, []);
 
   const setBaseline = useCallback(() => {
     if (state.metrics) {
       managers.current.budgetManager.setBaseline(state.metrics);
-      console.log('📊 Performance baseline set');
+      console.log('[METRICS] Performance baseline set');
     }
   }, [state.metrics]);
 
@@ -418,7 +418,7 @@ export function useContentPerformanceMonitoring(
       appliedOptimizations: [...prev.appliedOptimizations, optimization]
     }));
 
-    console.log('⚡ Applied optimization:', optimization);
+    console.log('[PERF] Applied optimization:', optimization);
   }, []);
 
   const updateConfig = useCallback((newConfig: Partial<PerformanceMonitoringConfig>) => {
@@ -443,7 +443,7 @@ export function useContentPerformanceMonitoring(
     const criticalViolations = state.violations.filter(v => v.severity === 'critical');
 
     if (criticalViolations.length >= config.alertThresholds.criticalViolationCount) {
-      console.warn('🚨 Critical performance issues detected:', criticalViolations.length);
+      console.warn('[WARN] Critical performance issues detected:', criticalViolations.length);
 
       // Auto-apply emergency optimizations
       if (config.enableAutomaticOptimization) {

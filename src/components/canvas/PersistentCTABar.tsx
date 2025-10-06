@@ -90,7 +90,7 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
     });
     actions.setActiveSection('portfolio');
     onNavigate?.('portfolio');
-    console.log('🎯 CTA: Navigating to Portfolio (Contact) section');
+    console.log('[INFO] CTA: Navigating to Portfolio (Contact) section');
   };
 
   const handleProjectsClick = () => {
@@ -115,7 +115,7 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
     });
     actions.setActiveSection('frame');
     onNavigate?.('frame');
-    console.log('🎯 CTA: Navigating to Frame (Projects) section');
+    console.log('[INFO] CTA: Navigating to Frame (Projects) section');
   };
 
   // Calculate progress (6 total sections)

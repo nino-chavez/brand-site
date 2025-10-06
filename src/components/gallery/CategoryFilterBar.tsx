@@ -69,7 +69,7 @@ export const CategoryFilterBar: React.FC<CategoryFilterBarProps> = ({
         {enableKeyboardShortcuts && (
           <span className="chip-shortcut" aria-hidden="true">0</span>
         )}
-        <span className="chip-icon" aria-hidden="true">🖼️</span>
+        <span className="chip-icon" aria-hidden="true">All</span>
         <span className="chip-label">All</span>
         <span className="chip-count" aria-hidden="true">{totalCount}</span>
       </button>

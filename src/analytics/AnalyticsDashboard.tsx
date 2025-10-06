@@ -237,7 +237,7 @@ const AnalyticsDashboard: React.FC<DashboardProps> = ({
                 </div>
                 {metric.photographyContext && (
                   <p className="text-xs text-gray-600 mt-1">
-                    📸 {metric.photographyContext}
+                    {metric.photographyContext}
                   </p>
                 )}
               </div>
@@ -247,7 +247,7 @@ const AnalyticsDashboard: React.FC<DashboardProps> = ({
           {/* Navigation Heatmap */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              📍 Navigation Heatmap
+              Navigation Heatmap
             </h3>
             <div className="bg-gray-50 rounded-lg p-6 relative">
               <div className="relative w-full h-64 bg-gradient-to-br from-blue-50 to-purple-50 rounded border">
@@ -272,7 +272,7 @@ const AnalyticsDashboard: React.FC<DashboardProps> = ({
               </div>
               <div className="mt-4 text-sm text-gray-600">
                 <span className="inline-flex items-center">
-                  📸 Photography metaphor usage intensity across the interface
+                  Photography metaphor usage intensity across the interface
                 </span>
               </div>
             </div>
@@ -281,7 +281,7 @@ const AnalyticsDashboard: React.FC<DashboardProps> = ({
           {/* Photography Metaphor Learning */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              🎯 Photography Metaphor Learning
+              Photography Metaphor Learning
             </h3>
             <div className="space-y-3">
               {metaphorLearning.map((metaphor, index) => (
@@ -313,7 +313,7 @@ const AnalyticsDashboard: React.FC<DashboardProps> = ({
           {/* Accessibility Usage */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              ♿ Accessibility Feature Usage
+              Accessibility Feature Usage
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {Object.entries(accessibilityUsage).map(([feature, usage]) => (
@@ -335,7 +335,7 @@ const AnalyticsDashboard: React.FC<DashboardProps> = ({
           {/* Session Information */}
           <div className="bg-gray-50 rounded-lg p-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-3">
-              📊 Session Summary
+              Session Summary
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
@@ -370,9 +370,9 @@ const AnalyticsDashboard: React.FC<DashboardProps> = ({
         <div className="border-t border-gray-200 p-4 bg-gray-50 rounded-b-lg">
           <div className="flex items-center justify-between text-sm text-gray-600">
             <div className="flex items-center space-x-4">
-              <span>📸 Photography metaphor analytics</span>
-              <span>♿ Accessibility-focused tracking</span>
-              <span>🔒 Privacy-compliant collection</span>
+              <span>Photography metaphor analytics</span>
+              <span>Accessibility-focused tracking</span>
+              <span>Privacy-compliant collection</span>
             </div>
             <div>
               Last updated: {new Date().toLocaleTimeString()}
@@ -450,10 +450,10 @@ export class AnalyticsDashboardManager {
         <div style="background: white; border-radius: 8px; padding: 20px; max-width: 1200px; width: 100%; max-height: 90vh; overflow: auto;">
           <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
             <h2 style="margin: 0; color: #1a1a1a;">Spatial Navigation Analytics</h2>
-            <button onclick="this.closest('[style*=\"position: fixed\"]').remove()" style="background: #f0f0f0; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">✕</button>
+            <button onclick="this.closest('[style*=\"position: fixed\"]').remove()" style="background: #f0f0f0; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-size: 18px;">&times;</button>
           </div>
           <div style="color: #666; margin-bottom: 20px;">
-            📸 Real-time insights into photography metaphor navigation patterns
+            Real-time insights into photography metaphor navigation patterns
           </div>
           <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center;">
             <p>Analytics Dashboard is active</p>

@@ -570,7 +570,7 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
             )}
             <div>Layers: {metrics.compositeLayerCount}</div>
             {isOptimized && (
-              <div className="text-yellow-400 mt-1">⚡ Performance optimized</div>
+              <div className="text-yellow-400 mt-1">Performance optimized</div>
             )}
           </div>
         </div>

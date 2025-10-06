@@ -78,7 +78,7 @@ class ErrorMonitor {
     this.isMonitoring = true;
     this.bindErrorHandlers();
 
-    console.log('🔍 Error monitoring started');
+    console.log('[DEBUG] Error monitoring started');
   }
 
   stopMonitoring(): void {
@@ -87,7 +87,7 @@ class ErrorMonitor {
     this.isMonitoring = false;
     this.unbindErrorHandlers();
 
-    console.log('⏹️ Error monitoring stopped');
+    console.log('[INFO] Error monitoring stopped');
   }
 
   private setupGlobalErrorHandlers(): void {
@@ -264,7 +264,7 @@ class ErrorMonitor {
     this.updateErrorMetrics(error, context);
 
     // Log error with context
-    console.error('🚨 Error detected:', {
+    console.error('[ERROR] Error detected:', {
       error: error.message,
       stack: error.stack,
       context
@@ -307,11 +307,11 @@ class ErrorMonitor {
         const recovered = await handler(error, context);
         if (recovered) {
           this.errorMetrics.successfulRecoveries++;
-          console.log(`✅ Successfully recovered from ${errorType} error`);
+          console.log(`[SUCCESS] Successfully recovered from ${errorType} error`);
         }
         return recovered;
       } catch (recoveryError) {
-        console.error('❌ Recovery attempt failed:', recoveryError);
+        console.error('[ERROR] Recovery attempt failed:', recoveryError);
         return false;
       }
     }
@@ -349,12 +349,12 @@ class ErrorMonitor {
         }
       }
 
-      console.log(`✅ Recovery successful: ${strategy.name}`);
+      console.log(`[SUCCESS] Recovery successful: ${strategy.name}`);
       this.hideRecoveryMessage();
       return true;
 
     } catch (recoveryError) {
-      console.error(`❌ Recovery failed: ${strategy.name}`, recoveryError);
+      console.error(`[ERROR] Recovery failed: ${strategy.name}`, recoveryError);
       this.showFallbackMessage(strategy);
       return false;
     }
@@ -766,7 +766,7 @@ class ErrorMonitor {
 
   private async triggerMonitoringAlert(alert: ErrorAlert): Promise<void> {
     if (alert.severity === 'critical' || alert.severity === 'high') {
-      console.warn('🚨 High severity error alert:', alert);
+      console.warn('[WARN] High severity error alert:', alert);
 
       // Could trigger additional monitoring systems here
       // e.g., PagerDuty, Slack notifications, etc.

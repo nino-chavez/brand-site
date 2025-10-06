@@ -58,13 +58,13 @@ export const GalleryContentAdapter: React.FC<GalleryContentAdapterProps> = ({
         const duration = endTime - startTime;
         setLoadTime(duration);
 
-        console.log(`✅ Gallery loaded: ${data.images.length} images in ${duration.toFixed(2)}ms`);
+        console.log(`[SUCCESS] Gallery loaded: ${data.images.length} images in ${duration.toFixed(2)}ms`);
       })
       .catch((err) => {
         const errorMessage = err instanceof Error ? err.message : 'Unknown error';
         setError(errorMessage);
         setIsLoading(false);
-        console.error('❌ Failed to load gallery:', err);
+        console.error('[ERROR] Failed to load gallery:', err);
 
         if (onLoadError) {
           onLoadError(err instanceof Error ? err : new Error(errorMessage));
@@ -128,7 +128,7 @@ export const GalleryContentAdapter: React.FC<GalleryContentAdapterProps> = ({
     return (
       <div className={`gallery-content-adapter error ${className}`}>
         <div className="error-container">
-          <div className="error-icon">⚠️</div>
+          <div className="error-icon">!</div>
           <h3>Failed to Load Gallery</h3>
           <p>{error || 'Unknown error occurred'}</p>
           <button onClick={() => window.location.reload()}>
@@ -198,7 +198,7 @@ export const GalleryContentAdapter: React.FC<GalleryContentAdapterProps> = ({
           {loadTime > 0 && (
             <span className="load-time">
               • Loaded in {loadTime.toFixed(0)}ms
-              {loadTime < 500 ? ' ✅' : ''}
+              {loadTime < 500 ? ' OK' : ''}
             </span>
           )}
         </p>

@@ -35,11 +35,11 @@ export const GalleryDemo: React.FC = () => {
         setMetadata(data);
         const endTime = performance.now();
         setLoadTime(endTime - startTime);
-        console.log(`✅ Gallery loaded in ${(endTime - startTime).toFixed(2)}ms`);
+        console.log(`[SUCCESS] Gallery loaded in ${(endTime - startTime).toFixed(2)}ms`);
       })
       .catch((err) => {
         setError(err.message);
-        console.error('❌ Failed to load gallery metadata:', err);
+        console.error('[ERROR] Failed to load gallery metadata:', err);
       });
   }, []);
 
@@ -50,7 +50,7 @@ export const GalleryDemo: React.FC = () => {
     // Log modal open time
     requestAnimationFrame(() => {
       const modalEndTime = performance.now();
-      console.log(`✅ Modal opened in ${(modalEndTime - modalStartTime).toFixed(2)}ms`);
+      console.log(`[SUCCESS] Modal opened in ${(modalEndTime - modalStartTime).toFixed(2)}ms`);
     });
   };
 
@@ -83,7 +83,7 @@ export const GalleryDemo: React.FC = () => {
         </h1>
         <p style={{ color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem' }}>
           {metadata.images.length} images • Loaded in {loadTime.toFixed(0)}ms
-          {loadTime < 500 ? ' ✅' : ' ⚠️'}
+          {loadTime < 500 ? ' OK' : ' SLOW'}
         </p>
       </header>
 

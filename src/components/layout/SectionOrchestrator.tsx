@@ -488,7 +488,7 @@ export const SectionOrchestrator: React.FC<SectionOrchestratorProps> = ({
       });
 
       if (debugMode) {
-        console.log('⚡ Performance optimization: Reduced content levels', {
+        console.log('[PERF] Performance optimization: Reduced content levels', {
           performanceScore,
           reductions: currentLevels.length
         });

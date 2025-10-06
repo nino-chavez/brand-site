@@ -78,7 +78,7 @@ const App: React.FC = () => {
 
             if (debugParam === 'true') {
                 setDebugMode(true);
-                console.log('🛠️ Debug mode activated via URL parameter');
+                console.log('[DEBUG] Debug mode activated via URL parameter');
             }
 
             // Log test mode detection
@@ -107,7 +107,7 @@ const App: React.FC = () => {
         const hasSeenLoading = sessionStorage.getItem('hasSeenLoading');
         if (hasSeenLoading) {
             if (import.meta.env.DEV) {
-                console.log('⚡ Session storage: Skipping loading screen');
+                console.log('[PERF] Session storage: Skipping loading screen');
             }
             setIsLoading(false);
             setIsAppReady(true);
@@ -254,7 +254,7 @@ const App: React.FC = () => {
                 });
                 actions.setActiveSection(sectionId);
 
-                console.log(`🎯 Header navigation to ${sectionId}`, {
+                console.log(`[INFO] Header navigation to ${sectionId}`, {
                     sectionId,
                     sectionAbsolute: { x: sectionAbsoluteX, y: sectionAbsoluteY },
                     targetPosition: { x: targetX, y: targetY }
@@ -345,13 +345,13 @@ const App: React.FC = () => {
                             isEnabled={false}
                             activationDelay={800}
                             onSectionSelect={(section) => {
-                                console.log('🎯 CursorLens navigation to:', section);
+                                console.log('[INFO] CursorLens navigation to:', section);
                             }}
                             onActivate={() => {
-                                console.log('🎯 CursorLens activated');
+                                console.log('[INFO] CursorLens activated');
                             }}
                             onDeactivate={() => {
-                                console.log('🎯 CursorLens deactivated');
+                                console.log('[INFO] CursorLens deactivated');
                             }}
                             className="canvas-cursor-lens"
                         />

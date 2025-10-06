@@ -171,7 +171,7 @@ export const useCanvasTouchGestures = ({
       // Allow both .lightbox-canvas and .canvas-content for more flexible dragging
       const isCanvasArea = target.closest('.lightbox-canvas, .canvas-content, .canvas-portfolio-layout');
       if (!isCanvasArea) {
-        console.log('🎯 Click outside canvas area - pan mode blocked');
+        console.log('[INFO] Click outside canvas area - pan mode blocked');
         return;
       }
     }
@@ -193,7 +193,7 @@ export const useCanvasTouchGestures = ({
       document.body.style.webkitUserSelect = 'none';
       document.body.style.cursor = 'grabbing';
       onDragStart?.();
-      console.log('🎯 Right-click pan mode activated (instant)');
+      console.log('[INFO] Right-click pan mode activated (instant)');
     } else {
       // Left-click waits for threshold
       hasExceededThreshold.current = false;
@@ -217,7 +217,7 @@ export const useCanvasTouchGestures = ({
         const selection = window.getSelection();
         if (selection && selection.toString().length > 0) {
           // User has selected text - do NOT activate pan mode
-          console.log('🎯 Text selection detected - pan mode blocked');
+          console.log('[INFO] Text selection detected - pan mode blocked');
           return;
         }
 
@@ -233,7 +233,7 @@ export const useCanvasTouchGestures = ({
         // Phase 3: Notify canvas for performance optimization
         onDragStart?.();
 
-        console.log('🎯 Drag threshold exceeded - pan mode activated');
+        console.log('[INFO] Drag threshold exceeded - pan mode activated');
       } else {
         // Still below threshold - don't pan yet
         // This allows text selection and small movements
@@ -284,7 +284,7 @@ export const useCanvasTouchGestures = ({
       // Stop if velocity below threshold
       if (Math.abs(vx) < MIN_VELOCITY && Math.abs(vy) < MIN_VELOCITY) {
         momentumAnimationId.current = null;
-        console.log('🎯 Momentum animation stopped');
+        console.log('[INFO] Momentum animation stopped');
         return;
       }
 
@@ -300,7 +300,7 @@ export const useCanvasTouchGestures = ({
     };
 
     momentumAnimationId.current = requestAnimationFrame(animate);
-    console.log('🎯 Momentum animation started', { vx: velocity.current.x, vy: velocity.current.y });
+    console.log('[INFO] Momentum animation started', { vx: velocity.current.x, vy: velocity.current.y });
   }, [onPan]);
 
   const handleMouseUp = useCallback(() => {
@@ -325,7 +325,7 @@ export const useCanvasTouchGestures = ({
     // Phase 3: Notify canvas for performance optimization
     if (wasInPanMode) {
       onDragEnd?.();
-      console.log('🎯 Pan mode deactivated - text selection restored');
+      console.log('[INFO] Pan mode deactivated - text selection restored');
     }
   }, [startMomentumAnimation, onDragEnd]);
 
