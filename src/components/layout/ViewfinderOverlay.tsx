@@ -6,10 +6,10 @@ import { HERO_VIEWFINDER_CONFIG, HERO_TECHNICAL_SKILLS, SKILL_CATEGORIES } from 
 import { useAthleticColors } from '../../../tokens/simple-provider';
 
 // Extracted viewfinder components
-import { CrosshairIcon } from '../../../components/viewfinder/CrosshairIcon';
-import { ViewfinderBrackets } from '../../../components/viewfinder/ViewfinderBrackets';
-import { ExifDisplay } from '../../../components/viewfinder/ExifDisplay';
-import { HeroTechnicalProfile } from '../../../components/viewfinder/HeroTechnicalProfile';
+import { CrosshairIcon } from '../viewfinder/CrosshairIcon';
+import { ViewfinderBrackets } from '../viewfinder/ViewfinderBrackets';
+import { ExifDisplay } from '../viewfinder/ExifDisplay';
+import { HeroTechnicalProfile } from '../viewfinder/HeroTechnicalProfile';
 
 interface ViewfinderOverlayProps {
   isActive?: boolean;

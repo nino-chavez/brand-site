@@ -148,7 +148,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         }
       }}
       id="capture"
-      className={`h-screen relative overflow-hidden ${getClasses(sectionVisible)} ${className}`}
+      className={`min-h-screen relative overflow-hidden ${getClasses(sectionVisible)} ${className}`}
       data-testid="capture-section"
       data-active={active || isActive}
       data-progress={progress}
@@ -164,9 +164,11 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
         style={{
           backgroundImage: 'url(/images/hero.webp)',
           willChange: 'transform',
-          height: '100%',
-          width: '100%',
-          transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0) scale(1.1)`,
+          height: '110%',
+          width: '110%',
+          top: '-5%',
+          left: '-5%',
+          transform: `translate3d(0, ${progress * 20 * parallaxMultiplier}px, 0)`,
           animation: settings.animationStyle !== 'reduced' ? 'kenBurns 10s ease-in-out infinite' : 'none'
         }}
         data-parallax-intensity={settings.parallaxIntensity}

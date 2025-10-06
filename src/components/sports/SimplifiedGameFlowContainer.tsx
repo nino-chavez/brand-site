@@ -9,6 +9,7 @@ import FocusSection from '../../../components/sections/FocusSection';
 import FrameSection from '../../../components/sections/FrameSection';
 import ExposureSection from '../../../components/sections/ExposureSection';
 import DevelopSection from '../../../components/sections/DevelopSection';
+import JourneySection from '../../components/sections/JourneySection';
 import PortfolioSection from '../../../components/sections/PortfolioSection';
 
 import type { GameFlowSection } from '../../types';
@@ -200,6 +201,9 @@ export default function SimplifiedGameFlowContainer({
         onSectionReady={handleDevelopSectionReady}
         onError={handleDevelopSectionError}
       />
+
+      {/* Journey Section - Evolution showcase */}
+      <JourneySection />
 
       <PortfolioSection
         ref={setSectionRef('portfolio')}

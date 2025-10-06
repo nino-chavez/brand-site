@@ -3,6 +3,7 @@ import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
 import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
+import { ThesisModal } from '../../src/components/ui/ThesisModal';
 
 interface FocusSectionProps {
   active: boolean;
@@ -33,6 +34,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
   const [profileRevealed, setProfileRevealed] = useState(false);
   const [statsAnimated, setStatsAnimated] = useState(false);
   const [narrativeProgressed, setNarrativeProgressed] = useState(false);
+  const [isThesisModalOpen, setIsThesisModalOpen] = useState(false);
 
   // Mouse tracking for focus interactions
   const [mousePosition, setMousePosition] = useState({ x: 50, y: 50 });
@@ -165,17 +167,17 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
     {
       area: 'Enterprise Architecture',
       description: 'Multi-tenant platforms processing $2B+ GMV. Event-driven systems serving 50M+ active users.',
-      icon: '🏗️'
+      color: 'violet'
     },
     {
       area: 'AI Governance',
       description: 'Verification boundaries for regulated commerce. Model reliability frameworks for production environments.',
-      icon: '🤖'
+      color: 'cyan'
     },
     {
       area: 'Digital Transformation',
       description: 'Legacy migration strategies. Zero-downtime cutover patterns for Fortune 500 scale.',
-      icon: '🔄'
+      color: 'green'
     }
   ];
 
@@ -278,6 +280,19 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
               I'm a systems thinker, photographer, and strategist. By trade, I work in enterprise architecture—helping teams navigate ambiguity and build things that hold up over time.
             </p>
 
+            <div className="mb-8">
+              <button
+                onClick={() => setIsThesisModalOpen(true)}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
+                data-testid="architect-principle-button"
+              >
+                Read: The Architect's Principle
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
             <p className="text-lg text-white/80 leading-[1.8] mb-6">
               I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: <strong className="text-white font-semibold">the entire system of ownership, scope, and second-order effects where ideas must actually live</strong>.
             </p>
@@ -294,18 +309,14 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
           {/* Two Column: Areas of Focus + Technical Depth */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Areas of Focus - Left Column */}
-            <div
-              className={`transition-all duration-500 ${
-                narrativeProgressed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
-              }`}
-            >
+            <div className={getClasses(bodyVisible)}>
               <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
                 <h3 className="text-xl font-semibold text-white mb-6">Areas of Focus</h3>
                 <div className="space-y-6">
                   {focusAreas.map((area) => (
                     <div key={area.area} className="group">
                       <div className="flex items-start gap-3">
-                        <span className="text-2xl mt-1">{area.icon}</span>
+                        <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 bg-${area.color}-400`} />
                         <div>
                           <h4 className="text-white font-medium mb-2">{area.area}</h4>
                           <p className="text-sm text-white/70 leading-relaxed">{area.description}</p>
@@ -319,9 +330,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
 
             {/* Technical Depth - Right Column */}
             <div
-              className={`transition-all duration-500 ${
-                narrativeProgressed ? 'opacity-100 transform translate-y-0' : 'opacity-0 transform translate-y-4'
-              }`}
+              className={getClasses(bodyVisible)}
               data-testid="integrated-stats-card"
             >
               <div className="bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl p-6">
@@ -479,6 +488,12 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
           color: rgba(139, 92, 246, 1);
         }
       `}</style>
+
+      {/* ThesisModal */}
+      <ThesisModal
+        isOpen={isThesisModalOpen}
+        onClose={() => setIsThesisModalOpen(false)}
+      />
     </section>
   );
 });

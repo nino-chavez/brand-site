@@ -40,21 +40,21 @@ const ProjectDetailPanel: React.FC<ProjectDetailPanelProps> = ({
 
   // Calculate intelligent positioning based on viewport and trigger element
   useEffect(() => {
-    if (!isOpen || !triggerElement || !panelRef.current) return;
+    if (!isOpen || !triggerElement) return;
 
     const updatePosition = () => {
       const trigger = triggerElement.getBoundingClientRect();
-      const panel = panelRef.current?.getBoundingClientRect();
       const viewport = {
         width: window.innerWidth,
         height: window.innerHeight,
       };
 
-      const PANEL_WIDTH = 480;
+      // Panel dimensions based on viewport
+      const PANEL_WIDTH = Math.min(480, viewport.width * 0.9); // Max 480px or 90% of viewport
       const PANEL_MARGIN = 24;
-      const panelHeight = panel?.height || 600;
 
-      let top = trigger.top;
+      // Position relative to trigger card
+      let top = PANEL_MARGIN;
       let left = trigger.right + PANEL_MARGIN;
       let placement: 'left' | 'right' | 'top' | 'bottom' = 'right';
 
@@ -69,14 +69,6 @@ const ProjectDetailPanel: React.FC<ProjectDetailPanelProps> = ({
           left = Math.max(PANEL_MARGIN, (viewport.width - PANEL_WIDTH) / 2);
           placement = trigger.top > viewport.height / 2 ? 'top' : 'bottom';
         }
-      }
-
-      // Adjust vertical position to keep panel in viewport
-      if (top + panelHeight > viewport.height - PANEL_MARGIN) {
-        top = Math.max(PANEL_MARGIN, viewport.height - panelHeight - PANEL_MARGIN);
-      }
-      if (top < PANEL_MARGIN) {
-        top = PANEL_MARGIN;
       }
 
       setPosition({ top, left, placement });
@@ -169,29 +161,27 @@ const ProjectDetailPanel: React.FC<ProjectDetailPanelProps> = ({
           {/* Detail Panel */}
           <motion.div
             ref={panelRef}
-            initial={{
-              opacity: 0,
-              scale: 0.95,
-              x: position.placement === 'left' ? 20 : position.placement === 'right' ? -20 : 0,
-              y: position.placement === 'top' ? 20 : position.placement === 'bottom' ? -20 : 0
-            }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{
               opacity: 1,
               scale: 1,
-              x: 0,
-              y: 0
+              left: position.left
             }}
-            exit={{
-              opacity: 0,
-              scale: 0.95,
-              x: position.placement === 'left' ? 20 : position.placement === 'right' ? -20 : 0,
-              y: position.placement === 'top' ? 20 : position.placement === 'bottom' ? -20 : 0
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{
+              opacity: { duration: 0.2 },
+              scale: { type: 'spring', damping: 25, stiffness: 300 },
+              left: { type: 'spring', damping: 30, stiffness: 400 }
             }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed w-[480px] max-h-[calc(100vh-48px)] overflow-y-auto bg-gray-900 border border-white/10 rounded-xl shadow-2xl z-50"
+            className="fixed bg-gray-900 border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden"
             style={{
               top: `${position.top}px`,
+              bottom: 24,
               left: `${position.left}px`,
+              width: `min(480px, calc(90vw - 48px))`,
+              maxHeight: `calc(100vh - 48px)`,
+              display: 'flex',
+              flexDirection: 'column'
             }}
           >
             {/* Contextual Graphics */}
@@ -211,8 +201,10 @@ const ProjectDetailPanel: React.FC<ProjectDetailPanelProps> = ({
             </button>
 
             {/* Content - Complementary to card, no redundancy */}
-            <div className="relative p-6">
-              <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
+            <div className="relative overflow-y-auto" style={{ flex: '1 1 0%', minHeight: 0 }}>
+              <div className="p-6 pb-8">
+                <div className="h-12"></div>
+                <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
 
               {/* Technical Architecture - Detail Only */}
               <div className="mb-6">
@@ -281,6 +273,7 @@ const ProjectDetailPanel: React.FC<ProjectDetailPanelProps> = ({
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </a>
+              </div>
             </div>
           </motion.div>
         </>

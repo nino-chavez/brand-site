@@ -5,6 +5,14 @@
   publish = "dist"
   command = "npm run build"
 
+# Legacy site redirect rules
+# Serve the 2024 legacy photography portfolio at /2024-legacy/
+[[redirects]]
+  from = "/2024-legacy/*"
+  to = "/2024-legacy/:splat"
+  status = 200
+  force = false
+
 # Font caching - immutable for performance
 [[headers]]
   for = "/fonts/*"
@@ -24,9 +32,21 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# Legacy site image caching
+[[headers]]
+  for = "/2024-legacy/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # HTML - no cache for updates
 [[headers]]
   for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Legacy site HTML - no cache
+[[headers]]
+  for = "/2024-legacy/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 

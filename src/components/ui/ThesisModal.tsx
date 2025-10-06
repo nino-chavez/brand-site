@@ -43,13 +43,6 @@ export const ThesisModal: React.FC<ThesisModalProps> = ({ isOpen, onClose }) => 
     // Focus the close button when modal opens
     const closeButton = modal.querySelector<HTMLButtonElement>('[data-close-button]');
     closeButton?.focus();
-
-    // Prevent body scroll when modal is open
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = '';
-    };
   }, [isOpen]);
 
   // Click outside to close
@@ -117,7 +110,7 @@ export const ThesisModal: React.FC<ThesisModalProps> = ({ isOpen, onClose }) => 
             The AI industry has a systemic flaw: it is full of brilliant line cooks. We have tacticians executing disconnected recipes with incredible speed, optimizing for output without a coherent vision. The result is chaos—a kitchen that produces impressive but inconsistent dishes while burning through resources.
           </p>
           <p className="thesis-modal-intro">
-            This is not a tooling problem. It is a leadership problem. The solution is not a better recipe; it is a different kind of architect. The solution is to operate like the Master Chef.
+            This is not a tooling problem. It is a leadership problem. The solution is The Chef's Protocol: a constitutional framework that enforces architectural rigor across AI-assisted development. It distinguishes between AI-Augmented (efficiency gains on known patterns) and AI-Native (fundamentally new capabilities). The artifact is the system that ensures every AI interaction produces production-grade, maintainable code.
           </p>
 
           <h3 className="thesis-modal-section-heading">1. Mastering the Fundamentals</h3>
@@ -144,7 +137,7 @@ export const ThesisModal: React.FC<ThesisModalProps> = ({ isOpen, onClose }) => 
             <li><strong>Data-centric AI</strong> is the farm-to-table movement, a return to the foundational truth that the quality of the dish is always limited by the quality of the ingredients.</li>
           </ul>
 
-          <h3 className="thesis-modal-section-heading">4. The Chef's Protocol</h3>
+          <h3 className="thesis-modal-section-heading">4. The Artifact: The Chef's Protocol</h3>
           <p>
             A philosophy is not a business model. This approach is codified into a tangible, operational framework: <strong className="thesis-modal-emphasis">The Chef's Protocol.</strong>
           </p>
@@ -169,11 +162,16 @@ export const ThesisModal: React.FC<ThesisModalProps> = ({ isOpen, onClose }) => 
           <p className="thesis-modal-closing">
             The protocol is the artifact of the Master Chef's work. It is not a recipe. It is the system that creates the menu, ensuring every action is a calculated, de-risked decision that moves us from chaos to clarity.
           </p>
+        </div>
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
+  );
 
+  const modalWithStyles = (
+    <div>
+      {modalContent}
       <style jsx>{`
         /* Overlay */
         .thesis-modal-overlay {
@@ -417,7 +415,7 @@ export const ThesisModal: React.FC<ThesisModalProps> = ({ isOpen, onClose }) => 
   );
 
   // Render modal using portal to ensure it's positioned relative to viewport
-  return createPortal(modalContent, document.body);
+  return createPortal(modalWithStyles, document.body);
 };
 
 /**
@@ -433,47 +431,12 @@ interface ThesisModalTriggerProps {
 
 export const ThesisModalTrigger: React.FC<ThesisModalTriggerProps> = ({ onClick }) => {
   return (
-    <>
-      <button
-        className="thesis-trigger"
-        onClick={onClick}
-        aria-label="Read the architect's principle"
-      >
-        The Architect's Principle
-      </button>
-      <style jsx>{`
-        .thesis-trigger {
-          background: none;
-          border: none;
-          color: rgba(139, 92, 246, 0.9);
-          font-size: 0.875rem;
-          font-weight: 500;
-          cursor: pointer;
-          padding: 0.25rem 0.5rem;
-          border-radius: 0.25rem;
-          transition: all 0.2s ease;
-          text-decoration: underline;
-          text-decoration-color: rgba(139, 92, 246, 0.4);
-          text-underline-offset: 2px;
-        }
-
-        .thesis-trigger:hover {
-          color: rgba(139, 92, 246, 1);
-          background-color: rgba(139, 92, 246, 0.1);
-          text-decoration-color: rgba(139, 92, 246, 0.6);
-        }
-
-        .thesis-trigger:focus {
-          outline: 2px solid rgba(139, 92, 246, 0.5);
-          outline-offset: 2px;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .thesis-trigger {
-            transition: none;
-          }
-        }
-      `}</style>
-    </>
+    <button
+      onClick={onClick}
+      aria-label="Read the architect's principle"
+      className="text-sm font-medium text-violet-400 hover:text-violet-300 underline underline-offset-2 decoration-violet-400/40 hover:decoration-violet-300/60 px-2 py-1 rounded hover:bg-violet-400/10 transition-all duration-200 focus:outline-2 focus:outline-violet-400/50 focus:outline-offset-2"
+    >
+      The Architect's Principle
+    </button>
   );
 };

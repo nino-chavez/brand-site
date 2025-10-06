@@ -413,7 +413,7 @@ const App: React.FC = () => {
                     <FilmMode />
                     <ViewfinderController />
 
-                    <div className="bg-brand-dark text-brand-light font-sans antialiased scroll-smooth overflow-x-hidden" style={{ overflowY: 'auto', minHeight: '100vh' }}>
+                    <div className="bg-brand-dark text-brand-light font-sans antialiased overflow-x-hidden" style={{ overflowY: 'auto', minHeight: '100vh' }}>
                         {/* Skip link for accessibility */}
                         <a
                             href="#main-content"

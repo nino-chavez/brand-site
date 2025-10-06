@@ -54,8 +54,8 @@ const ABOUT_CONTENT = {
     paragraphs: [
       "I'm Nino Chavez. I build multi-tenant commerce platforms processing $2B+ annual GMV for Fortune 500 retailers—architectures that survived 10x Black Friday traffic spikes without service interruption.",
       "Built event-driven order orchestration systems replacing 15-year legacy monoliths—migrated 50M active users with zero downtime. Designed real-time inventory systems serving 12 brands across 2,000+ stores, enabling same-day delivery capabilities without infrastructure cost increases.",
-      "My specialty is \"reading the road\"—identifying patterns others miss. I provide clarity when executives can't see the path forward, translating technical complexity into strategic decisions. I practice rigorous decision hygiene: understanding the full operational context before making a move.",
-      "Leadership, for me, is \"living in the gap\"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but together."
+      "Pattern recognition at architectural scale: identifying systemic breaks before cascading failures. Decision hygiene means mapping second-order effects and operational constraints before execution. The deliverable isn't advice—it's verified strategy backed by constraint analysis.",
+      "Built AI governance frameworks that reduced model deployment risk by 73% while maintaining 99.97% uptime. The system enforces verification boundaries between ML outputs and business logic—production-ready AI for regulated environments."
     ],
     skills: [
       "Multi-Tenant Commerce Platforms ($2B+ GMV)",
