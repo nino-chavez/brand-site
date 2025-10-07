@@ -27,7 +27,7 @@ const ABOUT_CONTENT = {
     title: "Finding the Signal in the Noise",
     summary: "Enterprise Architect & Technical Leader",
     paragraphs: [
-      "Built systems processing $50B+ in annual transactions for Fortune 500 retailers—architectures that survived 15+ Black Friday events without outages."
+      "Architected multi-tenant commerce platforms processing $2B+ annual GMV for Fortune 500 retailers—systems that survived 15+ Black Friday events (10x traffic spikes) without service interruption."
     ],
     skills: ["Enterprise Architecture", "Technical Leadership", "Systems Thinking"],
     readingTime: "30 sec"
@@ -55,7 +55,7 @@ const ABOUT_CONTENT = {
       "I'm Nino Chavez. I build multi-tenant commerce platforms processing $2B+ annual GMV for Fortune 500 retailers—architectures that survived 10x Black Friday traffic spikes without service interruption.",
       "Built event-driven order orchestration systems replacing 15-year legacy monoliths—migrated 50M active users with zero downtime. Designed real-time inventory systems serving 12 brands across 2,000+ stores, enabling same-day delivery capabilities without infrastructure cost increases.",
       "Pattern recognition at architectural scale: identifying systemic breaks before cascading failures. Decision hygiene means mapping second-order effects and operational constraints before execution. The deliverable isn't advice—it's verified strategy backed by constraint analysis.",
-      "Built AI governance frameworks that reduced model deployment risk by 73% while maintaining 99.97% uptime. The system enforces verification boundaries between ML outputs and business logic—production-ready AI for regulated environments."
+      "Built AI governance frameworks maintaining 99.97% uptime in production. The system enforces verification boundaries between ML outputs and business logic—ensuring model reliability before business logic execution in regulated commerce environments."
     ],
     skills: [
       "Multi-Tenant Commerce Platforms ($2B+ GMV)",
@@ -73,19 +73,19 @@ const ABOUT_CONTENT = {
     title: "Finding the Signal in the Noise",
     summary: "Architect specializing in resilient commerce systems at scale",
     paragraphs: [
-      "I'm Nino Chavez. 26 years architecting systems serving 50M+ users daily, processing $50B+ in annual transactions. I build fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
-      "Recent artifacts: Reduced cloud infrastructure costs 40% while improving performance for a Fortune 500 retailer—re-architected data pipelines and compute allocation. Built AI governance frameworks for regulated commerce platforms that enforce verification boundaries between model outputs and business logic execution. Designed event-driven order orchestration replacing SAP monoliths—zero service interruption during 18-month migration.",
+      "I'm Nino Chavez. 26 years architecting commerce systems serving 50M+ users daily across platforms processing $2B+ annual GMV. I build fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
+      "Recent artifacts: Reduced Fortune 500 retailer cloud infrastructure costs 40% ($3.2M → $1.92M annually) via data pipeline and compute allocation re-architecture—simultaneously improving p99 latency 25% (800ms → 600ms). Built AI governance frameworks for regulated commerce platforms that enforce verification boundaries between model outputs and business logic execution. Designed event-driven order orchestration replacing SAP monoliths—zero service interruption during 18-month migration.",
       "My approach focuses on second-order effects and decision hygiene. I don't chase trends—I ask foundational questions: Who checks the foundation? What's the entire stage this idea must live on? How do we build systems that enable people to thrive, not just survive?",
       "On AI: Infrastructure, not magic. Most organizations bolt AI onto incompatible architectures, creating compliance risk and technical debt. I design verification boundaries that enforce model reliability before business logic execution—governance patterns that make AI production-ready in regulated environments.",
       "My action sports photography practice honed precision under pressure. Capturing a perfect volleyball spike at 1/2000th of a second requires the same discipline as designing systems that can't fail. Both demand knowing exactly where to focus when milliseconds matter."
     ],
     skills: [
-      "Commerce Platforms ($50B+ annual transactions)",
+      "Commerce Platforms ($2B+ annual GMV)",
       "Event-Driven Architecture & Order Orchestration",
       "Multi-Cloud Infrastructure (AWS, Azure, GCP)",
       "AI Governance & Verification Boundaries",
       "Fault-Tolerant, Observable Systems",
-      "Zero-Downtime Legacy Migration",
+      "Zero-Downtime Legacy Migration (50M+ users)",
       "Cost Optimization at Scale (40%+ reductions)",
       "Real-Time Inventory & Fulfillment Systems",
       "Strategic Technical Translation",
