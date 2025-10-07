@@ -67,6 +67,22 @@ export default async function handler(req, res) {
     res.status(200).send(html);
   } catch (error) {
     console.error('SSR Error:', error);
-    res.status(500).send('Internal Server Error');
+    console.error('Error stack:', error.stack);
+    console.error('Working directory:', process.cwd());
+    console.error('Files in cwd:', fs.readdirSync(process.cwd()));
+
+    // Send detailed error in development
+    const errorHtml = `
+      <!DOCTYPE html>
+      <html><body>
+        <h1>SSR Error</h1>
+        <pre>${error.message}</pre>
+        <pre>${error.stack}</pre>
+        <h2>Debug Info:</h2>
+        <p>CWD: ${process.cwd()}</p>
+        <p>Files: ${fs.readdirSync(process.cwd()).join(', ')}</p>
+      </body></html>
+    `;
+    res.status(500).send(errorHtml);
   }
 }
