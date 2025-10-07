@@ -1,20 +1,21 @@
 {
   "buildCommand": "npm run build:ssr",
-  "outputDirectory": "dist/client",
   "devCommand": "npm run dev",
   "installCommand": "npm install --include=dev",
   "framework": null,
+  "functions": {
+    "api/ssr.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  },
   "rewrites": [
     {
-      "source": "/assets/:path*",
-      "destination": "/assets/:path*"
+      "source": "/",
+      "destination": "/api/ssr"
     },
     {
-      "source": "/images/:path*",
-      "destination": "/images/:path*"
-    },
-    {
-      "source": "/:path*",
+      "source": "/:path((?!api|assets|images).*)",
       "destination": "/api/ssr"
     }
   ],
