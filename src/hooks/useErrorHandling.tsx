@@ -134,6 +134,9 @@ class ErrorHandler {
     }
 
     private setupGlobalErrorHandlers(): void {
+        // Only set up handlers on client-side (not during SSR)
+        if (typeof window === 'undefined') return;
+
         // Handle unhandled promise rejections
         window.addEventListener('unhandledrejection', (event) => {
             const error = this.createGameFlowError(
@@ -283,6 +286,7 @@ class ErrorHandler {
                     type: 'reload',
                     message: 'Reloading page to recover from error...',
                     action: async () => {
+                        if (typeof window === 'undefined') return;
                         await this.delay(2000); // Give user time to read message
                         window.location.reload();
                     }
@@ -341,6 +345,8 @@ class ErrorHandler {
     }
 
     private disableAnimations(): void {
+        if (typeof document === 'undefined') return;
+
         // Add CSS to disable animations
         const style = document.createElement('style');
         style.textContent = `
@@ -355,11 +361,15 @@ class ErrorHandler {
     }
 
     private simplifyInteractions(): void {
+        if (typeof document === 'undefined') return;
+
         // Disable complex interactions, keep basic navigation
         document.body.setAttribute('data-game-flow-fallback-mode', 'true');
     }
 
     private enableHighContrastMode(): void {
+        if (typeof document === 'undefined') return;
+
         // Improve visibility for error states
         document.body.setAttribute('data-game-flow-high-contrast', 'true');
     }
@@ -388,6 +398,8 @@ class ErrorHandler {
     }
 
     private loadFallbackContent(section: GameFlowSection): void {
+        if (typeof document === 'undefined') return;
+
         // Implementation would load simplified content for the section
         const sectionElement = document.getElementById(section);
         if (sectionElement) {
@@ -448,8 +460,8 @@ class ErrorHandler {
             const fallbackState = this.fallbackStates.get(section);
             this.restoreSectionState(section, fallbackState);
             this.fallbackStates.delete(section);
-        } else {
-            // Global recovery
+        } else if (typeof document !== 'undefined') {
+            // Global recovery (client-side only)
             this.removeRecoveryStyles();
             document.body.removeAttribute('data-game-flow-fallback-mode');
             document.body.removeAttribute('data-game-flow-high-contrast');
@@ -457,6 +469,8 @@ class ErrorHandler {
     }
 
     private restoreSectionState(section: GameFlowSection, state: any): void {
+        if (typeof document === 'undefined') return;
+
         const sectionElement = document.getElementById(section);
         if (sectionElement) {
             sectionElement.removeAttribute('data-fallback-mode');
@@ -464,6 +478,8 @@ class ErrorHandler {
     }
 
     private removeRecoveryStyles(): void {
+        if (typeof document === 'undefined') return;
+
         const recoveryStyles = document.querySelectorAll('[data-game-flow-error-recovery]');
         recoveryStyles.forEach(style => style.remove());
     }
@@ -472,6 +488,8 @@ class ErrorHandler {
         if (section) {
             return this.fallbackStates.has(section);
         }
+
+        if (typeof document === 'undefined') return false;
 
         return document.body.hasAttribute('data-game-flow-fallback-mode');
     }
