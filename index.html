@@ -12,9 +12,23 @@
     <title>Nino Chavez | Portfolio</title>
 
     <!-- Performance Hints -->
-    <!-- Preload critical LCP image for faster initial paint -->
+    <!-- Preload critical LCP image for faster initial paint (traditional layout only) -->
+    <!-- Canvas/timeline layouts lazy-load sections, so preload only benefits default layout -->
     <!-- Mobile-first: Lighthouse runs on mobile viewport, so preload mobile image only -->
-    <link rel="preload" href="/images/hero-mobile.webp" as="image" fetchpriority="high" type="image/webp">
+    <script>
+        // Conditional preload: only for traditional layout (no ?layout= param or ?layout=traditional)
+        const urlParams = new URLSearchParams(window.location.search);
+        const layout = urlParams.get('layout');
+        if (!layout || layout === 'traditional') {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = '/images/hero-mobile.webp';
+            link.fetchPriority = 'high';
+            link.type = 'image/webp';
+            document.head.appendChild(link);
+        }
+    </script>
     <!-- Vite automatically injects modulepreload hints during build -->
     <link rel="preload" href="/src/index.css" as="style">
 

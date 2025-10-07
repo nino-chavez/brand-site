@@ -55,6 +55,17 @@ export const FramerTimelineLayout: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const playIntervalRef = useRef<number | null>(null);
 
+  // Use scroll-based navigation hook - MUST be called before other hooks that depend on it
+  const { state: scrollState, registerSection, transitionToSection } = useTimelineScroll({
+    totalSections: TIMELINE_SECTIONS.length,
+    onSectionChange: (newIndex, dir) => {
+      setDirection(dir);
+      console.log(`[INFO] Transitioned to section ${newIndex} (${TIMELINE_SECTIONS[newIndex].name})`);
+    },
+    transitionDuration: 400, // Reduced from 800ms for desktop app snappiness
+    scrollThreshold: 250 // Increased from 150px to prevent content cutoff
+  });
+
   // Professional timecode formatter (HH:MM:SS:FF format)
   const formatTimecode = useCallback((sectionIndex: number, progress: number): string => {
     const fps = 30; // 30 frames per second
@@ -132,17 +143,6 @@ export const FramerTimelineLayout: React.FC = () => {
       document.removeEventListener('contextmenu', handleContextMenu);
     };
   }, []);
-
-  // Use scroll-based navigation hook
-  const { state: scrollState, registerSection, transitionToSection } = useTimelineScroll({
-    totalSections: TIMELINE_SECTIONS.length,
-    onSectionChange: (newIndex, dir) => {
-      setDirection(dir);
-      console.log(`[INFO] Transitioned to section ${newIndex} (${TIMELINE_SECTIONS[newIndex].name})`);
-    },
-    transitionDuration: 400, // Reduced from 800ms for desktop app snappiness
-    scrollThreshold: 250 // Increased from 150px to prevent content cutoff
-  });
 
   const currentSection = TIMELINE_SECTIONS[scrollState.currentSectionIndex];
 
