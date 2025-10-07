@@ -17,8 +17,7 @@
  */
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
-import { useTimelineScroll } from '../../hooks/useTimelineScroll';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 import TimelineThumbnail from './TimelineThumbnail';
 import type { SectionId } from '../../types';
 
@@ -47,24 +46,99 @@ const TIMELINE_SECTIONS: TimelineSection[] = [
 ];
 
 export const FramerTimelineLayout: React.FC = () => {
+  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [direction, setDirection] = useState<'forward' | 'backward'>('forward');
   const [filmstripVisible, setFilmstripVisible] = useState(true);
   const [transitionStyle, setTransitionStyle] = useState<string>('spring');
   const [isPlaying, setIsPlaying] = useState(false);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const playIntervalRef = useRef<number | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  // Use scroll-based navigation hook - MUST be called before other hooks that depend on it
-  const { state: scrollState, registerSection, transitionToSection } = useTimelineScroll({
-    totalSections: TIMELINE_SECTIONS.length,
-    onSectionChange: (newIndex, dir) => {
-      setDirection(dir);
-      console.log(`[INFO] Transitioned to section ${newIndex} (${TIMELINE_SECTIONS[newIndex].name})`);
-    },
-    transitionDuration: 400, // Reduced from 800ms for desktop app snappiness
-    scrollThreshold: 250 // Increased from 150px to prevent content cutoff
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionScrollRef = useRef<HTMLDivElement>(null);
+  const playIntervalRef = useRef<number | null>(null);
+  const scrollAccumulator = useRef(0);
+
+  // Track scroll progress within current section using Framer Motion
+  const { scrollYProgress } = useScroll({
+    container: sectionScrollRef,
+    layoutEffect: false
   });
+
+  // Update scroll progress state
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setScrollProgress(latest);
+  });
+
+  // Transition to next/previous section
+  const transitionToSection = useCallback((newIndex: number, dir: 'forward' | 'backward') => {
+    if (newIndex < 0 || newIndex >= TIMELINE_SECTIONS.length) return;
+    if (isTransitioning) return;
+
+    console.log(`[INFO] Transitioning to section ${newIndex} (${TIMELINE_SECTIONS[newIndex].name})`);
+
+    setIsTransitioning(true);
+    setDirection(dir);
+    scrollAccumulator.current = 0;
+
+    // Transition to new section
+    setTimeout(() => {
+      setCurrentSectionIndex(newIndex);
+      setScrollProgress(0);
+
+      // Reset scroll position of new section container
+      if (sectionScrollRef.current) {
+        sectionScrollRef.current.scrollTop = 0;
+      }
+
+      setIsTransitioning(false);
+    }, 400);
+  }, [isTransitioning]);
+
+  // Scroll event handler for boundary detection
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (isTransitioning) {
+        e.preventDefault();
+        return;
+      }
+
+      const scrollingDown = e.deltaY > 0;
+      const scrollingUp = e.deltaY < 0;
+
+      // Detect boundaries (95% = bottom, 5% = top)
+      const atBottom = scrollProgress > 0.95;
+      const atTop = scrollProgress < 0.05;
+
+      if (scrollingDown && atBottom && currentSectionIndex < TIMELINE_SECTIONS.length - 1) {
+        // Accumulate scroll momentum
+        scrollAccumulator.current += Math.abs(e.deltaY);
+
+        if (scrollAccumulator.current > 100) {
+          e.preventDefault();
+          transitionToSection(currentSectionIndex + 1, 'forward');
+        }
+      } else if (scrollingUp && atTop && currentSectionIndex > 0) {
+        // Accumulate scroll momentum
+        scrollAccumulator.current += Math.abs(e.deltaY);
+
+        if (scrollAccumulator.current > 100) {
+          e.preventDefault();
+          transitionToSection(currentSectionIndex - 1, 'backward');
+        }
+      } else {
+        // Reset accumulator when not at boundary
+        scrollAccumulator.current = 0;
+      }
+    };
+
+    const container = sectionScrollRef.current;
+    if (container) {
+      container.addEventListener('wheel', handleWheel, { passive: false });
+      return () => container.removeEventListener('wheel', handleWheel);
+    }
+  }, [scrollProgress, currentSectionIndex, isTransitioning, transitionToSection]);
 
   // Professional timecode formatter (HH:MM:SS:FF format)
   const formatTimecode = useCallback((sectionIndex: number, progress: number): string => {
@@ -89,25 +163,25 @@ export const FramerTimelineLayout: React.FC = () => {
 
   // Transport controls: Previous frame
   const previousFrame = useCallback(() => {
-    const prevIndex = scrollState.currentSectionIndex - 1;
+    const prevIndex = currentSectionIndex - 1;
     if (prevIndex >= 0) {
       transitionToSection(prevIndex, 'backward');
     }
-  }, [scrollState.currentSectionIndex, transitionToSection]);
+  }, [currentSectionIndex, transitionToSection]);
 
   // Transport controls: Next frame
   const nextFrame = useCallback(() => {
-    const nextIndex = scrollState.currentSectionIndex + 1;
+    const nextIndex = currentSectionIndex + 1;
     if (nextIndex < TIMELINE_SECTIONS.length) {
       transitionToSection(nextIndex, 'forward');
     }
-  }, [scrollState.currentSectionIndex, transitionToSection]);
+  }, [currentSectionIndex, transitionToSection]);
 
   // Auto-play: advance to next section automatically
   useEffect(() => {
     if (isPlaying) {
       playIntervalRef.current = window.setInterval(() => {
-        const nextIndex = scrollState.currentSectionIndex + 1;
+        const nextIndex = currentSectionIndex + 1;
         if (nextIndex < TIMELINE_SECTIONS.length) {
           transitionToSection(nextIndex, 'forward');
         } else {
@@ -123,7 +197,7 @@ export const FramerTimelineLayout: React.FC = () => {
     return () => {
       if (playIntervalRef.current) clearInterval(playIntervalRef.current);
     };
-  }, [isPlaying, scrollState.currentSectionIndex, transitionToSection]);
+  }, [isPlaying, currentSectionIndex, transitionToSection]);
 
   // Close context menu on click outside
   useEffect(() => {
@@ -144,10 +218,10 @@ export const FramerTimelineLayout: React.FC = () => {
     };
   }, []);
 
-  const currentSection = TIMELINE_SECTIONS[scrollState.currentSectionIndex];
+  const currentSection = TIMELINE_SECTIONS[currentSectionIndex];
 
-  // Scroll progress animation with spring physics
-  const scrollProgress = useSpring(scrollState.scrollProgress, {
+  // Scroll progress animation with spring physics (for smooth UI updates)
+  const scrollProgressSpring = useSpring(scrollProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
@@ -156,15 +230,15 @@ export const FramerTimelineLayout: React.FC = () => {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (scrollState.isTransitioning) return;
+      if (isTransitioning) return;
 
       if (e.key === 'ArrowRight' || e.key === 'l') {
-        const nextIndex = scrollState.currentSectionIndex + 1;
+        const nextIndex = currentSectionIndex + 1;
         if (nextIndex < TIMELINE_SECTIONS.length) {
           transitionToSection(nextIndex, 'forward');
         }
       } else if (e.key === 'ArrowLeft' || e.key === 'h') {
-        const prevIndex = scrollState.currentSectionIndex - 1;
+        const prevIndex = currentSectionIndex - 1;
         if (prevIndex >= 0) {
           transitionToSection(prevIndex, 'backward');
         }
@@ -176,18 +250,18 @@ export const FramerTimelineLayout: React.FC = () => {
         transitionToSection(TIMELINE_SECTIONS.length - 1, 'forward');
       } else if (e.key >= '1' && e.key <= '6') {
         const targetIndex = parseInt(e.key) - 1;
-        const dir = targetIndex > scrollState.currentSectionIndex ? 'forward' : 'backward';
+        const dir = targetIndex > currentSectionIndex ? 'forward' : 'backward';
         transitionToSection(targetIndex, dir);
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [scrollState.currentSectionIndex, scrollState.isTransitioning, transitionToSection]);
+  }, [currentSectionIndex, isTransitioning, transitionToSection]);
 
   const navigateToSection = (index: number) => {
-    if (scrollState.isTransitioning) return;
-    const dir = index > scrollState.currentSectionIndex ? 'forward' : 'backward';
+    if (isTransitioning) return;
+    const dir = index > currentSectionIndex ? 'forward' : 'backward';
     transitionToSection(index, dir);
   };
 
@@ -323,10 +397,10 @@ export const FramerTimelineLayout: React.FC = () => {
               {/* Left arrow */}
               <button
                 onClick={() => {
-                  const prevIndex = scrollState.currentSectionIndex - 1;
+                  const prevIndex = currentSectionIndex - 1;
                   if (prevIndex >= 0) transitionToSection(prevIndex, 'backward');
                 }}
-                disabled={scrollState.isTransitioning || scrollState.currentSectionIndex === 0}
+                disabled={isTransitioning || currentSectionIndex === 0}
                 style={{
                   background: 'rgba(139, 92, 246, 0.2)',
                   border: '1px solid rgba(139, 92, 246, 0.5)',
@@ -337,10 +411,10 @@ export const FramerTimelineLayout: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  cursor: scrollState.isTransitioning ? 'not-allowed' : 'pointer',
+                  cursor: isTransitioning ? 'not-allowed' : 'pointer',
                   marginRight: '8px',
                   flexShrink: 0,
-                  opacity: scrollState.currentSectionIndex === 0 ? 0.3 : 1,
+                  opacity: currentSectionIndex === 0 ? 0.3 : 1,
                 }}
               >
                 ◄
@@ -366,7 +440,7 @@ export const FramerTimelineLayout: React.FC = () => {
                     sectionId={section.id}
                     sectionName={section.name}
                     index={index}
-                    isActive={index === scrollState.currentSectionIndex}
+                    isActive={index === currentSectionIndex}
                     onClick={navigateToSection}
                   />
                 ))}
@@ -375,10 +449,10 @@ export const FramerTimelineLayout: React.FC = () => {
               {/* Right arrow */}
               <button
                 onClick={() => {
-                  const nextIndex = scrollState.currentSectionIndex + 1;
+                  const nextIndex = currentSectionIndex + 1;
                   if (nextIndex < TIMELINE_SECTIONS.length) transitionToSection(nextIndex, 'forward');
                 }}
-                disabled={scrollState.isTransitioning || scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1}
+                disabled={isTransitioning || currentSectionIndex === TIMELINE_SECTIONS.length - 1}
                 style={{
                   background: 'rgba(139, 92, 246, 0.2)',
                   border: '1px solid rgba(139, 92, 246, 0.5)',
@@ -389,10 +463,10 @@ export const FramerTimelineLayout: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  cursor: scrollState.isTransitioning ? 'not-allowed' : 'pointer',
+                  cursor: isTransitioning ? 'not-allowed' : 'pointer',
                   marginLeft: '8px',
                   flexShrink: 0,
-                  opacity: scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 0.3 : 1,
+                  opacity: currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 0.3 : 1,
                 }}
               >
                 ►
@@ -410,7 +484,7 @@ export const FramerTimelineLayout: React.FC = () => {
                 transformOrigin: 'left',
                 scaleX: scrollProgress,
                 width: `${100 / TIMELINE_SECTIONS.length}%`,
-                marginLeft: `${(scrollState.currentSectionIndex * 100) / TIMELINE_SECTIONS.length}%`,
+                marginLeft: `${(currentSectionIndex * 100) / TIMELINE_SECTIONS.length}%`,
               }}
             />
           </motion.div>
@@ -421,7 +495,7 @@ export const FramerTimelineLayout: React.FC = () => {
       <div className="relative w-full overflow-hidden" style={{ paddingTop: '160px' }}>
         <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
-            key={scrollState.currentSectionIndex}
+            key={currentSectionIndex}
             custom={direction}
             variants={slideVariants}
             initial="enter"
@@ -434,18 +508,18 @@ export const FramerTimelineLayout: React.FC = () => {
             }}
             className="w-full"
           >
-            {/* Section Wrapper - Window scrolls, not the section itself */}
+            {/* Section Wrapper - Scrollable container for current section */}
             <div
-              ref={(el) => registerSection(scrollState.currentSectionIndex, el)}
-              className="w-full"
+              ref={sectionScrollRef}
+              className="w-full overflow-y-auto"
               style={{
-                minHeight: `calc(100vh - 160px)`, // Account for header + filmstrip
+                height: `calc(100vh - 160px)`, // Account for header + filmstrip
                 position: 'relative'
               }}
             >
               {React.createElement(currentSection.component, {
                 active: true,
-                progress: scrollState.scrollProgress
+                progress: scrollProgress
               })}
             </div>
           </motion.div>
@@ -469,7 +543,7 @@ export const FramerTimelineLayout: React.FC = () => {
           <motion.button
             key={section.id}
             onClick={() => navigateToSection(index)}
-            disabled={scrollState.isTransitioning}
+            disabled={isTransitioning}
             style={{
               position: 'relative',
               width: '4px',
@@ -477,9 +551,9 @@ export const FramerTimelineLayout: React.FC = () => {
               borderRadius: '2px',
               background: 'rgba(255, 255, 255, 0.1)',
               overflow: 'hidden',
-              cursor: scrollState.isTransitioning ? 'not-allowed' : 'pointer',
+              cursor: isTransitioning ? 'not-allowed' : 'pointer',
             }}
-            whileHover={{ scale: scrollState.isTransitioning ? 1 : 1.1 }}
+            whileHover={{ scale: isTransitioning ? 1 : 1.1 }}
             title={`${section.name} (${index + 1}/${TIMELINE_SECTIONS.length})`}
           >
             {/* Fill indicator */}
@@ -493,9 +567,9 @@ export const FramerTimelineLayout: React.FC = () => {
               }}
               initial={{ height: 0 }}
               animate={{
-                height: index === scrollState.currentSectionIndex
-                  ? `${scrollState.scrollProgress * 100}%`
-                  : index < scrollState.currentSectionIndex
+                height: index === currentSectionIndex
+                  ? `${scrollProgress * 100}%`
+                  : index < currentSectionIndex
                   ? '100%'
                   : '0%'
               }}
@@ -541,7 +615,7 @@ export const FramerTimelineLayout: React.FC = () => {
               fontWeight: 600,
               letterSpacing: '0.5px'
             }}>
-              Frame {scrollState.currentSectionIndex + 1}/{TIMELINE_SECTIONS.length} · {currentSection.name}
+              Frame {currentSectionIndex + 1}/{TIMELINE_SECTIONS.length} · {currentSection.name}
             </div>
             <div style={{
               fontSize: '11px',
@@ -549,11 +623,11 @@ export const FramerTimelineLayout: React.FC = () => {
               marginTop: '4px',
               fontFamily: 'monospace'
             }}>
-              {scrollState.isAtSectionBottom
+              {(scrollProgress > 0.95)
                 ? '▸ Scroll to advance'
-                : scrollState.isAtSectionTop
+                : (scrollProgress < 0.05)
                 ? '▾ Scroll down'
-                : `${Math.round(scrollState.scrollProgress * 100)}%`}
+                : `${Math.round(scrollProgress * 100)}%`}
             </div>
           </div>
         </div>
@@ -587,7 +661,7 @@ export const FramerTimelineLayout: React.FC = () => {
 
       {/* Scroll Threshold Indicator - Shows when approaching transition boundary */}
       <AnimatePresence>
-        {scrollState.scrollProgress > 0.7 && !scrollState.isTransitioning && (
+        {scrollProgress > 0.7 && !isTransitioning && (
           <motion.div
             style={{
               position: 'fixed',
@@ -609,7 +683,7 @@ export const FramerTimelineLayout: React.FC = () => {
 
       {/* Transition Overlay */}
       <AnimatePresence>
-        {scrollState.isTransitioning && (
+        {isTransitioning && (
           <motion.div
             className="fixed inset-0 bg-black/20 z-40 pointer-events-none"
             initial={{ opacity: 0 }}
@@ -645,7 +719,7 @@ export const FramerTimelineLayout: React.FC = () => {
           {/* Previous frame button */}
           <button
             onClick={previousFrame}
-            disabled={scrollState.isTransitioning || scrollState.currentSectionIndex === 0}
+            disabled={isTransitioning || currentSectionIndex === 0}
             style={{
               background: 'rgba(50, 50, 50, 0.8)',
               border: '1px solid rgba(100, 100, 100, 0.5)',
@@ -653,8 +727,8 @@ export const FramerTimelineLayout: React.FC = () => {
               color: 'rgba(255, 255, 255, 0.85)',
               padding: 'clamp(6px, 1.5vh, 8px) clamp(10px, 2vw, 12px)', // Responsive padding for touch
               fontSize: 'clamp(13px, 3vw, 14px)', // Larger for mobile
-              cursor: scrollState.currentSectionIndex === 0 ? 'not-allowed' : 'pointer',
-              opacity: scrollState.currentSectionIndex === 0 ? 0.3 : 1,
+              cursor: currentSectionIndex === 0 ? 'not-allowed' : 'pointer',
+              opacity: currentSectionIndex === 0 ? 0.3 : 1,
               minWidth: '44px', // iOS minimum touch target
               minHeight: '36px',
               display: 'flex',
@@ -670,7 +744,7 @@ export const FramerTimelineLayout: React.FC = () => {
           {/* Play/Pause button */}
           <button
             onClick={togglePlay}
-            disabled={scrollState.isTransitioning || scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1}
+            disabled={isTransitioning || currentSectionIndex === TIMELINE_SECTIONS.length - 1}
             style={{
               background: isPlaying ? 'rgba(139, 92, 246, 0.3)' : 'rgba(50, 50, 50, 0.8)',
               border: isPlaying ? '1px solid rgba(139, 92, 246, 0.6)' : '1px solid rgba(100, 100, 100, 0.5)',
@@ -695,7 +769,7 @@ export const FramerTimelineLayout: React.FC = () => {
           {/* Next frame button */}
           <button
             onClick={nextFrame}
-            disabled={scrollState.isTransitioning || scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1}
+            disabled={isTransitioning || currentSectionIndex === TIMELINE_SECTIONS.length - 1}
             style={{
               background: 'rgba(50, 50, 50, 0.8)',
               border: '1px solid rgba(100, 100, 100, 0.5)',
@@ -703,8 +777,8 @@ export const FramerTimelineLayout: React.FC = () => {
               color: 'rgba(255, 255, 255, 0.85)',
               padding: 'clamp(6px, 1.5vh, 8px) clamp(10px, 2vw, 12px)', // Responsive padding
               fontSize: 'clamp(13px, 3vw, 14px)', // Larger for mobile
-              cursor: scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 'not-allowed' : 'pointer',
-              opacity: scrollState.currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 0.3 : 1,
+              cursor: currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 'not-allowed' : 'pointer',
+              opacity: currentSectionIndex === TIMELINE_SECTIONS.length - 1 ? 0.3 : 1,
               minWidth: '44px', // iOS minimum touch target
               minHeight: '36px',
               display: 'flex',
@@ -721,7 +795,7 @@ export const FramerTimelineLayout: React.FC = () => {
 
           {/* Frame counter */}
           <span style={{ fontWeight: 600, letterSpacing: '0.5px', fontSize: '10px' }}>
-            {scrollState.currentSectionIndex + 1}/{TIMELINE_SECTIONS.length}
+            {currentSectionIndex + 1}/{TIMELINE_SECTIONS.length}
           </span>
         </div>
 
@@ -744,7 +818,7 @@ export const FramerTimelineLayout: React.FC = () => {
               const clickX = e.clientX - rect.left;
               const percentage = clickX / rect.width;
               const targetSection = Math.floor(percentage * TIMELINE_SECTIONS.length);
-              const dir = targetSection > scrollState.currentSectionIndex ? 'forward' : 'backward';
+              const dir = targetSection > currentSectionIndex ? 'forward' : 'backward';
               transitionToSection(Math.min(targetSection, TIMELINE_SECTIONS.length - 1), dir);
             }}
           >
@@ -768,7 +842,7 @@ export const FramerTimelineLayout: React.FC = () => {
             <motion.div
               style={{
                 position: 'absolute',
-                left: `${((scrollState.currentSectionIndex + scrollState.scrollProgress) / TIMELINE_SECTIONS.length) * 100}%`,
+                left: `${((currentSectionIndex + scrollProgress) / TIMELINE_SECTIONS.length) * 100}%`,
                 top: -2,
                 width: '2px',
                 height: 'calc(100% + 4px)',
@@ -778,7 +852,7 @@ export const FramerTimelineLayout: React.FC = () => {
                 pointerEvents: 'none',
               }}
               initial={false}
-              animate={{ left: `${((scrollState.currentSectionIndex + scrollState.scrollProgress) / TIMELINE_SECTIONS.length) * 100}%` }}
+              animate={{ left: `${((currentSectionIndex + scrollProgress) / TIMELINE_SECTIONS.length) * 100}%` }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             />
 
@@ -786,7 +860,7 @@ export const FramerTimelineLayout: React.FC = () => {
             <motion.div
               style={{
                 position: 'absolute',
-                left: `${((scrollState.currentSectionIndex + scrollState.scrollProgress) / TIMELINE_SECTIONS.length) * 100}%`,
+                left: `${((currentSectionIndex + scrollProgress) / TIMELINE_SECTIONS.length) * 100}%`,
                 top: -4,
                 width: 0,
                 height: 0,
@@ -798,7 +872,7 @@ export const FramerTimelineLayout: React.FC = () => {
                 filter: 'drop-shadow(0 0 4px rgba(139, 92, 246, 0.8))',
               }}
               initial={false}
-              animate={{ left: `${((scrollState.currentSectionIndex + scrollState.scrollProgress) / TIMELINE_SECTIONS.length) * 100}%` }}
+              animate={{ left: `${((currentSectionIndex + scrollProgress) / TIMELINE_SECTIONS.length) * 100}%` }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             />
           </div>
@@ -820,7 +894,7 @@ export const FramerTimelineLayout: React.FC = () => {
             fontFamily: 'SF Mono, Monaco, Consolas, monospace',
             fontSize: '10px',
           }}>
-            {formatTimecode(scrollState.currentSectionIndex, scrollState.scrollProgress)}
+            {formatTimecode(currentSectionIndex, scrollProgress)}
           </div>
 
           <span style={{ opacity: 0.3 }}>|</span>
@@ -890,32 +964,32 @@ export const FramerTimelineLayout: React.FC = () => {
               <button
                 key={section.id}
                 onClick={() => {
-                  const dir = index > scrollState.currentSectionIndex ? 'forward' : 'backward';
+                  const dir = index > currentSectionIndex ? 'forward' : 'backward';
                   transitionToSection(index, dir);
                   setContextMenu(null);
                 }}
-                disabled={index === scrollState.currentSectionIndex}
+                disabled={index === currentSectionIndex}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   width: '100%',
                   padding: '8px 12px',
-                  background: index === scrollState.currentSectionIndex ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
+                  background: index === currentSectionIndex ? 'rgba(139, 92, 246, 0.2)' : 'transparent',
                   border: 'none',
                   borderRadius: '4px',
-                  color: index === scrollState.currentSectionIndex ? 'rgba(139, 92, 246, 0.9)' : 'rgba(255, 255, 255, 0.85)',
-                  cursor: index === scrollState.currentSectionIndex ? 'default' : 'pointer',
+                  color: index === currentSectionIndex ? 'rgba(139, 92, 246, 0.9)' : 'rgba(255, 255, 255, 0.85)',
+                  cursor: index === currentSectionIndex ? 'default' : 'pointer',
                   textAlign: 'left',
                   transition: 'background 150ms',
                 }}
                 onMouseEnter={(e) => {
-                  if (index !== scrollState.currentSectionIndex) {
+                  if (index !== currentSectionIndex) {
                     e.currentTarget.style.background = 'rgba(100, 100, 100, 0.2)';
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (index !== scrollState.currentSectionIndex) {
+                  if (index !== currentSectionIndex) {
                     e.currentTarget.style.background = 'transparent';
                   }
                 }}
