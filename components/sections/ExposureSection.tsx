@@ -202,23 +202,23 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
         className="relative z-20 min-h-screen flex flex-col training-log-aesthetic"
         data-testid="insights-container"
       >
-        <div className="flex-1 flex items-center justify-center py-16">
-          <div className="max-w-6xl mx-auto px-8 py-8">
+        <div className="flex-1 flex items-center justify-center py-8 md:py-16">
+          <div className="max-w-6xl mx-auto px-4 md:px-8 py-4 md:py-8">
 
             {/* Section header */}
-            <div className="text-center mb-16">
+            <div className="text-center mb-8 md:mb-16">
               <h2
                 ref={headingRef}
-                className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
+                className={`text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 md:mb-6 leading-tight ${getClasses(headingVisible)}`}
               >
                 Signal Dispatch
                 <span className="block text-athletic-brand-violet">Field Notes</span>
               </h2>
               <p
                 ref={subtitleRef}
-                className={`text-xl text-white/80 max-w-3xl mx-auto leading-relaxed ${getClasses(subtitleVisible)}`}
+                className={`text-base md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed px-4 ${getClasses(subtitleVisible)}`}
               >
-                Writing from the field—where architecture decks meet enterprise reality.<br />
+                Writing from the field—where architecture decks meet enterprise reality.<br className="hidden md:inline" />
                 Observations on commerce platforms, systems thinking, and reading the road.
               </p>
             </div>
@@ -227,8 +227,9 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
             <div className="flex justify-center items-center space-x-4 mb-8">
               <button
                 onClick={handlePreviousArticle}
-                className="p-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
+                className="p-3 min-h-[48px] min-w-[48px] bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
                 title="Previous insight"
+                aria-label="Previous article"
               >
                 ←
               </button>
@@ -246,7 +247,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
 
               <button
                 onClick={handleNextArticle}
-                className="p-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
+                className="p-3 min-h-[48px] min-w-[48px] bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
                 title="Next insight"
                 data-testid="next-article"
               >

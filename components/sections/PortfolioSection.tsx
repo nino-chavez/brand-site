@@ -196,16 +196,16 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
 
       {/* Main content - clean completion interface */}
       <div className="relative z-20 min-h-screen flex flex-col justify-center">
-        <div className="max-w-6xl mx-auto px-8 py-16">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
 
           {/* Journey completion narrative */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-8 md:mb-16">
             <div data-testid="journey-complete">
               <div className="mb-6">
                 <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Contact</div>
                 <h2
                   ref={headingRef}
-                  className={`text-4xl md:text-6xl font-black text-white leading-tight ${getClasses(headingVisible)}`}
+                  className={`text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight ${getClasses(headingVisible)}`}
                 >
                   The Shot is
                   <span className="block text-athletic-brand-violet">Complete</span>
@@ -214,15 +214,15 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
 
               <div
                 ref={narrativeRef}
-                className={`max-w-3xl mx-auto space-y-6 mb-12 ${getClasses(narrativeVisible)}`}
+                className={`max-w-3xl mx-auto space-y-6 mb-12 px-4 ${getClasses(narrativeVisible)}`}
                 data-testid="narrative-conclusion"
               >
-                <p className="text-xl text-white/90 leading-relaxed">
+                <p className="text-lg md:text-xl text-white/90 leading-relaxed">
                   From initial capture to final development, every frame in this portfolio represents
                   the same precision I bring to enterprise architecture—
                 </p>
 
-                <p className="text-lg text-white/80 leading-relaxed">
+                <p className="text-base md:text-lg text-white/80 leading-relaxed">
                   <strong className="text-athletic-brand-violet">Perfect timing</strong> in problem identification.
                   <strong className="text-athletic-brand-violet"> Sharp focus</strong> on business objectives.
                   <strong className="text-athletic-brand-violet"> Flawless composition</strong> of technical solutions.
@@ -254,10 +254,11 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                   <button
                     key={method.type}
                     onClick={() => handleContactMethodSelect(method.type)}
-                    className={`w-full p-5 text-left bg-gradient-to-r from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl hover:from-white/10 hover:to-white/5 hover:border-athletic-brand-violet/40 transition-all duration-300 hover:translate-x-1 group ${
+                    className={`w-full p-4 md:p-5 min-h-[48px] text-left bg-gradient-to-r from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl hover:from-white/10 hover:to-white/5 hover:border-athletic-brand-violet/40 transition-all duration-300 hover:translate-x-1 group ${
                       method.primary ? 'ring-1 ring-athletic-brand-violet/30 shadow-lg shadow-purple-500/10' : ''
                     }`}
                     data-testid={`${method.type}-contact`}
+                    aria-label={`Contact via ${method.label}`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">

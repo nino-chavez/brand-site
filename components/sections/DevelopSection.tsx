@@ -168,29 +168,29 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
     >
       {/* High-speed optimized gallery */}
       <div className="relative z-20 min-h-screen flex flex-col">
-        <div className="flex-1 flex flex-col justify-center py-16">
-          <div className="max-w-7xl mx-auto px-8 py-8">
+        <div className="flex-1 flex flex-col justify-center py-8 md:py-16">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-8">
 
             {/* Section header */}
-            <div className="text-center mb-16">
+            <div className="text-center mb-8 md:mb-16">
               <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Photography</div>
               <h2
                 ref={headingRef}
-                className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
+                className={`text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 md:mb-6 leading-tight ${getClasses(headingVisible)}`}
               >
                 Action Sports
                 <span className="block text-athletic-brand-violet">Photography</span>
               </h2>
               <div
                 ref={subtitleRef}
-                className={`text-center max-w-3xl mx-auto mb-8 ${getClasses(subtitleVisible)}`}
+                className={`text-center max-w-3xl mx-auto mb-8 px-4 ${getClasses(subtitleVisible)}`}
               >
-                <p className="text-lg text-white/80 leading-relaxed">
-                  I shoot action sports—mostly volleyball, surfing, and skating.<br />
+                <p className="text-base md:text-lg text-white/80 leading-relaxed">
+                  I shoot action sports—mostly volleyball, surfing, and skating.<br className="hidden md:inline" />
                   It's about timing, light, and being in the right place when it matters.
                 </p>
-                <p className="text-base text-white/60 mt-4">
-                  More at <a href="https://gallery.nino.photos" target="_blank" rel="noopener noreferrer" className="text-athletic-brand-violet hover:text-athletic-brand-cyan transition-colors">gallery.nino.photos</a>
+                <p className="text-sm md:text-base text-white/60 mt-4">
+                  More at <a href="https://gallery.nino.photos" target="_blank" rel="noopener noreferrer" className="text-athletic-brand-violet hover:text-athletic-brand-cyan transition-colors min-h-[48px] inline-flex items-center">gallery.nino.photos</a>
                 </p>
               </div>
 
