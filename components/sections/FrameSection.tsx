@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
@@ -63,7 +64,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [sidePanelOpen, setSidePanelOpen] = useState(false);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
-  const [cardPosition, setCardPosition] = useState<{ x: number; y: number } | null>(null);
+  const [cardPosition, setCardPosition] = useState<{ x: number; y: number; width: number } | null>(null);
 
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -119,15 +120,69 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
     // Capture card position if event provided
     if (event && event.currentTarget) {
       const cardRect = event.currentTarget.getBoundingClientRect();
-      setCardPosition({
-        x: cardRect.right, // Position panel to the right of card
-        y: cardRect.top
-      });
+
+      // Panel sizing: 45% of viewport width, with min/max constraints
+      const PANEL_WIDTH_PERCENT = 0.45;
+      const MIN_PANEL_WIDTH = 400;
+      const MAX_PANEL_WIDTH = 800;
+
+      const calculatedPanelWidth = window.innerWidth * PANEL_WIDTH_PERCENT;
+      const panelWidth = Math.max(MIN_PANEL_WIDTH, Math.min(MAX_PANEL_WIDTH, calculatedPanelWidth));
+
+      const GAP = 16; // Space between card and panel
+      const VIEWPORT_PADDING = 16; // Padding from viewport edge
+      const PANEL_MAX_HEIGHT = window.innerHeight * 0.8; // 80vh
+
+      // Calculate available space to the right of card
+      const spaceRightOfCard = window.innerWidth - cardRect.right - VIEWPORT_PADDING;
+
+      // Determine horizontal positioning strategy
+      let finalLeft: number;
+      let strategy: string;
+
+      if (spaceRightOfCard >= (panelWidth + GAP)) {
+        // Strategy 1: Plenty of space - position adjacent to card
+        finalLeft = cardRect.right + GAP;
+        strategy = 'adjacent';
+      } else if ((window.innerWidth - VIEWPORT_PADDING - panelWidth) >= 0) {
+        // Strategy 2: Not enough space next to card, but fits in viewport - align to right edge
+        finalLeft = window.innerWidth - panelWidth - VIEWPORT_PADDING;
+        strategy = 'right-aligned';
+      } else {
+        // Strategy 3: Panel too wide for viewport - start from padding
+        finalLeft = VIEWPORT_PADDING;
+        strategy = 'full-width';
+      }
+
+      // Vertical positioning: ensure panel stays within visible viewport
+      let finalTop: number;
+
+      // Check if card is fully visible in viewport
+      if (cardRect.top >= 0 && (cardRect.top + PANEL_MAX_HEIGHT) <= window.innerHeight) {
+        // Card is fully visible - align panel with card top
+        finalTop = cardRect.top;
+      } else if (cardRect.top < 0) {
+        // Card is scrolled partially above viewport - align panel to top with padding
+        finalTop = VIEWPORT_PADDING;
+      } else {
+        // Card is low in viewport - align panel to top with padding to keep it visible
+        finalTop = Math.max(VIEWPORT_PADDING, window.innerHeight - PANEL_MAX_HEIGHT - VIEWPORT_PADDING);
+      }
+
+      const position = {
+        x: finalLeft,
+        y: finalTop,
+        width: panelWidth
+      };
+
+
+      setCardPosition(position);
     } else {
       // Fallback: center of viewport
       setCardPosition({
         x: window.innerWidth / 2,
-        y: window.innerHeight / 2
+        y: window.innerHeight / 2,
+        width: 600
       });
     }
 
@@ -424,24 +479,27 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
         </div>
       </div>
 
-      {/* Side panel for project technical details - Framer Motion */}
-      <AnimatePresence>
-        {sidePanelOpen && cardPosition && (
-          <motion.div
+      {/* Side panel for project technical details - Framer Motion - Portal to body */}
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {sidePanelOpen && cardPosition && (
+            <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             style={{
               position: 'fixed',
               top: `${cardPosition.y}px`,
-              right: `${Math.max(0, window.innerWidth - (cardPosition.x + 16 + 800))}px`
+              left: `${cardPosition.x}px`,
+              width: `${cardPosition.width}px`,
+              maxHeight: '80vh'
             }}
             transition={{
               type: "spring",
               stiffness: 300,
               damping: 30
             }}
-            className="w-full sm:w-[90%] md:w-[600px] lg:w-[720px] xl:w-[800px] max-w-[90vw] max-h-[80vh] bg-black/95 backdrop-blur-xl border-l border-white/10 z-50 overflow-hidden rounded-l-lg shadow-2xl"
+            className="bg-black/95 backdrop-blur-xl border-l border-white/10 z-50 overflow-hidden rounded-l-lg shadow-2xl"
             data-testid="project-tech-side-panel"
             role="dialog"
             aria-modal="true"
@@ -599,7 +657,9 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
         )}
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+        document.body
+      )}
 
       {/* ViewfinderOverlay in frame mode */}
       <ViewfinderOverlay
