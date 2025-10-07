@@ -95,22 +95,24 @@ Claude: *Invokes test-coverage-guardian agent*
 
 ---
 
-#### Voice & Tone Validation
+#### Content Protocol Validation
 **Patterns:**
-- "validate voice"
+- "audit copy"
+- "validate protocol"
 - "check architect's protocol"
-- "validate copy"
+- "validate content"
+- "audit content compliance"
 - "check voice compliance"
-- "audit content voice"
-- "validate tone"
 
-**Triggers:** architects-voice-auditor agent
+**Triggers:** architects-protocol-auditor v2.0 agent
 
 **Example:**
 ```
-User: "validate voice in the About section"
-Claude: *Invokes architects-voice-auditor agent*
+User: "audit copy in the About section"
+Claude: *Invokes architects-protocol-auditor agent*
 ```
+
+**Note:** Supersedes legacy voice-tone-auditor, content-ux-reviewer, and architects-voice-auditor v1.0
 
 ---
 
@@ -129,7 +131,7 @@ Claude: *Invokes architects-voice-auditor agent*
 **Example:**
 ```
 User: "run all quality gates on the gallery changes"
-Claude: *Invokes all agents: architecture, accessibility, performance, metaphor, coverage, voice*
+Claude: *Invokes all agents: architecture, accessibility, performance, metaphor, coverage, protocol*
 ```
 
 ---
@@ -203,7 +205,7 @@ When you request validation, Claude will:
 | Performance | "check performance" |
 | Photography metaphor | "validate metaphor" |
 | Test coverage | "check coverage" |
-| Voice & tone compliance | "validate voice" or "check architect's protocol" |
+| Content protocol compliance | "audit copy" or "validate protocol" |
 | Everything | "run all quality gates" |
 
 ---

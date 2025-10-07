@@ -94,7 +94,7 @@ This project uses an autonomy-optimized Agent OS workflow built for Sonnet 4.5:
 3. **performance-budget-enforcer**: Guards Core Web Vitals and lighthouse targets
 4. **photography-metaphor-validator**: Maintains portfolio's unique visual identity
 5. **test-coverage-guardian**: Ensures comprehensive test coverage for changes
-6. **architects-voice-auditor**: Enforces The Architect's Protocol across all written content
+6. **architects-protocol-auditor**: Canonical content compliance auditor enforcing The Architect's Protocol v2.0 across all written communications
 7. **health-monitoring**: Autonomous comprehensive health assessments (weekly + post-work)
 
 ### Validation Commands
@@ -104,7 +104,7 @@ User can request manual validation using natural language:
 - **"validate performance"** → Runs performance-budget-enforcer
 - **"check metaphor"** → Runs photography-metaphor-validator
 - **"validate coverage"** → Runs test-coverage-guardian
-- **"validate voice"** → Runs architects-voice-auditor
+- **"audit copy"** / **"validate protocol"** → Runs architects-protocol-auditor
 - **"check health"** → Runs comprehensive health monitoring
 - **"run all quality gates"** → Runs complete validation suite
 
