@@ -16,6 +16,7 @@ const ProjectCard: React.FC<{
     onClick: (project: WorkProject, element: HTMLDivElement) => void;
 }> = ({ project, onClick }) => {
     const cardRef = useRef<HTMLDivElement | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         const card = cardRef.current;
@@ -41,12 +42,17 @@ const ProjectCard: React.FC<{
     const handleClick = (e: React.MouseEvent) => {
         e.preventDefault();
         if (cardRef.current) {
-            onClick(project, cardRef.current);
+            // Reset any hover transforms
+            cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        }
+        // Pass the container element (not the transformed card) for positioning
+        if (containerRef.current) {
+            onClick(project, containerRef.current);
         }
     };
 
     return (
-        <div className="block group cursor-pointer" onClick={handleClick}>
+        <div ref={containerRef} className="block group cursor-pointer" onClick={handleClick}>
             <div
                 ref={cardRef}
                 onMouseMove={handleMouseMove}

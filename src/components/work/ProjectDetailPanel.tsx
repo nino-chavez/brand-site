@@ -22,6 +22,7 @@ interface ProjectDetailPanelProps {
 interface PanelPosition {
   top: number;
   left: number;
+  maxHeight: number;
   placement: 'left' | 'right' | 'top' | 'bottom';
 }
 
@@ -35,6 +36,7 @@ const ProjectDetailPanel: React.FC<ProjectDetailPanelProps> = ({
   const [position, setPosition] = useState<PanelPosition>({
     top: 0,
     left: 0,
+    maxHeight: 0,
     placement: 'right'
   });
 
@@ -43,35 +45,75 @@ const ProjectDetailPanel: React.FC<ProjectDetailPanelProps> = ({
     if (!isOpen || !triggerElement) return;
 
     const updatePosition = () => {
-      const trigger = triggerElement.getBoundingClientRect();
-      const viewport = {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      };
+      // Use requestAnimationFrame to ensure we calculate after any layout shifts/transforms
+      requestAnimationFrame(() => {
+        const trigger = triggerElement.getBoundingClientRect();
+        const viewport = {
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
 
-      // Panel dimensions based on viewport
-      const PANEL_WIDTH = Math.min(480, viewport.width * 0.9); // Max 480px or 90% of viewport
-      const PANEL_MARGIN = 24;
+        console.log('[ProjectDetailPanel] Position calculation:', {
+          trigger: {
+            top: trigger.top,
+            left: trigger.left,
+            bottom: trigger.bottom,
+            right: trigger.right,
+            width: trigger.width,
+            height: trigger.height
+          },
+          viewport
+        });
 
-      // Position relative to trigger card
-      let top = PANEL_MARGIN;
-      let left = trigger.right + PANEL_MARGIN;
-      let placement: 'left' | 'right' | 'top' | 'bottom' = 'right';
+        // Panel dimensions based on viewport
+        const PANEL_WIDTH = Math.min(480, viewport.width * 0.9); // Max 480px or 90% of viewport
+        const PANEL_MARGIN = 24;
 
-      // Check if panel fits on the right
-      if (left + PANEL_WIDTH > viewport.width - PANEL_MARGIN) {
-        // Try left side
-        left = trigger.left - PANEL_WIDTH - PANEL_MARGIN;
-        placement = 'left';
+        // Determine horizontal placement: prefer adjacent to trigger
+        // If trigger is on left half → place right, if on right half → place left
+        const triggerCenterX = trigger.left + trigger.width / 2;
+        const isLeftHalf = triggerCenterX < viewport.width / 2;
 
-        // If still doesn't fit, center horizontally
-        if (left < PANEL_MARGIN) {
+        let left: number;
+        let placement: 'left' | 'right' | 'top' | 'bottom';
+
+        if (isLeftHalf) {
+          // Trigger on left → try placing panel to the right
+          left = trigger.right + PANEL_MARGIN;
+          placement = 'right';
+
+          // If doesn't fit on right, try left of trigger
+          if (left + PANEL_WIDTH > viewport.width - PANEL_MARGIN) {
+            left = trigger.left - PANEL_WIDTH - PANEL_MARGIN;
+            placement = 'left';
+          }
+        } else {
+          // Trigger on right → try placing panel to the left
+          left = trigger.left - PANEL_WIDTH - PANEL_MARGIN;
+          placement = 'left';
+
+          // If doesn't fit on left, try right of trigger
+          if (left < PANEL_MARGIN) {
+            left = trigger.right + PANEL_MARGIN;
+            placement = 'right';
+          }
+        }
+
+        // If still doesn't fit horizontally, center it
+        if (left < PANEL_MARGIN || left + PANEL_WIDTH > viewport.width - PANEL_MARGIN) {
           left = Math.max(PANEL_MARGIN, (viewport.width - PANEL_WIDTH) / 2);
           placement = trigger.top > viewport.height / 2 ? 'top' : 'bottom';
         }
-      }
 
-      setPosition({ top, left, placement });
+        // Vertical positioning: align with trigger, respecting viewport bounds
+        let top = Math.max(PANEL_MARGIN, trigger.top);
+
+        // Ensure panel doesn't overflow viewport bottom
+        const availableHeight = viewport.height - top - PANEL_MARGIN;
+        const maxHeight = Math.min(availableHeight, viewport.height - 2 * PANEL_MARGIN);
+
+        setPosition({ top, left, maxHeight, placement });
+      });
     };
 
     updatePosition();
@@ -176,10 +218,9 @@ const ProjectDetailPanel: React.FC<ProjectDetailPanelProps> = ({
             className="fixed bg-gray-900 border border-white/10 rounded-xl shadow-2xl z-50 overflow-hidden"
             style={{
               top: `${position.top}px`,
-              bottom: 24,
               left: `${position.left}px`,
               width: `min(480px, calc(90vw - 48px))`,
-              maxHeight: `calc(100vh - 48px)`,
+              maxHeight: `${position.maxHeight}px`,
               display: 'flex',
               flexDirection: 'column'
             }}
