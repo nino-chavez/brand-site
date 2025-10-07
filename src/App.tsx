@@ -172,6 +172,18 @@ const App: React.FC = () => {
         }
     }, []);
 
+    // Pull-to-refresh hook - MUST be called before any early returns to maintain hook order
+    // Only used in traditional layout, but must be called unconditionally
+    const { isPulling, pullDistance, isRefreshing, isTriggered } = usePullToRefresh({
+        onRefresh: async () => {
+            // Simulate refresh - in real app, refetch data
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            console.log('Page refreshed via pull-to-refresh');
+        },
+        threshold: 80,
+        enabled: layoutMode === 'traditional' // Only enable for traditional layout
+    });
+
     // Note: ScrollSpy functionality removed - each layout mode (timeline, canvas, traditional)
     // handles its own navigation tracking through UnifiedGameFlowContext
 
@@ -413,17 +425,6 @@ const App: React.FC = () => {
     }
 
     // Traditional Layout Mode (default)
-    // Pull-to-refresh implementation
-    const { isPulling, pullDistance, isRefreshing, isTriggered } = usePullToRefresh({
-        onRefresh: async () => {
-            // Simulate refresh - in real app, refetch data
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            console.log('Page refreshed via pull-to-refresh');
-        },
-        threshold: 80,
-        enabled: true
-    });
-
     return (
         <EffectsProvider>
             <AthleticTokenProvider>
