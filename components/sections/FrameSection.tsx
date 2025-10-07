@@ -5,6 +5,7 @@ import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
 import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
+import { useSwipeGesture } from '../../src/hooks/useSwipeGesture';
 import { WORK_PROJECTS } from '../../src/constants';
 import type { WorkProject } from '../../src/types';
 
@@ -297,6 +298,24 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [sidePanelOpen, handleCloseSidePanel, handleNextProject, handlePreviousProject]);
 
+  // Swipe gesture support for mobile navigation
+  const swipeHandlers = useSwipeGesture({
+    onSwipeLeft: () => {
+      if (sidePanelOpen) {
+        handleNextProject();
+        gameFlowDebugger.log('info', 'interaction', 'Swipe left - next project');
+      }
+    },
+    onSwipeRight: () => {
+      if (sidePanelOpen) {
+        handlePreviousProject();
+        gameFlowDebugger.log('info', 'interaction', 'Swipe right - previous project');
+      }
+    },
+    threshold: 80,
+    allowedTime: 300
+  });
+
   // Get selected project data
   const selectedProjectData = selectedProject ? projects.find(p => p.id === selectedProject) : null;
 
@@ -510,6 +529,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
             aria-modal="true"
             aria-labelledby="panel-title"
             aria-describedby="panel-description"
+            {...swipeHandlers}
           >
         {selectedProjectData && (
           <div className="h-full flex flex-col overflow-hidden">
@@ -521,9 +541,11 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
               }}
               transition={{ duration: 0.3 }}
             >
-              <div>
+              <div className="flex-1">
                 <h3 id="panel-title" className="text-2xl font-bold text-white">{selectedProjectData.title}</h3>
                 <p id="panel-description" className="text-white/60">{selectedProjectData.subtitle}</p>
+                {/* Mobile swipe hint - only show on touch devices */}
+                <p className="text-xs text-white/40 mt-1 md:hidden">Swipe to navigate projects</p>
               </div>
               <div className="flex items-center space-x-2">
                 <motion.button
