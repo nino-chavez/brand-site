@@ -262,13 +262,17 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
       aria-label="Frame section - Project portfolio and technical details"
     >
       {/* Grid lines for composition framing */}
-      <div className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${compositionLocked ? 'opacity-20' : 'opacity-0'}`}>
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        animate={{ opacity: compositionLocked ? 0.2 : 0 }}
+        transition={{ duration: 1 }}
+      >
         {/* Rule of thirds grid */}
         <div className="absolute top-1/3 left-0 w-full h-px bg-white/20" />
         <div className="absolute top-2/3 left-0 w-full h-px bg-white/20" />
         <div className="absolute left-1/3 top-0 w-px h-full bg-white/20" />
         <div className="absolute left-2/3 top-0 w-px h-full bg-white/20" />
-      </div>
+      </motion.div>
 
       {/* Main project sequence - high fidelity display */}
       <div className="relative z-20 min-h-screen flex flex-col">
@@ -311,21 +315,45 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                       animationDelay: `${index * 200}ms`
                     }}
                   >
-                    <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+                    <motion.div
+                      className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden"
+                      whileHover={{
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        y: -8,
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
 
                       {/* Gradient overlay on hover - Phase 1 enhancement */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-violet-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-t from-violet-500/20 to-transparent pointer-events-none z-10"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
 
                       {/* Project preview */}
                       <div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center overflow-hidden">
-                        <div className="text-6xl opacity-20 transition-transform duration-500 group-hover:scale-110">◈</div>
+                        <motion.div
+                          className="text-6xl opacity-20"
+                          whileHover={{ scale: 1.1 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          ◈
+                        </motion.div>
                       </div>
 
                       {/* Project summary */}
                       <div className="p-6">
-                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-athletic-brand-violet transition-colors">
+                        <motion.h3
+                          className="text-xl font-bold text-white mb-2"
+                          whileHover={{ color: '#8b5cf6' }}
+                          transition={{ duration: 0.3 }}
+                        >
                           {project.title}
-                        </h3>
+                        </motion.h3>
                         <p className="text-white/60 text-sm mb-4">{project.subtitle}</p>
 
                         {/* Key technologies */}
@@ -366,16 +394,28 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                         )}
 
                         {/* Slide-in CTA - Phase 1 enhancement */}
-                        <div className="mt-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                        <motion.div
+                          className="mt-4"
+                          initial={{ y: 16, opacity: 0 }}
+                          whileHover={{ y: 0, opacity: 1 }}
+                          transition={{ duration: 0.3 }}
+                        >
                           <span className="inline-flex items-center text-athletic-brand-violet text-sm font-semibold">
                             View Full Details
-                            <svg className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <motion.svg
+                              className="w-4 h-4 ml-1"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              whileHover={{ x: 4 }}
+                              transition={{ duration: 0.3 }}
+                            >
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                            </svg>
+                            </motion.svg>
                           </span>
-                        </div>
+                        </motion.div>
                       </div>
-                    </div>
+                    </motion.div>
                   </div>
                 ))}
               </div>
@@ -415,40 +455,50 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
         {selectedProjectData && (
           <div className="h-full flex flex-col overflow-hidden">
             {/* Panel header - adds shadow when content scrolled */}
-            <div className={`flex items-center justify-between p-6 border-b border-white/10 transition-shadow duration-300 ${
-              panelScrolled ? 'shadow-lg shadow-black/50' : ''
-            }`}>
+            <motion.div
+              className="flex items-center justify-between p-6 border-b border-white/10"
+              animate={{
+                boxShadow: panelScrolled ? '0 10px 15px -3px rgba(0, 0, 0, 0.5)' : '0 0 0 0 rgba(0, 0, 0, 0)'
+              }}
+              transition={{ duration: 0.3 }}
+            >
               <div>
                 <h3 id="panel-title" className="text-2xl font-bold text-white">{selectedProjectData.title}</h3>
                 <p id="panel-description" className="text-white/60">{selectedProjectData.subtitle}</p>
               </div>
               <div className="flex items-center space-x-2">
-                <button
+                <motion.button
                   onClick={handlePreviousProject}
-                  className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                  className="p-2 text-white/60 rounded-lg"
+                  whileHover={{ color: '#ffffff', backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                  transition={{ duration: 0.2 }}
                   title="Previous project"
                   aria-label="Previous project"
                 >
                   ←
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   onClick={handleNextProject}
-                  className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                  className="p-2 text-white/60 rounded-lg"
+                  whileHover={{ color: '#ffffff', backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                  transition={{ duration: 0.2 }}
                   title="Next project"
                   aria-label="Next project"
                 >
                   →
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   onClick={handleCloseSidePanel}
-                  className="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                  className="p-2 text-white/60 rounded-lg"
+                  whileHover={{ color: '#ffffff', backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+                  transition={{ duration: 0.2 }}
                   title="Close panel"
                   aria-label="Close panel"
                 >
                   ×
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
 
             {/* Panel content - scrollable with ref for auto-scroll */}
             <div
@@ -595,15 +645,6 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
           }
         }
 
-        /* Overlay to keep main content visible when side panel opens */
-        .main-sequence {
-          filter: none;
-          transition: filter 0.3s ease;
-        }
-
-        .main-sequence.with-panel {
-          filter: brightness(0.7);
-        }
       `}</style>
     </section>
   );
