@@ -5,12 +5,12 @@ import { GithubIcon, LinkedinIcon, InstagramIcon, MailIcon, CameraIcon, BlogIcon
 export const SECTIONS: Section[] = [
     { id: 'hero', title: 'Home' },
     { id: 'about', title: 'About' },
-    { id: 'work', title: 'Work' },
-    { id: 'insights', title: 'Insights' },
-    { id: 'gallery', title: 'Gallery' },
+    { id: 'work', title: 'Projects' },
+    { id: 'insights', title: 'Essays' },
+    { id: 'gallery', title: 'Photography' },
     { id: 'reel', title: 'Reel' },
-    { id: 'volleyball-demo', title: 'Tech Demo' },
-    { id: 'contact', title: 'Contact' },
+    { id: 'volleyball-demo', title: 'Tech Stack' },
+    { id: 'contact', title: 'Connect' },
 ];
 
 export const WORK_PROJECTS: WorkProject[] = [

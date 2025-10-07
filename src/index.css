@@ -314,6 +314,37 @@ body {
 }
 
 /* ==========================================
+   MOBILE TYPOGRAPHY CONTRAST (WCAG 2.2 AA)
+   ========================================== */
+
+/* Improved contrast for body text - 4.5:1 minimum for AA compliance */
+@media (max-width: 768px) {
+  /* Body text: increase from 60% to 80% opacity for better readability */
+  .text-white\/60 {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  /* Ensure all body copy meets contrast requirements */
+  p, li, span:not(.text-white\/40):not(.text-white\/50) {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  /* Headings remain high contrast */
+  h1, h2, h3, h4, h5, h6 {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  /* Preserve intentionally low contrast for metadata/labels */
+  .text-white\/40,
+  .text-white\/50,
+  [class*="uppercase tracking"],
+  .text-xs,
+  small {
+    /* Keep original opacity for design hierarchy */
+  }
+}
+
+/* ==========================================
    MOBILE SPACE OPTIMIZATION
    ========================================== */
 
