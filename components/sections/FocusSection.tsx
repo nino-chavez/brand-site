@@ -248,8 +248,8 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
       </div>
 
       {/* Main content with focus-aware layout */}
-      <div className="relative z-20 py-24 md:py-32">
-        <div className="max-w-6xl mx-auto px-8 space-y-16">
+      <div className="relative z-20 py-12 md:py-24 lg:py-32">
+        <div className="max-w-6xl mx-auto px-4 md:px-8 space-y-8 md:space-y-16">
 
           {/* Title Section - Full Width */}
           <div

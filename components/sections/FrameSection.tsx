@@ -336,24 +336,24 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
       {/* Main project sequence - high fidelity display */}
       <div className="relative z-20 min-h-screen flex flex-col">
-        <div className="flex-1 flex items-center justify-center py-16">
-          <div className="max-w-7xl mx-auto px-8 py-8">
+        <div className="flex-1 flex items-center justify-center py-8 md:py-16">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-8">
 
             {/* Section header */}
-            <div className="text-center mb-16">
+            <div className="text-center mb-8 md:mb-16">
               <div className="text-sm text-white/60 uppercase tracking-wider mb-2">Personal Projects</div>
               <h2
                 ref={headingRef}
-                className={`text-4xl md:text-6xl font-black text-white mb-6 leading-tight ${getClasses(headingVisible)}`}
+                className={`text-3xl md:text-5xl lg:text-6xl font-black text-white mb-4 md:mb-6 leading-tight ${getClasses(headingVisible)}`}
               >
                 What I Build
                 <span className="block text-athletic-brand-violet">When Nobody's Watching</span>
               </h2>
               <p
                 ref={subtitleRef}
-                className={`text-xl text-white/80 max-w-3xl mx-auto leading-relaxed ${getClasses(subtitleVisible)}`}
+                className={`text-base md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed px-4 ${getClasses(subtitleVisible)}`}
               >
-                Two decades building Fortune 500 commerce platforms. Can't show you that work.<br />
+                Two decades building Fortune 500 commerce platforms. Can't show you that work.<br className="hidden md:inline" />
                 What I can show: what I build on my own time, solving problems I'm not paid to solve.
               </p>
             </div>

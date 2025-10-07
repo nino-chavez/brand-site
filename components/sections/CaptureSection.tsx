@@ -205,8 +205,8 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
       />
 
       {/* Minimalist content - focus on title, role, and primary CTA only */}
-      <div className="absolute inset-0 flex items-center justify-center z-20 p-8">
-        <div className="text-center text-white max-w-4xl mx-auto px-8">
+      <div className="absolute inset-0 flex items-center justify-center z-20 px-4 py-8 md:p-8">
+        <div className="text-center text-white max-w-4xl mx-auto px-4 md:px-8">
           {/* Availability Badge - Urgency Indicator */}
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-10 bg-green-500/20 border border-green-400/40 backdrop-blur-sm rounded-full">
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
@@ -291,7 +291,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
               <button
                 ref={viewWorkButtonRef}
                 onClick={handleViewWorkCTA}
-                className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-16 py-7 text-2xl rounded-xl border border-white/20 backdrop-blur-sm shadow-lg hover:shadow-2xl animate-pulse-subtle"
+                className="group bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-bold px-8 py-4 min-h-[48px] sm:px-16 sm:py-7 text-lg sm:text-2xl rounded-xl border border-white/20 backdrop-blur-sm shadow-lg hover:shadow-2xl animate-pulse-subtle"
                 style={{
                   transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
                   willChange: 'transform'
@@ -316,7 +316,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
               <button
                 ref={contactButtonRef}
                 onClick={handlePrimaryCTA}
-                className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-12 py-6 text-xl rounded-xl hover:bg-white/20 hover:border-white/60 shadow-md hover:shadow-lg"
+                className="group bg-white/10 backdrop-blur-sm border-2 border-white/40 text-white font-bold px-6 py-3 min-h-[48px] sm:px-12 sm:py-6 text-base sm:text-xl rounded-xl hover:bg-white/20 hover:border-white/60 shadow-md hover:shadow-lg"
                 style={{
                   transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)',
                   willChange: 'transform'

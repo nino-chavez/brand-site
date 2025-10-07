@@ -66,8 +66,8 @@ export default function MobileBottomNav() {
             key={item.id}
             onClick={() => handleNavigate(item.id)}
             className={`
-              touch-target flex flex-col items-center justify-center
-              py-3 px-4 transition-colors
+              flex flex-col items-center justify-center
+              min-h-[48px] min-w-[48px] py-3 px-4 transition-colors
               ${currentSection === item.id
                 ? 'text-violet-400 bg-violet-400/10'
                 : 'text-white/60 hover:text-white/90 hover:bg-white/5'
