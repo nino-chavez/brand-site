@@ -107,24 +107,31 @@ export const FramerTimelineLayout: React.FC = () => {
       const scrollingDown = e.deltaY > 0;
       const scrollingUp = e.deltaY < 0;
 
-      // Detect boundaries (95% = bottom, 5% = top)
-      const atBottom = scrollProgress > 0.95;
-      const atTop = scrollProgress < 0.05;
+      // Get LIVE scroll progress from Framer Motion (not stale React state)
+      const liveProgress = scrollYProgress.get();
+
+      // Detect boundaries (90% = bottom for more reliable detection, 10% = top)
+      const atBottom = liveProgress > 0.9;
+      const atTop = liveProgress < 0.1;
+
+      console.log(`[SCROLL] Progress: ${(liveProgress * 100).toFixed(1)}%, Section: ${currentSectionIndex + 1}, Down: ${scrollingDown}, AtBottom: ${atBottom}`);
 
       if (scrollingDown && atBottom && currentSectionIndex < TIMELINE_SECTIONS.length - 1) {
         // Accumulate scroll momentum
         scrollAccumulator.current += Math.abs(e.deltaY);
 
-        if (scrollAccumulator.current > 100) {
+        if (scrollAccumulator.current > 80) { // Lower threshold for faster response
           e.preventDefault();
+          console.log(`[TRANSITION] Forward to section ${currentSectionIndex + 2}`);
           transitionToSection(currentSectionIndex + 1, 'forward');
         }
       } else if (scrollingUp && atTop && currentSectionIndex > 0) {
         // Accumulate scroll momentum
         scrollAccumulator.current += Math.abs(e.deltaY);
 
-        if (scrollAccumulator.current > 100) {
+        if (scrollAccumulator.current > 80) { // Lower threshold for faster response
           e.preventDefault();
+          console.log(`[TRANSITION] Backward to section ${currentSectionIndex}`);
           transitionToSection(currentSectionIndex - 1, 'backward');
         }
       } else {
@@ -138,7 +145,7 @@ export const FramerTimelineLayout: React.FC = () => {
       container.addEventListener('wheel', handleWheel, { passive: false });
       return () => container.removeEventListener('wheel', handleWheel);
     }
-  }, [scrollProgress, currentSectionIndex, isTransitioning, transitionToSection]);
+  }, [scrollYProgress, currentSectionIndex, isTransitioning, transitionToSection]);
 
   // Professional timecode formatter (HH:MM:SS:FF format)
   const formatTimecode = useCallback((sectionIndex: number, progress: number): string => {
@@ -501,11 +508,15 @@ export const FramerTimelineLayout: React.FC = () => {
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{
-              x: { type: 'spring', stiffness: 300, damping: 30 },
-              opacity: { duration: 0.3 },
-              scale: { duration: 0.3 }
-            }}
+            transition={
+              transitionStyle === 'spring'
+                ? { x: { type: 'spring', stiffness: 300, damping: 30 }, opacity: { duration: 0.3 }, scale: { duration: 0.3 } }
+                : transitionStyle === 'tween'
+                ? { x: { type: 'tween', duration: 0.5, ease: 'easeInOut' }, opacity: { duration: 0.3 }, scale: { duration: 0.3 } }
+                : transitionStyle === 'cut'
+                ? { x: { duration: 0.1 }, opacity: { duration: 0.05 }, scale: { duration: 0.05 } }
+                : { x: { type: 'spring', stiffness: 200, damping: 40 }, opacity: { duration: 0.4 }, scale: { duration: 0.4 } }
+            }
             className="w-full"
           >
             {/* Section Wrapper - Scrollable container for current section */}
