@@ -64,7 +64,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [sidePanelOpen, setSidePanelOpen] = useState(false);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
-  const [cardPosition, setCardPosition] = useState<{ x: number; y: number; width: number } | null>(null);
+  const [cardPosition, setCardPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
 
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -169,10 +169,15 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
         finalTop = Math.max(VIEWPORT_PADDING, window.innerHeight - PANEL_MAX_HEIGHT - VIEWPORT_PADDING);
       }
 
+      // Calculate actual available height
+      const availableHeight = window.innerHeight - finalTop - VIEWPORT_PADDING;
+      const panelHeight = Math.min(PANEL_MAX_HEIGHT, availableHeight);
+
       const position = {
         x: finalLeft,
         y: finalTop,
-        width: panelWidth
+        width: panelWidth,
+        height: panelHeight
       };
 
 
@@ -492,7 +497,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
               top: `${cardPosition.y}px`,
               left: `${cardPosition.x}px`,
               width: `${cardPosition.width}px`,
-              maxHeight: '80vh'
+              height: `${cardPosition.height}px`
             }}
             transition={{
               type: "spring",

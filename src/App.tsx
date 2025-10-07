@@ -25,6 +25,7 @@ import EffectsPanel from './components/effects/EffectsPanel';
 import ViewfinderController from './components/effects/ViewfinderController';
 import LoadingScreen from './components/effects/LoadingScreen';
 import { EffectsProvider } from './contexts/EffectsContext';
+import MobileBottomNav from './components/layout/MobileBottomNav';
 
 const App: React.FC = () => {
     const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas' | 'timeline'>('traditional');
@@ -452,6 +453,9 @@ const App: React.FC = () => {
                                 debugMode={debugMode}
                             />
                         </main>
+
+                        {/* Mobile bottom navigation - thumb-zone optimized */}
+                        <MobileBottomNav />
 
                         {/* Layout switcher hidden - use ?layout=canvas URL param to switch modes */}
 
