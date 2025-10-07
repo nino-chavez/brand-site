@@ -375,7 +375,17 @@ export const LightboxCanvasStyles = `
   .lightbox-canvas {
     /* Phase 1: Removed global user-select: none - now controlled dynamically during drag */
     /* Text selection enabled by default for Figma/Miro-style UX */
-    touch-action: none;
+    touch-action: none; /* Desktop - full canvas control */
+  }
+
+  /* Mobile: Allow vertical scrolling in traditional mode */
+  @media (max-width: 767px) {
+    .lightbox-canvas {
+      touch-action: pan-y; /* Allow vertical scroll on mobile */
+    }
+  }
+
+  .lightbox-canvas {
 
     /* Professional Light Board / Drafting Table Background */
     background:

@@ -313,7 +313,7 @@ const App: React.FC = () => {
                     )}
 
                     {/* Canvas Layout System - Lazy loaded */}
-                    <main id="canvas-content" className="relative z-10 h-screen w-screen overflow-hidden">
+                    <main id="canvas-content" className={`relative z-10 h-screen w-screen ${layoutMode === 'traditional' ? 'overflow-y-auto' : 'overflow-hidden'}`}>
                         <Suspense fallback={
                             <div className="h-screen w-screen bg-brand-dark flex items-center justify-center">
                                 <div className="text-brand-light text-xl">Loading Canvas...</div>
