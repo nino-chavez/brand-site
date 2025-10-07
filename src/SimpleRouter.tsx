@@ -10,9 +10,13 @@ import App from './App';
 import DemoHarness from './pages/DemoHarness';
 
 export const SimpleRouter: React.FC = () => {
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  // SSR-safe: Use '/' as default path during server-side rendering
+  const [currentPath, setCurrentPath] = useState(
+    typeof window !== 'undefined' ? window.location.pathname : '/'
+  );
 
   useEffect(() => {
+    // This only runs on client-side (useEffect doesn't run during SSR)
     const handlePopState = () => {
       setCurrentPath(window.location.pathname);
     };
