@@ -21,12 +21,22 @@ const ContactSection: React.FC<ContactSectionProps> = ({ setRef }) => {
                     isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-24'
                 }`}
             >
-                <SectionTitle>Let's Talk Strategy</SectionTitle>
+                <SectionTitle>Strategic Engagements</SectionTitle>
                 <p className="text-xl text-gray-100 mb-4 font-medium">
-                    Enterprise transformation. AI-native commerce. Strategic architecture.
+                    Architected $10M+ commerce transformations for Fortune 500 retailers.
+                    Two decades building enterprise platforms at global scale.
                 </p>
-                <p className="text-lg text-gray-300 mb-12">
-                    Available for strategic consulting engagements with Fortune 500 companies and high-growth platforms.
+                <p className="text-lg text-gray-300 mb-8">
+                    Currently supporting Fortune 500 commerce transformations.
+                    Accepting strategic architecture engagements for Q1 2026.
+                </p>
+                <p className="text-base text-gray-400 mb-12">
+                    <a
+                        href="https://blog.nino.photos"
+                        className="text-brand-violet hover:text-brand-violet-light transition-colors duration-300 inline-flex items-center gap-2"
+                    >
+                        Read enterprise architecture insights →
+                    </a>
                 </p>
 
                 {/* Primary CTA - Email */}
