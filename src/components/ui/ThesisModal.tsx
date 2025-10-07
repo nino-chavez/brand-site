@@ -172,7 +172,7 @@ export const ThesisModal: React.FC<ThesisModalProps> = ({ isOpen, onClose }) => 
   const modalWithStyles = (
     <div>
       {modalContent}
-      <style jsx>{`
+      <style>{`
         /* Overlay */
         .thesis-modal-overlay {
           position: fixed;

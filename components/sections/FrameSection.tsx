@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect, useCallback, useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useUnifiedGameFlow } from '../../src/contexts/UnifiedGameFlowContext';
 import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
@@ -62,6 +63,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
   const [sidePanelOpen, setSidePanelOpen] = useState(false);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const [cardPosition, setCardPosition] = useState<{ x: number; y: number } | null>(null);
 
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -112,8 +114,23 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
     }
   }, [active, isActive, onError, gameFlowDebugger]);
 
-  // Project selection handler
-  const handleProjectSelect = useCallback((projectId: string) => {
+  // Project selection handler - captures card position for adjacent panel placement
+  const handleProjectSelect = useCallback((projectId: string, event?: React.MouseEvent<HTMLElement>) => {
+    // Capture card position if event provided
+    if (event && event.currentTarget) {
+      const cardRect = event.currentTarget.getBoundingClientRect();
+      setCardPosition({
+        x: cardRect.right, // Position panel to the right of card
+        y: cardRect.top
+      });
+    } else {
+      // Fallback: center of viewport
+      setCardPosition({
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2
+      });
+    }
+
     setSelectedProject(projectId);
     setSidePanelOpen(true);
 
@@ -288,7 +305,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                   <div
                     key={project.id}
                     className="group cursor-pointer"
-                    onClick={() => handleProjectSelect(project.id)}
+                    onClick={(e) => handleProjectSelect(project.id, e)}
                     data-testid="project-card"
                     style={{
                       animationDelay: `${index * 200}ms`
@@ -367,17 +384,34 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
         </div>
       </div>
 
-      {/* Side panel for project technical details */}
-      <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[90%] md:w-[600px] lg:w-[720px] xl:w-[800px] max-w-[90vw] bg-black/95 backdrop-blur-xl border-l border-white/10 z-50 transform transition-transform duration-500 ${
-          sidePanelOpen ? 'translate-x-0 slide-in' : 'translate-x-full'
-        }`}
-        data-testid="project-tech-side-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="panel-title"
-        aria-describedby="panel-description"
-      >
+      {/* Side panel for project technical details - Framer Motion */}
+      <AnimatePresence>
+        {sidePanelOpen && cardPosition && (
+          <motion.div
+            initial={{
+              x: window.innerWidth,
+              opacity: 0
+            }}
+            animate={{
+              x: Math.max(cardPosition.x + 16, window.innerWidth - 800), // Position 16px right of card, or at screen edge
+              opacity: 1
+            }}
+            exit={{
+              x: window.innerWidth,
+              opacity: 0
+            }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 30
+            }}
+            className="fixed top-0 h-full w-full sm:w-[90%] md:w-[600px] lg:w-[720px] xl:w-[800px] max-w-[90vw] bg-black/95 backdrop-blur-xl border-l border-white/10 z-50"
+            data-testid="project-tech-side-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="panel-title"
+            aria-describedby="panel-description"
+          >
         {selectedProjectData && (
           <div className="h-full flex flex-col overflow-hidden">
             {/* Panel header - adds shadow when content scrolled */}
@@ -517,7 +551,9 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
             )}
           </div>
         )}
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ViewfinderOverlay in frame mode */}
       <ViewfinderOverlay

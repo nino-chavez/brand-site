@@ -12,7 +12,6 @@ const FocusSection = lazy(() => import('../../../components/sections/FocusSectio
 const FrameSection = lazy(() => import('../../../components/sections/FrameSection'));
 const ExposureSection = lazy(() => import('../../../components/sections/ExposureSection'));
 const DevelopSection = lazy(() => import('../../../components/sections/DevelopSection'));
-const JourneySection = lazy(() => import('../../components/sections/JourneySection'));
 const PortfolioSection = lazy(() => import('../../../components/sections/PortfolioSection'));
 
 import type { GameFlowSection } from '../../types';
@@ -213,11 +212,6 @@ export default function SimplifiedGameFlowContainer({
           onSectionReady={handleDevelopSectionReady}
           onError={handleDevelopSectionError}
         />
-      </Suspense>
-
-      {/* Journey Section - Evolution showcase - Lazy loaded */}
-      <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
-        <JourneySection />
       </Suspense>
 
       <Suspense fallback={<div className="min-h-screen bg-brand-dark" />}>
