@@ -1,0 +1,160 @@
+🎭 Launching Playwright for visual verification...
+
+📍 Navigating to http://localhost:3002...
+⏳ Waiting for app to load...
+✅ App loaded
+📜 Searching for FrameSection...
+✅ Found 5 project cards
+⏳ Waiting for project cards to be visible...
+✅ Found 5 project cards
+
+🎯 Testing first project card...
+📊 Card position: x=32, y=3379, width=381, height=489
+📊 Card right edge: 413
+👆 Clicking card...
+⏳ Waiting for panel animation...
+
+📊 Panel position: x=480, y=1177, width=800, height=576
+📊 Panel left edge: 480
+
+🎯 Verification:
+   Expected panel at: 429 (card right + 16px)
+   Actual panel at: 480
+   Distance: 51px
+
+📸 Screenshot saved: panel-positioning-verification.png
+
+⚠️  WARNING: Panel may not be positioned correctly (51px off)
+
+🔘 Testing close button...
+
+❌ Error during verification: elementHandle.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - attempting click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <div>ISO 400</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-0 translate-y-24 ">…</section> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <div class="flex-1 flex items-center justify-center py-16">…</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-100 translate-y-0 ">…</section> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not stable[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    4 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div class="flex-1 flex items-center justify-center py-16">…</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-100 translate-y-0 ">…</section> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m    13 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is visible, enabled and stable[22m
+[2m       - scrolling into view if needed[22m
+[2m       - done scrolling[22m
+[2m       - <button aria-label="Navigate to Get in touch" class="↵                                    px-4 py-2 text-sm font-medium↵                                    relative↵                                    font-mono text-xs tracking-wider↵                                    transition-all duration-200 ease-out↵                                    border rounded↵↵                                    text-white bg-transparent border-transparent↵                                         hover:text-white hover:bg…>CONTACT</button> from <header class="↵                fixed top-0 left-0 right-0 z-30↵                transition-all duration-300 ease-out↵                pointer-events-none↵            ">…</header> subtree intercepts pointer events[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m       - waiting for element to be visible, enabled and stable[22m
+[2m       - element is visible, enabled and stable[22m
+[2m       - scrolling into view if needed[22m
+[2m       - done scrolling[22m
+[2m       - <button aria-label="Navigate to Get in touch" class="↵                                    px-4 py-2 text-sm font-medium↵                                    relative↵                                    font-mono text-xs tracking-wider↵                                    transition-all duration-200 ease-out↵                                    border rounded↵↵                                    text-white bg-transparent border-transparent↵                                         hover:text-white hover:bg…>CONTACT</button> from <header class="↵                fixed top-0 left-0 right-0 z-30↵                transition-all duration-300 ease-out↵                pointer-events-none↵            ">…</header> subtree intercepts pointer events[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m       - waiting for element to be visible, enabled and stable[22m
+[2m       - element is visible, enabled and stable[22m
+[2m       - scrolling into view if needed[22m
+[2m       - done scrolling[22m
+[2m       - <div class="flex-1 flex items-center justify-center py-16">…</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-100 translate-y-0 ">…</section> subtree intercepts pointer events[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m       - waiting for element to be visible, enabled and stable[22m
+[2m       - element is visible, enabled and stable[22m
+[2m       - scrolling into view if needed[22m
+[2m       - done scrolling[22m
+[2m       - <div class="flex-1 flex items-center justify-center py-16">…</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-100 translate-y-0 ">…</section> subtree intercepts pointer events[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <button aria-label="Navigate to Get in touch" class="↵                                    px-4 py-2 text-sm font-medium↵                                    relative↵                                    font-mono text-xs tracking-wider↵                                    transition-all duration-200 ease-out↵                                    border rounded↵↵                                    text-white bg-transparent border-transparent↵                                         hover:text-white hover:bg…>CONTACT</button> from <header class="↵                fixed top-0 left-0 right-0 z-30↵                transition-all duration-300 ease-out↵                pointer-events-none↵            ">…</header> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting 500ms[22m
+
+📸 Error screenshot saved: verification-error.png
+elementHandle.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - attempting click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <div>ISO 400</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-0 translate-y-24 ">…</section> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <div class="flex-1 flex items-center justify-center py-16">…</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-100 translate-y-0 ">…</section> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not stable[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    4 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is visible, enabled and stable[22m
+[2m      - scrolling into view if needed[22m
+[2m      - done scrolling[22m
+[2m      - <div class="flex-1 flex items-center justify-center py-16">…</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-100 translate-y-0 ">…</section> subtree intercepts pointer events[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m    13 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is visible, enabled and stable[22m
+[2m       - scrolling into view if needed[22m
+[2m       - done scrolling[22m
+[2m       - <button aria-label="Navigate to Get in touch" class="↵                                    px-4 py-2 text-sm font-medium↵                                    relative↵                                    font-mono text-xs tracking-wider↵                                    transition-all duration-200 ease-out↵                                    border rounded↵↵                                    text-white bg-transparent border-transparent↵                                         hover:text-white hover:bg…>CONTACT</button> from <header class="↵                fixed top-0 left-0 right-0 z-30↵                transition-all duration-300 ease-out↵                pointer-events-none↵            ">…</header> subtree intercepts pointer events[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m       - waiting for element to be visible, enabled and stable[22m
+[2m       - element is visible, enabled and stable[22m
+[2m       - scrolling into view if needed[22m
+[2m       - done scrolling[22m
+[2m       - <button aria-label="Navigate to Get in touch" class="↵                                    px-4 py-2 text-sm font-medium↵                                    relative↵                                    font-mono text-xs tracking-wider↵                                    transition-all duration-200 ease-out↵                                    border rounded↵↵                                    text-white bg-transparent border-transparent↵                                         hover:text-white hover:bg…>CONTACT</button> from <header class="↵                fixed top-0 left-0 right-0 z-30↵                transition-all duration-300 ease-out↵                pointer-events-none↵            ">…</header> subtree intercepts pointer events[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m       - waiting for element to be visible, enabled and stable[22m
+[2m       - element is visible, enabled and stable[22m
+[2m       - scrolling into view if needed[22m
+[2m       - done scrolling[22m
+[2m       - <div class="flex-1 flex items-center justify-center py-16">…</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-100 translate-y-0 ">…</section> subtree intercepts pointer events[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m       - waiting for element to be visible, enabled and stable[22m
+[2m       - element is visible, enabled and stable[22m
+[2m       - scrolling into view if needed[22m
+[2m       - done scrolling[22m
+[2m       - <div class="flex-1 flex items-center justify-center py-16">…</div> from <section id="exposure" data-progress="0" data-active="false" data-section="exposure" data-camera-metaphor="true" data-testid="exposure-section" data-exposure-calculated="false" aria-label="Exposure section - Technical insights and articles" class="min-h-screen relative bg-gradient-to-br from-slate-900 via-neutral-800 to-slate-900 transition-all duration-700 ease-out opacity-100 translate-y-0 ">…</section> subtree intercepts pointer events[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+[2m    - element is visible, enabled and stable[22m
+[2m    - scrolling into view if needed[22m
+[2m    - done scrolling[22m
+[2m    - <button aria-label="Navigate to Get in touch" class="↵                                    px-4 py-2 text-sm font-medium↵                                    relative↵                                    font-mono text-xs tracking-wider↵                                    transition-all duration-200 ease-out↵                                    border rounded↵↵                                    text-white bg-transparent border-transparent↵                                         hover:text-white hover:bg…>CONTACT</button> from <header class="↵                fixed top-0 left-0 right-0 z-30↵                transition-all duration-300 ease-out↵                pointer-events-none↵            ">…</header> subtree intercepts pointer events[22m
+[2m  - retrying click action[22m
+[2m    - waiting 500ms[22m
+
+    at verifyPanelPositioning (/Users/nino/Workspace/02-local-dev/sites/nino-chavez-site/scripts/verify-panel-positioning.mjs:140:25) {
+  name: 'TimeoutError'
+}

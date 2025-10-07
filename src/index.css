@@ -345,6 +345,25 @@ body {
 }
 
 /* ==========================================
+   OPTIMAL LINE LENGTH (Readability)
+   ========================================== */
+
+/* Optimal line length for maximum readability: 50-75 characters (65ch ideal) */
+.prose, .prose-content, article, [class*="text-content"] {
+  max-width: 65ch;
+}
+
+/* Specific typography blocks */
+p, .paragraph {
+  max-width: 65ch;
+}
+
+/* Exception for full-width components */
+.full-width, .w-full {
+  max-width: 100% !important;
+}
+
+/* ==========================================
    MOBILE SPACE OPTIMIZATION
    ========================================== */
 

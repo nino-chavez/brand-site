@@ -26,6 +26,9 @@ import ViewfinderController from './components/effects/ViewfinderController';
 import LoadingScreen from './components/effects/LoadingScreen';
 import { EffectsProvider } from './contexts/EffectsContext';
 import MobileBottomNav from './components/layout/MobileBottomNav';
+import { ScrollProgressIndicator } from './components/ui/ScrollProgressIndicator';
+import { PullToRefreshIndicator } from './components/ui/PullToRefreshIndicator';
+import { usePullToRefresh } from './hooks/usePullToRefresh';
 
 const App: React.FC = () => {
     const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas' | 'timeline'>('traditional');
@@ -410,6 +413,17 @@ const App: React.FC = () => {
     }
 
     // Traditional Layout Mode (default)
+    // Pull-to-refresh implementation
+    const { isPulling, pullDistance, isRefreshing, isTriggered } = usePullToRefresh({
+        onRefresh: async () => {
+            // Simulate refresh - in real app, refetch data
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            console.log('Page refreshed via pull-to-refresh');
+        },
+        threshold: 80,
+        enabled: true
+    });
+
     return (
         <EffectsProvider>
             <AthleticTokenProvider>
@@ -429,6 +443,12 @@ const App: React.FC = () => {
                     {/* WOW Factor Components */}
                     <CustomCursor />
                     <ScrollProgress />
+                    <ScrollProgressIndicator />
+                    <PullToRefreshIndicator
+                        pullDistance={pullDistance}
+                        isTriggered={isTriggered}
+                        isRefreshing={isRefreshing}
+                    />
                     <ConsoleEasterEgg />
                     <SectionAmbientLighting />
                     <FilmMode />

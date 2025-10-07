@@ -6,6 +6,7 @@ import { useGameFlowDebugger } from '../../src/hooks/useGameFlowDebugger';
 import ViewfinderOverlay from '../../src/components/layout/ViewfinderOverlay';
 import { useScrollAnimation, useAnimationWithEffects } from '../../src/hooks/useScrollAnimation';
 import { useSwipeGesture } from '../../src/hooks/useSwipeGesture';
+import { triggerHaptic } from '../../src/utils/haptics';
 import { WORK_PROJECTS } from '../../src/constants';
 import type { WorkProject } from '../../src/types';
 
@@ -66,6 +67,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
   const [sidePanelOpen, setSidePanelOpen] = useState(false);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [cardPosition, setCardPosition] = useState<{ x: number; y: number; width: number; height: number } | null>(null);
+  const [panelExpanded, setPanelExpanded] = useState(false); // Progressive disclosure
 
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -118,6 +120,8 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
   // Project selection handler - captures card position for adjacent panel placement
   const handleProjectSelect = useCallback((projectId: string, event?: React.MouseEvent<HTMLElement>) => {
+    triggerHaptic('medium'); // Haptic feedback on project selection
+
     // Capture card position if event provided
     if (event && event.currentTarget) {
       const cardRect = event.currentTarget.getBoundingClientRect();
@@ -218,12 +222,14 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
   // Close side panel
   const handleCloseSidePanel = useCallback(() => {
+    triggerHaptic('light'); // Subtle feedback on close
     setSidePanelOpen(false);
     setTimeout(() => setSelectedProject(null), 300);
   }, []);
 
   // Navigate between projects in side panel
   const handleNextProject = useCallback(() => {
+    triggerHaptic('light'); // Light feedback on navigation
     const nextIndex = (currentProjectIndex + 1) % projects.length;
     setCurrentProjectIndex(nextIndex);
     setSelectedProject(projects[nextIndex].id);
@@ -237,6 +243,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
   }, [currentProjectIndex, projects]);
 
   const handlePreviousProject = useCallback(() => {
+    triggerHaptic('light'); // Light feedback on navigation
     const prevIndex = currentProjectIndex === 0 ? projects.length - 1 : currentProjectIndex - 1;
     setCurrentProjectIndex(prevIndex);
     setSelectedProject(projects[prevIndex].id);
@@ -614,57 +621,82 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                 </div>
               )}
 
-              {/* Project-specific technical stack */}
-              <div data-testid="project-specific-stack">
-                <h4 className="text-lg font-semibold text-white mb-4">Technology Stack</h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {selectedProjectData.technologies.map((tech) => (
-                    <div
-                      key={tech}
-                      className="px-3 py-2 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-lg text-sm text-center"
-                    >
-                      {tech}
-                    </div>
-                  ))}
-                </div>
+              {/* Progressive disclosure toggle - mobile only */}
+              <div className="md:hidden">
+                <button
+                  onClick={() => setPanelExpanded(!panelExpanded)}
+                  className="w-full py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white font-medium transition-all flex items-center justify-center space-x-2 min-h-[48px]"
+                  aria-expanded={panelExpanded}
+                  aria-controls="technical-details"
+                >
+                  <span>{panelExpanded ? 'Show Less' : 'Show Technical Details'}</span>
+                  <motion.svg
+                    className="w-5 h-5"
+                    animate={{ rotate: panelExpanded ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </motion.svg>
+                </button>
               </div>
 
-              {/* Architectural rationale */}
-              <div data-testid="architectural-rationale">
-                <h4 className="text-lg font-semibold text-white mb-4">Architecture Patterns</h4>
-                <div className="space-y-2">
-                  {selectedProjectData.architecture.map((pattern) => (
-                    <div key={pattern} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-athletic-brand-violet rounded-full" />
-                      <span className="text-white/80">{pattern}</span>
-                    </div>
-                  ))}
+              {/* Technical details - progressively disclosed on mobile, always visible on desktop */}
+              <div id="technical-details" className={`space-y-6 ${panelExpanded ? 'block' : 'hidden md:block'}`}>
+                {/* Project-specific technical stack */}
+                <div data-testid="project-specific-stack">
+                  <h4 className="text-lg font-semibold text-white mb-4">Technology Stack</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {selectedProjectData.technologies.map((tech) => (
+                      <div
+                        key={tech}
+                        className="px-3 py-2 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-lg text-sm text-center"
+                      >
+                        {tech}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Key challenges */}
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-4">Technical Challenges</h4>
-                <div className="space-y-2">
-                  {selectedProjectData.challenges.map((challenge) => (
-                    <div key={challenge} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-red-400 rounded-full" />
-                      <span className="text-white/80">{challenge}</span>
-                    </div>
-                  ))}
+                {/* Architectural rationale */}
+                <div data-testid="architectural-rationale">
+                  <h4 className="text-lg font-semibold text-white mb-4">Architecture Patterns</h4>
+                  <div className="space-y-2">
+                    {selectedProjectData.architecture.map((pattern) => (
+                      <div key={pattern} className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-athletic-brand-violet rounded-full" />
+                        <span className="text-white/80">{pattern}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {/* Outcomes */}
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-4">Key Outcomes</h4>
-                <div className="space-y-2">
-                  {selectedProjectData.outcomes.map((outcome) => (
-                    <div key={outcome} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full" />
-                      <span className="text-white/80">{outcome}</span>
-                    </div>
-                  ))}
+                {/* Key challenges */}
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-4">Technical Challenges</h4>
+                  <div className="space-y-2">
+                    {selectedProjectData.challenges.map((challenge) => (
+                      <div key={challenge} className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-red-400 rounded-full" />
+                        <span className="text-white/80">{challenge}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Outcomes */}
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-4">Key Outcomes</h4>
+                  <div className="space-y-2">
+                    {selectedProjectData.outcomes.map((outcome) => (
+                      <div key={outcome} className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-green-400 rounded-full" />
+                        <span className="text-white/80">{outcome}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
