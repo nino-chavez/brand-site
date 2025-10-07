@@ -134,9 +134,7 @@ class ErrorHandler {
     }
 
     private setupGlobalErrorHandlers(): void {
-        // Only set up handlers on client-side (not during SSR)
-        if (typeof window === 'undefined') return;
-
+        // Note: This class is only instantiated client-side via useEffect
         // Handle unhandled promise rejections
         window.addEventListener('unhandledrejection', (event) => {
             const error = this.createGameFlowError(
@@ -286,7 +284,6 @@ class ErrorHandler {
                     type: 'reload',
                     message: 'Reloading page to recover from error...',
                     action: async () => {
-                        if (typeof window === 'undefined') return;
                         await this.delay(2000); // Give user time to read message
                         window.location.reload();
                     }
@@ -345,8 +342,6 @@ class ErrorHandler {
     }
 
     private disableAnimations(): void {
-        if (typeof document === 'undefined') return;
-
         // Add CSS to disable animations
         const style = document.createElement('style');
         style.textContent = `
@@ -361,15 +356,11 @@ class ErrorHandler {
     }
 
     private simplifyInteractions(): void {
-        if (typeof document === 'undefined') return;
-
         // Disable complex interactions, keep basic navigation
         document.body.setAttribute('data-game-flow-fallback-mode', 'true');
     }
 
     private enableHighContrastMode(): void {
-        if (typeof document === 'undefined') return;
-
         // Improve visibility for error states
         document.body.setAttribute('data-game-flow-high-contrast', 'true');
     }
@@ -398,8 +389,6 @@ class ErrorHandler {
     }
 
     private loadFallbackContent(section: GameFlowSection): void {
-        if (typeof document === 'undefined') return;
-
         // Implementation would load simplified content for the section
         const sectionElement = document.getElementById(section);
         if (sectionElement) {
@@ -460,8 +449,8 @@ class ErrorHandler {
             const fallbackState = this.fallbackStates.get(section);
             this.restoreSectionState(section, fallbackState);
             this.fallbackStates.delete(section);
-        } else if (typeof document !== 'undefined') {
-            // Global recovery (client-side only)
+        } else {
+            // Global recovery
             this.removeRecoveryStyles();
             document.body.removeAttribute('data-game-flow-fallback-mode');
             document.body.removeAttribute('data-game-flow-high-contrast');
@@ -469,8 +458,6 @@ class ErrorHandler {
     }
 
     private restoreSectionState(section: GameFlowSection, state: any): void {
-        if (typeof document === 'undefined') return;
-
         const sectionElement = document.getElementById(section);
         if (sectionElement) {
             sectionElement.removeAttribute('data-fallback-mode');
@@ -478,8 +465,6 @@ class ErrorHandler {
     }
 
     private removeRecoveryStyles(): void {
-        if (typeof document === 'undefined') return;
-
         const recoveryStyles = document.querySelectorAll('[data-game-flow-error-recovery]');
         recoveryStyles.forEach(style => style.remove());
     }
@@ -488,8 +473,6 @@ class ErrorHandler {
         if (section) {
             return this.fallbackStates.has(section);
         }
-
-        if (typeof document === 'undefined') return false;
 
         return document.body.hasAttribute('data-game-flow-fallback-mode');
     }
@@ -520,7 +503,7 @@ class ErrorHandler {
 
 export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
     const fullConfig = { ...DEFAULT_CONFIG, ...config };
-    const handlerRef = useRef<ErrorHandler>();
+    const handlerRef = useRef<ErrorHandler | null>(null);
     const [errorState, setErrorState] = useState<{
         hasError: boolean;
         lastError?: GameFlowError;
@@ -532,14 +515,25 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
         fallbackMode: false
     });
 
-    // Initialize error handler
-    if (!handlerRef.current) {
-        handlerRef.current = new ErrorHandler(fullConfig);
-    }
+    // Initialize error handler on client-side only (useEffect doesn't run during SSR)
+    useEffect(() => {
+        if (!handlerRef.current) {
+            handlerRef.current = new ErrorHandler(fullConfig);
+        }
+    }, [fullConfig]);
 
     const handler = handlerRef.current;
 
     const handleError = useCallback((error: GameFlowError) => {
+        if (!handler) {
+            // SSR or not yet initialized - return safe default strategy
+            console.error('Error handler not initialized:', error);
+            return {
+                type: 'skip' as const,
+                message: 'Error handling not available during initialization'
+            };
+        }
+
         setErrorState(prev => ({
             ...prev,
             hasError: true,
@@ -561,6 +555,8 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
     }, [handler]);
 
     const recoverFromError = useCallback((section?: GameFlowSection) => {
+        if (!handler) return;
+
         handler.recoverFromError(section);
 
         setErrorState(prev => ({
@@ -573,6 +569,8 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
     }, [handler]);
 
     const clearErrors = useCallback(() => {
+        if (!handler) return;
+
         handler.clearErrors();
         setErrorState({
             hasError: false,
@@ -581,14 +579,33 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
         });
     }, [handler]);
 
-    const createError = useCallback((type: any, message: string, section: any, recoverable: boolean) =>
-        handler.createGameFlowError(type, message, section, recoverable), [handler]);
+    const createError = useCallback((type: any, message: string, section: any, recoverable: boolean) => {
+        if (!handler) {
+            return {
+                type,
+                message,
+                section,
+                recoverable,
+                timestamp: Date.now()
+            };
+        }
+        return handler.createGameFlowError(type, message, section, recoverable);
+    }, [handler]);
 
-    const getErrorHistory = useCallback(() => handler.getErrorHistory(), [handler]);
+    const getErrorHistory = useCallback(() => {
+        if (!handler) return [];
+        return handler.getErrorHistory();
+    }, [handler]);
 
-    const getRecommendations = useCallback(() => handler.getRecoveryRecommendations(), [handler]);
+    const getRecommendations = useCallback(() => {
+        if (!handler) return [];
+        return handler.getRecoveryRecommendations();
+    }, [handler]);
 
-    const isInFallbackMode = useCallback((section?: any) => handler.isInFallbackMode(section), [handler]);
+    const isInFallbackMode = useCallback((section?: any) => {
+        if (!handler) return false;
+        return handler.isInFallbackMode(section);
+    }, [handler]);
 
     return useMemo(() => ({
         ...errorState,
