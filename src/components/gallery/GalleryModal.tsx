@@ -121,6 +121,8 @@ export const GalleryModal: React.FC<GalleryModalProps> = ({
   }, [isOpen, isFirst, isLast, goToPrevious, goToNext, onClose]);
 
   // Prevent body scroll when modal is open
+  // DEPRECATED: Use useTemporaryScrollBlock from ScrollCoordinationContext
+  // This will be migrated in future refactor
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';

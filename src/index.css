@@ -96,6 +96,15 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
+
 /* ==========================================
    DESIGN SYSTEM V2 - REUSABLE PATTERNS
    ========================================== */
