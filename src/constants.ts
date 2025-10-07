@@ -31,7 +31,7 @@ export const WORK_PROJECTS: WorkProject[] = [
         metrics: {
             performance: '97/100 Lighthouse',
             scale: '5 AI agents orchestrated',
-            timeline: 'Ongoing optimization'
+            timeline: 'Q4 2024 → Production'
         }
     },
     {
@@ -112,7 +112,7 @@ export const WORK_PROJECTS: WorkProject[] = [
         metrics: {
             performance: 'Multi-engine analysis',
             scale: 'Category-level insights',
-            timeline: 'Strategic consulting tool'
+            timeline: 'Active development'
         }
     },
 ];
@@ -142,7 +142,7 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
         title: 'Reading the Road',
         subtitle: 'Pattern recognition in systems and surfing',
         platform: 'Blog',
-        excerpt: 'Surfers don\'t predict waves—they read conditions, position themselves, and respond to what shows up. Enterprise architecture works the same way. You can\'t predict the future, but you can learn to read the signals.',
+        excerpt: 'Surfers read conditions, not predictions. Position, timing, response. Enterprise architecture operates the same way: constraint analysis over roadmap promises, deployment windows over sprint velocity.',
         imageUrl: 'https://picsum.photos/seed/pattern-recognition/600/400',
         link: 'https://blog.nino.photos',
         readTime: '6 min read',
@@ -180,7 +180,7 @@ export const INSIGHTS_ARTICLES: InsightArticle[] = [
         title: 'Answer-First Commerce',
         subtitle: 'Rethinking assumptions in an AI-native world',
         platform: 'Blog',
-        excerpt: 'Current work at Accenture Song: helping retailers think past "add a chatbot." When customers expect answers instead of search results, your entire commerce platform needs rethinking—not retrofitting.',
+        excerpt: 'Current work at Accenture Song: AI commerce transformation frameworks for Fortune 500 retailers. When customers expect answers instead of search results, your entire commerce platform needs rethinking—not retrofitting.',
         imageUrl: 'https://picsum.photos/seed/ai-commerce/600/400',
         link: 'https://blog.nino.photos',
         readTime: '10 min read',

@@ -245,21 +245,39 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
             data-testid="hero-role"
           >
             <p className="text-2xl md:text-4xl lg:text-5xl font-bold tracking-wide mb-4" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}>
-              What I Build When Nobody's Watching
+              Production Systems as Proof
             </p>
           </div>
 
-          {/* Value proposition */}
-          <p
+          {/* Value proposition - restructured for mobile scanning */}
+          <div
             ref={taglineRef}
-            className={`text-base md:text-xl text-white/90 mb-6 font-normal max-w-3xl mx-auto ${getClasses(taglineVisible)}`}
-            style={{
-              textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)',
-              lineHeight: '1.7'
-            }}
+            className={`text-base md:text-xl mb-8 max-w-3xl mx-auto space-y-4 ${getClasses(taglineVisible)}`}
+            style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.8)' }}
           >
-            Two decades architecting Fortune 500 commerce platforms—where downtime costs millions and "good enough" fails. I can't show you that work. What I can show: this portfolio (5 AI agents, 97/100 Lighthouse, automated quality gates), a real-time volleyball platform, projects solving problems I'm not paid to solve. Want to know how I think? Look at what I build when nobody's watching.
-          </p>
+            <p className="text-white/95 font-medium">
+              Two decades architecting systems that don't break.
+            </p>
+            <p className="text-white/80">
+              Fortune 500 scale. Startup speed.
+            </p>
+
+            {/* Scannable artifact bullets for mobile */}
+            <ul className="space-y-3 text-white/85 pt-2">
+              <li className="flex items-start">
+                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span>AI-orchestrated development (5 agents, 97/100 Lighthouse)</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span>Real-time platforms (137 services, 72-hour build cycle)</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span>Action sports photography (published worldwide)</span>
+              </li>
+            </ul>
+          </div>
 
           {/* Consolidated 2-CTA Approach */}
           <div
@@ -282,7 +300,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
                 aria-label="See what I build - view personal projects"
               >
                 <span className="flex items-center justify-center space-x-2">
-                  <span className="tracking-wide">See What I Build</span>
+                  <span className="tracking-wide">Explore Production Systems</span>
                   <svg
                     className="w-6 h-6 transition-transform duration-300 group-hover:translate-y-1"
                     fill="none"
@@ -309,7 +327,7 @@ const CaptureSection = forwardRef<HTMLElement, CaptureSectionProps>(({
                   <svg className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
-                  <span className="tracking-wide">Read Signal Dispatch</span>
+                  <span className="tracking-wide">Read Technical Essays</span>
                 </span>
               </button>
             </div>

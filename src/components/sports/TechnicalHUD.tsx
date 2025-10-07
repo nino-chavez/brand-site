@@ -51,7 +51,7 @@ export function TechnicalHUD({
         },
         {
             id: 'exposure' as SectionId,
-            label: 'INSIGHTS',
+            label: 'ESSAYS',
             metric: 'Focus: Technical',
             description: 'Articles & thoughts'
         },
@@ -63,7 +63,7 @@ export function TechnicalHUD({
         },
         {
             id: 'volleyball-demo' as SectionId,
-            label: 'SYSTEM',
+            label: 'TECH STACK',
             metric: 'Type: Interactive',
             description: 'Architecture demo'
         },

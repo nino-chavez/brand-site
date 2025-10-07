@@ -275,3 +275,105 @@ body {
 .hover-lift:hover {
   transform: translateY(-4px) scale(1.02);
 }
+
+/* ==========================================
+   MOBILE TOUCH TARGET STANDARDS (WCAG 2.2)
+   ========================================== */
+
+/* Minimum touch target size - 48px for mobile accessibility */
+.touch-target {
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* Touch targets with safe spacing to prevent accidental taps */
+.touch-target-safe {
+  min-width: 48px;
+  min-height: 48px;
+  margin: 8px;
+}
+
+/* Apply touch target standards to interactive elements on mobile */
+@media (max-width: 768px) {
+  button,
+  a[role="button"],
+  [role="tab"],
+  [role="menuitem"],
+  input[type="button"],
+  input[type="submit"] {
+    min-width: 48px;
+    min-height: 48px;
+    padding: 12px;
+  }
+
+  /* Ensure spacing between adjacent interactive elements */
+  nav button + button,
+  nav a + a {
+    margin-top: 8px;
+  }
+}
+
+/* ==========================================
+   MOBILE SPACE OPTIMIZATION
+   ========================================== */
+
+/* Responsive section padding - reduces excessive whitespace on mobile */
+.mobile-section {
+  padding-top: 2rem;    /* 32px mobile */
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .mobile-section {
+    padding-top: 3rem;    /* 48px sm */
+    padding-bottom: 3rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-section {
+    padding-top: 4rem;    /* 64px md */
+    padding-bottom: 4rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-section {
+    padding-top: 6rem;    /* 96px lg */
+    padding-bottom: 6rem;
+  }
+}
+
+/* Content spacing - tighter on mobile */
+.mobile-content-spacing > * + * {
+  margin-top: 1rem;    /* 16px mobile */
+}
+
+@media (min-width: 768px) {
+  .mobile-content-spacing > * + * {
+    margin-top: 1.5rem;    /* 24px md */
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-content-spacing > * + * {
+    margin-top: 2rem;    /* 32px lg */
+  }
+}
+
+/* Heading spacing - optimized for mobile scanning */
+.mobile-heading-spacing {
+  margin-bottom: 1rem;    /* 16px mobile */
+}
+
+@media (min-width: 768px) {
+  .mobile-heading-spacing {
+    margin-bottom: 1.5rem;    /* 24px md */
+  }
+}
+
+@media (min-width: 1024px) {
+  .mobile-heading-spacing {
+    margin-bottom: 2rem;    /* 32px lg */
+  }
+}

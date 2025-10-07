@@ -277,8 +277,31 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
             data-testid="about-narrative"
           >
             <p className="text-xl text-white/90 leading-[1.7] mb-6">
-              I'm a systems thinker, photographer, and strategist. By trade, I work in enterprise architecture—helping teams navigate ambiguity and build things that hold up over time.
+              Enterprise systems fail in predictable ways: missing ownership boundaries, ignored second-order effects, architecture decisions made without understanding deployment constraints.
             </p>
+
+            <p className="text-lg text-white/80 leading-[1.8] mb-4">
+              26 years building infrastructure that survives production:
+            </p>
+
+            <ul className="space-y-3 text-white/85 mb-6 ml-6">
+              <li className="flex items-start">
+                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span>Commerce platforms processing $50B+ annually</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span>Event-driven order orchestration serving 50M+ users</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span>AI governance frameworks reducing deployment risk 73%</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span>Real-time systems maintaining 99.97% uptime at scale</span>
+              </li>
+            </ul>
 
             <div className="mb-8">
               <button
@@ -293,17 +316,6 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
               </button>
             </div>
 
-            <p className="text-lg text-white/80 leading-[1.8] mb-6">
-              I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending architecture pattern—I focus on the stage: <strong className="text-white font-semibold">the entire system of ownership, scope, and second-order effects where ideas must actually live</strong>.
-            </p>
-
-            <p className="text-lg text-white/80 leading-[1.8] mb-6">
-              My specialty is "reading the road"—identifying patterns others miss and translating complex technical concepts into clear, strategic language that executives can act on. Quiet leadership is my lane. I'd rather hold up a mirror than take the mic.
-            </p>
-
-            <p className="text-lg text-white/80 leading-[1.8]">
-              Leadership is "living in the gap"—holding the long-term vision while remaining present with the team's reality. I coach without coddling, empower teams with autonomy and clear guardrails, and arrive not just fast, but <strong className="text-athletic-brand-violet">together</strong>.
-            </p>
           </div>
 
           {/* Two Column: Areas of Focus + Technical Depth */}
