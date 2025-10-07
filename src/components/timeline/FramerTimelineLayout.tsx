@@ -104,34 +104,54 @@ export const FramerTimelineLayout: React.FC = () => {
         return;
       }
 
+      const container = sectionScrollRef.current;
+      if (!container) return;
+
       const scrollingDown = e.deltaY > 0;
       const scrollingUp = e.deltaY < 0;
 
       // Get LIVE scroll progress from Framer Motion (not stale React state)
       const liveProgress = scrollYProgress.get();
 
-      // Detect boundaries (90% = bottom for more reliable detection, 10% = top)
-      const atBottom = liveProgress > 0.9;
-      const atTop = liveProgress < 0.1;
+      // Check if section has scrollable content
+      const isScrollable = container.scrollHeight > container.clientHeight;
+      const scrollTop = container.scrollTop;
+      const scrollBottom = container.scrollHeight - container.clientHeight - scrollTop;
 
-      console.log(`[SCROLL] Progress: ${(liveProgress * 100).toFixed(1)}%, Section: ${currentSectionIndex + 1}, Down: ${scrollingDown}, AtBottom: ${atBottom}`);
+      // Detect boundaries
+      // If not scrollable, always allow transitions
+      // If scrollable, check scroll position
+      const atBottom = !isScrollable || (liveProgress > 0.85 || scrollBottom < 50);
+      const atTop = !isScrollable || (liveProgress < 0.15 || scrollTop < 50);
+
+      console.log(`[SCROLL] Section ${currentSectionIndex + 1}, Progress: ${(liveProgress * 100).toFixed(1)}%, Scrollable: ${isScrollable}, AtTop: ${atTop}, AtBottom: ${atBottom}, ScrollTop: ${scrollTop.toFixed(0)}, ScrollBottom: ${scrollBottom.toFixed(0)}`);
 
       if (scrollingDown && atBottom && currentSectionIndex < TIMELINE_SECTIONS.length - 1) {
+        // Prevent default scroll if at boundary
+        if (!isScrollable || scrollBottom < 10) {
+          e.preventDefault();
+        }
+
         // Accumulate scroll momentum
         scrollAccumulator.current += Math.abs(e.deltaY);
 
-        if (scrollAccumulator.current > 80) { // Lower threshold for faster response
+        if (scrollAccumulator.current > 60) { // Lower threshold for snappier response
           e.preventDefault();
-          console.log(`[TRANSITION] Forward to section ${currentSectionIndex + 2}`);
+          console.log(`[TRANSITION] Forward: ${currentSectionIndex + 1} → ${currentSectionIndex + 2}`);
           transitionToSection(currentSectionIndex + 1, 'forward');
         }
       } else if (scrollingUp && atTop && currentSectionIndex > 0) {
+        // Prevent default scroll if at boundary
+        if (!isScrollable || scrollTop < 10) {
+          e.preventDefault();
+        }
+
         // Accumulate scroll momentum
         scrollAccumulator.current += Math.abs(e.deltaY);
 
-        if (scrollAccumulator.current > 80) { // Lower threshold for faster response
+        if (scrollAccumulator.current > 60) { // Lower threshold for snappier response
           e.preventDefault();
-          console.log(`[TRANSITION] Backward to section ${currentSectionIndex}`);
+          console.log(`[TRANSITION] Backward: ${currentSectionIndex + 1} → ${currentSectionIndex}`);
           transitionToSection(currentSectionIndex - 1, 'backward');
         }
       } else {
