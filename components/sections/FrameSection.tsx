@@ -428,24 +428,20 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
       <AnimatePresence>
         {sidePanelOpen && cardPosition && (
           <motion.div
-            initial={{
-              x: window.innerWidth,
-              opacity: 0
-            }}
-            animate={{
-              x: Math.max(cardPosition.x + 16, window.innerWidth - 800), // Position 16px right of card, or at screen edge
-              opacity: 1
-            }}
-            exit={{
-              x: window.innerWidth,
-              opacity: 0
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'fixed',
+              top: `${cardPosition.y}px`,
+              right: `${Math.max(0, window.innerWidth - (cardPosition.x + 16 + 800))}px`
             }}
             transition={{
               type: "spring",
               stiffness: 300,
               damping: 30
             }}
-            className="fixed top-0 h-full w-full sm:w-[90%] md:w-[600px] lg:w-[720px] xl:w-[800px] max-w-[90vw] bg-black/95 backdrop-blur-xl border-l border-white/10 z-50"
+            className="w-full sm:w-[90%] md:w-[600px] lg:w-[720px] xl:w-[800px] max-w-[90vw] max-h-[80vh] bg-black/95 backdrop-blur-xl border-l border-white/10 z-50 overflow-hidden rounded-l-lg shadow-2xl"
             data-testid="project-tech-side-panel"
             role="dialog"
             aria-modal="true"
