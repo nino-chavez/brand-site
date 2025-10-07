@@ -41,9 +41,6 @@ export default defineConfig(({ mode }) => {
         }),
       ].filter(Boolean),
       build: {
-        // SSR manifest only for full SSR builds (npm run build:ssr)
-        // Static builds (npm run build:client) don't need it and it causes issues
-        ssrManifest: mode === 'production' && process.env.BUILD_SSR === 'true',
         // Optimize bundle splitting
         rollupOptions: {
           output: {

@@ -503,7 +503,7 @@ class ErrorHandler {
 
 export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
     const fullConfig = { ...DEFAULT_CONFIG, ...config };
-    const handlerRef = useRef<ErrorHandler | null>(null);
+    const handlerRef = useRef<ErrorHandler>();
     const [errorState, setErrorState] = useState<{
         hasError: boolean;
         lastError?: GameFlowError;
@@ -515,24 +515,14 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
         fallbackMode: false
     });
 
-    // Initialize error handler on client-side only (useEffect doesn't run during SSR)
-    useEffect(() => {
-        if (!handlerRef.current) {
-            handlerRef.current = new ErrorHandler(fullConfig);
-        }
-    }, [fullConfig]);
+    // Initialize error handler
+    if (!handlerRef.current) {
+        handlerRef.current = new ErrorHandler(fullConfig);
+    }
 
     const handler = handlerRef.current;
 
     const handleError = useCallback((error: GameFlowError) => {
-        if (!handler) {
-            // SSR or not yet initialized - return safe default strategy
-            console.error('Error handler not initialized:', error);
-            return {
-                type: 'skip' as const,
-                message: 'Error handling not available during initialization'
-            };
-        }
 
         setErrorState(prev => ({
             ...prev,
@@ -555,8 +545,6 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
     }, [handler]);
 
     const recoverFromError = useCallback((section?: GameFlowSection) => {
-        if (!handler) return;
-
         handler.recoverFromError(section);
 
         setErrorState(prev => ({
@@ -569,8 +557,6 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
     }, [handler]);
 
     const clearErrors = useCallback(() => {
-        if (!handler) return;
-
         handler.clearErrors();
         setErrorState({
             hasError: false,
@@ -579,33 +565,14 @@ export function useErrorHandling(config: Partial<ErrorHandlingConfig> = {}) {
         });
     }, [handler]);
 
-    const createError = useCallback((type: any, message: string, section: any, recoverable: boolean) => {
-        if (!handler) {
-            return {
-                type,
-                message,
-                section,
-                recoverable,
-                timestamp: Date.now()
-            };
-        }
-        return handler.createGameFlowError(type, message, section, recoverable);
-    }, [handler]);
+    const createError = useCallback((type: any, message: string, section: any, recoverable: boolean) =>
+        handler.createGameFlowError(type, message, section, recoverable), [handler]);
 
-    const getErrorHistory = useCallback(() => {
-        if (!handler) return [];
-        return handler.getErrorHistory();
-    }, [handler]);
+    const getErrorHistory = useCallback(() => handler.getErrorHistory(), [handler]);
 
-    const getRecommendations = useCallback(() => {
-        if (!handler) return [];
-        return handler.getRecoveryRecommendations();
-    }, [handler]);
+    const getRecommendations = useCallback(() => handler.getRecoveryRecommendations(), [handler]);
 
-    const isInFallbackMode = useCallback((section?: any) => {
-        if (!handler) return false;
-        return handler.isInFallbackMode(section);
-    }, [handler]);
+    const isInFallbackMode = useCallback((section?: any) => handler.isInFallbackMode(section), [handler]);
 
     return useMemo(() => ({
         ...errorState,
