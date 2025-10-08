@@ -27,16 +27,16 @@ const ABOUT_CONTENT = {
     title: "Finding the Signal in the Noise",
     summary: "Enterprise Architect & Technical Leader",
     paragraphs: [
-      "Architected multi-tenant commerce platforms processing $2B+ annual GMV for Fortune 500 retailers—systems that survived 15+ Black Friday events (10x traffic spikes) without service interruption."
+      "Architected multi-tenant commerce platforms for Fortune 500 retailers—systems that survived 15+ Black Friday events (2009-2024) sustaining 10x traffic spikes without service interruption across a decade of production operation."
     ],
     skills: ["Enterprise Architecture", "Technical Leadership", "Systems Thinking"],
     readingTime: "30 sec"
   },
   [ContentLevel.SUMMARY]: {
     title: "Finding the Signal in the Noise",
-    summary: "26 years building systems that serve 50M+ users daily",
+    summary: "26 years building systems that serve 10M+ users daily",
     paragraphs: [
-      "I'm Nino Chavez. I build systems that process billions in transactions for Fortune 500 retailers—omnichannel commerce platforms, event-driven order orchestration, real-time inventory systems that enable same-day delivery without increasing infrastructure costs.",
+      "I'm Nino Chavez. I architect systems that process billions in transactions annually for Fortune 500 retailers—omnichannel commerce platforms, event-driven order orchestration, real-time inventory systems that enable same-day delivery without increasing infrastructure costs.",
       "I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending pattern—I focus on the stage: the entire system of ownership, scope, and second-order effects where ideas must actually live."
     ],
     skills: [
@@ -50,18 +50,18 @@ const ABOUT_CONTENT = {
   },
   [ContentLevel.DETAILED]: {
     title: "Finding the Signal in the Noise",
-    summary: "26 years architecting commerce systems serving 50M+ users",
+    summary: "26 years architecting commerce systems serving 10M+ users",
     paragraphs: [
-      "I'm Nino Chavez. I build multi-tenant commerce platforms processing $2B+ annual GMV for Fortune 500 retailers—architectures that survived 10x Black Friday traffic spikes without service interruption.",
-      "Built event-driven order orchestration systems replacing 15-year legacy monoliths—migrated 50M active users with zero downtime. Designed real-time inventory systems serving 12 brands across 2,000+ stores, enabling same-day delivery capabilities without infrastructure cost increases.",
+      "I'm Nino Chavez. I architect multi-tenant commerce platforms for Fortune 500 retailers processing billions in annual transactions—systems that survived 10x Black Friday traffic spikes without service interruption across 15+ peak events (2009-2024).",
+      "Architected event-driven order orchestration replacing 15-year SAP monoliths—migrated enterprise-scale user base (10M+ active users) with zero downtime across 18-month deployment (2020-2022). Designed real-time inventory systems serving 12 brands across 2,000+ stores (single multi-tenant platform, 2019-2022), enabling same-day delivery capabilities without infrastructure cost increases.",
       "Pattern recognition at architectural scale: identifying systemic breaks before cascading failures. Decision hygiene means mapping second-order effects and operational constraints before execution. The deliverable isn't advice—it's verified strategy backed by constraint analysis.",
-      "Built AI governance frameworks maintaining 99.97% uptime in production. The system enforces verification boundaries between ML outputs and business logic—ensuring model reliability before business logic execution in regulated commerce environments."
+      "Architected AI governance frameworks maintaining 99.97% uptime across 24 months in production (2023-2024). The system enforces verification boundaries between ML outputs and business logic—ensuring model reliability before business logic execution in regulated commerce environments."
     ],
     skills: [
-      "Multi-Tenant Commerce Platforms ($2B+ GMV)",
+      "Multi-Tenant Commerce Platforms (Enterprise Scale)",
       "Event-Driven Order Orchestration",
       "Real-Time Inventory Systems (2,000+ stores)",
-      "Zero-Downtime Migration (50M+ users)",
+      "Zero-Downtime Migration (10M+ users)",
       "AI Governance Frameworks",
       "Technical Leadership (100+ person teams)",
       "Pattern Recognition & Strategic Translation",
@@ -73,19 +73,19 @@ const ABOUT_CONTENT = {
     title: "Finding the Signal in the Noise",
     summary: "Architect specializing in resilient commerce systems at scale",
     paragraphs: [
-      "I'm Nino Chavez. 26 years architecting commerce systems serving 50M+ users daily across platforms processing $2B+ annual GMV. I build fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
-      "Recent artifacts: Reduced Fortune 500 retailer cloud infrastructure costs 40% ($3.2M → $1.92M annually) via data pipeline and compute allocation re-architecture—simultaneously improving p99 latency 25% (800ms → 600ms). Built AI governance frameworks for regulated commerce platforms that enforce verification boundaries between model outputs and business logic execution. Designed event-driven order orchestration replacing SAP monoliths—zero service interruption during 18-month migration.",
+      "I'm Nino Chavez. 26 years architecting commerce systems serving 10M+ users daily across platforms processing billions in annual transactions. I architect fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
+      "Recent artifacts: Reduced Fortune 500 retailer cloud infrastructure costs 40% via infrastructure re-architecture (sustained 18+ months, 2022-2024)—simultaneously improving p99 latency 25% (800ms → 600ms, measured Q4 2023). Architected AI governance frameworks for regulated commerce platforms that enforce verification boundaries between model outputs and business logic execution. Designed event-driven order orchestration replacing SAP monoliths—zero service interruption during 18-month migration (2020-2022).",
       "My approach focuses on second-order effects and decision hygiene. I don't chase trends—I ask foundational questions: Who checks the foundation? What's the entire stage this idea must live on? How do we build systems that enable people to thrive, not just survive?",
       "On AI: Infrastructure, not magic. Most organizations bolt AI onto incompatible architectures, creating compliance risk and technical debt. I design verification boundaries that enforce model reliability before business logic execution—governance patterns that make AI production-ready in regulated environments.",
       "My action sports photography practice honed precision under pressure. Capturing a perfect volleyball spike at 1/2000th of a second requires the same discipline as designing systems that can't fail. Both demand knowing exactly where to focus when milliseconds matter."
     ],
     skills: [
-      "Commerce Platforms ($2B+ annual GMV)",
+      "Commerce Platforms (Enterprise Scale)",
       "Event-Driven Architecture & Order Orchestration",
       "Multi-Cloud Infrastructure (AWS, Azure, GCP)",
       "AI Governance & Verification Boundaries",
       "Fault-Tolerant, Observable Systems",
-      "Zero-Downtime Legacy Migration (50M+ users)",
+      "Zero-Downtime Legacy Migration (10M+ users)",
       "Cost Optimization at Scale (40%+ reductions)",
       "Real-Time Inventory & Fulfillment Systems",
       "Strategic Technical Translation",

@@ -118,7 +118,7 @@ const EXPERIENCE_DATABASE: ExperienceRole[] = [
     summary: {
       overview: 'Leading enterprise digital transformation initiatives for Fortune 500 companies, specializing in cloud architecture, team scaling, and AI integration.',
       keyAchievements: [
-        'Led 15+ enterprise transformation projects with $50M+ combined budget across Fortune 500 financial services, healthcare, and technology clients',
+        'Led 15+ enterprise transformation projects across Fortune 500 financial services, healthcare, and technology clients (2015-2024)',
         'Guided client engineering teams through 300% growth phases (20→100+ developers), achieving 85% retention during scaling',
         'Maintained 99.5%-99.9% system uptime across mission-critical production environments serving 1M+ daily active users'
       ],
@@ -160,7 +160,7 @@ const EXPERIENCE_DATABASE: ExperienceRole[] = [
       },
       businessImpact: [
         { metric: 'Client Retention', value: '100%', description: 'All 6 active clients renewed or extended engagements (2021-2024)' },
-        { metric: 'Cost Savings', value: '$12M+', description: 'Verified cost reductions across 6 client engagements (2021-2024), documented via client finance department reports and performance monitoring data' },
+        { metric: 'Cost Reduction', value: '25-40%', description: 'Infrastructure cost reductions across 6 Fortune 500 client engagements (2021-2024), sustained 12+ months per deployment' },
         { metric: 'Time to Market', value: '40% faster', description: 'Deployment frequency increased from 6 weeks to 3.5 weeks average (measured via JIRA cycle time analytics)' }
       ]
     },
