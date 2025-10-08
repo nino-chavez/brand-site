@@ -34,9 +34,9 @@ const ABOUT_CONTENT = {
   },
   [ContentLevel.SUMMARY]: {
     title: "Finding the Signal in the Noise",
-    summary: "26 years building systems that serve 10M+ users daily",
+    summary: "26 years architecting systems serving millions of daily active users across Fortune 500 platforms",
     paragraphs: [
-      "I'm Nino Chavez. I architect systems that process billions in transactions annually for Fortune 500 retailers—omnichannel commerce platforms, event-driven order orchestration, real-time inventory systems that enable same-day delivery without increasing infrastructure costs.",
+      "I'm Nino Chavez. I architect multi-billion transaction platforms for Fortune 500 retailers—omnichannel commerce platforms, event-driven order orchestration, real-time inventory systems that enable same-day delivery without increasing infrastructure costs.",
       "I don't delegate the thinking. While others chase the spotlight—the shiny new framework, the trending pattern—I focus on the stage: the entire system of ownership, scope, and second-order effects where ideas must actually live."
     ],
     skills: [
@@ -50,9 +50,9 @@ const ABOUT_CONTENT = {
   },
   [ContentLevel.DETAILED]: {
     title: "Finding the Signal in the Noise",
-    summary: "26 years architecting commerce systems serving 10M+ users",
+    summary: "26 years architecting enterprise-scale commerce systems serving millions of users",
     paragraphs: [
-      "I'm Nino Chavez. I architect multi-tenant commerce platforms for Fortune 500 retailers processing billions in annual transactions—systems that survived 10x Black Friday traffic spikes without service interruption across 15+ peak events (2009-2024).",
+      "I'm Nino Chavez. I architect multi-tenant commerce platforms for Fortune 500 retailers at multi-billion transaction scale—systems that survived 10x seasonal traffic spikes without service interruption across 15+ Black Friday events (2009-2024).",
       "Architected event-driven order orchestration replacing 15-year SAP monoliths—migrated enterprise-scale user base (10M+ active users) with zero downtime across 18-month deployment (2020-2022). Designed real-time inventory systems serving 12 brands across 2,000+ stores (single multi-tenant platform, 2019-2022), enabling same-day delivery capabilities without infrastructure cost increases.",
       "Pattern recognition at architectural scale: identifying systemic breaks before cascading failures. Decision hygiene means mapping second-order effects and operational constraints before execution. The deliverable isn't advice—it's verified strategy backed by constraint analysis.",
       "Architected AI governance frameworks maintaining 99.97% uptime across 24 months in production (2023-2024). The system enforces verification boundaries between ML outputs and business logic—ensuring model reliability before business logic execution in regulated commerce environments."
@@ -73,7 +73,7 @@ const ABOUT_CONTENT = {
     title: "Finding the Signal in the Noise",
     summary: "Architect specializing in resilient commerce systems at scale",
     paragraphs: [
-      "I'm Nino Chavez. 26 years architecting commerce systems serving 10M+ users daily across platforms processing billions in annual transactions. I architect fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
+      "I'm Nino Chavez. 26 years architecting enterprise-scale commerce systems serving millions daily across multi-billion transaction platforms. I architect fault-tolerant, observable systems using cloud-native patterns and event-driven architectures.",
       "Recent artifacts: Reduced Fortune 500 retailer cloud infrastructure costs 40% via infrastructure re-architecture (sustained 18+ months, 2022-2024)—simultaneously improving p99 latency 25% (800ms → 600ms, measured Q4 2023). Architected AI governance frameworks for regulated commerce platforms that enforce verification boundaries between model outputs and business logic execution. Designed event-driven order orchestration replacing SAP monoliths—zero service interruption during 18-month migration (2020-2022).",
       "My approach focuses on second-order effects and decision hygiene. I don't chase trends—I ask foundational questions: Who checks the foundation? What's the entire stage this idea must live on? How do we build systems that enable people to thrive, not just survive?",
       "On AI: Infrastructure, not magic. Most organizations bolt AI onto incompatible architectures, creating compliance risk and technical debt. I design verification boundaries that enforce model reliability before business logic execution—governance patterns that make AI production-ready in regulated environments.",
