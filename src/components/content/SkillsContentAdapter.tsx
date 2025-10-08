@@ -26,13 +26,13 @@ interface SkillCategory {
   name: string;
   icon: string;
   description: string;
-  proficiency: number;
+  proficiency: 'Expert' | 'Proficient' | 'Developing';
   experience: string;
   category: 'core' | 'specialized' | 'technical';
   skills: {
     name: string;
     level: 'summary' | 'detailed' | 'technical';
-    proficiency: number;
+    proficiency: 'Expert' | 'Proficient' | 'Developing';
     years?: number;
     certifications?: string[];
     projects?: string[];
@@ -50,21 +50,21 @@ const SKILLS_DATABASE: SkillCategory[] = [
     name: 'Enterprise Architecture',
     icon: '◈',
     description: 'System design and architectural strategy',
-    proficiency: 95,
-    experience: '15+ years',
+    proficiency: 'Expert',
+    experience: '15 years',
     category: 'core',
     skills: [
       {
         name: 'System Design',
         level: 'summary',
-        proficiency: 95,
+        proficiency: 'Expert',
         years: 15,
         description: 'Large-scale distributed systems'
       },
       {
         name: 'Microservices Architecture',
         level: 'detailed',
-        proficiency: 92,
+        proficiency: 'Expert',
         years: 8,
         certifications: ['AWS Solutions Architect'],
         description: 'Event-driven microservices ecosystems'
@@ -72,14 +72,14 @@ const SKILLS_DATABASE: SkillCategory[] = [
       {
         name: 'Domain-Driven Design',
         level: 'detailed',
-        proficiency: 88,
+        proficiency: 'Proficient',
         years: 6,
         description: 'Strategic design patterns and bounded contexts'
       },
       {
         name: 'Event Sourcing & CQRS',
         level: 'technical',
-        proficiency: 85,
+        proficiency: 'Proficient',
         years: 4,
         projects: ['Financial Trading Platform', 'E-commerce Analytics'],
         description: 'Event-driven architecture patterns for high-throughput systems'
@@ -87,7 +87,7 @@ const SKILLS_DATABASE: SkillCategory[] = [
       {
         name: 'Service Mesh & Istio',
         level: 'technical',
-        proficiency: 80,
+        proficiency: 'Proficient',
         years: 3,
         description: 'Advanced service communication and observability'
       }
@@ -100,42 +100,42 @@ const SKILLS_DATABASE: SkillCategory[] = [
     name: 'Full-Stack Development',
     icon: '◆',
     description: 'End-to-end application development',
-    proficiency: 92,
-    experience: '18+ years',
+    proficiency: 'Expert',
+    experience: '18 years',
     category: 'core',
     skills: [
       {
         name: 'React/TypeScript',
         level: 'summary',
-        proficiency: 95,
+        proficiency: 'Expert',
         years: 7,
         description: 'Modern frontend development'
       },
       {
         name: 'Node.js/Express',
         level: 'summary',
-        proficiency: 90,
+        proficiency: 'Expert',
         years: 10,
         description: 'Server-side JavaScript development'
       },
       {
         name: 'Python/FastAPI',
         level: 'detailed',
-        proficiency: 88,
+        proficiency: 'Proficient',
         years: 12,
         description: 'Backend APIs and data processing'
       },
       {
         name: 'Database Design',
         level: 'detailed',
-        proficiency: 92,
+        proficiency: 'Expert',
         years: 18,
         description: 'PostgreSQL, MongoDB, Redis optimization'
       },
       {
         name: 'GraphQL & Apollo',
         level: 'technical',
-        proficiency: 85,
+        proficiency: 'Proficient',
         years: 4,
         projects: ['E-commerce Platform', 'Content Management System'],
         description: 'Federated graph architectures and schema design'
@@ -143,7 +143,7 @@ const SKILLS_DATABASE: SkillCategory[] = [
       {
         name: 'WebAssembly (WASM)',
         level: 'technical',
-        proficiency: 75,
+        proficiency: 'Proficient',
         years: 2,
         description: 'High-performance web applications'
       }
@@ -156,35 +156,35 @@ const SKILLS_DATABASE: SkillCategory[] = [
     name: 'Leadership & Strategy',
     icon: '◉',
     description: 'Team leadership and technical strategy',
-    proficiency: 88,
-    experience: '12+ years',
+    proficiency: 'Proficient',
+    experience: '12 years',
     category: 'specialized',
     skills: [
       {
         name: 'Team Building',
         level: 'summary',
-        proficiency: 90,
+        proficiency: 'Expert',
         years: 12,
         description: 'Building and scaling engineering teams'
       },
       {
         name: 'Technical Vision',
         level: 'detailed',
-        proficiency: 88,
+        proficiency: 'Proficient',
         years: 10,
         description: 'Strategic technology roadmaps'
       },
       {
         name: 'Stakeholder Management',
         level: 'detailed',
-        proficiency: 85,
+        proficiency: 'Proficient',
         years: 8,
         description: 'Cross-functional collaboration and communication'
       },
       {
         name: 'Engineering Culture',
         level: 'technical',
-        proficiency: 92,
+        proficiency: 'Expert',
         years: 12,
         description: 'Building high-performance engineering cultures and practices'
       }
@@ -197,21 +197,21 @@ const SKILLS_DATABASE: SkillCategory[] = [
     name: 'DevOps & Infrastructure',
     icon: '▲',
     description: 'Infrastructure automation and deployment',
-    proficiency: 85,
-    experience: '10+ years',
+    proficiency: 'Proficient',
+    experience: '10 years',
     category: 'specialized',
     skills: [
       {
         name: 'Kubernetes',
         level: 'summary',
-        proficiency: 88,
+        proficiency: 'Proficient',
         years: 5,
         description: 'Container orchestration'
       },
       {
         name: 'AWS/Azure',
         level: 'detailed',
-        proficiency: 90,
+        proficiency: 'Expert',
         years: 8,
         certifications: ['AWS Solutions Architect Professional'],
         description: 'Multi-cloud infrastructure design'
@@ -219,14 +219,14 @@ const SKILLS_DATABASE: SkillCategory[] = [
       {
         name: 'Terraform/IaC',
         level: 'detailed',
-        proficiency: 85,
+        proficiency: 'Proficient',
         years: 6,
         description: 'Infrastructure as Code practices'
       },
       {
         name: 'Service Mesh Architecture',
         level: 'technical',
-        proficiency: 80,
+        proficiency: 'Proficient',
         years: 3,
         description: 'Istio, Envoy, and advanced networking patterns'
       }
@@ -239,28 +239,28 @@ const SKILLS_DATABASE: SkillCategory[] = [
     name: 'AI & Machine Learning',
     icon: '🤖',
     description: 'Artificial intelligence and machine learning',
-    proficiency: 78,
-    experience: '5+ years',
+    proficiency: 'Proficient',
+    experience: '5 years',
     category: 'technical',
     skills: [
       {
         name: 'Large Language Models',
-        level: 'summary',
-        proficiency: 85,
+        level: 'technical',
+        proficiency: 'Proficient',
         years: 2,
         description: 'LLM integration and prompt engineering'
       },
       {
         name: 'MLOps',
         level: 'detailed',
-        proficiency: 80,
+        proficiency: 'Proficient',
         years: 3,
         description: 'ML model deployment and monitoring'
       },
       {
         name: 'Agentic Development',
         level: 'technical',
-        proficiency: 90,
+        proficiency: 'Proficient',
         years: 1,
         projects: ['AI-Assisted Development Platform', 'Autonomous Code Review System'],
         description: 'Building autonomous AI systems and multi-agent workflows'
@@ -274,28 +274,28 @@ const SKILLS_DATABASE: SkillCategory[] = [
     name: 'Action Sports Photography',
     icon: '○',
     description: 'Professional volleyball and action sports photography',
-    proficiency: 88,
-    experience: '8+ years',
+    proficiency: 'Proficient',
+    experience: '8 years',
     category: 'technical',
     skills: [
       {
         name: 'Sports Photography',
         level: 'summary',
-        proficiency: 90,
+        proficiency: 'Expert',
         years: 8,
         description: 'Volleyball and action sports'
       },
       {
         name: 'Motion Analysis',
         level: 'detailed',
-        proficiency: 85,
+        proficiency: 'Proficient',
         years: 6,
         description: 'Timing and movement prediction'
       },
       {
         name: 'Visual Composition',
         level: 'technical',
-        proficiency: 88,
+        proficiency: 'Proficient',
         years: 8,
         description: 'Advanced composition techniques and visual storytelling'
       }
