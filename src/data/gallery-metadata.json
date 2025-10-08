@@ -5,7 +5,7 @@
     {
       "id": "portfolio-00",
       "filename": "portfolio-00.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 1",
+      "alt": "Volleyball player in blue jersey setting ball during indoor tournament, arms extended overhead with focused expression",
       "categories": [
         "action-sports"
       ],
@@ -23,14 +23,13 @@
         "shutterSpeed": "1/1000",
         "focalLength": "85mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Indoor volleyball tournament coverage capturing peak athletic moments during competitive play. Part of ongoing sports photography portfolio documenting collegiate-level competition.",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +28%, Vibrance +18, Highlights -15, Shadows +32. Crop from 3:2 to 4:5 for vertical composition emphasis."
       },
       "displayOrder": 0,
       "isFeatured": true
@@ -38,7 +37,7 @@
     {
       "id": "portfolio-01",
       "filename": "portfolio-01.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 2",
+      "alt": "Person walking away wearing vintage letterman jacket at dusk, golden hour lighting on tree-lined path",
       "categories": [
         "action-sports"
       ],
@@ -56,14 +55,13 @@
         "shutterSpeed": "1/1000",
         "focalLength": "85mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 1,
       "isFeatured": true
@@ -71,7 +69,7 @@
     {
       "id": "portfolio-02",
       "filename": "portfolio-02.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 3",
+      "alt": "Volleyball player mid-jump spike with crowd in background, indoor gymnasium with bleachers full of spectators",
       "categories": [
         "action-sports"
       ],
@@ -89,14 +87,13 @@
         "shutterSpeed": "1/640",
         "focalLength": "70mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 2,
       "isFeatured": true
@@ -104,7 +101,7 @@
     {
       "id": "portfolio-03",
       "filename": "portfolio-03.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 4",
+      "alt": "Two volleyball players reaching for ball above net, close-up of hands competing for control at peak of jump",
       "categories": [
         "action-sports"
       ],
@@ -122,14 +119,13 @@
         "shutterSpeed": "1/1600",
         "focalLength": "150mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 3,
       "isFeatured": false
@@ -137,7 +133,7 @@
     {
       "id": "portfolio-04",
       "filename": "portfolio-04.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 5",
+      "alt": "Volleyball player airborne during serve, dramatic motion blur effect with scoreboard visible in background",
       "categories": [
         "action-sports"
       ],
@@ -155,14 +151,13 @@
         "shutterSpeed": "1/2000",
         "focalLength": "105mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 4,
       "isFeatured": false
@@ -170,7 +165,7 @@
     {
       "id": "portfolio-05",
       "filename": "portfolio-05.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 6",
+      "alt": "Golden sunset over ocean with palm tree silhouettes, warm light reflecting on water surface at dusk",
       "categories": [
         "action-sports"
       ],
@@ -188,14 +183,13 @@
         "shutterSpeed": "1/400",
         "focalLength": "105mm",
         "dateTaken": "2024-01-31T03:47:37.000Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 5,
       "isFeatured": false
@@ -203,7 +197,7 @@
     {
       "id": "portfolio-06",
       "filename": "portfolio-06.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 7",
+      "alt": "Volleyball player preparing to serve, indoor gymnasium with university branding on wall behind",
       "categories": [
         "action-sports"
       ],
@@ -221,14 +215,13 @@
         "shutterSpeed": "1/1600",
         "focalLength": "150mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 6,
       "isFeatured": false
@@ -236,7 +229,7 @@
     {
       "id": "portfolio-07",
       "filename": "portfolio-07.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 8",
+      "alt": "Volleyball player walking on court in dark jersey, monochromatic indoor sports photography with shallow depth of field",
       "categories": [
         "action-sports"
       ],
@@ -254,14 +247,13 @@
         "shutterSpeed": "1/1000",
         "focalLength": "85mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 7,
       "isFeatured": false
@@ -269,7 +261,7 @@
     {
       "id": "portfolio-08",
       "filename": "portfolio-08.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 9",
+      "alt": "Behind-the-scenes shot of photographer in branded jacket with camera equipment, personal branding visible",
       "categories": [
         "action-sports"
       ],
@@ -287,14 +279,13 @@
         "shutterSpeed": "1/2000",
         "focalLength": "105mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 8,
       "isFeatured": false
@@ -302,7 +293,7 @@
     {
       "id": "portfolio-09",
       "filename": "portfolio-09.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 10",
+      "alt": "Silhouetted volleyball players against bright gymnasium windows, dramatic backlit composition with high contrast",
       "categories": [
         "action-sports"
       ],
@@ -320,14 +311,13 @@
         "shutterSpeed": "1/1600",
         "focalLength": "150mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 9,
       "isFeatured": false
@@ -335,7 +325,7 @@
     {
       "id": "portfolio-10",
       "filename": "portfolio-10.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 11",
+      "alt": "Volleyball player in defensive stance during indoor match, focused athlete ready to receive serve",
       "categories": [
         "action-sports"
       ],
@@ -353,14 +343,13 @@
         "shutterSpeed": "1/800",
         "focalLength": "90mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 10,
       "isFeatured": false
@@ -368,7 +357,7 @@
     {
       "id": "portfolio-11",
       "filename": "portfolio-11.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 12",
+      "alt": "Volleyball action captured during competitive match, dynamic athletic movement in indoor tournament setting",
       "categories": [
         "action-sports"
       ],
@@ -386,14 +375,13 @@
         "shutterSpeed": "1/1000",
         "focalLength": "85mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 11,
       "isFeatured": false
@@ -401,7 +389,7 @@
     {
       "id": "portfolio-12",
       "filename": "portfolio-12.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 13",
+      "alt": "Close-up volleyball match moment, athletes competing at net during intense rally",
       "categories": [
         "action-sports"
       ],
@@ -419,14 +407,13 @@
         "shutterSpeed": "1/500",
         "focalLength": "50mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 12,
       "isFeatured": false
@@ -434,7 +421,7 @@
     {
       "id": "portfolio-13",
       "filename": "portfolio-13.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 14",
+      "alt": "Volleyball player executing athletic move during match, capturing peak action moment",
       "categories": [
         "action-sports"
       ],
@@ -452,14 +439,13 @@
         "shutterSpeed": "1/800",
         "focalLength": "90mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 13,
       "isFeatured": false
@@ -467,7 +453,7 @@
     {
       "id": "portfolio-14",
       "filename": "portfolio-14.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 15",
+      "alt": "Indoor volleyball competition scene, professional sports photography capturing tournament atmosphere",
       "categories": [
         "action-sports"
       ],
@@ -485,14 +471,13 @@
         "shutterSpeed": "1/1250",
         "focalLength": "100mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 14,
       "isFeatured": false
@@ -500,7 +485,7 @@
     {
       "id": "portfolio-15",
       "filename": "portfolio-15.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 16",
+      "alt": "Competitive volleyball moment during indoor match, dynamic sports action photography",
       "categories": [
         "action-sports"
       ],
@@ -518,14 +503,13 @@
         "shutterSpeed": "1/500",
         "focalLength": "50mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 15,
       "isFeatured": false
@@ -533,7 +517,7 @@
     {
       "id": "portfolio-16",
       "filename": "portfolio-16.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 17",
+      "alt": "Volleyball athlete in action during tournament play, professional indoor sports photography",
       "categories": [
         "action-sports"
       ],
@@ -551,14 +535,13 @@
         "shutterSpeed": "1/500",
         "focalLength": "50mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 16,
       "isFeatured": false
@@ -566,7 +549,7 @@
     {
       "id": "portfolio-17",
       "filename": "portfolio-17.jpg",
-      "alt": "Action sports photography showcase - Portfolio image 18",
+      "alt": "Tournament volleyball scene capturing competitive play, indoor gymnasium sports photography",
       "categories": [
         "action-sports"
       ],
@@ -584,14 +567,13 @@
         "shutterSpeed": "1/800",
         "focalLength": "90mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Action sports portfolio - capturing dynamic movement and athletic skill",
+        "projectContext": "Volleyball sports photography series documenting competitive tournament play and athletic performance",
         "tags": [
           "action",
           "sports",
           "photography"
         ],
-        "processingNotes": "Contrast enhancement, vibrance adjustment, composition crop"
+        "processingNotes": "Lightroom Classic: Contrast +25%, Vibrance +15, Shadows +28, selective sharpening (Amount: 60, Radius: 1.2). Crop adjusted for composition balance."
       },
       "displayOrder": 17,
       "isFeatured": false
@@ -599,7 +581,7 @@
     {
       "id": "portfolio-18",
       "filename": "portfolio-18.jpg",
-      "alt": "Technical software project showcase - Portfolio image 19",
+      "alt": "Software development workspace showcasing technical project documentation and development environment",
       "categories": [
         "technical"
       ],
@@ -617,14 +599,13 @@
         "shutterSpeed": "1/320",
         "focalLength": "90mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 18,
       "isFeatured": false
@@ -632,7 +613,7 @@
     {
       "id": "portfolio-19",
       "filename": "portfolio-19.jpg",
-      "alt": "Technical software project showcase - Portfolio image 20",
+      "alt": "Technical documentation display showing enterprise architecture and software engineering project details",
       "categories": [
         "technical"
       ],
@@ -650,14 +631,13 @@
         "shutterSpeed": "1/320",
         "focalLength": "90mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 19,
       "isFeatured": false
@@ -665,7 +645,7 @@
     {
       "id": "portfolio-20",
       "filename": "portfolio-20.jpg",
-      "alt": "Technical software project showcase - Portfolio image 21",
+      "alt": "Software engineering project visualization displaying technical architecture and system design documentation",
       "categories": [
         "technical"
       ],
@@ -683,14 +663,13 @@
         "shutterSpeed": "1/200",
         "focalLength": "50mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 20,
       "isFeatured": false
@@ -698,7 +677,7 @@
     {
       "id": "portfolio-21",
       "filename": "portfolio-21.jpg",
-      "alt": "Technical software project showcase - Portfolio image 22",
+      "alt": "Development environment screenshot highlighting code architecture and software engineering workflow",
       "categories": [
         "technical"
       ],
@@ -716,14 +695,13 @@
         "shutterSpeed": "1/400",
         "focalLength": "105mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 21,
       "isFeatured": false
@@ -731,7 +709,7 @@
     {
       "id": "portfolio-22",
       "filename": "portfolio-22.jpg",
-      "alt": "Technical software project showcase - Portfolio image 23",
+      "alt": "Professional photography of technical workspace demonstrating software development and engineering expertise",
       "categories": [
         "technical"
       ],
@@ -749,14 +727,13 @@
         "shutterSpeed": "1/500",
         "focalLength": "85mm",
         "dateTaken": "2022-07-24T15:32:25.000Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 22,
       "isFeatured": false
@@ -764,7 +741,7 @@
     {
       "id": "portfolio-23",
       "filename": "portfolio-23.jpg",
-      "alt": "Technical software project showcase - Portfolio image 24",
+      "alt": "Enterprise software architecture documentation showcasing system design and technical implementation details",
       "categories": [
         "technical"
       ],
@@ -782,14 +759,13 @@
         "shutterSpeed": "1/200",
         "focalLength": "50mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 23,
       "isFeatured": false
@@ -797,7 +773,7 @@
     {
       "id": "portfolio-24",
       "filename": "portfolio-24.jpg",
-      "alt": "Technical software project showcase - Portfolio image 25",
+      "alt": "Technical project visualization demonstrating full-stack development and software engineering capabilities",
       "categories": [
         "technical"
       ],
@@ -815,14 +791,13 @@
         "shutterSpeed": "1/320",
         "focalLength": "90mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 24,
       "isFeatured": false
@@ -830,7 +805,7 @@
     {
       "id": "portfolio-25",
       "filename": "portfolio-25.jpg",
-      "alt": "Technical software project showcase - Portfolio image 26",
+      "alt": "Software development project capture displaying modern development tools and architectural implementation",
       "categories": [
         "technical"
       ],
@@ -848,14 +823,13 @@
         "shutterSpeed": "1/400",
         "focalLength": "150mm",
         "dateTaken": "2024-01-31T03:47:28.000Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 25,
       "isFeatured": false
@@ -863,7 +837,7 @@
     {
       "id": "portfolio-26",
       "filename": "portfolio-26.jpg",
-      "alt": "Technical software project showcase - Portfolio image 27",
+      "alt": "Technical documentation and code visualization showcasing enterprise-scale software engineering projects",
       "categories": [
         "technical"
       ],
@@ -881,14 +855,13 @@
         "shutterSpeed": "1/400",
         "focalLength": "105mm",
         "dateTaken": "2024-01-01T12:00:00Z",
-        "location": "Location to be specified",
-        "projectContext": "Technical documentation and software project showcase",
+        "projectContext": "Enterprise software engineering portfolio demonstrating full-stack development, system architecture, and technical documentation capabilities across client projects",
         "tags": [
           "technical",
           "software",
           "documentation"
         ],
-        "processingNotes": "Clarity enhancement, color grading for technical content"
+        "processingNotes": "Lightroom Classic: Clarity +35, Dehaze +12, Vibrance -8 (muted technical aesthetic). Color temperature: 5800K for neutral documentation tone."
       },
       "displayOrder": 26,
       "isFeatured": false
