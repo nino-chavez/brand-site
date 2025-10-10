@@ -67,30 +67,30 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
     {
       type: 'email',
       label: 'Direct Email',
-      value: 'nino@ninochavez.com',
-      href: 'mailto:nino@ninochavez.com?subject=Collaboration Opportunity',
+      value: 'hello@nino.photos',
+      href: 'mailto:hello@nino.photos?subject=Strategic Engagement Inquiry',
       primary: true,
       icon: 'email'
     },
     {
       type: 'linkedin',
       label: 'LinkedIn',
-      value: '/in/ninochavez',
-      href: 'https://linkedin.com/in/nino-chavez',
+      value: '/in/nino-chavez',
+      href: 'https://www.linkedin.com/in/nino-chavez/',
       icon: 'linkedin'
     },
     {
       type: 'github',
       label: 'GitHub',
-      value: '@ninochavez',
-      href: 'https://github.com/ninochavez',
+      value: '/nino-chavez',
+      href: 'https://github.com/nino-chavez',
       icon: 'github'
     },
     {
       type: 'calendar',
       label: 'Schedule Call',
       value: 'Book 30 min consultation',
-      href: 'https://calendly.com/ninochavez/consultation',
+      href: 'https://cal.com/nino-chavez',
       icon: 'calendar'
     }
   ];
@@ -245,8 +245,8 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
               className={getClasses(contactVisible)}
             >
               <div className="mb-8">
-                <h3 className="text-4xl font-bold text-white mb-3 leading-tight">Let's Build<br/>Something Exceptional</h3>
-                <p className="text-lg text-white/70">Serious inquiries receive responses within 48 hours</p>
+                <h3 className="text-4xl font-bold text-white mb-3 leading-tight">Start a<br/>Conversation</h3>
+                <p className="text-lg text-white/70">Enterprise infrastructure consulting for commerce transformations.<br/>From Fortune 500 to growth-stage platforms.</p>
               </div>
 
               <div className="space-y-3 mb-8">
@@ -309,10 +309,20 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                 ))}
               </div>
 
-              {/* Response time indicator */}
-              <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-xl">
-                <div className="text-2xl font-bold text-green-400 mb-1">&lt; 48hrs</div>
-                <div className="text-xs text-white/60 uppercase tracking-wide">Typical Response Time</div>
+              {/* Trust signals */}
+              <div className="grid grid-cols-3 gap-3">
+                <div className="p-3 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-xl text-center">
+                  <div className="text-lg font-bold text-green-400 mb-0.5">24hr</div>
+                  <div className="text-xs text-white/60">Response</div>
+                </div>
+                <div className="p-3 bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-xl text-center">
+                  <div className="text-lg font-bold text-blue-400 mb-0.5">Nov 2025</div>
+                  <div className="text-xs text-white/60">Available</div>
+                </div>
+                <div className="p-3 bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-xl text-center">
+                  <div className="text-lg font-bold text-purple-400 mb-0.5">NDA</div>
+                  <div className="text-xs text-white/60">Provided</div>
+                </div>
               </div>
             </div>
 
