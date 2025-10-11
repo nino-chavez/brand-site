@@ -214,7 +214,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
 
               <div
                 ref={narrativeRef}
-                className={`max-w-3xl mx-auto space-y-6 mb-12 px-4 ${getClasses(narrativeVisible)}`}
+                className={`max-w-3xl 2xl:max-w-5xl mx-auto space-y-6 mb-12 px-4 ${getClasses(narrativeVisible)}`}
                 data-testid="narrative-conclusion"
               >
                 <p className="text-lg md:text-xl text-white/90 leading-relaxed">
@@ -245,16 +245,16 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
               className={getClasses(contactVisible)}
             >
               <div className="mb-8">
-                <h3 className="text-4xl font-bold text-white mb-3 leading-tight">Start a<br/>Conversation</h3>
+                <h3 className="text-4xl font-bold text-white mb-4 leading-tight">Start a<br/>Conversation</h3>
                 <p className="text-lg text-white/70">Enterprise infrastructure consulting for commerce transformations.<br/>From Fortune 500 to growth-stage platforms.</p>
               </div>
 
-              <div className="space-y-3 mb-8">
+              <div className="space-y-4 mb-8">
                 {contactMethods.map((method) => (
                   <button
                     key={method.type}
                     onClick={() => handleContactMethodSelect(method.type)}
-                    className={`w-full p-4 md:p-5 min-h-[48px] text-left bg-gradient-to-r from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl hover:from-white/10 hover:to-white/5 hover:border-athletic-brand-violet/40 transition-all duration-300 hover:translate-x-1 group ${
+                    className={`w-full p-4 md:p-6 min-h-[48px] text-left bg-gradient-to-r from-white/5 to-white/[0.02] backdrop-blur-sm border border-white/10 rounded-xl hover:from-white/10 hover:to-white/5 hover:border-athletic-brand-violet/40 transition-all duration-300 hover:translate-x-1 group ${
                       method.primary ? 'ring-1 ring-athletic-brand-violet/30 shadow-lg shadow-purple-500/10' : ''
                     }`}
                     data-testid={`${method.type}-contact`}
@@ -310,16 +310,16 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
               </div>
 
               {/* Trust signals */}
-              <div className="grid grid-cols-3 gap-3">
-                <div className="p-3 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-xl text-center">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="p-4 bg-gradient-to-br from-green-500/10 to-green-500/5 border border-green-500/20 rounded-xl text-center">
                   <div className="text-lg font-bold text-green-400 mb-0.5">24hr</div>
                   <div className="text-xs text-white/60">Response</div>
                 </div>
-                <div className="p-3 bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-xl text-center">
+                <div className="p-4 bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20 rounded-xl text-center">
                   <div className="text-lg font-bold text-blue-400 mb-0.5">Nov 2025</div>
                   <div className="text-xs text-white/60">Available</div>
                 </div>
-                <div className="p-3 bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-xl text-center">
+                <div className="p-4 bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20 rounded-xl text-center">
                   <div className="text-lg font-bold text-purple-400 mb-0.5">NDA</div>
                   <div className="text-xs text-white/60">Provided</div>
                 </div>
@@ -333,7 +333,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
               }`}
             >
               <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl shadow-black/20">
-                <form onSubmit={handleQuickContact} className="space-y-5" data-testid="contact-form">
+                <form onSubmit={handleQuickContact} className="space-y-6" data-testid="contact-form">
                   <div className="mb-6">
                     <h4 className="text-2xl font-bold text-white mb-2">Send a Message</h4>
                     <p className="text-sm text-white/60">* Required fields</p>
@@ -349,7 +349,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                       id="name"
                       name="name"
                       required
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
+                      className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
                       placeholder="Your name"
                     />
                   </div>
@@ -363,7 +363,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                       id="email"
                       name="email"
                       required
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
+                      className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
                       placeholder="you@company.com"
                     />
                   </div>
@@ -375,7 +375,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                     <select
                       id="inquiry-type"
                       name="inquiry-type"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
+                      className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all"
                     >
                       <option value="">Select an option...</option>
                       <option value="architecture">Enterprise Architecture</option>
@@ -396,13 +396,13 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                       id="message"
                       name="message"
                       rows={5}
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all resize-none"
+                      className="w-full px-4 py-4 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:bg-white/10 focus:border-athletic-brand-violet/50 transition-all resize-none"
                       placeholder="Tell me about your challenge, timeline, and what you're looking to achieve..."
                     />
                   </div>
 
                   {/* Modern CTAs */}
-                  <div className="space-y-3 pt-2">
+                  <div className="space-y-4 pt-2">
                     <button
                       type="submit"
                       className="w-full bg-gradient-to-r from-athletic-brand-violet to-purple-600 hover:from-purple-600 hover:to-athletic-brand-violet text-white font-bold py-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 active:scale-[0.98] group"
@@ -419,7 +419,7 @@ const PortfolioSection = forwardRef<HTMLElement, PortfolioSectionProps>(({
                     <button
                       type="button"
                       onClick={() => handleContactMethodSelect('calendar')}
-                      className="w-full bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-white font-semibold py-3 rounded-lg transition-all duration-300 active:scale-[0.98] text-sm"
+                      className="w-full bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/30 text-white font-semibold py-4 rounded-lg transition-all duration-300 active:scale-[0.98] text-sm"
                       data-testid="consultation-cta"
                     >
                       Or schedule a 30-min consultation →

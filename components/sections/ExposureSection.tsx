@@ -216,7 +216,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
               </h2>
               <p
                 ref={subtitleRef}
-                className={`text-base md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed px-4 ${getClasses(subtitleVisible)}`}
+                className={`text-base md:text-xl text-white/80 max-w-3xl 2xl:max-w-5xl mx-auto leading-relaxed px-4 ${getClasses(subtitleVisible)}`}
               >
                 Writing from the field—where architecture decks meet enterprise reality.<br className="hidden md:inline" />
                 Observations on commerce platforms, systems thinking, and reading the road.
@@ -227,7 +227,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
             <div className="flex justify-center items-center space-x-4 mb-8">
               <button
                 onClick={handlePreviousArticle}
-                className="p-3 min-h-[48px] min-w-[48px] bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
+                className="p-4 min-h-[48px] min-w-[48px] bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
                 title="Previous insight"
                 aria-label="Previous article"
               >
@@ -247,7 +247,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
 
               <button
                 onClick={handleNextArticle}
-                className="p-3 min-h-[48px] min-w-[48px] bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
+                className="p-4 min-h-[48px] min-w-[48px] bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-110"
                 title="Next insight"
                 data-testid="next-article"
               >
@@ -268,14 +268,14 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
                 {/* Article header */}
                 <div className="mb-8">
                   <div className="flex items-center space-x-4 mb-4">
-                    <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-full text-sm font-medium">
+                    <span className="px-4 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-full text-sm font-medium">
                       {currentArticle.category}
                     </span>
                     <span className="text-white/50 text-sm">{currentArticle.date}</span>
                     <span className="text-white/50 text-sm">{currentArticle.readTime}</span>
                   </div>
 
-                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
+                  <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
                     {currentArticle.title}
                   </h3>
                   <p className="text-xl text-athletic-brand-violet/80 mb-4">
@@ -296,7 +296,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
                     {currentArticle.insights.map((insight, index) => (
                       <div
                         key={index}
-                        className="flex items-start space-x-3 p-4 bg-white/5 rounded-xl"
+                        className="flex items-start space-x-4 p-4 bg-white/5 rounded-xl"
                         style={{ animationDelay: `${index * 150}ms` }}
                       >
                         <div className="w-2 h-2 bg-athletic-brand-violet rounded-full mt-2 flex-shrink-0" />
@@ -332,7 +332,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
                     onClick={() => setCurrentArticleIndex(index)}
                     data-testid="article-preview"
                   >
-                    <div className="mb-3">
+                    <div className="mb-4">
                       <span className="px-2 py-1 bg-white/10 text-white/60 rounded text-xs">
                         {article.category}
                       </span>
@@ -340,7 +340,7 @@ const ExposureSection = forwardRef<HTMLElement, ExposureSectionProps>(({
                     <h4 className="text-lg font-semibold text-white mb-2 leading-tight">
                       {article.title}
                     </h4>
-                    <p className="text-white/60 text-sm mb-3 leading-relaxed">
+                    <p className="text-white/60 text-sm mb-4 leading-relaxed">
                       {article.excerpt.slice(0, 120)}...
                     </p>
                     <div className="text-xs text-white/40">

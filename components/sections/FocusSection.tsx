@@ -265,7 +265,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
               Systems Thinking Meets
               <span className="block text-athletic-brand-violet">Enterprise Reality</span>
             </h2>
-            <p className="text-lg text-white/70 mt-4 leading-relaxed max-w-4xl">
+            <p className="text-lg text-white/70 mt-4 leading-relaxed max-w-4xl 2xl:max-w-5xl">
               25 years building commerce infrastructure that holds up when it matters—from early-stage platforms to Fortune 500 enterprise transformations.
             </p>
           </div>
@@ -273,7 +273,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
           {/* About Narrative - Full Width Single Column */}
           <div
             ref={bodyRef}
-            className={`prose prose-lg prose-invert max-w-4xl ${getClasses(bodyVisible)}`}
+            className={`prose prose-lg prose-invert max-w-4xl 2xl:max-w-5xl ${getClasses(bodyVisible)}`}
             data-testid="about-narrative"
           >
             <p className="text-xl text-white/90 leading-[1.7] mb-6">
@@ -284,21 +284,21 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
               26 years building infrastructure that survives production:
             </p>
 
-            <ul className="space-y-3 text-white/85 mb-6 ml-6">
+            <ul className="space-y-4 text-white/85 mb-6 ml-6">
               <li className="flex items-start">
-                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span className="text-violet-400 mr-4 mt-1 flex-shrink-0">✓</span>
                 <span>Commerce platforms processing $50B+ annually</span>
               </li>
               <li className="flex items-start">
-                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span className="text-violet-400 mr-4 mt-1 flex-shrink-0">✓</span>
                 <span>Event-driven order orchestration serving 50M+ users</span>
               </li>
               <li className="flex items-start">
-                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span className="text-violet-400 mr-4 mt-1 flex-shrink-0">✓</span>
                 <span>AI governance frameworks reducing deployment risk 73%</span>
               </li>
               <li className="flex items-start">
-                <span className="text-violet-400 mr-3 mt-1 flex-shrink-0">✓</span>
+                <span className="text-violet-400 mr-4 mt-1 flex-shrink-0">✓</span>
                 <span>Real-time systems maintaining 99.97% uptime at scale</span>
               </li>
             </ul>
@@ -306,7 +306,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
             <div className="mb-8">
               <button
                 onClick={() => setIsThesisModalOpen(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
+                className="inline-flex items-center gap-2 px-6 py-4 bg-violet-600 hover:bg-violet-700 text-white font-semibold rounded-lg transition-colors shadow-lg"
                 data-testid="architect-principle-button"
               >
                 Read: The Architect's Principle
@@ -327,7 +327,7 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                 <div className="space-y-6">
                   {focusAreas.map((area) => (
                     <div key={area.area} className="group">
-                      <div className="flex items-start gap-3">
+                      <div className="flex items-start gap-4">
                         <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 bg-${area.color}-400`} />
                         <div>
                           <h4 className="text-white font-medium mb-2">{area.area}</h4>
@@ -438,9 +438,9 @@ const FocusSection = forwardRef<HTMLElement, FocusSectionProps>(({
                   <div>
                     <div className="text-xs text-white/50 uppercase tracking-wide mb-2">Focus Areas</div>
                     <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">SAP Commerce</span>
-                      <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">Salesforce</span>
-                      <span className="px-3 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">Adobe</span>
+                      <span className="px-4 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">SAP Commerce</span>
+                      <span className="px-4 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">Salesforce</span>
+                      <span className="px-4 py-1 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-md text-xs font-medium">Adobe</span>
                     </div>
                   </div>
 

@@ -183,7 +183,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
               </h2>
               <div
                 ref={subtitleRef}
-                className={`text-center max-w-3xl mx-auto mb-8 px-4 ${getClasses(subtitleVisible)}`}
+                className={`text-center max-w-3xl 2xl:max-w-5xl mx-auto mb-8 px-4 ${getClasses(subtitleVisible)}`}
               >
                 <p className="text-base md:text-lg text-white/80 leading-relaxed">
                   I shoot action sports—mostly volleyball, surfing, and skating.<br className="hidden md:inline" />
@@ -267,14 +267,14 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
                         <h3 className="text-lg font-bold text-white mb-2 group-hover:text-athletic-brand-violet transition-colors">
                           {image.title}
                         </h3>
-                        <p className="text-white/60 text-sm mb-3">{image.location}</p>
+                        <p className="text-white/60 text-sm mb-4">{image.location}</p>
 
                         {/* Technical settings */}
                         <div className="text-xs text-white/40 font-mono">
                           {image.settings}
                         </div>
 
-                        <div className="mt-3 text-right">
+                        <div className="mt-4 text-right">
                           <span className={`text-xs transition-colors ${
                             selectedImage === image.id ? 'text-athletic-brand-violet selected' : 'text-white/40 group-hover:text-white/60'
                           }`}>
@@ -323,7 +323,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
               {/* Technical details */}
               <div className="p-6 space-y-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-3">Technical Details</h4>
+                  <h4 className="text-lg font-semibold text-white mb-4">Technical Details</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-white/70">Equipment</span>
@@ -337,7 +337,7 @@ const DevelopSection = forwardRef<HTMLElement, DevelopSectionProps>(({
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-3">Story</h4>
+                  <h4 className="text-lg font-semibold text-white mb-4">Story</h4>
                   <p className="text-white/80 leading-relaxed">{selectedImageData.story}</p>
                 </div>
 
