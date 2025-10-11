@@ -26,6 +26,19 @@ test-results/
 .vitest/
 lighthouse-reports/
 
+# Screenshots and audit files
+.agent-os/audits/screenshots/
+**/screenshots/
+*.png
+*.jpg
+*.jpeg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+!docs/**/*.png
+!docs/**/*.jpg
+!docs/**/*.jpeg
+
 # OS files
 .DS_Store
 **/.DS_Store
@@ -54,3 +67,7 @@ tmp/
 storybook-static
 *.pid
 .vercel
+
+# Scripts (temporary development scripts)
+scripts/capture-gallery.mjs
+.agent-os/scripts/
