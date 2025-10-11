@@ -75,7 +75,7 @@ export const CanvasHelpOverlay: React.FC<CanvasHelpOverlayProps> = ({ className 
       {showFirstVisitHint && (
         <div className="fixed top-16 right-4 z-50 max-w-sm">
           <div className="bg-white/95 backdrop-blur-sm border border-gray-300 rounded-lg shadow-2xl p-4">
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-4">
               <div className="flex-shrink-0 w-8 h-8 bg-violet-100 rounded-lg flex items-center justify-center">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" className="text-violet-600">
                   <path d="M10 2l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" />
@@ -135,7 +135,7 @@ export const CanvasHelpOverlay: React.FC<CanvasHelpOverlayProps> = ({ className 
             <div className="p-6 space-y-6">
               {/* Navigation */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">Navigation</h3>
+                <h3 className="text-sm font-semibold text-gray-900 mb-4">Navigation</h3>
                 <div className="space-y-2">
                   <ShortcutRow icon="🖱️" action="Click and drag" description="Pan the canvas" />
                   <ShortcutRow icon="⌨️" keys={['↑', '↓', '←', '→']} description="Pan with arrow keys" />
@@ -146,7 +146,7 @@ export const CanvasHelpOverlay: React.FC<CanvasHelpOverlayProps> = ({ className 
 
               {/* Zoom Controls */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">Zoom</h3>
+                <h3 className="text-sm font-semibold text-gray-900 mb-4">Zoom</h3>
                 <div className="space-y-2">
                   <ShortcutRow icon="🔍" keys={['Ctrl', 'Scroll']} description="Zoom in/out at cursor" />
                   <ShortcutRow icon="➕" action="Zoom buttons" description="Use +/- controls" />
@@ -156,7 +156,7 @@ export const CanvasHelpOverlay: React.FC<CanvasHelpOverlayProps> = ({ className 
 
               {/* Interactions */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">Interactions</h3>
+                <h3 className="text-sm font-semibold text-gray-900 mb-4">Interactions</h3>
                 <div className="space-y-2">
                   <ShortcutRow icon="👆" action="Click section" description="Focus and zoom to section" />
                   <ShortcutRow icon="🖱️" action="Right-click drag" description="Pan from anywhere" />
@@ -191,7 +191,7 @@ interface ShortcutRowProps {
 }
 
 const ShortcutRow: React.FC<ShortcutRowProps> = ({ icon, action, keys, description }) => (
-  <div className="flex items-center gap-3 text-sm">
+  <div className="flex items-center gap-4 text-sm">
     <span className="text-lg">{icon}</span>
     <div className="flex-1 flex items-center gap-2">
       {action && <span className="font-medium text-gray-700">{action}</span>}

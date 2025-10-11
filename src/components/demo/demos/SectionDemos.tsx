@@ -150,7 +150,7 @@ export const StaggeredContentDemo: React.FC<{
                   : 'opacity-0 translate-y-8'
               }`}
             >
-              <div className="p-4 bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-lg flex items-center gap-3">
+              <div className="p-4 bg-gradient-to-r from-violet-500/10 to-purple-500/10 border border-violet-500/20 rounded-lg flex items-center gap-4">
                 <span className="text-2xl">{element.icon}</span>
                 <div>
                   <h4 className="text-white font-medium">{element.title}</h4>

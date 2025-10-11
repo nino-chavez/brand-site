@@ -210,7 +210,7 @@ Write in Nino Chavez's voice: technical yet accessible, emphasizing the "why" be
         </p>
 
         {uploadCount > 0 && (
-          <div className="mt-3 text-sm text-violet-600">
+          <div className="mt-4 text-sm text-violet-600">
             {uploadCount}/3 analyses used this session
           </div>
         )}
@@ -293,7 +293,7 @@ Write in Nino Chavez's voice: technical yet accessible, emphasizing the "why" be
 
           {/* Info */}
           <div className="bg-violet-50 border border-violet-200 rounded-lg p-6">
-            <h3 className="text-sm font-semibold text-violet-900 mb-3 flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-violet-900 mb-4 flex items-center gap-2">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -356,7 +356,7 @@ Write in Nino Chavez's voice: technical yet accessible, emphasizing the "why" be
             </div>
 
             {/* Analysis */}
-            <div className="bg-white border border-gray-200 rounded-lg p-6 prose prose-sm max-w-none prose-headings:text-gray-900 prose-h2:text-lg prose-h2:font-semibold prose-h2:mt-6 prose-h2:mb-3 prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900 overflow-y-auto max-h-[600px]">
+            <div className="bg-white border border-gray-200 rounded-lg p-6 prose prose-sm max-w-none prose-headings:text-gray-900 prose-h2:text-lg prose-h2:font-semibold prose-h2:mt-6 prose-h2:mb-4 prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900 overflow-y-auto max-h-[600px]">
               <ReactMarkdown>{analysis}</ReactMarkdown>
             </div>
           </div>

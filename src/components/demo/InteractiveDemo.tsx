@@ -69,7 +69,7 @@ export const InteractiveDemo: React.FC = () => {
           Explore the full interactive portfolio system with customizable effects,
           camera viewfinder controls, and advanced navigation features.
         </p>
-        <div className="mt-3 pt-3 border-t border-white/10">
+        <div className="mt-4 pt-4 border-t border-white/10">
           <p className="text-xs text-white/50">
             <strong className="text-white/70">Tech Stack:</strong> React 19 • TypeScript • Custom Hooks •
             Canvas API • RequestAnimationFrame

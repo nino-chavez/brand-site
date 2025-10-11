@@ -335,7 +335,7 @@ export const NavigationControls: React.FC<NavigationControlsProps> = ({
     >
       <div className="flex flex-col items-center space-y-6">
         {/* Phase indicators */}
-        <div className="flex items-center justify-center space-x-3">
+        <div className="flex items-center justify-center space-x-4">
           {phaseStates.map((state, index) => (
             <PhaseIndicator
               key={state.phase}

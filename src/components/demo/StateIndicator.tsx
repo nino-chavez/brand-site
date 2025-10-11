@@ -38,7 +38,7 @@ export const StateIndicator: React.FC<StateIndicatorProps> = ({ states, classNam
       {states.map((state, index) => (
         <div
           key={index}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/5 border border-white/10"
+          className="flex items-center gap-2 px-4 py-1.5 rounded-md bg-white/5 border border-white/10"
           data-state={getStateId(state.label)}
         >
           <span className="text-xs text-white/40">{state.label}:</span>

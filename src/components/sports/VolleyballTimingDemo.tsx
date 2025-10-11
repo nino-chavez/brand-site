@@ -164,7 +164,7 @@ const VolleyballTimingDemo: React.FC<VolleyballTimingDemoProps> = ({
           </div>
           <button
             onClick={() => setShowDebugInfo(!showDebugInfo)}
-            className="px-3 py-1 bg-gray-700 text-white text-xs rounded hover:bg-gray-600 transition-colors"
+            className="px-4 py-1 bg-gray-700 text-white text-xs rounded hover:bg-gray-600 transition-colors"
           >
             {showDebugInfo ? 'Hide' : 'Show'} Debug
           </button>
@@ -211,7 +211,7 @@ const VolleyballTimingDemo: React.FC<VolleyballTimingDemoProps> = ({
             <button
               key={phase}
               onClick={() => jumpToPhase(phase)}
-              className={`px-3 py-1 text-xs rounded transition-colors ${
+              className={`px-4 py-1 text-xs rounded transition-colors ${
                 currentPhase === phase
                   ? 'bg-yellow-500 text-black font-medium'
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -280,7 +280,7 @@ const VolleyballTimingDemo: React.FC<VolleyballTimingDemoProps> = ({
 
         {/* System Stats (if debug enabled) */}
         {showDebugInfo && (
-          <div className="absolute top-4 right-4 bg-black bg-opacity-80 rounded-lg p-3 text-white font-mono text-xs">
+          <div className="absolute top-4 right-4 bg-black bg-opacity-80 rounded-lg p-4 text-white font-mono text-xs">
             <div>Phase: {currentPhase} ({Math.round(phaseProgress * 100)}%)</div>
             <div>Intensity: {Math.round(visualIntensity * 100)}%</div>
             <div>Sync Events: {systemStats.syncEvents}</div>
@@ -297,7 +297,7 @@ const VolleyballTimingDemo: React.FC<VolleyballTimingDemoProps> = ({
       {/* Educational Content */}
       <div className="demo-education mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-gray-800 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-white mb-3">
+          <h3 className="text-lg font-semibold text-white mb-4">
             System Features
           </h3>
           <ul className="text-gray-300 text-sm space-y-2">
@@ -311,7 +311,7 @@ const VolleyballTimingDemo: React.FC<VolleyballTimingDemoProps> = ({
         </div>
 
         <div className="bg-gray-800 rounded-lg p-4">
-          <h3 className="text-lg font-semibold text-white mb-3">
+          <h3 className="text-lg font-semibold text-white mb-4">
             Technical Excellence Through Sports
           </h3>
           <ul className="text-gray-300 text-sm space-y-2">

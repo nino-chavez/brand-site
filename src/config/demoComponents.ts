@@ -768,7 +768,7 @@ onTouchEnd={() => clearTimeout(timer)}`,
       },
     },
     states: ['idle', 'touch', 'active'],
-    codeSnippet: `className="min-h-[44px] min-w-[44px] px-6 py-3"
+    codeSnippet: `className="min-h-[44px] min-w-[44px] px-6 py-4"
 // WCAG 2.1: Touch targets should be at least 44x44px`,
   },
 

@@ -82,15 +82,15 @@ export function AthleticScoreboard({
 
     // Variant-specific styling
     const variantClasses = {
-        header: 'px-6 py-3 rounded-lg shadow-lg',
+        header: 'px-6 py-4 rounded-lg shadow-lg',
         floating: 'px-4 py-2 rounded-full shadow-xl',
         mobile: 'px-4 py-2 rounded-md'
     };
 
     const itemClasses = {
         header: 'px-4 py-2 text-sm font-bold',
-        floating: 'px-3 py-1 text-xs font-semibold',
-        mobile: 'px-3 py-2 text-sm font-bold'
+        floating: 'px-4 py-1 text-xs font-semibold',
+        mobile: 'px-4 py-2 text-sm font-bold'
     };
 
     return (

@@ -493,7 +493,7 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
           className="fixed top-4 right-4 bg-black bg-opacity-90 text-white p-4 rounded-lg font-mono text-xs z-50 min-w-[280px]"
           style={{ backdropFilter: 'blur(8px)' }}
         >
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-sm">Performance Monitor</h3>
             <div className={`font-bold text-lg ${performanceGrade.color}`}>
               {performanceGrade.grade}
@@ -501,7 +501,7 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
           </div>
 
           {/* Core metrics */}
-          <div className="grid grid-cols-2 gap-3 mb-3">
+          <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <div className="text-gray-400">FPS</div>
               <div className={`font-bold ${metrics.currentFPS < PERFORMANCE_THRESHOLDS.WARNING_FPS ? 'text-red-400' : 'text-green-400'}`}>
@@ -535,7 +535,7 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
 
           {/* Battery info */}
           {batteryInfo && (
-            <div className="mb-3 pb-2 border-b border-gray-700">
+            <div className="mb-4 pb-2 border-b border-gray-700">
               <div className="flex items-center justify-between">
                 <span className="text-gray-400">Battery</span>
                 <span className={`font-bold ${batteryInfo.level < PERFORMANCE_THRESHOLDS.LOW_BATTERY_THRESHOLD ? 'text-red-400' : 'text-green-400'}`}>
@@ -578,7 +578,7 @@ export const PerformanceMonitor: React.FC<PerformanceMonitorProps> = ({
 
       {/* Production performance warning */}
       {process.env.NODE_ENV === 'production' && alerts.some(alert => alert.severity === 'critical') && (
-        <div className="fixed top-4 right-4 bg-red-900 bg-opacity-90 text-white p-3 rounded-lg text-sm z-50 max-w-xs">
+        <div className="fixed top-4 right-4 bg-red-900 bg-opacity-90 text-white p-4 rounded-lg text-sm z-50 max-w-xs">
           <div className="font-semibold mb-1">Performance Issue</div>
           <div className="text-xs text-red-200">
             System performance is degraded. Optimizations have been applied automatically.

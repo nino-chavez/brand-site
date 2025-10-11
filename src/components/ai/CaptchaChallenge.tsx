@@ -80,14 +80,14 @@ export const CaptchaChallenge: React.FC<CaptchaChallengeProps> = ({
         {/* Placeholder CAPTCHA - Replace with real hCaptcha */}
         <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-8 mb-6 text-center">
           {verifying ? (
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center gap-4">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600" />
               <p className="text-sm text-gray-600">Verifying...</p>
             </div>
           ) : (
             <button
               onClick={handleVerify}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 text-white rounded-lg font-medium hover:bg-violet-700 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-4 bg-violet-600 text-white rounded-lg font-medium hover:bg-violet-700 transition-colors"
             >
               <svg
                 className="w-5 h-5"

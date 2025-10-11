@@ -36,7 +36,7 @@ export const DemoHeader: React.FC<DemoHeaderProps> = ({ onReset, mode = 'develop
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {onReset && (
               <button
                 onClick={onReset}

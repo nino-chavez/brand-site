@@ -805,7 +805,7 @@ export const LeftViewport: React.FC<LeftViewportProps> = ({
 
         {/* Complexity indicator */}
         <div
-          className="absolute top-4 right-4 z-10 text-sm font-medium px-3 py-1 rounded-full bg-white bg-opacity-80"
+          className="absolute top-4 right-4 z-10 text-sm font-medium px-4 py-1 rounded-full bg-white bg-opacity-80"
           style={{ color: currentDiagram.visualStyle.primaryColor }}
         >
           {currentDiagram.complexity.charAt(0).toUpperCase() + currentDiagram.complexity.slice(1)}

@@ -38,7 +38,7 @@ export function CourtPosition({
         },
         medium: {
             indicator: 'w-10 h-10 text-sm',
-            tooltip: 'text-sm px-3 py-2',
+            tooltip: 'text-sm px-4 py-2',
             number: 'text-base'
         },
         large: {

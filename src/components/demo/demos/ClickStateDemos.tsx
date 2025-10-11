@@ -114,7 +114,7 @@ export const FormFocusDemo: React.FC<{
           onBlur={handleBlur}
           placeholder="you@example.com"
           className={`
-            w-full px-4 py-3 bg-white/5 border-2 rounded-lg text-white placeholder-white/40
+            w-full px-4 py-4 bg-white/5 border-2 rounded-lg text-white placeholder-white/40
             transition-all duration-200
             focus:outline-none focus:bg-white/10
             ${isFocused
@@ -212,7 +212,7 @@ export const AccordionDemo: React.FC<{
             >
               <button
                 onClick={() => toggleItem(index)}
-                className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-white/10 transition-colors"
+                className="w-full px-4 py-4 flex items-center justify-between text-left hover:bg-white/10 transition-colors"
               >
                 <span className="text-white font-semibold">{item}</span>
                 <svg
@@ -232,7 +232,7 @@ export const AccordionDemo: React.FC<{
                   isExpanded ? 'max-h-40' : 'max-h-0'
                 }`}
               >
-                <div className="px-4 py-3 bg-white/5 text-white/70">
+                <div className="px-4 py-4 bg-white/5 text-white/70">
                   This is the expandable content for {item}. It smoothly transitions in and out when you click the header.
                 </div>
               </div>
@@ -301,7 +301,7 @@ export const ModalDemo: React.FC<{
               </div>
 
               {/* Footer */}
-              <div className="px-6 py-4 bg-white/5 border-t border-white/10 flex justify-end gap-3">
+              <div className="px-6 py-4 bg-white/5 border-t border-white/10 flex justify-end gap-4">
                 <button
                   onClick={() => setIsOpen(false)}
                   className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors"

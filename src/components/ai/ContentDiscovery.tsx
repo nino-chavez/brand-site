@@ -146,11 +146,11 @@ export const ContentDiscovery: React.FC<ContentDiscoveryProps> = ({
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
             placeholder="Search across blog & gallery..."
-            className="px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            className="px-4 py-1.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-violet-500 focus:border-transparent"
           />
           <button
             onClick={handleSearch}
-            className="px-3 py-1.5 bg-violet-600 text-white rounded-lg text-sm hover:bg-violet-700 transition-colors"
+            className="px-4 py-1.5 bg-violet-600 text-white rounded-lg text-sm hover:bg-violet-700 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -160,7 +160,7 @@ export const ContentDiscovery: React.FC<ContentDiscoveryProps> = ({
       </div>
 
       {/* Recommendations */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {recommendations.map(item => {
           const isBlog = item.site === 'blog';
 

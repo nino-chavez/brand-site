@@ -155,10 +155,10 @@ const ExifMetadata: React.FC<ExifMetadataProps> = ({
       <div className="text-sm">{mergedData.camera.make} {mergedData.camera.model}</div>
       <div className="text-xs">{mergedData.camera.lens}</div>
 
-      <div className={`${accentColors[theme]} font-semibold text-xs tracking-wider mt-3`}>
+      <div className={`${accentColors[theme]} font-semibold text-xs tracking-wider mt-4`}>
         SETTINGS
       </div>
-      <div className="grid grid-cols-2 gap-x-3 text-xs">
+      <div className="grid grid-cols-2 gap-x-4 text-xs">
         <div>{mergedData.camera.focalLength}</div>
         <div>{mergedData.camera.aperture}</div>
         <div>{mergedData.camera.shutterSpeed}</div>
@@ -174,7 +174,7 @@ const ExifMetadata: React.FC<ExifMetadataProps> = ({
       </div>
       <div className="text-sm">{mergedData.technical.framework} {mergedData.technical.version}</div>
 
-      <div className="grid grid-cols-2 gap-x-3 text-xs mt-2">
+      <div className="grid grid-cols-2 gap-x-4 text-xs mt-2">
         <div>Render: {mergedData.technical.renderTime}</div>
         <div>FPS: {mergedData.technical.performance}</div>
         <div>Components: {mergedData.technical.componentCount}</div>
@@ -240,7 +240,7 @@ const ExifMetadata: React.FC<ExifMetadataProps> = ({
         ${themeClasses[theme]}
         ${className}
         font-mono text-xs
-        p-3 rounded-md border backdrop-blur-sm
+        p-4 rounded-md border backdrop-blur-sm
         pointer-events-none select-none
         transition-opacity duration-300 ease-out
       `}
@@ -321,7 +321,7 @@ export const AnimatedExifMetadata: React.FC<ExifMetadataProps & {
 
   return (
     <div
-      className="fixed bg-black/95 text-green-400 font-mono text-xs p-3 rounded-md border border-green-600 pointer-events-none"
+      className="fixed bg-black/95 text-green-400 font-mono text-xs p-4 rounded-md border border-green-600 pointer-events-none"
       style={{
         left: props.position.x + 20,
         top: props.position.y + 20,

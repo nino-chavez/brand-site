@@ -164,7 +164,7 @@ export const FramerCanvasLayout: React.FC<FramerCanvasLayoutProps> = ({
 
       {/* Navigation controls */}
       <motion.div
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-3 bg-black/50 backdrop-blur-md px-6 py-3 rounded-full border border-white/10"
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 flex gap-4 bg-black/50 backdrop-blur-md px-6 py-4 rounded-full border border-white/10"
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5, type: 'spring' }}

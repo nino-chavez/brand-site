@@ -98,7 +98,7 @@ export const SkeletonScreenDemo: React.FC<{
           // Skeleton
           <div className="animate-pulse" data-testid="skeleton">
             <div className="h-48 bg-white/10 rounded-xl mb-4" />
-            <div className="h-6 bg-white/10 rounded-lg w-3/4 mb-3" />
+            <div className="h-6 bg-white/10 rounded-lg w-3/4 mb-4" />
             <div className="h-4 bg-white/10 rounded-lg w-full mb-2" />
             <div className="h-4 bg-white/10 rounded-lg w-5/6" />
           </div>
@@ -108,7 +108,7 @@ export const SkeletonScreenDemo: React.FC<{
             <div className="h-48 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl mb-4 flex items-center justify-center text-white text-2xl font-bold">
               Image Loaded
             </div>
-            <h3 className="text-xl font-bold text-white mb-3">Article Title</h3>
+            <h3 className="text-xl font-bold text-white mb-4">Article Title</h3>
             <p className="text-white/70 mb-2">
               This is the actual content that appears after loading is complete.
             </p>
@@ -120,7 +120,7 @@ export const SkeletonScreenDemo: React.FC<{
 
         <button
           onClick={loadContent}
-          className="mt-6 w-full px-4 py-3 bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-semibold rounded-lg transition-colors"
+          className="mt-6 w-full px-4 py-4 bg-athletic-brand-violet hover:bg-athletic-brand-violet/90 text-white font-semibold rounded-lg transition-colors"
         >
           {isLoading ? 'Loading...' : 'Reload Content'}
         </button>
@@ -159,7 +159,7 @@ export const PulseAnimationDemo: React.FC<{
 
         {/* Pulsing card */}
         <div className={`p-6 bg-white/5 border border-white/10 rounded-xl animate-pulse ${speedDurations[speed]}`} data-testid="pulse-card">
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-4 mb-4">
             <div className="w-10 h-10 bg-athletic-brand-violet/50 rounded-full" />
             <div>
               <div className="text-white font-semibold">New Notification</div>
@@ -228,7 +228,7 @@ export const StatusIndicatorDemo: React.FC = () => {
               key={status.id}
               onClick={() => setCurrentStatus(status.id)}
               className={`
-                w-full flex items-center gap-3 px-4 py-3 rounded-lg
+                w-full flex items-center gap-4 px-4 py-4 rounded-lg
                 transition-all duration-200
                 ${currentStatus === status.id
                   ? 'bg-white/10 border border-white/20'

@@ -29,7 +29,7 @@ export const DemoControls: React.FC<DemoControlsProps> = ({ controls, onReset })
 
   return (
     <div className="p-4 border-t border-white/10 bg-gradient-to-r from-violet-500/5 to-purple-500/5">
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-4">
         <span className="text-xs text-white/60 uppercase tracking-wide font-semibold">
           Controls
         </span>
@@ -42,7 +42,7 @@ export const DemoControls: React.FC<DemoControlsProps> = ({ controls, onReset })
           </button>
         )}
       </div>
-      <div className="space-y-3">
+      <div className="space-y-4">
         {controls.map((control, index) => (
           <div key={index} className="flex items-center gap-4">
             <label className="text-sm text-white/70 min-w-[100px] font-medium">{control.label}</label>
@@ -76,7 +76,7 @@ export const DemoControls: React.FC<DemoControlsProps> = ({ controls, onReset })
             )}
 
             {control.type === 'slider' && (
-              <div className="flex-1 flex items-center gap-3">
+              <div className="flex-1 flex items-center gap-4">
                 <input
                   type="range"
                   min={control.min ?? 0}
@@ -105,7 +105,7 @@ export const DemoControls: React.FC<DemoControlsProps> = ({ controls, onReset })
                 value={control.value}
                 onChange={(e) => control.onChange?.(e.target.value)}
                 data-control={getControlId(control.label)}
-                className="flex-1 px-3 py-2 rounded-md bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
+                className="flex-1 px-4 py-2 rounded-md bg-white/10 border border-white/20 text-white text-sm focus:outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20"
               >
                 {control.options?.map((option) => (
                   <option key={option} value={option} className="bg-neutral-900">

@@ -81,7 +81,7 @@ export const SectionSkeleton: React.FC<SectionSkeletonProps> = ({
       {/* Content block placeholders */}
       <div className="relative z-10 p-8 space-y-6">
         {/* Header block */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           <div className="h-8 w-3/4 bg-gray-200/60 rounded animate-pulse" />
           <div className="h-4 w-1/2 bg-gray-200/40 rounded animate-pulse" />
         </div>

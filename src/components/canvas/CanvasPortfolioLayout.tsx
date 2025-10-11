@@ -702,7 +702,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
       >
         <div
-          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-3 py-2 rounded-full"
+          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-4 py-2 rounded-full"
           style={{
             boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
           }}
@@ -730,7 +730,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
       >
         <div
-          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-3 py-2 rounded-full"
+          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-4 py-2 rounded-full"
           style={{
             boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
           }}
@@ -751,7 +751,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
       >
         <div
-          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-3 py-2 rounded-full"
+          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-4 py-2 rounded-full"
           style={{
             boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
           }}
@@ -772,7 +772,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
         }}
       >
         <div
-          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-3 py-2 rounded-full"
+          className="bg-black/60 backdrop-blur-sm border border-athletic-brand-violet/30 px-4 py-2 rounded-full"
           style={{
             boxShadow: '0 4px 12px rgba(139, 92, 246, 0.2)'
           }}
@@ -800,7 +800,7 @@ export const CanvasPortfolioLayout: React.FC<CanvasPortfolioLayoutProps> = ({
 
       {/* Alt+Drag Hint - Show on hover over sections */}
       {!dragState && (
-        <div className="fixed top-6 left-6 z-40 bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg px-3 py-2 text-white/90 text-xs pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
+        <div className="fixed top-6 left-6 z-40 bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg px-4 py-2 text-white/90 text-xs pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
           <kbd className="px-1.5 py-0.5 bg-white/20 rounded text-xs font-mono">Alt</kbd>
           <span className="ml-2">+ drag to reposition sections</span>
         </div>

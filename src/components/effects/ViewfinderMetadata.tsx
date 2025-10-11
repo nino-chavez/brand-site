@@ -131,9 +131,9 @@ export const ViewfinderMetadata: React.FC<ViewfinderMetadataProps> = ({
           visible ? 'opacity-100' : 'opacity-0'
         } ${isTransitioning ? 'opacity-0 blur-sm scale-95' : 'opacity-100 blur-0 scale-100'}`}
       >
-        <div className="bg-black/80 backdrop-blur-md border border-white/20 rounded-lg p-3 md:p-3 p-2 space-y-1 font-mono text-xs md:text-xs text-[10px]">
+        <div className="bg-black/80 backdrop-blur-md border border-white/20 rounded-lg p-4 md:p-4 p-2 space-y-1 font-mono text-xs md:text-xs text-[10px]">
           {/* Camera Settings */}
-          <div className="flex items-center gap-2 md:gap-3 text-white/90">
+          <div className="flex items-center gap-2 md:gap-4 text-white/90">
             <span className="text-brand-orange font-semibold">{settings.aperture}</span>
             <span className="text-white/60">•</span>
             <span className="text-brand-cyan">{settings.shutter}</span>

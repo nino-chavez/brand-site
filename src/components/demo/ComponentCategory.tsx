@@ -46,7 +46,7 @@ export const ComponentCategory: React.FC<ComponentCategoryProps> = ({
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           {icon && <span className="text-2xl">{icon}</span>}
           <div>
             <h2 className="text-[24px] font-bold text-white">{title}</h2>

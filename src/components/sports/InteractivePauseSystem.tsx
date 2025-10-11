@@ -433,7 +433,7 @@ const PauseOverlay: React.FC<PauseOverlayProps> = ({
               {overlayData.interactiveElements.map(element => (
                 <div key={element.id} className="bg-gray-800 rounded-lg p-4">
                   <h4 className="font-medium text-white mb-2">{element.tooltip.split(':')[0]}</h4>
-                  <p className="text-sm text-gray-300 mb-3">{element.tooltip.split(':')[1]}</p>
+                  <p className="text-sm text-gray-300 mb-4">{element.tooltip.split(':')[1]}</p>
                   {element.specifications && (
                     <ul className="text-xs text-gray-400 space-y-1">
                       {element.specifications.map((spec, index) => (
@@ -452,9 +452,9 @@ const PauseOverlay: React.FC<PauseOverlayProps> = ({
           {/* Key Decisions */}
           <section>
             <h3 className="text-lg font-semibold text-white mb-4">Key Architectural Decisions</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {overlayData.phaseMetrics.keyDecisions.map((decision, index) => (
-                <div key={index} className="bg-gray-800 rounded p-3 text-center">
+                <div key={index} className="bg-gray-800 rounded p-4 text-center">
                   <span className="text-sm text-gray-300">{decision}</span>
                 </div>
               ))}
@@ -721,7 +721,7 @@ export const InteractivePauseSystem: React.FC<InteractivePauseSystemProps> = ({
         {/* Pause indicator overlay */}
         {pauseState.isPaused && (
           <div
-            className="pause-indicator absolute top-4 left-4 bg-black bg-opacity-70 rounded-lg px-3 py-2 flex items-center space-x-2 z-40"
+            className="pause-indicator absolute top-4 left-4 bg-black bg-opacity-70 rounded-lg px-4 py-2 flex items-center space-x-2 z-40"
             style={{
               animation: 'slideIn 200ms ease-out'
             }}

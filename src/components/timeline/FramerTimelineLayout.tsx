@@ -559,7 +559,7 @@ export const FramerTimelineLayout: React.FC = () => {
 
       {/* Scroll Indicator - Shows position within section (Premiere Pro style) */}
       <motion.div
-        className="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3"
+        className="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col gap-4"
         style={{
           background: 'rgba(0, 0, 0, 0.8)',
           border: '1px solid rgba(255, 255, 255, 0.1)',

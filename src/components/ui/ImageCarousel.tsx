@@ -95,7 +95,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
       {/* Navigation controls */}
       <button
         onClick={goToPrevious}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-3 rounded-full transition-all duration-200"
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-4 rounded-full transition-all duration-200"
         aria-label="Previous image"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,7 +105,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
 
       <button
         onClick={goToNext}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-3 rounded-full transition-all duration-200"
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white p-4 rounded-full transition-all duration-200"
         aria-label="Next image"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,7 +130,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
       </div>
 
       {/* Image counter */}
-      <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-mono">
+      <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-sm text-white px-4 py-1 rounded-full text-sm font-mono">
         {currentIndex + 1} / {images.length}
       </div>
     </div>

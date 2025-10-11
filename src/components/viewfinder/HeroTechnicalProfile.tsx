@@ -119,7 +119,7 @@ export const HeroTechnicalProfile: React.FC<HeroTechnicalProfileProps> = ({
       <div
         ref={scrollContainerRef}
         className={`bg-black/90 text-white rounded-2xl font-mono backdrop-blur-md transition-all duration-300 scrollbar-hide ${
-          isMinimized ? 'p-3' : 'p-6'
+          isMinimized ? 'p-4' : 'p-6'
         }`}
         style={{
           opacity: isVisible ? 1 : 0,
@@ -142,7 +142,7 @@ export const HeroTechnicalProfile: React.FC<HeroTechnicalProfileProps> = ({
         }}
       >
         {/* Header with toggle */}
-        <div className={`flex items-center justify-between border-b border-white/20 ${isMinimized ? 'pb-2' : 'pb-3'}`}>
+        <div className={`flex items-center justify-between border-b border-white/20 ${isMinimized ? 'pb-2' : 'pb-4'}`}>
           <div className="flex items-center space-x-2">
             <div className="w-2 h-2 rounded-full bg-athletic-brand-violet animate-pulse"></div>
             <div className={`text-athletic-brand-violet font-bold tracking-wider ${
@@ -196,7 +196,7 @@ export const HeroTechnicalProfile: React.FC<HeroTechnicalProfileProps> = ({
                       {category.label}
                     </span>
                   </div>
-                  <div className="space-y-1.5 pl-5">
+                  <div className="space-y-1.5 pl-6">
                     {categorySkills.map((skill) => (
                       <div key={skill.id} className="flex justify-between items-center text-xs hover:bg-white/5 rounded px-2 py-1 transition-colors">
                         <span className="text-white/90 font-medium">{skill.label}</span>
@@ -218,13 +218,13 @@ export const HeroTechnicalProfile: React.FC<HeroTechnicalProfileProps> = ({
 
             {/* Additional Performance Metrics Section to ensure scrolling */}
             <div className="border-t border-white/20 pt-4 mt-6">
-              <div className="flex items-center space-x-2 mb-3">
+              <div className="flex items-center space-x-2 mb-4">
                 <div className="w-3 h-[2px] rounded-full bg-green-400" />
                 <span className="text-xs font-semibold text-white/90 uppercase tracking-wide">
                   Site Performance
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-3 pl-5">
+              <div className="grid grid-cols-2 gap-4 pl-6">
                 <div className="bg-white/5 rounded-lg p-2">
                   <div className="text-white/60 mb-1 text-xs">Frame Rate</div>
                   <div className="text-green-400 font-bold text-xs">60fps</div>
@@ -260,13 +260,13 @@ export const HeroTechnicalProfile: React.FC<HeroTechnicalProfileProps> = ({
 
             {/* Performance Architecture Section */}
             <div className="border-t border-white/20 pt-4">
-              <div className="flex items-center space-x-2 mb-3">
+              <div className="flex items-center space-x-2 mb-4">
                 <div className="w-3 h-[2px] rounded-full bg-blue-400" />
                 <span className="text-xs font-semibold text-white/90 uppercase tracking-wide">
                   Performance Architecture
                 </span>
               </div>
-              <div className="space-y-1.5 pl-5">
+              <div className="space-y-1.5 pl-6">
                 <div className="flex justify-between items-center text-xs hover:bg-white/5 rounded px-2 py-1">
                   <span className="text-white/90">Sub-16ms frame time</span>
                   <span className="text-white/50 text-[10px]">React 19.1</span>

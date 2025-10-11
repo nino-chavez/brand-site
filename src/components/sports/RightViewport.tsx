@@ -911,7 +911,7 @@ export const RightViewport: React.FC<RightViewportProps> = ({
 
         {/* Emotional tone indicator */}
         <div
-          className="absolute top-4 right-4 z-10 text-sm font-medium px-3 py-1 rounded-full bg-white bg-opacity-80"
+          className="absolute top-4 right-4 z-10 text-sm font-medium px-4 py-1 rounded-full bg-white bg-opacity-80"
           style={{ color: currentSequence.visualStyle.primaryColor }}
         >
           {currentSequence.visualStyle.emotionalTone}
@@ -956,7 +956,7 @@ export const RightViewport: React.FC<RightViewportProps> = ({
 
         {/* Trajectory toggle */}
         <button
-          className="absolute bottom-4 right-4 z-10 px-3 py-1 bg-black bg-opacity-50 text-white rounded text-xs"
+          className="absolute bottom-4 right-4 z-10 px-4 py-1 bg-black bg-opacity-50 text-white rounded text-xs"
           onClick={() => setShowTrajectory(!showTrajectory)}
         >
           {showTrajectory ? 'Hide' : 'Show'} Trajectory

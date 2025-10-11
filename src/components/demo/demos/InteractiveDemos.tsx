@@ -118,7 +118,7 @@ export const EffectsPanelDemo: React.FC<{ position?: string }> = ({ position = '
               <select
                 value={animationStyle}
                 onChange={(e) => setAnimationStyle(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-white/5 border border-white/10 text-white/80 text-sm"
+                className="w-full px-4 py-2 rounded-md bg-white/5 border border-white/10 text-white/80 text-sm"
               >
                 <option value="fade-up">Fade Up</option>
                 <option value="slide">Slide</option>
@@ -132,7 +132,7 @@ export const EffectsPanelDemo: React.FC<{ position?: string }> = ({ position = '
               <select
                 value={speed}
                 onChange={(e) => setSpeed(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-white/5 border border-white/10 text-white/80 text-sm"
+                className="w-full px-4 py-2 rounded-md bg-white/5 border border-white/10 text-white/80 text-sm"
               >
                 <option value="fast">Fast</option>
                 <option value="normal">Normal</option>
@@ -190,7 +190,7 @@ export const KeyboardNavDemo: React.FC<{ showFocusIndicators?: boolean }> = ({
       </div>
 
       {focusedIndex !== null && (
-        <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+        <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
           <p className="text-sm text-green-300">
             Currently focused: {buttons[focusedIndex].label}
           </p>

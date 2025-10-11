@@ -387,7 +387,7 @@ const SkillCard: React.FC<SkillCardProps> = ({
         className="flex items-center justify-between cursor-pointer"
         onClick={onToggle}
       >
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-4">
           <span className="text-2xl">{category.icon}</span>
           <div>
             <h3 className="text-lg font-semibold text-gradient-violet">{category.name}</h3>
@@ -426,14 +426,14 @@ const SkillCard: React.FC<SkillCardProps> = ({
       {/* Skills list */}
       {isExpanded && (
         <div
-          className={`mt-6 space-y-3 transition-all duration-300 ${
+          className={`mt-6 space-y-4 transition-all duration-300 ${
             useAnimations ? 'animate-in slide-in-from-top-2' : ''
           }`}
         >
           {visibleSkills.map((skill, index) => (
             <div
               key={skill.name}
-              className="flex items-center justify-between p-3 bg-white/5 rounded-lg
+              className="flex items-center justify-between p-4 bg-white/5 rounded-lg
                 hover:bg-white/10 transition-colors cursor-pointer group/skill"
               onClick={() => onSkillClick(category.id, skill)}
               style={{

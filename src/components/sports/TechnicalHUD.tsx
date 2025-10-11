@@ -93,14 +93,14 @@ export function TechnicalHUD({
     // Variant-specific styling
     const variantClasses = {
         header: 'px-0 py-0',
-        floating: 'px-4 py-3 rounded-lg bg-brand-dark/95 backdrop-blur-md border border-white/10',
-        mobile: 'px-4 py-3 rounded-md bg-brand-dark/90'
+        floating: 'px-4 py-4 rounded-lg bg-brand-dark/95 backdrop-blur-md border border-white/10',
+        mobile: 'px-4 py-4 rounded-md bg-brand-dark/90'
     };
 
     const itemClasses = {
         header: 'px-4 py-2 text-sm font-medium',
-        floating: 'px-3 py-2 text-sm font-medium',
-        mobile: 'px-4 py-3 text-base font-medium'
+        floating: 'px-4 py-2 text-sm font-medium',
+        mobile: 'px-4 py-4 text-base font-medium'
     };
 
     return (
@@ -177,7 +177,7 @@ export function TechnicalHUD({
                                         absolute top-full mt-2 left-1/2 transform -translate-x-1/2
                                         glass-dark
                                         border border-cyan-400/30
-                                        rounded-lg px-3 py-2
+                                        rounded-lg px-4 py-2
                                         pointer-events-none
                                         z-[60]
                                         min-w-max

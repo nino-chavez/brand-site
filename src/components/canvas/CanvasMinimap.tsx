@@ -199,7 +199,7 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
     return (
       <button
         onClick={() => setIsCollapsed(false)}
-        className="fixed bottom-6 left-6 z-40 p-3 rounded-lg transition-all duration-200 hover:scale-105"
+        className="fixed bottom-6 left-6 z-40 p-4 rounded-lg transition-all duration-200 hover:scale-105"
         style={{
           background: 'rgba(0, 0, 0, 0.6)',
           backdropFilter: 'blur(10px)',
@@ -333,7 +333,7 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
       {/* Hover tooltip */}
       {hoveredSection && (
         <div
-          className="absolute bottom-full left-0 mb-2 px-3 py-2 bg-black/90 text-white text-xs rounded-lg whitespace-nowrap"
+          className="absolute bottom-full left-0 mb-2 px-4 py-2 bg-black/90 text-white text-xs rounded-lg whitespace-nowrap"
           style={{
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
           }}
@@ -344,7 +344,7 @@ export const CanvasMinimap: React.FC<CanvasMinimapProps> = ({ className = '' }) 
 
       {/* Legend */}
       <div
-        className="mt-2 px-3 py-2 rounded-lg text-xs text-white/70"
+        className="mt-2 px-4 py-2 rounded-lg text-xs text-white/70"
         style={{
           background: 'rgba(0, 0, 0, 0.6)',
           backdropFilter: 'blur(10px)',

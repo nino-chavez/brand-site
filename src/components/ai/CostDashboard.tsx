@@ -154,7 +154,7 @@ export const CostDashboard: React.FC = () => {
 
       {/* Budget Progress Bar */}
       <div className="bg-white rounded-xl shadow-md p-6 mb-8 border border-gray-200">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-900">
             Monthly Budget
           </h2>
@@ -197,7 +197,7 @@ export const CostDashboard: React.FC = () => {
         {featureArray.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <svg
-              className="w-12 h-12 mx-auto mb-3 text-gray-300"
+              className="w-12 h-12 mx-auto mb-4 text-gray-300"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -216,16 +216,16 @@ export const CostDashboard: React.FC = () => {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 text-sm font-medium text-gray-700">
+                  <th className="text-left py-4 px-4 text-sm font-medium text-gray-700">
                     Feature
                   </th>
-                  <th className="text-right py-3 px-4 text-sm font-medium text-gray-700">
+                  <th className="text-right py-4 px-4 text-sm font-medium text-gray-700">
                     Requests
                   </th>
-                  <th className="text-right py-3 px-4 text-sm font-medium text-gray-700">
+                  <th className="text-right py-4 px-4 text-sm font-medium text-gray-700">
                     Cost
                   </th>
-                  <th className="text-right py-3 px-4 text-sm font-medium text-gray-700">
+                  <th className="text-right py-4 px-4 text-sm font-medium text-gray-700">
                     Avg Cost
                   </th>
                 </tr>
@@ -233,16 +233,16 @@ export const CostDashboard: React.FC = () => {
               <tbody>
                 {featureArray.map(([feature, usage]) => (
                   <tr key={feature} className="border-b border-gray-100 hover:bg-gray-50">
-                    <td className="py-3 px-4 text-sm text-gray-900 font-medium">
+                    <td className="py-4 px-4 text-sm text-gray-900 font-medium">
                       {formatFeatureName(feature)}
                     </td>
-                    <td className="text-right py-3 px-4 text-sm text-gray-600">
+                    <td className="text-right py-4 px-4 text-sm text-gray-600">
                       {usage.requests}
                     </td>
-                    <td className="text-right py-3 px-4 text-sm text-gray-900 font-semibold">
+                    <td className="text-right py-4 px-4 text-sm text-gray-900 font-semibold">
                       ${usage.cost.toFixed(4)}
                     </td>
-                    <td className="text-right py-3 px-4 text-sm text-gray-600">
+                    <td className="text-right py-4 px-4 text-sm text-gray-600">
                       ${(usage.cost / usage.requests).toFixed(4)}
                     </td>
                   </tr>
@@ -250,11 +250,11 @@ export const CostDashboard: React.FC = () => {
               </tbody>
               <tfoot>
                 <tr className="border-t-2 border-gray-300 font-semibold">
-                  <td className="py-3 px-4 text-sm text-gray-900">Total</td>
-                  <td className="text-right py-3 px-4 text-sm text-gray-900">
+                  <td className="py-4 px-4 text-sm text-gray-900">Total</td>
+                  <td className="text-right py-4 px-4 text-sm text-gray-900">
                     {featureArray.reduce((sum, [, u]) => sum + u.requests, 0)}
                   </td>
-                  <td className="text-right py-3 px-4 text-sm text-gray-900">
+                  <td className="text-right py-4 px-4 text-sm text-gray-900">
                     ${featureArray.reduce((sum, [, u]) => sum + u.cost, 0).toFixed(4)}
                   </td>
                   <td />
@@ -272,7 +272,7 @@ export const CostDashboard: React.FC = () => {
             ? 'bg-red-50 border-red-300 text-red-800'
             : 'bg-amber-50 border-amber-300 text-amber-800'
         }`}>
-          <div className="flex items-start gap-3">
+          <div className="flex items-start gap-4">
             <svg
               className="w-6 h-6 flex-shrink-0 mt-0.5"
               fill="none"

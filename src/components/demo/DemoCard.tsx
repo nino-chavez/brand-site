@@ -68,7 +68,7 @@ export const DemoCard: React.FC<DemoCardProps> = ({
 
         {/* Category Tag */}
         {category && (
-          <div className="mt-3">
+          <div className="mt-4">
             <span className="inline-block px-2 py-1 rounded text-xs font-medium bg-blue-500/20 text-blue-300">
               {category}
             </span>
@@ -115,7 +115,7 @@ export const DemoCard: React.FC<DemoCardProps> = ({
               </pre>
               <button
                 onClick={handleCopyCode}
-                className="absolute top-2 right-2 px-3 py-1 rounded bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 text-xs transition-colors"
+                className="absolute top-2 right-2 px-4 py-1 rounded bg-violet-500/20 hover:bg-violet-500/30 text-violet-300 text-xs transition-colors"
               >
                 {copied ? 'Copied!' : 'Copy'}
               </button>

@@ -545,7 +545,7 @@ const RoleCard: React.FC<RoleCardProps> = ({
       >
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-4 mb-2">
               <h3 className="text-xl font-bold text-white">{role.title}</h3>
               <span className="text-sm px-2 py-1 bg-blue-900/40 text-blue-200 rounded-full">
                 {yearsOfExperience}y
@@ -610,12 +610,12 @@ const RoleCard: React.FC<RoleCardProps> = ({
             <div className="space-y-6">
               {/* Key achievements */}
               <div>
-                <h4 className="text-lg font-semibold text-white mb-3">Key Achievements</h4>
+                <h4 className="text-lg font-semibold text-white mb-4">Key Achievements</h4>
                 <ul className="space-y-2">
                   {visibleContent.achievements.map((achievement, index) => (
                     <li
                       key={index}
-                      className="flex items-start gap-3 text-white/80"
+                      className="flex items-start gap-4 text-white/80"
                       style={{
                         animationDelay: useAnimations ? `${index * 100}ms` : '0ms'
                       }}
@@ -629,12 +629,12 @@ const RoleCard: React.FC<RoleCardProps> = ({
 
               {/* Technologies */}
               <div>
-                <h4 className="text-lg font-semibold text-white mb-3">Technologies</h4>
+                <h4 className="text-lg font-semibold text-white mb-4">Technologies</h4>
                 <div className="flex flex-wrap gap-2">
                   {visibleContent.technologies.map((tech, index) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-purple-900/40 text-purple-200 rounded-full text-sm
+                      className="px-4 py-1 bg-purple-900/40 text-purple-200 rounded-full text-sm
                         border border-purple-700/50 hover:bg-purple-800/50 transition-colors"
                       style={{
                         animationDelay: useAnimations ? `${index * 50}ms` : '0ms'
@@ -649,10 +649,10 @@ const RoleCard: React.FC<RoleCardProps> = ({
               {/* Responsibilities (detailed level and above) */}
               {level !== ContentLevel.PREVIEW && level !== ContentLevel.SUMMARY && (
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-3">Key Responsibilities</h4>
+                  <h4 className="text-lg font-semibold text-white mb-4">Key Responsibilities</h4>
                   <ul className="space-y-2">
                     {role.detailed.responsibilities.slice(0, level === ContentLevel.DETAILED ? 3 : 5).map((resp, index) => (
-                      <li key={index} className="flex items-start gap-3 text-white/70">
+                      <li key={index} className="flex items-start gap-4 text-white/70">
                         <span className="text-blue-400 mt-1">•</span>
                         <span>{resp}</span>
                       </li>
@@ -672,8 +672,8 @@ const RoleCard: React.FC<RoleCardProps> = ({
                   onClick={() => onInteraction('project_click', { project: project.name })}
                 >
                   <h5 className="font-semibold text-white mb-2">{project.name}</h5>
-                  <p className="text-white/70 mb-3">{project.description}</p>
-                  <div className="text-sm text-green-400 mb-3">
+                  <p className="text-white/70 mb-4">{project.description}</p>
+                  <div className="text-sm text-green-400 mb-4">
                     <strong>Impact:</strong> {project.impact}
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -716,7 +716,7 @@ const RoleCard: React.FC<RoleCardProps> = ({
             <div className="space-y-6">
               {/* Architectural decisions */}
               <div>
-                <h4 className="text-lg font-semibold text-white mb-3">Architectural Decisions</h4>
+                <h4 className="text-lg font-semibold text-white mb-4">Architectural Decisions</h4>
                 {role.technical.architecturalDecisions.map((decision, index) => (
                   <div key={index} className="bg-white/5 rounded-lg p-4 mb-4 border border-white/10">
                     <div className="mb-2">
@@ -727,7 +727,7 @@ const RoleCard: React.FC<RoleCardProps> = ({
                       <strong className="text-blue-300">Solution:</strong>
                       <span className="text-white/80 ml-2">{decision.solution}</span>
                     </div>
-                    <div className="mb-3">
+                    <div className="mb-4">
                       <strong className="text-green-300">Outcome:</strong>
                       <span className="text-white/80 ml-2">{decision.outcome}</span>
                     </div>
@@ -748,9 +748,9 @@ const RoleCard: React.FC<RoleCardProps> = ({
               {/* Innovation contributions */}
               {role.technical.innovationContributions.length > 0 && (
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-3">Innovation Contributions</h4>
+                  <h4 className="text-lg font-semibold text-white mb-4">Innovation Contributions</h4>
                   {role.technical.innovationContributions.map((innovation, index) => (
-                    <div key={index} className="bg-white/5 rounded-lg p-4 mb-3 border border-white/10">
+                    <div key={index} className="bg-white/5 rounded-lg p-4 mb-4 border border-white/10">
                       <div className="font-semibold text-white mb-1">{innovation.area}</div>
                       <div className="text-white/80 mb-2">{innovation.contribution}</div>
                       <div className="text-sm text-green-400">
@@ -764,12 +764,12 @@ const RoleCard: React.FC<RoleCardProps> = ({
               {/* Certifications */}
               {role.technical.certifications && role.technical.certifications.length > 0 && (
                 <div>
-                  <h4 className="text-lg font-semibold text-white mb-3">Certifications</h4>
+                  <h4 className="text-lg font-semibold text-white mb-4">Certifications</h4>
                   <div className="flex flex-wrap gap-2">
                     {role.technical.certifications.map(cert => (
                       <span
                         key={cert}
-                        className="px-3 py-1 bg-yellow-900/40 text-yellow-200 rounded-full text-sm
+                        className="px-4 py-1 bg-yellow-900/40 text-yellow-200 rounded-full text-sm
                           border border-yellow-700/50"
                       >
                         {cert}
@@ -855,7 +855,7 @@ const ExperienceTimeline: React.FC<ExperienceTimelineProps> = ({
       {/* Header with level indicator and A/B variant info */}
       <div className="mb-8 text-center">
         <div className="flex items-center justify-center gap-4 mb-4">
-          <span className={`px-3 py-1 rounded-full text-sm font-medium
+          <span className={`px-4 py-1 rounded-full text-sm font-medium
             ${level === ContentLevel.TECHNICAL ? 'bg-purple-900/40 text-purple-200 border border-purple-700/50' :
               level === ContentLevel.DETAILED ? 'bg-blue-900/40 text-blue-200 border border-blue-700/50' :
               level === ContentLevel.SUMMARY ? 'bg-green-900/40 text-green-200 border border-green-700/50' :

@@ -783,7 +783,7 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
         {/* Project Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-4 mb-2">
               <h3 className="text-xl font-bold text-gradient-violet">{project.title}</h3>
               <span className="text-sm px-2 py-1 bg-green-900/40 text-green-200 rounded-full">
                 {project.calculatedRelevance}% match
@@ -829,7 +829,7 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
           {explorationState.currentMode === 'technical' && levelConfig.showTechnicalDetails && (
             <div>
               <p className="text-white/80 leading-relaxed mb-4">{project.technical.architecture}</p>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <div>
                   <h4 className="text-sm font-semibold text-white/90 mb-2">Key Technologies</h4>
                   <div className="flex flex-wrap gap-2">
@@ -893,7 +893,7 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
         </div>
 
         {/* Action Links */}
-        <div className="flex gap-3 mt-4 pt-4 border-t border-white/10">
+        <div className="flex gap-4 mt-4 pt-4 border-t border-white/10">
           {project.media.demoUrl && (
             <button
               className="text-sm text-blue-400 hover:text-blue-300 transition-colors"
@@ -947,7 +947,7 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
         {/* Header Section */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-4 mb-4">
-            <span className={`px-3 py-1 rounded-full text-sm font-medium
+            <span className={`px-4 py-1 rounded-full text-sm font-medium
               ${level === ContentLevel.TECHNICAL ? 'bg-purple-900/40 text-purple-200 border border-purple-700/50' :
                 level === ContentLevel.DETAILED ? 'bg-blue-900/40 text-blue-200 border border-blue-700/50' :
                 level === ContentLevel.SUMMARY ? 'bg-green-900/40 text-green-200 border border-green-700/50' :
@@ -963,7 +963,7 @@ export const ProjectsContentAdapter: React.FC<ProjectsContentAdapterProps> = ({
                   <button
                     key={mode}
                     onClick={() => handleModeToggle(mode)}
-                    className={`px-3 py-1 text-xs rounded-md transition-all capitalize
+                    className={`px-4 py-1 text-xs rounded-md transition-all capitalize
                       ${explorationState.currentMode === mode
                         ? 'bg-white/20 text-white'
                         : 'text-white/60 hover:text-white/80'

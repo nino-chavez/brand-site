@@ -138,7 +138,7 @@ export const EffectsPanel: React.FC = () => {
         >
           {/* Panel Header */}
           <div className="bg-gradient-to-r from-gray-800 to-gray-900 border-b border-white/10 p-4">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-4">
               <h3 className="text-white font-semibold flex items-center gap-2">
                 <span className="text-brand-orange">◉</span>
                 Effects Control
@@ -159,7 +159,7 @@ export const EffectsPanel: React.FC = () => {
                 aria-selected={activeTab === 'motion'}
                 aria-controls="motion-panel"
                 onClick={() => setActiveTab('motion')}
-                className={`flex-1 px-3 py-2 rounded text-sm font-medium transition-all ${
+                className={`flex-1 px-4 py-2 rounded text-sm font-medium transition-all ${
                   activeTab === 'motion'
                     ? 'bg-brand-violet text-white'
                     : 'bg-gray-800 text-gray-400 hover:text-white'
@@ -172,7 +172,7 @@ export const EffectsPanel: React.FC = () => {
                 aria-selected={activeTab === 'effects'}
                 aria-controls="effects-panel-content"
                 onClick={() => setActiveTab('effects')}
-                className={`flex-1 px-3 py-2 rounded text-sm font-medium transition-all ${
+                className={`flex-1 px-4 py-2 rounded text-sm font-medium transition-all ${
                   activeTab === 'effects'
                     ? 'bg-brand-violet text-white'
                     : 'bg-gray-800 text-gray-400 hover:text-white'
@@ -201,7 +201,7 @@ export const EffectsPanel: React.FC = () => {
                       <button
                         key={style.value}
                         onClick={() => updateSetting('animationStyle', style.value)}
-                        className={`px-3 py-2 rounded text-sm font-medium transition-all ${
+                        className={`px-4 py-2 rounded text-sm font-medium transition-all ${
                           settings.animationStyle === style.value
                             ? 'bg-brand-violet text-white ring-2 ring-brand-violet/50'
                             : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
@@ -224,7 +224,7 @@ export const EffectsPanel: React.FC = () => {
                       <button
                         key={speed.value}
                         onClick={() => updateSetting('transitionSpeed', speed.value)}
-                        className={`w-full px-3 py-2 rounded text-sm font-medium text-left transition-all ${
+                        className={`w-full px-4 py-2 rounded text-sm font-medium text-left transition-all ${
                           settings.transitionSpeed === speed.value
                             ? 'bg-brand-cyan/20 text-brand-cyan border-l-2 border-brand-cyan'
                             : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border-l-2 border-transparent'
@@ -246,7 +246,7 @@ export const EffectsPanel: React.FC = () => {
                       <button
                         key={level.value}
                         onClick={() => updateSetting('parallaxIntensity', level.value)}
-                        className={`w-full px-3 py-2 rounded text-sm font-medium text-left transition-all ${
+                        className={`w-full px-4 py-2 rounded text-sm font-medium text-left transition-all ${
                           settings.parallaxIntensity === level.value
                             ? 'bg-brand-orange/20 text-brand-orange border-l-2 border-brand-orange'
                             : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border-l-2 border-transparent'
@@ -267,7 +267,7 @@ export const EffectsPanel: React.FC = () => {
                 aria-labelledby="effects-tab"
               >
                 {/* Toggle Effects */}
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {[
                     { key: 'enableViewfinder', label: 'Viewfinder Mode', icon: '◉', description: 'Camera metadata & brackets' },
                     { key: 'enableMotionBlur', label: 'Motion Blur', icon: '∿', description: 'Subtle blur during transitions' },
@@ -277,13 +277,13 @@ export const EffectsPanel: React.FC = () => {
                     <button
                       key={effect.key}
                       onClick={() => updateSetting(effect.key as keyof typeof settings, !settings[effect.key as keyof typeof settings])}
-                      className="w-full bg-gray-800 hover:bg-gray-700 rounded p-3 text-left transition-all group"
+                      className="w-full bg-gray-800 hover:bg-gray-700 rounded p-4 text-left transition-all group"
                       role="switch"
                       aria-checked={settings[effect.key as keyof typeof settings] as boolean}
                       aria-label={`${effect.label}: ${settings[effect.key as keyof typeof settings] ? 'enabled' : 'disabled'}`}
                     >
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-4">
                           <span className="text-xl">{effect.icon}</span>
                           <div>
                             <div className="text-white font-medium">{effect.label}</div>
@@ -300,7 +300,7 @@ export const EffectsPanel: React.FC = () => {
                           <div
                             className={`w-4 h-4 bg-white rounded-full mt-1 transition-all ${
                               settings[effect.key as keyof typeof settings]
-                                ? 'ml-5'
+                                ? 'ml-6'
                                 : 'ml-1'
                             }`}
                           />
@@ -314,10 +314,10 @@ export const EffectsPanel: React.FC = () => {
           </div>
 
           {/* Footer */}
-          <div className="border-t border-white/10 p-3 bg-gray-900">
+          <div className="border-t border-white/10 p-4 bg-gray-900">
             <button
               onClick={resetToDefaults}
-              className="w-full px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded text-sm font-medium transition-all"
+              className="w-full px-4 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded text-sm font-medium transition-all"
             >
               Reset to Defaults
             </button>

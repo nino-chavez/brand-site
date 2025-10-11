@@ -236,7 +236,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
   // ===== DEBUG OVERLAY =====
 
   const debugOverlay = debugMode ? (
-    <div className="absolute top-4 left-4 bg-black/90 text-white p-3 rounded text-xs font-mono z-50 max-w-xs pointer-events-none">
+    <div className="absolute top-4 left-4 bg-black/90 text-white p-4 rounded text-xs font-mono z-50 max-w-xs pointer-events-none">
       <div className="text-orange-400 font-semibold mb-2">CANVAS DEBUG</div>
       <div>Position: ({state.position.x.toFixed(1)}, {state.position.y.toFixed(1)})</div>
       <div>Scale: {state.position.scale.toFixed(2)}</div>
@@ -298,7 +298,7 @@ export const LightboxCanvas: React.FC<LightboxCanvasProps> = ({
       {/* Zoom Controls */}
       <div className="absolute bottom-6 right-6 flex flex-col items-center gap-2 z-30">
         {/* Zoom Percentage Indicator */}
-        <div className="bg-white/90 border border-gray-300 rounded-lg shadow-lg px-3 py-1.5 mb-1">
+        <div className="bg-white/90 border border-gray-300 rounded-lg shadow-lg px-4 py-1.5 mb-1">
           <span className="text-xs font-mono font-medium text-gray-700">
             {Math.round(state.position.scale * 100)}%
           </span>

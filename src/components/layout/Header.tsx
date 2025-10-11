@@ -238,7 +238,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
                             <div className="flex gap-1 p-1 rounded-lg bg-white/5 border border-white/10">
                                 <button
                                     onClick={() => handleLayoutChange('traditional')}
-                                    className={`px-3 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                                    className={`px-4 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
                                         currentLayout === 'traditional'
                                             ? 'bg-athletic-brand-violet/30 text-white border border-athletic-brand-violet/50'
                                             : 'text-white/60 hover:text-white hover:bg-white/5'
@@ -250,27 +250,47 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
                                 </button>
                                 <button
                                     onClick={() => handleLayoutChange('canvas')}
-                                    className={`px-3 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                                    className={`px-4 py-1.5 rounded text-xs font-medium transition-all duration-200 flex items-center gap-1.5 group/canvas ${
                                         currentLayout === 'canvas'
                                             ? 'bg-athletic-brand-violet/30 text-white border border-athletic-brand-violet/50'
                                             : 'text-white/60 hover:text-white hover:bg-white/5'
                                     }`}
-                                    aria-label="Canvas layout"
-                                    title="3D canvas experience"
+                                    aria-label="Canvas layout (experimental)"
+                                    title="3D canvas experience - Experimental feature"
                                 >
                                     Canvas
+                                    <svg
+                                        className="w-3 h-3 opacity-60 group-hover/canvas:opacity-100 transition-opacity"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                                    </svg>
                                 </button>
                                 <button
                                     onClick={() => handleLayoutChange('timeline')}
-                                    className={`px-3 py-1.5 rounded text-xs font-medium transition-all duration-200 ${
+                                    className={`px-4 py-1.5 rounded text-xs font-medium transition-all duration-200 flex items-center gap-1.5 group/timeline ${
                                         currentLayout === 'timeline'
                                             ? 'bg-athletic-brand-violet/30 text-white border border-athletic-brand-violet/50'
                                             : 'text-white/60 hover:text-white hover:bg-white/5'
                                     }`}
-                                    aria-label="Timeline layout"
-                                    title="Timeline journey view"
+                                    aria-label="Timeline layout (experimental)"
+                                    title="Timeline journey view - Experimental feature"
                                 >
                                     Timeline
+                                    <svg
+                                        className="w-3 h-3 opacity-60 group-hover/timeline:opacity-100 transition-opacity"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -303,7 +323,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
                             text-white hover:text-white
                             transition-all duration-200 ease-out
                             text-xs font-mono tracking-wider
-                            px-4 py-3 rounded-lg
+                            px-4 py-4 rounded-lg
                             border-2
                             focus:outline-none focus:ring-3 focus:ring-brand-violet
                         "

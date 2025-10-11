@@ -20,7 +20,7 @@ export const ModeToggle: React.FC<ModeToggleProps> = ({ mode, onChange }) => {
       <button
         onClick={() => onChange('developer')}
         className={`
-          px-3 py-1.5 rounded-md text-xs font-medium transition-all
+          px-4 py-1.5 rounded-md text-xs font-medium transition-all
           ${mode === 'developer'
             ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
             : 'text-white/60 hover:text-white/80 hover:bg-white/5'
@@ -38,7 +38,7 @@ export const ModeToggle: React.FC<ModeToggleProps> = ({ mode, onChange }) => {
       <button
         onClick={() => onChange('stakeholder')}
         className={`
-          px-3 py-1.5 rounded-md text-xs font-medium transition-all
+          px-4 py-1.5 rounded-md text-xs font-medium transition-all
           ${mode === 'stakeholder'
             ? 'bg-violet-500/20 text-violet-300 border border-violet-500/30'
             : 'text-white/60 hover:text-white/80 hover:bg-white/5'

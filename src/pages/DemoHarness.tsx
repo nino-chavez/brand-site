@@ -255,7 +255,7 @@ export const DemoHarness: React.FC = () => {
                   <h2 className="text-[28px] font-bold text-white mb-4">Enterprise Component Architecture Reference</h2>
 
                   {/* Key Benefits - Scannable Format */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                     <div className="flex items-start gap-2">
                       <svg className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -1335,7 +1335,7 @@ onTouchEnd={() => clearTimeout(timer)}`}
                   description="Touch-optimized button sizes"
                   category="mobileTouch"
                   testId="demo-touch-button"
-                  codeSnippet={`className="min-h-[44px] min-w-[44px] px-6 py-3"
+                  codeSnippet={`className="min-h-[44px] min-w-[44px] px-6 py-4"
 // WCAG 2.1: Touch targets should be at least 44x44px`}
                   controls={
                     <DemoControls

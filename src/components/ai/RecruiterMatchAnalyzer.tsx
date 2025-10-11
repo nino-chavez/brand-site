@@ -280,7 +280,7 @@ Be specific, honest, and data-driven. Use concrete examples from the candidate's
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 mb-2">👔 Recruiter Match Analyzer</h3>
-        <p className="text-sm text-gray-700 mb-3">
+        <p className="text-sm text-gray-700 mb-4">
           Paste a job description to see how well Nino matches the requirements. Get a detailed
           analysis with match score, strong points, gaps, and interview recommendations.
         </p>
@@ -315,7 +315,7 @@ Be specific, honest, and data-driven. Use concrete examples from the candidate's
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
           placeholder="Paste the full job description here (minimum 100 characters)..."
-          className="w-full h-64 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm font-mono resize-none"
+          className="w-full h-64 px-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm font-mono resize-none"
           disabled={loading}
         />
         <p className="mt-1 text-xs text-gray-500">
@@ -338,7 +338,7 @@ Be specific, honest, and data-driven. Use concrete examples from the candidate's
       )}
 
       {/* Action Buttons */}
-      <div className="flex gap-3">
+      <div className="flex gap-4">
         <button
           onClick={handleAnalyze}
           disabled={loading || !jobDescription.trim() || jobDescription.length < 100}
@@ -360,7 +360,7 @@ Be specific, honest, and data-driven. Use concrete examples from the candidate's
       {/* Loading State */}
       {loading && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
             <p className="text-sm text-blue-800">
               Analyzing candidate fit against job requirements... This may take 10-15 seconds.

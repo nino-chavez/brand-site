@@ -17,7 +17,7 @@ export const ExifDisplay: React.FC<ExifDisplayProps> = ({ position, isVisible, c
 
   return (
     <div
-      className="bg-black/80 text-white p-3 rounded-md font-mono text-xs"
+      className="bg-black/80 text-white p-4 rounded-md font-mono text-xs"
       style={{
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 200ms ease-out',

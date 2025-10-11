@@ -189,7 +189,7 @@ export const ContentDiscoveryDemo: React.FC = () => {
               type="text"
               value={context}
               onChange={(e) => setContext(e.target.value)}
-              className="w-full px-3 py-2 bg-black/20 border border-white/10 rounded text-white text-sm"
+              className="w-full px-4 py-2 bg-black/20 border border-white/10 rounded text-white text-sm"
               placeholder="e.g., React performance optimization"
             />
           </div>
@@ -258,7 +258,7 @@ export const ContextualRecommendationsDemo: React.FC = () => {
         <select
           value={currentSection}
           onChange={(e) => setCurrentSection(e.target.value as any)}
-          className="w-full px-3 py-2 bg-black/20 border border-white/10 rounded text-white text-sm"
+          className="w-full px-4 py-2 bg-black/20 border border-white/10 rounded text-white text-sm"
         >
           <option value="capture">Capture</option>
           <option value="focus">Focus</option>
@@ -397,7 +397,7 @@ export const RateLimitingDemo: React.FC = () => {
         </div>
 
         {isBlocked && (
-          <div className="p-3 bg-red-500/20 border border-red-500/30 rounded text-red-300 text-sm">
+          <div className="p-4 bg-red-500/20 border border-red-500/30 rounded text-red-300 text-sm">
             ⚠️ Rate limit exceeded. Try again in 1 hour.
           </div>
         )}
@@ -460,7 +460,7 @@ export const BotDetectionDemo: React.FC = () => {
           </div>
           <div className="text-sm text-white/60">Bot Confidence</div>
           {isBot && (
-            <div className="mt-2 inline-block px-3 py-1 bg-red-500/20 border border-red-500/30 rounded text-red-300 text-sm font-medium">
+            <div className="mt-2 inline-block px-4 py-1 bg-red-500/20 border border-red-500/30 rounded text-red-300 text-sm font-medium">
               🤖 Bot Detected
             </div>
           )}
@@ -469,32 +469,32 @@ export const BotDetectionDemo: React.FC = () => {
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={() => checkBotSignal('honeypot_filled', 0.8)}
-            className="px-3 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded text-sm transition-colors"
+            className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 rounded text-sm transition-colors"
           >
             Honeypot Filled (+0.8)
           </button>
           <button
             onClick={() => checkBotSignal('suspicious_user_agent', 0.6)}
-            className="px-3 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded text-sm transition-colors"
+            className="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded text-sm transition-colors"
           >
             Suspicious UA (+0.6)
           </button>
           <button
             onClick={() => checkBotSignal('instant_submission', 0.5)}
-            className="px-3 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded text-sm transition-colors"
+            className="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded text-sm transition-colors"
           >
             Instant Submit (+0.5)
           </button>
           <button
             onClick={() => checkBotSignal('no_mouse_movement', 0.4)}
-            className="px-3 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 rounded text-sm transition-colors"
+            className="px-4 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 text-yellow-300 rounded text-sm transition-colors"
           >
             No Mouse (+0.4)
           </button>
         </div>
 
         {signals.length > 0 && (
-          <div className="p-3 bg-white/5 rounded">
+          <div className="p-4 bg-white/5 rounded">
             <div className="text-xs font-semibold text-white/60 mb-2">Detected Signals:</div>
             <div className="flex flex-wrap gap-1">
               {signals.map(signal => (

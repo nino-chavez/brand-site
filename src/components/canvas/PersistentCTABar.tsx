@@ -124,7 +124,7 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
 
   return (
     <div
-      className={`fixed bottom-20 right-6 z-40 flex flex-col items-end gap-3 ${className}`}
+      className={`fixed bottom-20 right-6 z-40 flex flex-col items-end gap-4 ${className}`}
       role="complementary"
       aria-label="Quick navigation actions"
     >
@@ -136,7 +136,7 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
             opacity: sectionsViewed.size === totalSections ? 1 : 0.8
           }}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="text-white/70 text-xs font-medium">
               Progress: {sectionsViewed.size}/{totalSections}
             </div>
@@ -170,7 +170,7 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
           onClick={handleContactClick}
           onMouseEnter={() => setShowTooltip(true)}
           onMouseLeave={() => setShowTooltip(false)}
-          className="group relative px-6 py-3 rounded-full font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg"
+          className="group relative px-6 py-4 rounded-full font-semibold transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg"
           style={{
             background: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)',
             color: 'white',
@@ -193,7 +193,7 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
           {/* Keyboard Shortcut Tooltip */}
           {showTooltip && (
             <div
-              className="absolute bottom-full right-0 mb-2 px-3 py-2 bg-black/90 text-white text-xs rounded-lg whitespace-nowrap"
+              className="absolute bottom-full right-0 mb-2 px-4 py-2 bg-black/90 text-white text-xs rounded-lg whitespace-nowrap"
               style={{
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
               }}
@@ -207,7 +207,7 @@ export const PersistentCTABar: React.FC<PersistentCTABarProps> = ({
         {/* Secondary CTA: View Work (Projects) */}
         <button
           onClick={handleProjectsClick}
-          className="px-6 py-3 rounded-full font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
+          className="px-6 py-4 rounded-full font-semibold transition-all duration-200 hover:scale-105 active:scale-95"
           style={{
             background: 'rgba(255, 255, 255, 0.1)',
             backdropFilter: 'blur(10px)',

@@ -193,7 +193,7 @@ const ContentDisplay: React.FC<ContentDisplayProps> = ({
           {content.skills.map((skill, index) => (
             <span
               key={skill}
-              className="px-3 py-1 rounded-full text-sm font-medium cursor-pointer"
+              className="px-4 py-1 rounded-full text-sm font-medium cursor-pointer"
               style={{
                 backgroundColor: 'var(--content-bg)',
                 borderColor: 'var(--content-border)',

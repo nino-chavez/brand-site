@@ -110,7 +110,7 @@ export const ContextualRecommendations: React.FC<ContextualRecommendationsProps>
             onClick={() => handleClick(rec.targetSection)}
             className="block w-full text-left p-4 bg-white rounded-lg hover:bg-violet-100 hover:shadow-md transition-all duration-200 group"
           >
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-4">
               <span className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">
                 {SECTION_ICONS[rec.targetSection] || '📄'}
               </span>
