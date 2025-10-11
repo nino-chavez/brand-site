@@ -53,3 +53,4 @@ tmp/
 *storybook.log
 storybook-static
 *.pid
+.vercel
