@@ -377,24 +377,38 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
               </h2>
               <p
                 ref={subtitleRef}
-                className={`text-base md:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed px-4 ${getClasses(subtitleVisible)}`}
+                className={`text-base md:text-xl text-white/80 max-w-3xl 2xl:max-w-5xl mx-auto leading-relaxed px-4 ${getClasses(subtitleVisible)}`}
               >
                 Two decades building Fortune 500 commerce platforms. Can't show you that work.<br className="hidden md:inline" />
                 What I can show: what I build on my own time, solving problems I'm not paid to solve.
               </p>
             </div>
 
-            {/* Project sequence - high fidelity grid */}
+            {/* Project sequence - bento box layout with visual hierarchy */}
             <div
               ref={projectsRef}
               className={`${getClasses(projectsVisible)} high-fidelity`}
               data-testid="project-sequence"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {projects.map((project, index) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 auto-rows-[280px]">
+                {projects.map((project, index) => {
+                  // Bento box layout pattern: [large, medium, medium, large, medium, medium]
+                  // This creates visual hierarchy and asymmetric interest
+                  const bentoPattern = [
+                    'lg:col-span-4 lg:row-span-2', // Project 0: Large featured (4 cols, 2 rows)
+                    'lg:col-span-2 lg:row-span-1', // Project 1: Medium (2 cols, 1 row)
+                    'lg:col-span-2 lg:row-span-1', // Project 2: Medium (2 cols, 1 row)
+                    'lg:col-span-3 lg:row-span-2', // Project 3: Large vertical (3 cols, 2 rows)
+                    'lg:col-span-3 lg:row-span-1', // Project 4: Medium wide (3 cols, 1 row)
+                    'lg:col-span-6 lg:row-span-1', // Project 5: Full width (6 cols, 1 row)
+                  ];
+
+                  const gridClass = bentoPattern[index % bentoPattern.length];
+
+                  return (
                   <div
                     key={project.id}
-                    className="group cursor-pointer"
+                    className={`group cursor-pointer ${gridClass}`}
                     onClick={(e) => handleProjectSelect(project.id, e)}
                     data-testid="project-card"
                     style={{
@@ -402,12 +416,12 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                     }}
                   >
                     <motion.div
-                      className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden"
+                      className="relative h-full bg-white/[0.08] backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] flex flex-col"
                       whileHover={{
-                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                        borderColor: 'rgba(139, 92, 246, 0.4)',
                         y: -8,
-                        boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+                        boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3), 0 8px 32px rgba(0,0,0,0.5)'
                       }}
                       transition={{ duration: 0.3 }}
                     >
@@ -421,7 +435,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                       />
 
                       {/* Project preview */}
-                      <div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center overflow-hidden">
+                      <div className="flex-shrink-0 aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center overflow-hidden">
                         <motion.div
                           className="text-6xl opacity-20"
                           whileHover={{ scale: 1.1 }}
@@ -432,7 +446,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                       </div>
 
                       {/* Project summary */}
-                      <div className="p-6">
+                      <div className="flex-1 p-6 flex flex-col overflow-hidden">
                         <motion.h3
                           className="text-xl font-bold text-white mb-2"
                           whileHover={{ color: '#8b5cf6' }}
@@ -503,7 +517,8 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                       </div>
                     </motion.div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -596,7 +611,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
 
               {/* Project description */}
               <div>
-                <h4 className="text-lg font-semibold text-white mb-3">Overview</h4>
+                <h4 className="text-lg font-semibold text-white mb-4">Overview</h4>
                 <p className="text-white/80 leading-relaxed">{selectedProjectData.description}</p>
               </div>
 
@@ -604,16 +619,16 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
               {selectedProjectData.metrics && (
                 <div>
                   <h4 className="text-lg font-semibold text-white mb-4">Performance Metrics</h4>
-                  <div className="grid grid-cols-1 gap-3">
-                    <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="flex justify-between items-center p-4 bg-white/5 rounded-lg">
                       <span className="text-white/70">Response Time</span>
                       <span className="text-green-400 font-semibold">{selectedProjectData.metrics.performance}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
+                    <div className="flex justify-between items-center p-4 bg-white/5 rounded-lg">
                       <span className="text-white/70">Scale</span>
                       <span className="text-blue-400 font-semibold">{selectedProjectData.metrics.scale}</span>
                     </div>
-                    <div className="flex justify-between items-center p-3 bg-white/5 rounded-lg">
+                    <div className="flex justify-between items-center p-4 bg-white/5 rounded-lg">
                       <span className="text-white/70">Timeline</span>
                       <span className="text-purple-400 font-semibold">{selectedProjectData.metrics.timeline}</span>
                     </div>
@@ -625,7 +640,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
               <div className="md:hidden">
                 <button
                   onClick={() => setPanelExpanded(!panelExpanded)}
-                  className="w-full py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white font-medium transition-all flex items-center justify-center space-x-2 min-h-[48px]"
+                  className="w-full py-4 px-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white font-medium transition-all flex items-center justify-center space-x-2 min-h-[48px]"
                   aria-expanded={panelExpanded}
                   aria-controls="technical-details"
                 >
@@ -652,7 +667,7 @@ const FrameSection = forwardRef<HTMLElement, FrameSectionProps>(({
                     {selectedProjectData.technologies.map((tech) => (
                       <div
                         key={tech}
-                        className="px-3 py-2 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-lg text-sm text-center"
+                        className="px-4 py-2 bg-athletic-brand-violet/20 text-athletic-brand-violet rounded-lg text-sm text-center"
                       >
                         {tech}
                       </div>
