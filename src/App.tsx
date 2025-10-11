@@ -14,6 +14,8 @@ const CanvasPortfolioLayout = lazy(() => import('./components/canvas/CanvasPortf
 const CanvasOnboarding = lazy(() => import('./components/canvas/CanvasOnboarding'));
 const CanvasMinimap = lazy(() => import('./components/canvas/CanvasMinimap'));
 const CursorLensV2 = lazy(() => import('./components/canvas/CursorLensV2'));
+const ExperimentalLayout = lazy(() => import('./components/experimental/ExperimentalLayout'));
+const ThemeSelector = lazy(() => import('./components/experimental/ThemeSelector'));
 
 // WOW Factor Components
 import CustomCursor from './components/effects/CustomCursor';
@@ -25,13 +27,14 @@ import EffectsPanel from './components/effects/EffectsPanel';
 import ViewfinderController from './components/effects/ViewfinderController';
 import LoadingScreen from './components/effects/LoadingScreen';
 import { EffectsProvider } from './contexts/EffectsContext';
+import { ExperimentalLayoutProvider } from './contexts/ExperimentalLayoutContext';
 import MobileBottomNav from './components/layout/MobileBottomNav';
 import { ScrollProgressIndicator } from './components/ui/ScrollProgressIndicator';
 import { PullToRefreshIndicator } from './components/ui/PullToRefreshIndicator';
 import { usePullToRefresh } from './hooks/usePullToRefresh';
 
 const App: React.FC = () => {
-    const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas' | 'timeline'>('traditional');
+    const [layoutMode, setLayoutMode] = useState<'traditional' | 'canvas' | 'timeline' | 'experimental'>('traditional');
     const [debugMode, setDebugMode] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isAppReady, setIsAppReady] = useState(false);
@@ -66,6 +69,10 @@ const App: React.FC = () => {
                         setLayoutMode('timeline');
                         console.log('🎬 Timeline layout mode activated via URL parameter');
                     }
+                } else if (layoutParam === 'experimental') {
+                    // Experimental layout - responsive across all viewports
+                    setLayoutMode('experimental');
+                    console.log('🧪 Experimental layout mode activated via URL parameter');
                 }
             };
 
@@ -186,6 +193,41 @@ const App: React.FC = () => {
 
     // Note: ScrollSpy functionality removed - each layout mode (timeline, canvas, traditional)
     // handles its own navigation tracking through UnifiedGameFlowContext
+
+    // Experimental Layout Mode
+    if (layoutMode === 'experimental') {
+        return (
+            <AthleticTokenProvider>
+                <ExperimentalLayoutProvider>
+                    <EffectsProvider>
+                        {/* Photography-themed loading screen */}
+                        <LoadingScreen isLoading={isLoading || !isAppReady} />
+
+                        {/* WOW Factor Components */}
+                        <CustomCursor />
+                        <ConsoleEasterEgg />
+
+                        {/* Experimental Layout - Design trend showcase - Lazy loaded */}
+                        <Suspense fallback={
+                            <div className="min-h-screen bg-brand-dark flex items-center justify-center">
+                                <div className="text-brand-light text-xl">Loading Experimental Layout...</div>
+                            </div>
+                        }>
+                            <ExperimentalLayout
+                                performanceMode={performanceMode}
+                                debugMode={debugMode}
+                            />
+
+                            {/* Theme Selector - Floating control */}
+                            <Suspense fallback={null}>
+                                <ThemeSelector position="top-right" />
+                            </Suspense>
+                        </Suspense>
+                    </EffectsProvider>
+                </ExperimentalLayoutProvider>
+            </AthleticTokenProvider>
+        );
+    }
 
     // Timeline Layout Mode
     if (layoutMode === 'timeline') {
