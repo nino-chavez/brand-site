@@ -18,7 +18,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
         }
         return false; // Default to collapsed for SSR
     });
-    const [currentLayout, setCurrentLayout] = useState<'traditional' | 'canvas' | 'timeline'>('traditional');
+    const [currentLayout, setCurrentLayout] = useState<'traditional' | 'canvas' | 'timeline' | 'experimental'>('traditional');
     const [announcement, setAnnouncement] = useState('');
     const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
     const menuToggleRef = React.useRef<HTMLButtonElement>(null);
@@ -33,16 +33,18 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
             setCurrentLayout('canvas');
         } else if (layoutParam === 'timeline') {
             setCurrentLayout('timeline');
+        } else if (layoutParam === 'experimental') {
+            setCurrentLayout('experimental');
         } else {
             setCurrentLayout('traditional');
         }
     }, []);
 
     // Handle layout change
-    const handleLayoutChange = useCallback((newLayout: 'traditional' | 'canvas' | 'timeline') => {
+    const handleLayoutChange = useCallback((newLayout: 'traditional' | 'canvas' | 'timeline' | 'experimental') => {
         if (newLayout === currentLayout) return;
 
-        // Progressive Enhancement: Block canvas/timeline on mobile viewports
+        // Progressive Enhancement: Block canvas/timeline on mobile viewports (experimental is responsive)
         const isMobileViewport = window.innerWidth < 768;
         if (isMobileViewport && (newLayout === 'canvas' || newLayout === 'timeline')) {
             console.log('📱 Canvas/Timeline modes unavailable on mobile - use desktop for full experience');
@@ -290,6 +292,28 @@ const Header: React.FC<HeaderProps> = ({ onNavigate }) => {
                                         aria-hidden="true"
                                     >
                                         <path d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                                    </svg>
+                                </button>
+                                <button
+                                    onClick={() => handleLayoutChange('experimental')}
+                                    className={`px-4 py-1.5 rounded text-xs font-medium transition-all duration-200 flex items-center gap-1.5 group/experimental ${
+                                        currentLayout === 'experimental'
+                                            ? 'bg-athletic-brand-violet/30 text-white border border-athletic-brand-violet/50'
+                                            : 'text-white/60 hover:text-white hover:bg-white/5'
+                                    }`}
+                                    aria-label="Experimental layout - Design themes"
+                                    title="6 design themes - Glassmorphism, Neobrutalism, Retrofuturism & more"
+                                >
+                                    Themes
+                                    <svg
+                                        className="w-3 h-3 opacity-60 group-hover/experimental:opacity-100 transition-opacity"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
                                     </svg>
                                 </button>
                             </div>
